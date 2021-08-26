@@ -6,7 +6,7 @@ export default [
     component: () =>
       import(
         /* webpackChunkName: "teacher" */
-        '@/views/splitview-main/teacher/Index.vue'
+        '@views/splitview-main/teacher/Index.vue'
       ),
     redirect: '/teacher/list',
     meta: {
@@ -21,7 +21,7 @@ export default [
         component: () =>
           import(
             /* webpackChunkName: "course" */
-            '@/views/splitview-main/teacher/view/TeacherList.vue'
+            '@views/splitview-main/teacher/view/TeacherList.vue'
           ),
         meta: {
           title: '教师管理',

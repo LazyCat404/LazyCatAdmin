@@ -13,7 +13,7 @@ export default [
     component: () =>
       import(
         /* webpackChunkName: "layout" */
-        'views/splitview-main/Layout.vue'
+        '@views/splitview-main/Layout.vue'
       ),
     redirect: '/dashboard',
     children:[
@@ -23,7 +23,7 @@ export default [
         component: () =>
           import(
             /* webpackChunkName: "layout" */
-            '@/views/splitview-main/dashboard/Index.vue'
+            '@views/splitview-main/dashboard/Index.vue'
           ),
         meta: {
           breadcrumb: [{ title: '首页', path: '' }],
