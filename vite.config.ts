@@ -11,7 +11,16 @@ export default defineConfig({
       "@apis": path.resolve(__dirname, "src/apis"),
     },
   },
-  plugins: [vue()],
+  plugins: [
+    vue()
+  ],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@import "@/assets/css/overall.scss";`
+      }
+    }
+  },
   server: {
     port: 4000,
     open: true, 

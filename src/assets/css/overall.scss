@@ -1,0 +1,12 @@
+/**
+ * 全局 css 样式
+ * 深度选择 ::v-deep
+ */ 
+*{
+  padding: 0;
+  margin: 0;
+}
+html,body{
+  height: 100%;
+  width: 100%;
+}
