@@ -3,7 +3,7 @@ export default [
   {
     path: '/teacher',
     name: 'Teacher',
-    component: () =>
+    component: ():unknown =>
       import(
         /* webpackChunkName: "teacher" */
         '@views/splitview-main/teacher/Index.vue'
@@ -18,7 +18,7 @@ export default [
       {
         path: '/teacher/list',
         name: 'MyTeacherList',
-        component: () =>
+        component: ():unknown =>
           import(
             /* webpackChunkName: "course" */
             '@views/splitview-main/teacher/view/TeacherList.vue'
@@ -31,4 +31,4 @@ export default [
       },
     ]
   }
-]
+];

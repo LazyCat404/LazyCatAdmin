@@ -1,16 +1,16 @@
 // 分隔视图页面路由
 
-let modules = []
+const modules = [];
 
-const modulesFiles = import.meta.globEager('./modules/*.ts')
+const modulesFiles = import.meta.globEager('./modules/*.ts');
 for (const path in modulesFiles) {
-  modules.push(...modulesFiles[path].default) 
+  modules.push(...modulesFiles[path].default); 
 }
 
 export default [
   {
     path: '/',
-    component: () =>
+    component: ():unknown =>
       import(
         /* webpackChunkName: "layout" */
         '@views/splitview-main/Layout.vue'
@@ -20,7 +20,7 @@ export default [
       {
         path: '/dashboard',
         name: 'Dashboard',
-        component: () =>
+        component: ():unknown =>
           import(
             /* webpackChunkName: "layout" */
             '@views/splitview-main/dashboard/Index.vue'
@@ -33,4 +33,4 @@ export default [
       ...modules
     ]
   }
-]
+];
