@@ -2,7 +2,7 @@
     首页
 </template>
 
-<script setup>
+<script lang="ts" setup>
 
 </script>
 
