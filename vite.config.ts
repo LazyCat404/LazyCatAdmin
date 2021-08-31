@@ -1,14 +1,14 @@
-import path from 'path'
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
+import path from 'path';
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
 
 export default defineConfig({
   base: './',
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "src"),
-      "@views": path.resolve(__dirname, "src/views"),
-      "@apis": path.resolve(__dirname, "src/apis"),
+      '@': path.resolve(__dirname, 'src'),
+      '@views': path.resolve(__dirname, 'src/views'),
+      '@apis': path.resolve(__dirname, 'src/apis'),
     },
   },
   plugins: [
@@ -17,7 +17,7 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: `@import "@/assets/css/overall.scss";`
+        additionalData: '@import "@/assets/css/overall.scss";'
       }
     }
   },
@@ -33,4 +33,4 @@ export default defineConfig({
       }
     }
   },
-})
+});
