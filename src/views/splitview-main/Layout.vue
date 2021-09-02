@@ -19,4 +19,9 @@ import Header from "../splitview-sample/layout/Header.vue";
   float: right;
   background-color: #F1F8F9;
 }
+@media screen and (max-width: 1200px) {
+  #route-wrapper {
+    width: 940px;
+  }
+}
 </style>
