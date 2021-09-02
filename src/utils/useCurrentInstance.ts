@@ -1,4 +1,4 @@
-// 获取实列
+// 当前实例
 import { ComponentInternalInstance, getCurrentInstance } from 'vue';
 
 export default function useCurrentInstance():Record<string,  { [x: string]: unknown; }> {
@@ -13,4 +13,5 @@ export default function useCurrentInstance():Record<string,  { [x: string]: unkn
  * 使用方式
  * import useCurrentInstance  from '@/utils/useCurrentInstance';
  * const { globalProperties } = useCurrentInstance();
+ * globalProperties.$axios
  */ 
