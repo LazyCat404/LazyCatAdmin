@@ -9,6 +9,7 @@ export default defineConfig({
     alias: {
       '@': path.resolve(__dirname, 'src'),
       '@views': path.resolve(__dirname, 'src/views'),
+      '@types': path.resolve(__dirname, 'src/@types'),
     },
   },
   plugins: [
