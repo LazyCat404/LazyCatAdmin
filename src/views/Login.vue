@@ -14,7 +14,7 @@
               <div id='vice-title'>Backstage Login</div>
             </div>
             <div id='login-body'> 
-              <el-form ref='userForm' :rules="rules" :model='state.userForm'>
+              <el-form ref='userFormRef' :rules="rules" :model='state.userForm'>
                 <el-form-item prop="name"> 
                   <i class='iconfont icon-yonghu'></i>    
                   <el-input v-model='state.userForm.name' placeholder="请输入用户名"></el-input>
@@ -35,6 +35,7 @@
 </template>
 
 <script lang='ts' setup>
+import api from '@/apis/user';
 import { reactive, ref, unref } from 'vue';
   const state = reactive({
     userForm:{
@@ -51,15 +52,17 @@ import { reactive, ref, unref } from 'vue';
       { required: true, message: '密码不能为空', trigger: 'blur' },
     ],
   }
-  const userForm = ref();
+  const userFormRef = ref();
 
-  async function submitForm(){
-    const form = unref(userForm)
-    await form?.validate((valid:Boolean) => {
-      console.log(valid)
-        // if (valid) {
-        // }
-
+  function submitForm(){
+    const form = unref(userFormRef)
+    form?.validate((valid:Boolean) => {
+      if(valid){
+        // console.log(api)
+        // api.login(state.userForm).then((res:unknown)=> {
+          
+        // })
+      }
     })
   }
 </script>
