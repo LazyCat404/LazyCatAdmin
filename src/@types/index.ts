@@ -1,3 +1,1 @@
-export interface myObject{
-  [propName:string]:unknown
-}
+export * from './global.b';

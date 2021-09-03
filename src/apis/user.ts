@@ -1,10 +1,11 @@
 import { post } from '@/plugins/axios';
+import { myObject } from '@types';
 
 const api = {
   // 菜单
-  getMenu: (par:{ [propName: string]: unknown; }):Promise<unknown> => post('/user/menu', par),
+  getMenu: (par:myObject):Promise<unknown> => post('/user/menu', par),
   // 登录
-  login: (par:{ [propName: string]: unknown; }):Promise<unknown> => post('/user/login', par),
+  login: (par:myObject):Promise<unknown> => post('/user/login', par),
 };
 
 

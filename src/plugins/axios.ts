@@ -1,6 +1,7 @@
 /**
  * axios封装
  */
+import { myObject } from '@types';
 import axios from 'axios';
 import QS from 'qs';
 
@@ -80,7 +81,7 @@ export function get(url:string, params?:string):Promise<unknown>{
  * @param {Object} params [请求时携带的参数]
  * @param {String} type [参数类型，默认Query数据，可能为json或表单]
  */
-export function post(url:string, params:{[propName:string]:unknown}, type?:string):Promise<unknown> {
+export function post(url:string, params:myObject, type?:string):Promise<unknown> {
   if (type) {
     let headers = { 'Content-Type': 'application/json;' };
     if (type == 'DATA' || type == 'data') {
@@ -115,8 +116,8 @@ export function post(url:string, params:{[propName:string]:unknown}, type?:strin
  * @param {Object} params [请求时携带的参数，默认Query数据]
  * @param {String} type [参数类型，默认Query数据，可能为json或表单]
  */
-export function del(url:string, params:{[propName:string]:unknown}, type?:string):Promise<unknown> {
-  let par:{[propName:string]:unknown};
+export function del(url:string, params:myObject, type?:string):Promise<unknown> {
+  let par:myObject;
   if (type == 'JSON' || type == 'json') {
     par = { data: params };
   }else{
