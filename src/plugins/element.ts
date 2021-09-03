@@ -4,7 +4,6 @@ import {
   ElMessage,
   ElIcon,
   ElRow,
-  ElCol,
   ElHeader,
   ElAside,
   ElMain,
@@ -22,13 +21,13 @@ import {
   ElForm,
   ElFormItem,
   ElInput,
+  ElCheckbox
 } from 'element-plus';
 
 const ElComponents = [
   ElButton,
   ElIcon,
   ElRow,
-  ElCol,
   ElHeader,
   ElAside,
   ElMain,
@@ -46,6 +45,7 @@ const ElComponents = [
   ElForm,
   ElFormItem,
   ElInput,
+  ElCheckbox
 ];
 
 const ElPlugins = [ElMessage];
