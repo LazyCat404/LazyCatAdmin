@@ -14,18 +14,18 @@
               <div id='vice-title'>Backstage Login</div>
             </div>
             <div id='login-body'> 
-              <el-form ref='userForm' :model='state.userForm'>
-                <el-form-item> 
+              <el-form ref='userForm' :rules="rules" :model='state.userForm'>
+                <el-form-item prop="name"> 
                   <i class='iconfont icon-yonghu'></i>    
-                  <el-input v-model='state.userForm.name'></el-input>
+                  <el-input v-model='state.userForm.name' placeholder="请输入用户名"></el-input>
                 </el-form-item>
-                <el-form-item>
+                <el-form-item  prop="password">
                   <i class='iconfont icon-mima1'></i>    
-                  <el-input v-model='state.userForm.password' show-password></el-input>
+                  <el-input v-model='state.userForm.password' placeholder="请输入密码" show-password></el-input>
                 </el-form-item>
               </el-form>
               <el-checkbox class='remember-password' v-model='state.remember' label='记住密码'></el-checkbox>
-              <el-button type='primary' round>登 &nbsp; 录</el-button>
+              <el-button type='primary' round @click="submitForm">登 &nbsp; 录</el-button>
             </div>
           </div>
         </div>
@@ -34,21 +34,41 @@
   </div>
 </template>
 
-<script lang='ts' setup>import { reactive } from 'vue';
+<script lang='ts' setup>
+import { reactive, ref, unref } from 'vue';
   const state = reactive({
     userForm:{
       name:null,
       password:null
     },
-    remember:true
+    remember:true,
   })
+  const rules = {
+    name: [
+      { required: true, message: '用户名不能为空', trigger: 'blur' },
+    ],
+    password: [
+      { required: true, message: '密码不能为空', trigger: 'blur' },
+    ],
+  }
+  const userForm = ref();
+
+  async function submitForm(){
+    const form = unref(userForm)
+    await form?.validate((valid:Boolean) => {
+      console.log(valid)
+        // if (valid) {
+        // }
+
+    })
+  }
 </script>
 
 <style lang='scss' scoped>
   #login-wrapper{
     width: 100%;
     height: 100%;
-    background-image: linear-gradient(#3C7CF0, #5CADF7);
+    background-image: linear-gradient(#06e5b7, #45b5d1);
     position: relative;
     ::v-deep .el-scrollbar__wrap{
       .el-scrollbar__view{
@@ -97,7 +117,7 @@
         margin: 0 auto;
         #login-title{
           text-align: center;
-          background-image: linear-gradient(#0380F4, #02A8FC);
+          background-image: linear-gradient( #2fc6e8,#2ee5d9,);
           font-weight: 400;
           color: #FFFFFF;
           padding: 52px 0;
@@ -136,20 +156,23 @@
         position: relative;
         top: 10px;
       }
+      ::v-deep  .el-form-item__error{
+        left: 35px;
+      }
     }
     .remember-password{
-      display: block;
       height: 16px;
       display: -webkit-flex;
       display: flex;
       align-items: center;
-      padding: 38px 0 54px;
+      margin: 38px 0 54px;
     }
     .el-button{
+      display: block;
       width: 197px;
       height: 45px;
-      background: #049BF6;
-      box-shadow: 0px 3px 8px 0px rgba(5, 155, 245, 0.75);
+      background-image: linear-gradient( #2face8,#2ee5d9,);
+      box-shadow: 0px 3px 8px 0px #2face8;
       border-radius: 20px 20px 20px 20px;
       margin: 0 auto;
       display: block;
