@@ -1,1 +1,1 @@
-export * from './global.b';
+export * from './global';
