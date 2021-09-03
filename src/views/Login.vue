@@ -1,32 +1,36 @@
 <template>
   <div id='login-wrapper'>
-    <div id='login-top'>
-      <span></span>
-      <div>管理系统</div>
-      <span></span>
-    </div>
-    <div id='login-main'>
-      <div id='login-box'>
-        <div id='login-title'>
-          <div id='zh-title'>后台登录</div>
-          <div id='vice-title'>Backstage Login</div>
+    <el-scrollbar>
+      <div class="flex-content">
+        <div id='login-top'>
+          <span></span>
+          <div>管理系统</div>
+          <span></span>
         </div>
-        <div id='login-body'> 
-          <el-form ref='userForm' :model='state.userForm'>
-            <el-form-item> 
-              <i class='iconfont icon-yonghu'></i>    
-              <el-input v-model='state.userForm.name'></el-input>
-            </el-form-item>
-            <el-form-item>
-              <i class='iconfont icon-mima1'></i>    
-              <el-input v-model='state.userForm.password' show-password></el-input>
-            </el-form-item>
-          </el-form>
-          <el-checkbox class='remember-password' v-model='state.remember' label='记住密码'></el-checkbox>
-          <el-button type='primary' round>登 &nbsp; 录</el-button>
+        <div id='login-main'>
+          <div id='login-box'>
+            <div id='login-title'>
+              <div id='zh-title'>后台登录</div>
+              <div id='vice-title'>Backstage Login</div>
+            </div>
+            <div id='login-body'> 
+              <el-form ref='userForm' :model='state.userForm'>
+                <el-form-item> 
+                  <i class='iconfont icon-yonghu'></i>    
+                  <el-input v-model='state.userForm.name'></el-input>
+                </el-form-item>
+                <el-form-item>
+                  <i class='iconfont icon-mima1'></i>    
+                  <el-input v-model='state.userForm.password' show-password></el-input>
+                </el-form-item>
+              </el-form>
+              <el-checkbox class='remember-password' v-model='state.remember' label='记住密码'></el-checkbox>
+              <el-button type='primary' round>登 &nbsp; 录</el-button>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </el-scrollbar>
   </div>
 </template>
 
@@ -45,12 +49,22 @@
     width: 100%;
     height: 100%;
     background-image: linear-gradient(#3C7CF0, #5CADF7);
+    position: relative;
+    ::v-deep .el-scrollbar__wrap{
+      .el-scrollbar__view{
+        height: 100%;
+        .flex-content{
+          height: 100%;
+        }
+      }
+    }
     #login-top{
       display: -webkit-flex; 
       display: flex;                     
       justify-content:center;          
       align-items:center; 
-      padding-top: 30px;            
+      padding-top: 30px; 
+      min-width: 600px;           
       span{
         width: 227px;
         height: 2px;
@@ -68,6 +82,8 @@
     }
     #login-main{
       height: calc(100% - 65px);
+      min-width: 600px;           
+      min-height: 600px;
       display: -webkit-flex; 
       display: flex;                     
       justify-content:center;          
