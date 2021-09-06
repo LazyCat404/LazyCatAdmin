@@ -1,9 +1,8 @@
-export type stateType = {
-  user:{[propName:string]:unknown};
-}
+import { myObject } from "@types";
 
-const state:stateType = {
+const state:myObject = {
   user: {},
+  token: ''
 };
 
 export default state;

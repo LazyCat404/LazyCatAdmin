@@ -1,9 +1,13 @@
+/**
+ * 异步修改状态
+ */
+
+import { myObject } from '@types';
 import { ActionContext } from 'vuex';
-import { stateType } from './state';
 // import { mutations } from './mutations';
 
 const actions = {
-  login({ commit }: ActionContext<stateType,unknown>, payload:stateType):void{
+  login({ commit }: ActionContext<myObject,unknown>, payload:myObject):void{
     console.log(commit,payload);
     // async Promise<PromiseConstructor>
   },

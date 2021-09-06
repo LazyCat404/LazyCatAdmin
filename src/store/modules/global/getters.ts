@@ -1,7 +1,7 @@
-import { stateType } from './state';
+import { myObject } from '@types';
 
 export const getters = {
-  user: (state: stateType):unknown => state.user,
+  user: (state: myObject):unknown => state.user,
 };
 
 export default getters;

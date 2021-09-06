@@ -1,3 +1,4 @@
+import { myObject } from '@types';
 import { createStore,createLogger } from 'vuex';
 import createPersistedState from 'vuex-persistedstate';
 import global from './modules/global';
@@ -5,8 +6,18 @@ import global from './modules/global';
 
 const plugins = [];
 plugins.push(createPersistedState({ storage: window.sessionStorage }));
-if (process.env.NODE_ENV === 'development') {
+if (import.meta.env.MODE === 'development') {
   plugins.push(createLogger());
+}
+
+const modules:any = {};
+const modulesFiles = import.meta.glob('./modules/*/index.ts');
+for (const path in modulesFiles) {
+  if(path.includes('global') === false){
+    modulesFiles[path]().then((res:myObject):void =>{
+      modules[path.replace(/(\.\/modules\/|\/index.ts)/g, '')] = res.default
+    })
+  }
 }
 
 export const store = createStore({
@@ -14,10 +25,7 @@ export const store = createStore({
   getters: global.getters,
   mutations: global.mutations,
   actions: global.actions,
-  modules: {
-    
-    
-  },
+  modules,
   plugins,
 });
 
