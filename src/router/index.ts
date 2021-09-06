@@ -8,5 +8,8 @@ const router = createRouter({
   routes:[...singleRouter, ...mainRouter]
 });
 
-
+// 路由守卫
+router.beforeEach((to,from, next) => {
+  console.log('路由守卫：',to,from);
+})
 export default router;

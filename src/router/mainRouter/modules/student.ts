@@ -11,7 +11,6 @@ export default [
     redirect: '/student/list',
     meta: {
       title: '学生管理',
-      authority: [],
       breadcrumb: [{ title: '学生管理', path: '' }]
     },
     children: [
@@ -24,8 +23,8 @@ export default [
             '@views/splitview-main/student/view/StudentList.vue'
           ),
         meta: {
+          requireAuth:true,
           title: '学生管理',
-          authority: [],
           breadcrumb: [{ title: '学生管理', path: '' }]
         }
       },

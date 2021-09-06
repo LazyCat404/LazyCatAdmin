@@ -24,8 +24,8 @@ export default [
             '@views/splitview-main/teacher/view/TeacherList.vue'
           ),
         meta: {
+          requireAuth:true,
           title: '教师管理',
-          authority: [],
           breadcrumb: [{ title: '教师管理', path: '' }]
         }
       },
