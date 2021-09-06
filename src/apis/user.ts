@@ -5,7 +5,7 @@ const api = {
   // 菜单
   getMenu: (par?:myObject):Promise<unknown> => post('/user/menu', par),
   // 登录
-  login: (par:myObject):Promise<unknown> => post('/user/login', par),
+  login: (par:myObject):Promise<unknown> => post('/api/user/login', par),
 };
 
 
