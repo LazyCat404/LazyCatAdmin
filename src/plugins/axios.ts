@@ -5,12 +5,23 @@ import { myObject } from '@types';
 import axios from 'axios';
 import QS from 'qs';
 
+// 线上环境基础地址
+if(import.meta.env.MODE === 'production'){
+  axios.defaults.baseURL = <string>import.meta.env.VITE_BSAE_URL
+}
+
 /**
  * http request 请求拦截
  */
 axios.interceptors.request.use(
   config => {
-    console.log('请求拦截：',config);
+    // 线上环境接口处理
+    if(import.meta.env.MODE === 'production' && config.url){
+      let interfaceUrl = <string>config.url;
+      if (interfaceUrl.startsWith('/api')) {
+        config.url = interfaceUrl.replace(/^\/api/, '')
+      }
+    }
     return config;
   },
   error => {
