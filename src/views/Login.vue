@@ -58,10 +58,9 @@ import { reactive, ref, unref } from 'vue';
     const form = unref(userFormRef)
     form?.validate((valid:Boolean) => {
       if(valid){
-        // console.log(api)
-        // api.login(state.userForm).then((res:unknown)=> {
-          
-        // })
+        api.login(state.userForm).then((res:unknown)=> {
+          console.log(res)
+        })  
       }
     })
   }
