@@ -3,15 +3,15 @@ import { ComponentInternalInstance, getCurrentInstance } from 'vue';
 
 export default function useCurrentInstance():Record<string,  { [x: string]: unknown; }> {
   const { appContext } = getCurrentInstance() as ComponentInternalInstance;
-  const GP = appContext.config.globalProperties;
+  const gpr = appContext.config.globalProperties;
   return {
-    GP
+    gpr
   };
 }
 
 /**
  * 使用方式
  * import useCurrentInstance  from '@/utils/useCurrentInstance';
- * const { GP } = useCurrentInstance();
- * GP.$axios
+ * const { gpr } = useCurrentInstance();
+ * gpr.$axios
  */ 

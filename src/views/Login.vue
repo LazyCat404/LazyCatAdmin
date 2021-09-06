@@ -36,6 +36,7 @@
 
 <script lang='ts' setup>
 import api from '@/apis/user';
+import useCurrentInstance from '@/utils/useCurrentInstance';
 import { reactive, ref, unref } from 'vue';
   const state = reactive({
     userForm:{
@@ -52,10 +53,11 @@ import { reactive, ref, unref } from 'vue';
       { required: true, message: '密码不能为空', trigger: 'blur' },
     ],
   }
+  const { gpr } = useCurrentInstance(); // 全局属性
   const userFormRef = ref();
 
   function submitForm(){
-    const form = unref(userFormRef)
+    const form = unref(userFormRef);
     form?.validate((valid:Boolean) => {
       if(valid){
         api.login(state.userForm).then((res:unknown)=> {
