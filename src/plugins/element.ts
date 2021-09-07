@@ -7,7 +7,11 @@ import {
   ElForm,
   ElFormItem,
   ElInput,
-  ElCheckbox
+  ElCheckbox,
+  ElDropdown,
+  ElDropdownMenu,
+  ElDropdownItem,
+  ElPopper
 } from 'element-plus';
 
 const ElComponents = [
@@ -17,7 +21,11 @@ const ElComponents = [
   ElForm,
   ElFormItem,
   ElInput,
-  ElCheckbox
+  ElCheckbox,
+  ElDropdown,
+  ElDropdownMenu,
+  ElDropdownItem,
+  ElPopper
 ];
 
 const ElPlugins = [ElMessage];

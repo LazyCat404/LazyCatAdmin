@@ -15,7 +15,7 @@ import Header from "../splitview-sample/layout/Header.vue";
 <style lang="scss" scoped>
 #route-wrapper{
   width: calc(100% - 260px);
-  height: calc(100% - 90px);
+  height: calc(100% - 70px);
   float: right;
   background-color: #F1F8F9;
 }
