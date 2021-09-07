@@ -37,6 +37,7 @@
 <script lang='ts' setup>
 import api from '@/apis/user';
 import useCurrentInstance from '@/utils/useCurrentInstance';
+import { myObject } from '@types';
 import { reactive, ref, unref } from 'vue';
   const state = reactive({
     userForm:{
@@ -44,7 +45,9 @@ import { reactive, ref, unref } from 'vue';
       password:null
     },
     remember:true,
-  })
+  });
+
+  // 表单验证规则
   const rules = {
     name: [
       { required: true, message: '用户名不能为空', trigger: 'blur' },
@@ -52,16 +55,26 @@ import { reactive, ref, unref } from 'vue';
     password: [
       { required: true, message: '密码不能为空', trigger: 'blur' },
     ],
-  }
-  const { gpr } = useCurrentInstance(); // 全局属性
-  const userFormRef = ref();
+  };
 
+  // 全局属性
+  const { gpr } = useCurrentInstance(); 
+  const $store = gpr.$store as myObject;
+  const $router = gpr.$router as any;
+
+  // 登录表单
+  const userFormRef = ref();
   function submitForm(){
     const form = unref(userFormRef);
     form?.validate((valid:Boolean) => {
       if(valid){
-        api.login(state.userForm).then((res:unknown)=> {
-          console.log(res)
+        api.login(state.userForm).then((res:any)=> {
+          let commit = $store.commit as any;
+          // 缓存token
+          commit('setToken',res.data.token);
+          // 缓存用户信息
+          commit('setUser',res.data.userInfor);
+          $router.push({ path: '/' });
         })  
       }
     })

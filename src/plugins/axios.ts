@@ -17,9 +17,9 @@ axios.interceptors.request.use(
   config => {
     // 线上环境接口处理
     if(import.meta.env.MODE === 'production' && config.url){
-      let interfaceUrl = <string>config.url;
+      const interfaceUrl = <string>config.url;
       if (interfaceUrl.startsWith('/api')) {
-        config.url = interfaceUrl.replace(/^\/api/, '')
+        config.url = interfaceUrl.replace(/^\/api/, '');
       }
     }
     return config;
@@ -37,7 +37,6 @@ axios.interceptors.response.use(
     if (response.status === 200) {
       return Promise.resolve(response);
     } else {
-      console.log('!=200',response.status);
       return Promise.reject(response);
     }
   },

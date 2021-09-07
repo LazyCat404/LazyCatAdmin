@@ -5,7 +5,7 @@
 import { myObject } from '@types';
 
 const mutations = {
-  setUer:(state:myObject,payload:myObject):void =>{
+  setUser:(state:myObject,payload:myObject):void =>{
     state.user = payload;
   },
   setToken:(state:myObject,payload:myObject):void =>{
