@@ -1,4 +1,4 @@
-import { myObject } from "@types";
+import { myObject } from '@types';
 
 const state:myObject = {
   user: {},
