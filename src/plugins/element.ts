@@ -11,7 +11,10 @@ import {
   ElDropdown,
   ElDropdownMenu,
   ElDropdownItem,
-  ElPopper
+  ElPopper,
+  ElMenu,
+  ElMenuItem,
+  ElMenuItemGroup
 } from 'element-plus';
 
 const ElComponents = [
@@ -25,7 +28,10 @@ const ElComponents = [
   ElDropdown,
   ElDropdownMenu,
   ElDropdownItem,
-  ElPopper
+  ElPopper,
+  ElMenu,
+  ElMenuItem,
+  ElMenuItemGroup
 ];
 
 const ElPlugins = [ElMessage];
