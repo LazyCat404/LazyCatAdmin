@@ -29,6 +29,7 @@
         <el-menu-item
           v-else
           :index="item.path"
+          sign="route-menu"
         >
           <i
             :style="{ color: item.icoColor ? item.icoColor : '#B7C2CF' }"
@@ -113,6 +114,10 @@ onBeforeUnmount(() => {
         color: #40CDBB !important;
         padding-left: 40px !important;
       }
+    }
+    ::v-deep .is-active[sign=route-menu]>div,
+    ::v-deep .el-menu-item[sign=route-menu]:hover>div{
+      left: -5px !important;
     }
   }
 }
