@@ -14,14 +14,19 @@ import Header from "../splitview-sample/layout/Header.vue";
 
 <style lang="scss" scoped>
 #route-wrapper{
-  width: calc(100% - 260px);
+  width: calc(100% - 230px);
   height: calc(100% - 70px);
   float: right;
   background-color: #F1F8F9;
 }
 @media screen and (max-width: 1200px) {
   #route-wrapper {
-    width: 940px;
+    width: 970px;
+  }
+}
+@media screen and (max-width: 1125px) {
+  #route-wrapper {
+    width: calc(100% - 64px);
   }
 }
 </style>
