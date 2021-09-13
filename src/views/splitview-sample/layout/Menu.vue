@@ -98,6 +98,15 @@ onBeforeUnmount(() => {
         color: #40CDBB !important;
       }
     }
+    .is-active{
+      ::v-deep .el-sub-menu__title{
+        padding-left: 0 !important;
+      }
+      ::v-deep .el-sub-menu__title:hover{
+        border: 0 !important;
+        padding-left: 0 !important;
+      }
+    }
     .el-menu-item,
     ::v-deep .el-sub-menu__title{
       display: flex;
