@@ -7,7 +7,9 @@ module.exports = {
   },
   parser: '@typescript-eslint/parser',                //定义ESLint的解析器
   extends: [                                          //定义文件继承的子规范
+    'eslint:recommended',   
     'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/eslint-recommended',
   ], 
   plugins: ['@typescript-eslint'],                    //定义了eslint文件所依赖的插件
   rules: {
