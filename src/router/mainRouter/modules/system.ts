@@ -9,6 +9,7 @@ export default [
         '@views/splitview-main/system/Index.vue'
       ),
     meta: {
+      requireAuth:true,
       breadcrumb: [{ title: '系统管理', path: '/system' }],
     }
   }
