@@ -65,7 +65,6 @@ function onResize() {
   }else{
     state.isCollapse = false
   }
-  console.log(1)
 }
 
 // 监听屏幕变化
