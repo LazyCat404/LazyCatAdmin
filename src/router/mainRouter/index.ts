@@ -10,21 +10,13 @@ for (const path in modulesFiles) {
 export default [
   {
     path: '/',
-    component: ():unknown =>
-      import(
-        /* webpackChunkName: "layout" */
-        '@views/splitview-main/Layout.vue'
-      ),
+    component: ():unknown => import('@views/splitview-main/Layout.vue'),
     redirect: '/dashboard',
     children:[
       {
         path: '/dashboard',
         name: 'Dashboard',
-        component: ():unknown =>
-          import(
-            /* webpackChunkName: "layout" */
-            '@views/splitview-main/dashboard/Index.vue'
-          ),
+        component: ():unknown => import('@views/splitview-main/dashboard/Index.vue'),
       },
       ...modules
     ],

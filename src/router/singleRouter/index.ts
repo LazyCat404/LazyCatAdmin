@@ -2,7 +2,7 @@
 export default [{
   path: '/login',
   name: 'Login',
-  component: ():unknown => import(/* webpackChunkName: "login" */ '@views/Login.vue'),
+  component: ():unknown => import('@views/Login.vue'),
   meta: {
     title: '用户登录',
     authority: []
