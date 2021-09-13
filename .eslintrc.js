@@ -6,7 +6,9 @@ module.exports = {
     browser: true // 浏览器全局变量
   },
   parser: '@typescript-eslint/parser',                //定义ESLint的解析器
-  extends: ['plugin:@typescript-eslint/recommended'], //定义文件继承的子规范
+  extends: [                                          //定义文件继承的子规范
+    'plugin:@typescript-eslint/recommended',
+  ], 
   plugins: ['@typescript-eslint'],                    //定义了eslint文件所依赖的插件
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
