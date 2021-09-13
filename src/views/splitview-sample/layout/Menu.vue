@@ -87,15 +87,35 @@ onBeforeUnmount(() => {
   #menu-list-box{
     border: 0;
     height: 100%;
-    .el-menu-item:hover{
-      border-left: 5px solid #3DC8B7;
-      background: #F6F7FB;
-      color: #40CDBB !important;
-      padding-left: 15px !important;
-      i.iconfont{
-        color: #40CDBB !important;
-      }
+    .el-menu-item
+    // .is-active>::v-deep div,
+    // .el-menu-item:hover{
+    //   border-left: 5px solid #3DC8B7;
+    //   background: #F6F7FB;
+    //   color: #40CDBB !important;
+    //   padding-left: 15px !important;
+    //   i.iconfont{
+    //     color: #40CDBB !important;
+    //   }
+    // }
+
+    .el-menu-item,
+    ::v-deep .el-sub-menu__title{
+      display: flex;
+      display: -webkit-flex; 
+      font-size: 16px;
     }
+    .el-menu-item.is-active{
+      color: #40CDBB;
+
+    }
+    .el-menu-item>::v-deep div{
+      display: -webkit-flex !important; 
+      display: flex !important;                      
+      justify-content:center;         
+      align-items:center;            
+    }
+    // 有二级菜单
     .is-active{
       ::v-deep .el-sub-menu__title{
         border-left: 5px solid #3DC8B7;
@@ -107,30 +127,23 @@ onBeforeUnmount(() => {
         color: #40CDBB !important;
       }
     }
-    .el-menu-item,
-    ::v-deep .el-sub-menu__title{
-      display: flex;
-      display: -webkit-flex; 
-      font-size: 16px;
-      i.iconfont{
-        margin-right: 15px;
-      }
-    }
-    .el-menu-item.is-active{
-      color: #40CDBB;
-
-    }
     .el-sub-menu{
-      .el-menu-item:hover{
-        border: 0;
+      ::v-deep .el-sub-menu__title{
+        display: -webkit-flex !important; 
+        display: flex !important;                      
+        justify-content:center;         
+        align-items:center; 
+      }
+      ::v-deep .el-sub-menu__title:hover{
+        border-left: 5px solid #3DC8B7;
         background: #F6F7FB;
         color: #40CDBB !important;
-        padding-left: 40px !important;
+        padding-left: 15px !important;
       }
     }
     ::v-deep .is-active[sign=route-menu]>div,
     ::v-deep .el-menu-item[sign=route-menu]:hover>div{
-      left: -5px !important;
+      // left: -5px !important;
     }
   }
 }
