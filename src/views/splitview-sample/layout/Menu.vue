@@ -7,7 +7,6 @@
       text-color="#B7C2CF"
       :unique-opened="true"
       :collapse="state.isCollapse"
-      :collapse-transition="false"
     >
       <template v-for="item in menu.list">
         <!-- 有子菜单 -->
