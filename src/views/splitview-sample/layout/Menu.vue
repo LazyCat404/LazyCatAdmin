@@ -87,9 +87,7 @@ onBeforeUnmount(() => {
   #menu-list-box{
     border: 0;
     height: 100%;
-    .is-active,
-    .el-menu-item:hover,
-    ::v-deep .el-sub-menu__title:hover{
+    .el-menu-item:hover{
       border-left: 5px solid #3DC8B7;
       background: #F6F7FB;
       color: #40CDBB !important;
@@ -100,11 +98,13 @@ onBeforeUnmount(() => {
     }
     .is-active{
       ::v-deep .el-sub-menu__title{
-        padding-left: 0 !important;
+        border-left: 5px solid #3DC8B7;
+        background: #F6F7FB;
+        color: #40CDBB !important;
+        padding-left: 15px !important;
       }
-      ::v-deep .el-sub-menu__title:hover{
-        border: 0 !important;
-        padding-left: 0 !important;
+      i.iconfont{
+        color: #40CDBB !important;
       }
     }
     .el-menu-item,
@@ -115,6 +115,10 @@ onBeforeUnmount(() => {
       i.iconfont{
         margin-right: 15px;
       }
+    }
+    .el-menu-item.is-active{
+      color: #40CDBB;
+
     }
     .el-sub-menu{
       .el-menu-item:hover{
