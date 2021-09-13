@@ -21,7 +21,8 @@ for (const path in modulesFiles) {
   }
 }
 
-export const store = createStore({
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const store:any = createStore({
   state: global.state,
   getters: global.getters,
   mutations: global.mutations,
