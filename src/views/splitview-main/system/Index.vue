@@ -1,5 +1,5 @@
 <template>
-  系统设置
+  <router-view></router-view>
 </template>
 
 <script lang="ts" setup>
