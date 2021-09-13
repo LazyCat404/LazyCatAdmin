@@ -7,4 +7,4 @@ export default [{
     title: '用户登录',
     authority: []
   }
-}]
+}];
