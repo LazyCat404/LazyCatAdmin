@@ -14,7 +14,9 @@ import {
   ElPopper,
   ElMenu,
   ElMenuItem,
-  ElMenuItemGroup
+  ElMenuItemGroup,
+  ElBreadcrumb,
+  ElBreadcrumbItem,
 } from 'element-plus';
 
 const ElComponents = [
@@ -31,7 +33,9 @@ const ElComponents = [
   ElPopper,
   ElMenu,
   ElMenuItem,
-  ElMenuItemGroup
+  ElMenuItemGroup,
+  ElBreadcrumb,
+  ElBreadcrumbItem,
 ];
 
 const ElPlugins = [ElMessage];

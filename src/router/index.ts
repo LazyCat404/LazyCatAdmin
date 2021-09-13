@@ -13,7 +13,7 @@ const router = createRouter({
 router.beforeEach((to,from, next) => {
   if (to.meta.requireAuth) { 
     if(store.state.token) { 
-        next(); // 已登录
+      next(); // 已登录
     } else {
       next({
         path: '/login',
@@ -21,7 +21,7 @@ router.beforeEach((to,from, next) => {
       });
     }
   }else {
-      next();
+    next();
   }
-})
+});
 export default router;

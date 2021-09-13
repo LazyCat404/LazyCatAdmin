@@ -39,6 +39,7 @@ import api from '@/apis/user';
 import useCurrentInstance from '@/utils/useCurrentInstance';
 import { myObject } from '@types';
 import { reactive, ref, unref } from 'vue';
+import { useRouter } from 'vue-router';
   const state = reactive({
     userForm:{
       name:null,
@@ -60,8 +61,7 @@ import { reactive, ref, unref } from 'vue';
   // 全局属性
   const { gpr } = useCurrentInstance(); 
   const $store = gpr.$store as myObject;
-  const $router = gpr.$router as any;
-
+  const router = useRouter();
   // 登录表单
   const userFormRef = ref();
   function submitForm(){
@@ -74,7 +74,7 @@ import { reactive, ref, unref } from 'vue';
           commit('setToken',res.data.token);
           // 缓存用户信息
           commit('setUser',res.data.userInfor);
-          $router.push({ path: '/' });
+          router.push({ path: '/' });
         })  
       }
     })

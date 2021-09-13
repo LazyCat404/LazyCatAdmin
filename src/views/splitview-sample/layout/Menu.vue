@@ -44,10 +44,12 @@
 <script lang='ts' setup>
 import api from "@/apis/user";
 import { onBeforeUnmount, reactive } from "vue";
+import { useRoute } from "vue-router";
 
+const route = useRoute()
 const state = reactive({
   isCollapse:document.body.offsetWidth < 1125 ? true : false,
-  activeIndex:'/dashboard'
+  activeIndex:route.path
 });
 const menu = reactive<any>({
   list:[]

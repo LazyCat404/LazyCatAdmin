@@ -8,5 +8,8 @@ export default [
         /* webpackChunkName: "system" */
         '@views/splitview-main/system/Index.vue'
       ),
+    meta: {
+      breadcrumb: [{ title: '系统管理', path: '/system' }],
+    }
   }
 ];

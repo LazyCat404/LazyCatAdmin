@@ -25,11 +25,6 @@ export default [
             /* webpackChunkName: "layout" */
             '@views/splitview-main/dashboard/Index.vue'
           ),
-        meta: {
-          requireAuth:true,
-          title: '首页',
-          breadcrumb: [{ title: '首页', path: '' }],
-        }
       },
       ...modules
     ]
