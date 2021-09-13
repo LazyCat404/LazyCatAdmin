@@ -10,13 +10,14 @@ if (import.meta.env.MODE === 'development') {
   plugins.push(createLogger());
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const modules:any = {};
 const modulesFiles = import.meta.glob('./modules/*/index.ts');
 for (const path in modulesFiles) {
   if(path.includes('global') === false){
     modulesFiles[path]().then((res:myObject):void =>{
-      modules[path.replace(/(\.\/modules\/|\/index.ts)/g, '')] = res.default
-    })
+      modules[path.replace(/(\.\/modules\/|\/index.ts)/g, '')] = res.default;
+    });
   }
 }
 
