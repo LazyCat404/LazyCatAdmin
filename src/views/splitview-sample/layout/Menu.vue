@@ -87,17 +87,16 @@ onBeforeUnmount(() => {
   #menu-list-box{
     border: 0;
     height: 100%;
-    .el-menu-item
-    // .is-active>::v-deep div,
-    // .el-menu-item:hover{
-    //   border-left: 5px solid #3DC8B7;
-    //   background: #F6F7FB;
-    //   color: #40CDBB !important;
-    //   padding-left: 15px !important;
-    //   i.iconfont{
-    //     color: #40CDBB !important;
-    //   }
-    // }
+    .is-active>::v-deep div,
+    .el-menu-item>::v-deep div:hover{
+      border-left: 5px solid #3DC8B7;
+      background: #F6F7FB;
+      color: #40CDBB !important;
+      padding-left: 15px !important;
+      i.iconfont{
+        color: #40CDBB !important;
+      }
+    }
 
     .el-menu-item,
     ::v-deep .el-sub-menu__title{
@@ -140,10 +139,6 @@ onBeforeUnmount(() => {
         color: #40CDBB !important;
         padding-left: 15px !important;
       }
-    }
-    ::v-deep .is-active[sign=route-menu]>div,
-    ::v-deep .el-menu-item[sign=route-menu]:hover>div{
-      // left: -5px !important;
     }
   }
 }
