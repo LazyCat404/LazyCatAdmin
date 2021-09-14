@@ -1,3 +1,3 @@
-export interface myObject{
-  [propName:string]: any
+export interface myObject {
+  [propName: string]: any;
 }

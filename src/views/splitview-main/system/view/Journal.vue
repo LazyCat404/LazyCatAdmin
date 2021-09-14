@@ -1,3 +1,1 @@
-<template>
-  日志
-</template>
+<template>日志</template>

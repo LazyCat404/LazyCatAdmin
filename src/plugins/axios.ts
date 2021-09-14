@@ -6,7 +6,7 @@ import axios from 'axios';
 import QS from 'qs';
 
 // 线上环境基础地址
-if(import.meta.env.MODE === 'production'){
+if (import.meta.env.MODE === 'production') {
   axios.defaults.baseURL = <string>import.meta.env.VITE_BSAE_URL;
 }
 
@@ -16,7 +16,7 @@ if(import.meta.env.MODE === 'production'){
 axios.interceptors.request.use(
   config => {
     // 线上环境接口处理
-    if(import.meta.env.MODE === 'production' && config.url){
+    if (import.meta.env.MODE === 'production' && config.url) {
       const interfaceUrl = <string>config.url;
       if (interfaceUrl.startsWith('/api')) {
         config.url = interfaceUrl.replace(/^\/api/, '');
@@ -43,14 +43,14 @@ axios.interceptors.response.use(
   error => {
     if (error.response) {
       switch (error.response.status) {
-      case 404:
-        console.log('请求网络请求不存在');
-        break;
-      case 401:
-        console.log('401');
-        break;
-      default:
-        console.log('通用错误');
+        case 404:
+          console.log('请求网络请求不存在');
+          break;
+        case 401:
+          console.log('401');
+          break;
+        default:
+          console.log('通用错误');
       }
       return Promise.reject(error.response);
     }
@@ -62,7 +62,7 @@ axios.interceptors.response.use(
  * @param {String} par [接口地址]
  * @param {String} fileUrl [文件地址]
  */
-export function baseURL(par:string, fileUrl?:string):string {
+export function baseURL(par: string, fileUrl?: string): string {
   if (fileUrl) {
     return `${process.env.VUE_APP_URL + par + fileUrl}`;
   } else {
@@ -75,13 +75,16 @@ export function baseURL(par:string, fileUrl?:string):string {
  * @param {String} url [请求的url地址]
  * @param {Object} params [请求时携带的参数]
  */
-export function get(url:string, params?:string):Promise<unknown>{
+export function get(url: string, params?: string): Promise<unknown> {
   return new Promise((resolve, reject) => {
-    axios.get(url, { params: params }).then(res => {
-      resolve(res.data);
-    }).catch(err => {
-      reject(err.data);
-    });
+    axios
+      .get(url, { params: params })
+      .then(res => {
+        resolve(res.data);
+      })
+      .catch(err => {
+        reject(err.data);
+      });
   });
 }
 
@@ -91,7 +94,11 @@ export function get(url:string, params?:string):Promise<unknown>{
  * @param {Object} params [请求时携带的参数]
  * @param {String} type [参数类型，默认Query数据，可能为json或表单]
  */
-export function post(url:string, params?:myObject, type?:string):Promise<unknown> {
+export function post(
+  url: string,
+  params?: myObject,
+  type?: string
+): Promise<unknown> {
   if (type) {
     let headers = { 'Content-Type': 'application/json;' };
     if (type == 'DATA' || type == 'data') {
@@ -103,19 +110,24 @@ export function post(url:string, params?:myObject, type?:string):Promise<unknown
         method: 'POST',
         url,
         data: params
-      }).then(res => {
-        resolve(res.data);
-      }).catch(err => {
-        reject(err.data);
-      });
+      })
+        .then(res => {
+          resolve(res.data);
+        })
+        .catch(err => {
+          reject(err.data);
+        });
     });
   } else {
     return new Promise((resolve, reject) => {
-      axios.post(url, QS.stringify(params)).then(res => {
-        resolve(res.data);
-      }).catch(err => {
-        reject(err.data);
-      });
+      axios
+        .post(url, QS.stringify(params))
+        .then(res => {
+          resolve(res.data);
+        })
+        .catch(err => {
+          reject(err.data);
+        });
     });
   }
 }
@@ -126,18 +138,25 @@ export function post(url:string, params?:myObject, type?:string):Promise<unknown
  * @param {Object} params [请求时携带的参数，默认Query数据]
  * @param {String} type [参数类型，默认Query数据，可能为json或表单]
  */
-export function del(url:string, params?:myObject, type?:string):Promise<unknown> {
-  let par:myObject;
+export function del(
+  url: string,
+  params?: myObject,
+  type?: string
+): Promise<unknown> {
+  let par: myObject;
   if (type == 'JSON' || type == 'json') {
     par = { data: params };
-  }else{
+  } else {
     par = { params };
   }
   return new Promise((resolve, reject) => {
-    axios.delete(url, par).then(res => {
-      resolve(res.data);
-    }).catch(err => {
-      reject(err.data);
-    });
+    axios
+      .delete(url, par)
+      .then(res => {
+        resolve(res.data);
+      })
+      .catch(err => {
+        reject(err.data);
+      });
   });
 }

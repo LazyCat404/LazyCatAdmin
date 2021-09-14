@@ -1,3 +1,1 @@
-<template>
-  全局设置
-</template>
+<template>全局设置</template>

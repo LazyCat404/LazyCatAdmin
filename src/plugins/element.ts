@@ -16,7 +16,7 @@ import {
   ElMenuItem,
   ElMenuItemGroup,
   ElBreadcrumb,
-  ElBreadcrumbItem,
+  ElBreadcrumbItem
 } from 'element-plus';
 
 const ElComponents = [
@@ -35,7 +35,7 @@ const ElComponents = [
   ElMenuItem,
   ElMenuItemGroup,
   ElBreadcrumb,
-  ElBreadcrumbItem,
+  ElBreadcrumbItem
 ];
 
 const ElPlugins = [ElMessage];

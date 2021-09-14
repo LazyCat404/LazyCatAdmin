@@ -1,3 +1,1 @@
-<template>
-  角色
-</template>
+<template>角色</template>

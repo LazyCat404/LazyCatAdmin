@@ -1,6 +1,6 @@
 import { myObject } from '@types';
 
-const state:myObject = {
+const state: myObject = {
   user: {},
   token: ''
 };

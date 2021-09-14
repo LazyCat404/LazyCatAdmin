@@ -1,3 +1,1 @@
-<template>
-  用户
-</template>
+<template>用户</template>

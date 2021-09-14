@@ -14,7 +14,7 @@ const app = createApp(App);
 ElComponents.forEach(component => {
   app.component(component.name, component);
 });
-ElPlugins.forEach((plugin) => {
+ElPlugins.forEach(plugin => {
   app.use(plugin);
 });
 
@@ -23,6 +23,4 @@ MyComponents.forEach(component => {
   app.component(component.name, component);
 });
 
-app.use(router)
-  .use(globalMount)
-  .mount('#app');
+app.use(router).use(globalMount).mount('#app');

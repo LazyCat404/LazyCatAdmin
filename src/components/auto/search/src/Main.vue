@@ -1,12 +1,8 @@
-<template>
-待开发搜索组件
-</template>
+<template>待开发搜索组件</template>
 
-<script lang='ts'>
+<script lang="ts">
 import { defineComponent } from 'vue';
 export default defineComponent({
-  name:'Search'
-})
-
+  name: 'Search'
+});
 </script>
-

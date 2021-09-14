@@ -1,10 +1,12 @@
 // 独立视图页面路由
-export default [{
-  path: '/login',
-  name: 'Login',
-  component: ():unknown => import('@views/Login.vue'),
-  meta: {
-    title: '用户登录',
-    authority: []
+export default [
+  {
+    path: '/login',
+    name: 'Login',
+    component: (): unknown => import('@views/Login.vue'),
+    meta: {
+      title: '用户登录',
+      authority: []
+    }
   }
-}];
+];

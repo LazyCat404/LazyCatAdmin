@@ -8,13 +8,13 @@
       :unique-opened="true"
       :collapse="state.isCollapse"
     >
-      <template v-for="(item,i) in menu.list" :key="i">
+      <template v-for="(item, i) in menu.list" :key="i">
         <!-- 有子菜单 -->
         <el-sub-menu
           v-if="item.children"
           :disabled="item.show"
           :index="item.path"
-          :sing="state.isCollapse ? &quot;close&quot; : &quot;open&quot;"
+          :sing="state.isCollapse ? 'close' : 'open'"
         >
           <template #title>
             <i
@@ -24,7 +24,7 @@
             <span>{{ item.name }}</span>
           </template>
           <el-menu-item
-            v-for="(ite,j) in item.children"
+            v-for="(ite, j) in item.children"
             :key="j"
             :index="ite.path"
           >
@@ -32,11 +32,7 @@
           </el-menu-item>
         </el-sub-menu>
         <!-- 无子菜单 -->
-        <el-menu-item
-          v-else
-          :index="item.path"
-          sign="route-menu"
-        >
+        <el-menu-item v-else :index="item.path" sign="route-menu">
           <i
             :style="{ color: item.icoColor ? item.icoColor : '#B7C2CF' }"
             :class="'iconfont ' + item.icon"
@@ -50,30 +46,30 @@
   </div>
 </template>
 
-<script lang='ts' setup>
+<script lang="ts" setup>
 import api from '@/apis/user';
 import { onBeforeUnmount, reactive } from 'vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
 const state = reactive({
-  isCollapse:document.body.offsetWidth < 1125 ? true : false,
-  activeIndex:route.path
+  isCollapse: document.body.offsetWidth < 1125 ? true : false,
+  activeIndex: route.path
 });
 const menu = reactive<any>({
-  list:[]
+  list: []
 });
 // 获取菜单
-(function getMenu(){
-  api.getMenu().then((res:any) => {
+(function getMenu() {
+  api.getMenu().then((res: any) => {
     menu.list = res.data;
   });
-}());
+})();
 
 function onResize() {
-  if(document.body.offsetWidth < 1125){
+  if (document.body.offsetWidth < 1125) {
     state.isCollapse = true;
-  }else{
+  } else {
     state.isCollapse = false;
   }
 }
@@ -82,99 +78,96 @@ function onResize() {
 window.addEventListener('resize', onResize, false);
 // 移除监听
 onBeforeUnmount(() => {
-  window.removeEventListener('resize',onResize, false);
+  window.removeEventListener('resize', onResize, false);
 });
-
-
 </script>
 
 <style lang="scss" scoped>
-#menu-wrapper{
+#menu-wrapper {
   width: 230px;
   height: calc(100% - 70px);
   float: left;
-  #menu-list-box{
+  #menu-list-box {
     border: 0;
     height: 100%;
     // 无子菜单
-    .el-menu-item[sign="route-menu"]{
+    .el-menu-item[sign='route-menu'] {
       display: flex;
-      display: -webkit-flex; 
+      display: -webkit-flex;
       font-size: 16px;
-      i.iconfont{
+      i.iconfont {
         margin-right: 15px;
       }
     }
-    .el-menu-item[sign="route-menu"]:hover,
-    .is-active[sign="route-menu"]{
-      border-left: 5px solid #3DC8B7;
-      background: #F6F7FB;
+    .el-menu-item[sign='route-menu']:hover,
+    .is-active[sign='route-menu'] {
+      border-left: 5px solid #3dc8b7;
+      background: #f6f7fb;
       padding-left: 15px !important;
-      ::v-deep div{
+      ::v-deep div {
         left: -2.5px !important;
       }
     }
-    .el-menu-item[sign="route-menu"]>::v-deep div{
-      display: -webkit-flex !important; 
-      display: flex !important;                      
-      justify-content:center;         
-      align-items:center; 
-      i.iconfont{
+    .el-menu-item[sign='route-menu'] > ::v-deep div {
+      display: -webkit-flex !important;
+      display: flex !important;
+      justify-content: center;
+      align-items: center;
+      i.iconfont {
         margin-right: 0px !important;
-      }           
+      }
     }
     // 有二级菜单
-    .el-sub-menu{
+    .el-sub-menu {
       overflow: hidden;
-      ::v-deep .el-sub-menu__title{
-        span{
+      ::v-deep .el-sub-menu__title {
+        span {
           font-size: 16px;
         }
       }
-      .el-menu-item:hover{
-        background: #F6F7FB;
-        color: #40CDBB !important;
+      .el-menu-item:hover {
+        background: #f6f7fb;
+        color: #40cdbb !important;
       }
     }
-    .is-active{
-      color: #40CDBB !important;
-      ::v-deep .el-sub-menu__title{
-        border-left: 5px solid #3DC8B7;
-        background: #F6F7FB;
-        color: #40CDBB !important;
+    .is-active {
+      color: #40cdbb !important;
+      ::v-deep .el-sub-menu__title {
+        border-left: 5px solid #3dc8b7;
+        background: #f6f7fb;
+        color: #40cdbb !important;
         padding-left: 15px !important;
       }
-      i.iconfont{
-        color: #40CDBB !important;
+      i.iconfont {
+        color: #40cdbb !important;
       }
     }
-    .el-sub-menu[sing="close"]{
-      ::v-deep .el-sub-menu__title{
-        display: -webkit-flex !important; 
-        display: flex !important;                      
-        justify-content:center;         
-        align-items:center; 
+    .el-sub-menu[sing='close'] {
+      ::v-deep .el-sub-menu__title {
+        display: -webkit-flex !important;
+        display: flex !important;
+        justify-content: center;
+        align-items: center;
       }
     }
-    .el-sub-menu[sing="open"]{
-      i.iconfont{
+    .el-sub-menu[sing='open'] {
+      i.iconfont {
         margin-right: 15px;
-      } 
+      }
     }
-    .el-sub-menu{
-      ::v-deep .el-sub-menu__title:hover{
-        border-left: 5px solid #3DC8B7;
-        background: #F6F7FB;
-        color: #40CDBB !important;
+    .el-sub-menu {
+      ::v-deep .el-sub-menu__title:hover {
+        border-left: 5px solid #3dc8b7;
+        background: #f6f7fb;
+        color: #40cdbb !important;
         padding-left: 15px !important;
-        .iconfont{
-          color: #40CDBB !important;
+        .iconfont {
+          color: #40cdbb !important;
         }
       }
     }
   }
 }
-
 
 @media screen and (max-width: 1200px) {
   #menu-wrapper {
