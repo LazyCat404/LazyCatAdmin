@@ -18,6 +18,7 @@ module.exports = {
   ],
   plugins: ['@typescript-eslint'], //定义了eslint文件所依赖的插件
   rules: {
+    // '@typescript-eslint/no-explicit-any': 'off', // 允许使用any
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'max-params': ['warn', 7], // 函数参数禁止超过7个
