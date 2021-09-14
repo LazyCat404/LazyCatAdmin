@@ -20,10 +20,7 @@ module.exports = {
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    indent: ['warn', 2], // 控制缩进2个字符
-    semi: ['warn', 'always'], // 结尾加分号
     'max-params': ['warn', 7], // 函数参数禁止超过7个
-    quotes: ['warn', 'single'], // 使用单引号
     'no-unused-vars': 'error', // 禁止变量声明未使用
     'no-undef': 'error',
     // new 后面的类名必须首字母大写
