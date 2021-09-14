@@ -3,9 +3,6 @@
 </template>
 
 <script lang='ts' setup>
-// import { defineComponent } from 'vue';
-// export default defineComponent({
-//   name:'CopyText'
-// })
+
 
 </script>

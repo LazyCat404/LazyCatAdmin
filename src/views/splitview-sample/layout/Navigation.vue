@@ -1,13 +1,13 @@
 <template>
   <el-breadcrumb id="navigation-wrapper">
-    <el-breadcrumb-item v-for="item in route.meta.breadcrumb" :to="{ path: item.path }">
+    <el-breadcrumb-item v-for="(item,i) in route.meta.breadcrumb" :to="{ path: item.path }" :key="i">
       {{item.title}}
     </el-breadcrumb-item>
   </el-breadcrumb>
 </template>
 
 <script lang="ts" setup>
-import { useRoute } from "vue-router";
+import { useRoute } from 'vue-router';
 const route = useRoute() as any;
 </script>
 

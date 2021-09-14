@@ -19,13 +19,10 @@
 </template>
 
 <script lang='ts' setup>
-import { reactive } from 'vue';
 import userImage from '@/assets/images/user.png';
 import useCurrentInstance from '@/utils/useCurrentInstance';
 import { myObject } from '@types';
-const state = reactive({
-  
-});
+
 // 全局属性
 const { gpr } = useCurrentInstance(); 
 const $store = gpr.$store as myObject;

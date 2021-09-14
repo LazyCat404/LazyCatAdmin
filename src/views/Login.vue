@@ -1,31 +1,56 @@
 <template>
-  <div id='login-wrapper'>
+  <div id="login-wrapper">
     <el-scrollbar>
       <div class="flex-content">
-        <div id='login-top'>
-          <span></span>
+        <div id="login-top">
+          <span />
           <div>管理系统</div>
-          <span></span>
+          <span />
         </div>
-        <div id='login-main'>
-          <div id='login-box'>
-            <div id='login-title'>
-              <div id='zh-title'>后台登录</div>
-              <div id='vice-title'>Backstage Login</div>
+        <div id="login-main">
+          <div id="login-box">
+            <div id="login-title">
+              <div id="zh-title">
+                后台登录
+              </div>
+              <div id="vice-title">
+                Backstage Login
+              </div>
             </div>
-            <div id='login-body'> 
-              <el-form ref='userFormRef' :rules="rules" :model='state.userForm'>
+            <div id="login-body"> 
+              <el-form
+                ref="userFormRef"
+                :rules="rules"
+                :model="state.userForm"
+              >
                 <el-form-item prop="name"> 
-                  <i class='iconfont icon-yonghu'></i>    
-                  <el-input v-model='state.userForm.name' placeholder="请输入用户名"></el-input>
+                  <i class="iconfont icon-yonghu" />    
+                  <el-input
+                    v-model="state.userForm.name"
+                    placeholder="请输入用户名"
+                  />
                 </el-form-item>
-                <el-form-item  prop="password">
-                  <i class='iconfont icon-mima1'></i>    
-                  <el-input v-model='state.userForm.password' placeholder="请输入密码" show-password></el-input>
+                <el-form-item prop="password">
+                  <i class="iconfont icon-mima1" />    
+                  <el-input
+                    v-model="state.userForm.password"
+                    placeholder="请输入密码"
+                    show-password
+                  />
                 </el-form-item>
               </el-form>
-              <el-checkbox class='remember-password' v-model='state.remember' label='记住密码'></el-checkbox>
-              <el-button type='primary' round @click="submitForm">登 &nbsp; 录</el-button>
+              <el-checkbox
+                v-model="state.remember"
+                class="remember-password"
+                label="记住密码"
+              />
+              <el-button
+                type="primary"
+                round
+                @click="submitForm"
+              >
+                登 &nbsp; 录
+              </el-button>
             </div>
           </div>
         </div>
@@ -40,45 +65,45 @@ import useCurrentInstance from '@/utils/useCurrentInstance';
 import { myObject } from '@types';
 import { reactive, ref, unref } from 'vue';
 import { useRouter } from 'vue-router';
-  const state = reactive({
-    userForm:{
-      name:null,
-      password:null
-    },
-    remember:true,
+const state = reactive({
+  userForm:{
+    name:null,
+    password:null
+  },
+  remember:true,
+});
+
+// 表单验证规则
+const rules = {
+  name: [
+    { required: true, message: '用户名不能为空', trigger: 'blur' },
+  ],
+  password: [
+    { required: true, message: '密码不能为空', trigger: 'blur' },
+  ],
+};
+
+// 全局属性
+const { gpr } = useCurrentInstance(); 
+const $store = gpr.$store as myObject;
+const router = useRouter();
+// 登录表单
+const userFormRef = ref();
+function submitForm(){
+  const form = unref(userFormRef);
+  form?.validate((valid:boolean) => {
+    if(valid){
+      api.login(state.userForm).then((res:any)=> {
+        let commit = $store.commit as any;
+        // 缓存token
+        commit('setToken',res.data.token);
+        // 缓存用户信息
+        commit('setUser',res.data.userInfor);
+        router.push({ path: '/' });
+      });  
+    }
   });
-
-  // 表单验证规则
-  const rules = {
-    name: [
-      { required: true, message: '用户名不能为空', trigger: 'blur' },
-    ],
-    password: [
-      { required: true, message: '密码不能为空', trigger: 'blur' },
-    ],
-  };
-
-  // 全局属性
-  const { gpr } = useCurrentInstance(); 
-  const $store = gpr.$store as myObject;
-  const router = useRouter();
-  // 登录表单
-  const userFormRef = ref();
-  function submitForm(){
-    const form = unref(userFormRef);
-    form?.validate((valid:Boolean) => {
-      if(valid){
-        api.login(state.userForm).then((res:any)=> {
-          let commit = $store.commit as any;
-          // 缓存token
-          commit('setToken',res.data.token);
-          // 缓存用户信息
-          commit('setUser',res.data.userInfor);
-          router.push({ path: '/' });
-        })  
-      }
-    })
-  }
+}
 </script>
 
 <style lang='scss' scoped>

@@ -8,22 +8,28 @@
       :unique-opened="true"
       :collapse="state.isCollapse"
     >
-      <template v-for="item in menu.list">
+      <template v-for="(item,i) in menu.list" :key="i">
         <!-- 有子菜单 -->
         <el-sub-menu
           v-if="item.children"
           :disabled="item.show"
           :index="item.path"
-          :sing='state.isCollapse ? "close" : "open"'
+          :sing="state.isCollapse ? &quot;close&quot; : &quot;open&quot;"
         >
           <template #title>
             <i
               :style="{ color: item.icoColor ? item.icoColor : '#B7C2CF' }"
               :class="'iconfont ' + item.icon"
-            ></i>
+            />
             <span>{{ item.name }}</span>
           </template>
-          <el-menu-item  v-for="ite in item.children" :index="ite.path">{{ite.name}}</el-menu-item>
+          <el-menu-item
+            v-for="(ite,j) in item.children"
+            :key="j"
+            :index="ite.path"
+          >
+            {{ ite.name }}
+          </el-menu-item>
         </el-sub-menu>
         <!-- 无子菜单 -->
         <el-menu-item
@@ -34,8 +40,10 @@
           <i
             :style="{ color: item.icoColor ? item.icoColor : '#B7C2CF' }"
             :class="'iconfont ' + item.icon"
-          ></i>
-          <template #title>{{ item.name }}</template>
+          />
+          <template #title>
+            {{ item.name }}
+          </template>
         </el-menu-item>
       </template>
     </el-menu>
@@ -43,11 +51,11 @@
 </template>
 
 <script lang='ts' setup>
-import api from "@/apis/user";
-import { onBeforeUnmount, reactive } from "vue";
-import { useRoute } from "vue-router";
+import api from '@/apis/user';
+import { onBeforeUnmount, reactive } from 'vue';
+import { useRoute } from 'vue-router';
 
-const route = useRoute()
+const route = useRoute();
 const state = reactive({
   isCollapse:document.body.offsetWidth < 1125 ? true : false,
   activeIndex:route.path
@@ -58,23 +66,23 @@ const menu = reactive<any>({
 // 获取菜单
 (function getMenu(){
   api.getMenu().then((res:any) => {
-    menu.list = res.data
-  })
-}())
+    menu.list = res.data;
+  });
+}());
 
 function onResize() {
   if(document.body.offsetWidth < 1125){
-    state.isCollapse = true
+    state.isCollapse = true;
   }else{
-    state.isCollapse = false
+    state.isCollapse = false;
   }
 }
 
 // 监听屏幕变化
-window.addEventListener("resize", onResize, false);
+window.addEventListener('resize', onResize, false);
 // 移除监听
 onBeforeUnmount(() => {
-  window.removeEventListener("resize",onResize, false);
+  window.removeEventListener('resize',onResize, false);
 });
 
 
