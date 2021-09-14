@@ -1,3 +1,3 @@
 export interface myObject{
-  [propName:string]:unknown
+  [propName:string]: any
 }

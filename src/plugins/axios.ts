@@ -7,7 +7,7 @@ import QS from 'qs';
 
 // 线上环境基础地址
 if(import.meta.env.MODE === 'production'){
-  axios.defaults.baseURL = <string>import.meta.env.VITE_BSAE_URL
+  axios.defaults.baseURL = <string>import.meta.env.VITE_BSAE_URL;
 }
 
 /**
