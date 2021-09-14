@@ -14,6 +14,7 @@
           v-if="item.children"
           :disabled="item.show"
           :index="item.path"
+          :sing='state.isCollapse ? "close" : "open"'
         >
           <template #title>
             <i
@@ -87,35 +88,48 @@ onBeforeUnmount(() => {
   #menu-list-box{
     border: 0;
     height: 100%;
-    .is-active>::v-deep div,
-    .el-menu-item>::v-deep div:hover{
-      border-left: 5px solid #3DC8B7;
-      background: #F6F7FB;
-      color: #40CDBB !important;
-      padding-left: 15px !important;
-      i.iconfont{
-        color: #40CDBB !important;
-      }
-    }
-
-    .el-menu-item,
-    ::v-deep .el-sub-menu__title{
+    // 无子菜单
+    .el-menu-item[sign="route-menu"]{
       display: flex;
       display: -webkit-flex; 
       font-size: 16px;
+      i.iconfont{
+        margin-right: 15px;
+      }
     }
-    .el-menu-item.is-active{
-      color: #40CDBB;
-
+    .el-menu-item[sign="route-menu"]:hover,
+    .is-active[sign="route-menu"]{
+      border-left: 5px solid #3DC8B7;
+      background: #F6F7FB;
+      padding-left: 15px !important;
+      ::v-deep div{
+        left: -2.5px !important;
+      }
     }
-    .el-menu-item>::v-deep div{
+    .el-menu-item[sign="route-menu"]>::v-deep div{
       display: -webkit-flex !important; 
       display: flex !important;                      
       justify-content:center;         
-      align-items:center;            
+      align-items:center; 
+      i.iconfont{
+        margin-right: 0px !important;
+      }           
     }
     // 有二级菜单
+    .el-sub-menu{
+      overflow: hidden;
+      ::v-deep .el-sub-menu__title{
+        span{
+          font-size: 16px;
+        }
+      }
+      .el-menu-item:hover{
+        background: #F6F7FB;
+        color: #40CDBB !important;
+      }
+    }
     .is-active{
+      color: #40CDBB !important;
       ::v-deep .el-sub-menu__title{
         border-left: 5px solid #3DC8B7;
         background: #F6F7FB;
@@ -126,18 +140,28 @@ onBeforeUnmount(() => {
         color: #40CDBB !important;
       }
     }
-    .el-sub-menu{
+    .el-sub-menu[sing="close"]{
       ::v-deep .el-sub-menu__title{
         display: -webkit-flex !important; 
         display: flex !important;                      
         justify-content:center;         
         align-items:center; 
       }
+    }
+    .el-sub-menu[sing="open"]{
+      i.iconfont{
+        margin-right: 15px;
+      } 
+    }
+    .el-sub-menu{
       ::v-deep .el-sub-menu__title:hover{
         border-left: 5px solid #3DC8B7;
         background: #F6F7FB;
         color: #40CDBB !important;
         padding-left: 15px !important;
+        .iconfont{
+          color: #40CDBB !important;
+        }
       }
     }
   }
