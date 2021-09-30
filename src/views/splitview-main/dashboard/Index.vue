@@ -1,5 +1,34 @@
-<template>首页</template>
+<template>
+  <LazyTable :tableData="tableData" :tableConfig="tableConfig"></LazyTable>
+  <!-- <LazyTable :tableData="tableData"></LazyTable> -->
+</template>
 
-<script lang="ts" setup></script>
-
+<script lang="ts" setup>
+let tableData = [
+  {
+    date: '2016-05-02',
+    name: '王小虎',
+    address: '上海市普陀区金沙江路 1518 弄'
+  },
+  {
+    date: '2016-05-04',
+    name: '王小虎',
+    address: '上海市普陀区金沙江路 1517 弄'
+  },
+  {
+    date: '2016-05-01',
+    name: '王小虎',
+    address: '上海市普陀区金沙江路 1519 弄'
+  },
+  {
+    date: '2016-05-03',
+    name: '王小虎',
+    address: '上海市普陀区金沙江路 1516 弄'
+  }
+];
+let tableConfig = {
+  // select: false
+};
+// tableData = [];
+</script>
 <style></style>
