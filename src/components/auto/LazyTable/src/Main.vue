@@ -5,9 +5,8 @@
     <!-- 复选列表 -->
     <el-table-column type="selection" width="40" v-if="state.config.select"></el-table-column>
     <!-- 表格列表 -->
-    <el-table-column prop="date" label="日期" width="180"> </el-table-column>
-    <el-table-column prop="name" label="姓名" width="180"> </el-table-column>
-    <el-table-column prop="address" label="地址"> </el-table-column>
+    <el-table-column v-for="(item, i) in tableOptions" :key="i" :prop="item.prop" :label="item.label" :width="item.width" :show-overflow-tooltip="item.tip === undefined ? true : item.tip">
+    </el-table-column>
   </el-table>
 </template>
 
@@ -15,6 +14,7 @@
 import { defineProps, reactive } from 'vue';
 const props = defineProps({
   tableData: Array,
+  tableOptions: <any>Array,
   tableConfig: Object
 });
 const state = reactive({
