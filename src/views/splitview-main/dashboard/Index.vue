@@ -28,6 +28,7 @@ let tableData = [
 ];
 let tableConfig = {
   // select: false
+  // border: true
 };
 // tableData = [];
 </script>
