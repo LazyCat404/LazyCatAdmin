@@ -16,8 +16,9 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/eslint-recommended'
   ],
-  plugins: ['@typescript-eslint'], //定义了eslint文件所依赖的插件
+  plugins: ['prettier', '@typescript-eslint'], //定义了eslint文件所依赖的插件
   rules: {
+    'prettier/prettier': 'warn', // prettier 检查警告
     // '@typescript-eslint/no-explicit-any': 'off', // 允许使用any
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
