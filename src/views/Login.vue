@@ -17,28 +17,15 @@
               <el-form ref="userFormRef" :rules="rules" :model="state.userForm">
                 <el-form-item prop="name">
                   <i class="iconfont icon-yonghu" />
-                  <el-input
-                    v-model="state.userForm.name"
-                    placeholder="请输入用户名"
-                  />
+                  <el-input v-model="state.userForm.name" placeholder="请输入用户名" />
                 </el-form-item>
                 <el-form-item prop="password">
                   <i class="iconfont icon-mima1" />
-                  <el-input
-                    v-model="state.userForm.password"
-                    placeholder="请输入密码"
-                    show-password
-                  />
+                  <el-input v-model="state.userForm.password" placeholder="请输入密码" show-password />
                 </el-form-item>
               </el-form>
-              <el-checkbox
-                v-model="state.remember"
-                class="remember-password"
-                label="记住密码"
-              />
-              <el-button type="primary" round @click="submitForm">
-                登 &nbsp; 录
-              </el-button>
+              <el-checkbox v-model="state.remember" class="remember-password" label="记住密码" />
+              <el-button type="primary" round @click="submitForm"> 登 &nbsp; 录 </el-button>
             </div>
           </div>
         </div>

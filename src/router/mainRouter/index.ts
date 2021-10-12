@@ -16,8 +16,7 @@ export default [
       {
         path: '/dashboard',
         name: 'Dashboard',
-        component: (): unknown =>
-          import('@views/splitview-main/dashboard/Index.vue')
+        component: (): unknown => import('@views/splitview-main/dashboard/Index.vue')
       },
       ...modules
     ],

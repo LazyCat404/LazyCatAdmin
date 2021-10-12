@@ -1,10 +1,6 @@
 <template>
   <el-breadcrumb id="navigation-wrapper">
-    <el-breadcrumb-item
-      v-for="(item, i) in route.meta.breadcrumb"
-      :to="{ path: item.path }"
-      :key="i"
-    >
+    <el-breadcrumb-item v-for="(item, i) in route.meta.breadcrumb" :to="{ path: item.path }" :key="i">
       {{ item.title }}
     </el-breadcrumb-item>
   </el-breadcrumb>

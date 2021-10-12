@@ -9,9 +9,7 @@
         <template #dropdown>
           <el-dropdown-menu class="user-dropdown-list">
             <el-dropdown-item @click="goUserInfor">个人中心</el-dropdown-item>
-            <el-dropdown-item @click="outLogin" divided>
-              退出登录
-            </el-dropdown-item>
+            <el-dropdown-item @click="outLogin" divided> 退出登录 </el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>

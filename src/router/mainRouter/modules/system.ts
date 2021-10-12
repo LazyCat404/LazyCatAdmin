@@ -9,8 +9,7 @@ export default [
       {
         path: 'overall',
         name: 'SystemOverall',
-        component: (): unknown =>
-          import('@views/splitview-main/system/view/Overall.vue'),
+        component: (): unknown => import('@views/splitview-main/system/view/Overall.vue'),
         meta: {
           requireAuth: true,
           breadcrumb: [
@@ -22,8 +21,7 @@ export default [
       {
         path: 'user',
         name: 'SystemUser',
-        component: (): unknown =>
-          import('@views/splitview-main/system/view/User.vue'),
+        component: (): unknown => import('@views/splitview-main/system/view/User.vue'),
         meta: {
           requireAuth: true,
           breadcrumb: [
@@ -35,8 +33,7 @@ export default [
       {
         path: 'role',
         name: 'SystemRole',
-        component: (): unknown =>
-          import('@views/splitview-main/system/view/Role.vue'),
+        component: (): unknown => import('@views/splitview-main/system/view/Role.vue'),
         meta: {
           requireAuth: true,
           breadcrumb: [
@@ -48,8 +45,7 @@ export default [
       {
         path: 'journal',
         name: 'SystemJournal',
-        component: (): unknown =>
-          import('@views/splitview-main/system/view/Journal.vue'),
+        component: (): unknown => import('@views/splitview-main/system/view/Journal.vue'),
         meta: {
           requireAuth: true,
           breadcrumb: [

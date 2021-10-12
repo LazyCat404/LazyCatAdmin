@@ -5,7 +5,14 @@
     <!-- 复选列表 -->
     <el-table-column type="selection" width="40" v-if="state.config.select"></el-table-column>
     <!-- 表格列表 -->
-    <el-table-column v-for="(item, i) in tableOptions" :key="i" :prop="item.prop" :label="item.label" :width="item.width" :show-overflow-tooltip="item.tip === undefined ? true : item.tip">
+    <el-table-column
+      v-for="(item, i) in tableOptions"
+      :key="i"
+      :prop="item.prop"
+      :label="item.label"
+      :width="item.width"
+      :show-overflow-tooltip="item.tip === undefined ? true : item.tip"
+    >
     </el-table-column>
   </el-table>
 </template>

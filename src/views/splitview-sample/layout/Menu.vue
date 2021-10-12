@@ -17,26 +17,16 @@
           :sing="state.isCollapse ? 'close' : 'open'"
         >
           <template #title>
-            <i
-              :style="{ color: item.icoColor ? item.icoColor : '#B7C2CF' }"
-              :class="'iconfont ' + item.icon"
-            />
+            <i :style="{ color: item.icoColor ? item.icoColor : '#B7C2CF' }" :class="'iconfont ' + item.icon" />
             <span>{{ item.name }}</span>
           </template>
-          <el-menu-item
-            v-for="(ite, j) in item.children"
-            :key="j"
-            :index="ite.path"
-          >
+          <el-menu-item v-for="(ite, j) in item.children" :key="j" :index="ite.path">
             {{ ite.name }}
           </el-menu-item>
         </el-sub-menu>
         <!-- 无子菜单 -->
         <el-menu-item v-else :index="item.path" sign="route-menu">
-          <i
-            :style="{ color: item.icoColor ? item.icoColor : '#B7C2CF' }"
-            :class="'iconfont ' + item.icon"
-          />
+          <i :style="{ color: item.icoColor ? item.icoColor : '#B7C2CF' }" :class="'iconfont ' + item.icon" />
           <template #title>
             {{ item.name }}
           </template>
