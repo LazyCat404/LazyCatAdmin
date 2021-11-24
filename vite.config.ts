@@ -37,6 +37,7 @@ export default (par: { mode: string; command: string }): unknown => {
     },
     server: {
       port: 4000,
+      // host: '0.0.0.0',
       open: false,
       cors: true,
       proxy: null
