@@ -6,8 +6,8 @@
     <div
       id="route-body"
       :style="[
-        { height: state.navShow ? 'calc(100% - 72px)' : 'calc(100% - 40px)' },
-        { margin: state.navShow ? '0 20px 20px' : '20px' }
+        { height: state.navShow ? 'calc(100% - 62px)' : 'calc(100% - 30px)' },
+        { margin: state.navShow ? '0 15px 15px' : '15px' }
       ]"
     >
       <router-view></router-view>

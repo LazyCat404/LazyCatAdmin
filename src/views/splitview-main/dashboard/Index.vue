@@ -1,6 +1,6 @@
 <template>
   <LazyTable :tableData="tableData" :tableOptions="tableOptions" :tableConfig="tableConfig"></LazyTable>
-  <!-- <LazyTable :tableData="tableData"></LazyTable> -->
+  <!-- <LazyTable :tableData="tableData" :tableOptions="tableOptions"></LazyTable> -->
 </template>
 
 <script lang="ts" setup>
@@ -46,9 +46,8 @@ let tableOptions = [
   }
 ];
 let tableConfig = {
-  // select: false
-  // border: true
+  select: true,
+  border: true
 };
-// tableData = [];
 </script>
 <style></style>
