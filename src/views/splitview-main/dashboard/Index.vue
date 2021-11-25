@@ -46,8 +46,11 @@ let tableOptions = [
   }
 ];
 let tableConfig = {
-  select: true,
-  border: true
+  // select: false,
+  // border: true,
+  // tableH: 'calc(100% - 30px)',
+  headerH: '55'
+  // lineH: 40
 };
 </script>
 <style></style>

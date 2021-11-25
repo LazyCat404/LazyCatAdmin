@@ -1,12 +1,14 @@
 <template>
-  <div style="position: relative" ref="elTableDom">
+  <div :style="[{ height: state.config.tableH, position: 'relative' }]" ref="elTableDom">
     <!-- 表格 -->
     <el-table
+      :header-row-style="{ height: state.config.headerH }"
+      :row-style="{ height: state.config.lineH }"
       @cell-mouse-enter="mouseHover"
       @cell-mouse-leave="mouseOut"
       :data="tableData"
       :border="state.config.border"
-      height="250"
+      :max-height="state.config.tableH"
     >
       <!-- 空数据提示 -->
       <template #empty> 暂无数据 </template>
@@ -20,32 +22,56 @@
       </el-table-column>
     </el-table>
     <!-- 滚动条 -->
-    <div style="padding-top: 65px">
-      <el-scrollbar height="185px" ref="elScrollbarDom" @scroll="scrollActive">
-        <div style="height: 260px"></div>
+    <div :style="[{ paddingTop: state.config.headerH }]">
+      <el-scrollbar
+        :style="[{ height: `calc(${state.config.tableH} - ${state.config.headerH})` }]"
+        ref="elScrollbarDom"
+        @scroll="scrollActive"
+      >
+        <div :style="[{ height: state.config.tableH }]"></div>
       </el-scrollbar>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import tool from '@/utils/tool';
 import { defineProps, reactive, ref } from 'vue';
 const elScrollbarDom = ref(null);
 const elTableDom = ref(null);
 const props = defineProps({
-  tableData: Array,
-  tableOptions: <any>Array,
+  tableData: {
+    type: Array,
+    required: true
+  },
+  tableOptions: {
+    type: Array,
+    required: true
+  },
   tableConfig: Object
 });
+
 const state = reactive({
   // 表格默认配置
   config: {
     // 复选框（默认开启）
     select: props.tableConfig && props.tableConfig.select !== undefined ? props.tableConfig.select : true,
-    // 框线
-    border: props.tableConfig && props.tableConfig.border !== undefined ? props.tableConfig.border : false
+    // 框线（默认关闭）
+    border: props.tableConfig && props.tableConfig.border !== undefined ? props.tableConfig.border : false,
+    // table 高度（默认100%）
+    tableH:
+      props.tableConfig && props.tableConfig.tableH !== undefined ? tool.targetCss(props.tableConfig.tableH) : '100%',
+    // 表头高度（默认50px）
+    headerH:
+      props.tableConfig && props.tableConfig.headerH !== undefined ? tool.targetCss(props.tableConfig.headerH) : '50px',
+    // 表头背景色
+    headerBg: props.tableConfig && props.tableConfig.headerBg !== undefined ? props.tableConfig.headerBg : '#fff',
+    // 行高（默认40px）
+    lineH: props.tableConfig && props.tableConfig.lineH !== undefined ? tool.targetCss(props.tableConfig.lineH) : '40px'
   }
 });
+
+console.log(22, state.config);
 // 鼠标进入table
 function mouseHover() {
   let eSD = elScrollbarDom.value as any;
@@ -84,11 +110,6 @@ function scrollActive(scr: { scrollLeft: number; scrollTop: number }) {
     element.scrollTop = scr.scrollTop;
   });
 }
-// 初始化
-function init() {
-  // tableInit();
-}
-init();
 </script>
 
 <style lang="scss" scoped>
@@ -98,6 +119,13 @@ init();
   width: calc(100% - 40px);
   position: absolute;
   z-index: 99;
+  ::v-deep .el-table__header-wrapper th.el-table__cell,
+  ::v-deep .el-table__body-wrapper .el-table__cell {
+    padding: 0;
+  }
+  ::v-deep .el-checkbox {
+    height: auto;
+  }
 }
 ::v-deep .el-table-column--selection .cell {
   text-overflow: unset;
