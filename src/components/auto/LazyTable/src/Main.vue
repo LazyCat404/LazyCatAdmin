@@ -2,8 +2,10 @@
   <div :style="[{ height: state.config.tableH, position: 'relative' }]" ref="elTableDom">
     <!-- 表格 -->
     <el-table
-      :header-row-style="{ height: state.config.headerH }"
+      :header-row-style="{ height: state.config.headerH, background: state.config.headerBg }"
       :row-style="{ height: state.config.lineH }"
+      :header-row-class-name="state.config.border ? '' : 'border-hide'"
+      :row-class-name="tableRowClassName"
       @cell-mouse-enter="mouseHover"
       @cell-mouse-leave="mouseOut"
       :data="tableData"
@@ -36,7 +38,7 @@
 
 <script lang="ts" setup>
 import tool from '@/utils/tool';
-import { defineProps, reactive, ref } from 'vue';
+import { defineProps, onMounted, reactive, ref } from 'vue';
 const elScrollbarDom = ref(null);
 const elTableDom = ref(null);
 const props = defineProps({
@@ -65,13 +67,40 @@ const state = reactive({
     headerH:
       props.tableConfig && props.tableConfig.headerH !== undefined ? tool.targetCss(props.tableConfig.headerH) : '50px',
     // 表头背景色
-    headerBg: props.tableConfig && props.tableConfig.headerBg !== undefined ? props.tableConfig.headerBg : '#fff',
+    headerBg: props.tableConfig && props.tableConfig.headerBg !== undefined ? props.tableConfig.headerBg : '#edf0f9',
     // 行高（默认40px）
-    lineH: props.tableConfig && props.tableConfig.lineH !== undefined ? tool.targetCss(props.tableConfig.lineH) : '40px'
+    lineH:
+      props.tableConfig && props.tableConfig.lineH !== undefined ? tool.targetCss(props.tableConfig.lineH) : '40px',
+    // 奇数行背景色
+    oddBg: props.tableConfig && props.tableConfig.oddBg !== undefined ? props.tableConfig.oddBg : '#f5f7fd',
+    // 偶数行背景色
+    evenBg: props.tableConfig && props.tableConfig.evenBg !== undefined ? props.tableConfig.evenBg : '#fff'
   }
 });
 
-console.log(22, state.config);
+console.log('表格设置', state.config);
+// 表格奇偶行添加类名
+function tableRowClassName(value: { row: any; rowIndex: number }) {
+  if (value.rowIndex % 2) {
+    return `${state.config.border ? 'odd-row' : 'odd-row border-hide'}`;
+  } else {
+    return `${state.config.border ? 'even-row' : 'even-row border-hide'}`;
+  }
+}
+// 控制表格行样式
+function controlTableRow() {
+  let eTD = elTableDom.value as any;
+  // 奇偶行颜色
+  let oddNodeList = eTD.querySelectorAll('.el-table__body-wrapper .odd-row');
+  let evenNodeList = eTD.querySelectorAll('.el-table__body-wrapper .even-row');
+  console.log(oddNodeList, evenNodeList);
+  oddNodeList.forEach((element: any) => {
+    element.style.background = state.config.oddBg;
+  });
+  evenNodeList.forEach((element: any) => {
+    element.style.background = state.config.evenBg;
+  });
+}
 // 鼠标进入table
 function mouseHover() {
   let eSD = elScrollbarDom.value as any;
@@ -103,6 +132,7 @@ function setScrollTop(value: any) {
   let eSD = elScrollbarDom.value as any;
   eSD.setScrollTop(value.target.scrollTop);
 }
+// 拖动滚动条
 function scrollActive(scr: { scrollLeft: number; scrollTop: number }) {
   let eTD = elTableDom.value as any;
   let tNodeList = eTD.querySelectorAll('.el-table__body-wrapper');
@@ -110,6 +140,9 @@ function scrollActive(scr: { scrollLeft: number; scrollTop: number }) {
     element.scrollTop = scr.scrollTop;
   });
 }
+onMounted(() => {
+  controlTableRow();
+});
 </script>
 
 <style lang="scss" scoped>
@@ -119,9 +152,17 @@ function scrollActive(scr: { scrollLeft: number; scrollTop: number }) {
   width: calc(100% - 40px);
   position: absolute;
   z-index: 99;
+  ::v-deep.el-table::before {
+    height: 0;
+  }
   ::v-deep .el-table__header-wrapper th.el-table__cell,
   ::v-deep .el-table__body-wrapper .el-table__cell {
     padding: 0;
+    background: transparent;
+  }
+  ::v-deep .el-table__body-wrapper .border-hide td,
+  ::v-deep .el-table__header-wrapper .border-hide th {
+    border: 0;
   }
   ::v-deep .el-checkbox {
     height: auto;

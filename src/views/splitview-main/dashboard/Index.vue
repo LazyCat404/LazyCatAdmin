@@ -47,10 +47,13 @@ let tableOptions = [
 ];
 let tableConfig = {
   // select: false,
-  // border: true,
+  // border: true
   // tableH: 'calc(100% - 30px)',
-  headerH: '55'
+  // headerH: '55'
   // lineH: 40
+  // headerBg: 'red',
+  // oddBg: 'red',
+  // evenBg: '#ddd'
 };
 </script>
 <style></style>
