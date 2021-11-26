@@ -11,7 +11,7 @@
       ]"
     >
       <el-scrollbar>
-        <div>
+        <div id="scrollbar-layout-wrapper">
           <router-view></router-view>
         </div>
       </el-scrollbar>
@@ -49,7 +49,7 @@ onBeforeRouteUpdate(to => {
   background: #fff;
 }
 ::v-deep .el-scrollbar .el-scrollbar__view,
-::v-deep .el-scrollbar .el-scrollbar__view > div {
+::v-deep .el-scrollbar .el-scrollbar__view > div#scrollbar-layout-wrapper {
   height: 100%;
 }
 
@@ -62,7 +62,7 @@ onBeforeRouteUpdate(to => {
   #route-wrapper {
     width: calc(100% - 64px);
   }
-  ::v-deep .el-scrollbar .el-scrollbar__view > div {
+  ::v-deep .el-scrollbar .el-scrollbar__view > div#scrollbar-layout-wrapper {
     min-width: 700px;
   }
 }

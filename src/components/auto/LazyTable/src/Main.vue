@@ -10,17 +10,17 @@
       @cell-mouse-leave="mouseOut"
       :data="tableData"
       :border="state.config.border"
-      :max-height="state.config.tableH"
+      :height="state.config.tableH"
     >
       <!-- 空数据提示 -->
       <template #empty> 暂无数据 </template>
       <!-- 复选列表 -->
-      <el-table-column type="selection" width="40" v-if="state.config.select"></el-table-column>
+      <el-table-column type="selection" width="40px" v-if="state.config.select"></el-table-column>
       <!-- 表格列表 -->
-      <el-table-column v-for="(item, i) in tableOptions" :key="i">
-        <template #header> haha </template>
+      <el-table-column v-for="(item, i) in tableOptions" :key="i" :width="item.width">
+        <template #header>{{ item.label }}</template>
 
-        <template #default="scope">{{ scope.row.name }}</template>
+        <template #default="scope">{{ scope.row[item.prop] }}</template>
       </el-table-column>
     </el-table>
     <!-- 滚动条 -->
@@ -48,7 +48,7 @@ const props = defineProps({
     required: true
   },
   tableOptions: {
-    type: Array,
+    type: <any>Array,
     required: true
   },
   tableConfig: Object
@@ -83,6 +83,7 @@ const state = reactive({
     oddBg: props.tableConfig && props.tableConfig.oddBg !== undefined ? props.tableConfig.oddBg : config.oddBg,
     // 偶数行背景色
     evenBg: props.tableConfig && props.tableConfig.evenBg !== undefined ? props.tableConfig.evenBg : config.evenBg
+    // 文字对齐方式（未完成）
   }
 });
 
@@ -95,17 +96,23 @@ function tableRowClassName(value: { row: any; rowIndex: number }) {
     return `${state.config.border ? 'even-row' : 'even-row border-hide'}`;
   }
 }
-// 控制表格行样式
-function controlTableRow() {
+// 控制表格
+function controlTable() {
   let eTD = elTableDom.value as any;
-  // 奇偶行颜色
-  let oddNodeList = eTD.querySelectorAll('.el-table__body-wrapper .odd-row');
-  let evenNodeList = eTD.querySelectorAll('.el-table__body-wrapper .even-row');
-  oddNodeList.forEach((element: any) => {
-    element.style.background = state.config.oddBg;
-  });
-  evenNodeList.forEach((element: any) => {
-    element.style.background = state.config.evenBg;
+  setTimeout(() => {
+    // 固定列奇偶行颜色
+    let fixedOddNodeList = eTD.querySelectorAll('.odd-row');
+    let fixedEvenNodeList = eTD.querySelectorAll('.even-row');
+    fixedOddNodeList.forEach((element: any) => {
+      element.style.background = state.config.oddBg;
+    });
+    fixedEvenNodeList.forEach((element: any) => {
+      element.style.background = state.config.evenBg;
+    });
+    // 横向滚动条显示
+    // let tableWidth = eTD.querySelectorAll('.el-table__body')[0].offsetWidth;
+    // eTD.querySelector('#custom-table-scrollbar').style.width = 1920;
+    // console.log(eTD.querySelector('#custom-table-scrollbar'));
   });
 }
 // 鼠标进入table
@@ -137,7 +144,16 @@ function mouseOut() {
 // 设置滚动条距离顶部高度
 function setScrollTop(value: any) {
   let eSD = elScrollbarDom.value as any;
-  eSD.setScrollTop(value.target.scrollTop);
+  console.log();
+  if (value.target.scrollTop) {
+    if (value.target.scrollTop < 50) {
+      eSD.setScrollTop(50);
+    } else {
+      eSD.setScrollTop(value.target.scrollTop);
+    }
+  } else {
+    eSD.setScrollTop(value.target.scrollTop);
+  }
 }
 // 拖动滚动条
 function scrollActive(scr: { scrollLeft: number; scrollTop: number }) {
@@ -148,7 +164,7 @@ function scrollActive(scr: { scrollLeft: number; scrollTop: number }) {
   });
 }
 onMounted(() => {
-  controlTableRow();
+  controlTable();
 });
 </script>
 
@@ -159,16 +175,24 @@ onMounted(() => {
   width: calc(100% - 40px);
   position: absolute;
   z-index: 99;
-  ::v-deep.el-table::before {
+  ::v-deep tr {
+    background: transparent;
+  }
+  ::v-deep.el-table::before,
+  ::v-deep.el-table .el-table__fixed::before {
     height: 0;
   }
+  ::v-deep .el-table__fixed-header-wrapper th.el-table__cell,
   ::v-deep .el-table__header-wrapper th.el-table__cell,
-  ::v-deep .el-table__body-wrapper .el-table__cell {
+  ::v-deep .el-table__body-wrapper .el-table__cell,
+  ::v-deep .el-table__fixed-body-wrapper .el-table__cell {
     padding: 0;
     background: transparent;
   }
   ::v-deep .el-table__body-wrapper .border-hide td,
-  ::v-deep .el-table__header-wrapper .border-hide th {
+  ::v-deep .el-table__fixed-body-wrapper .border-hide td,
+  ::v-deep .el-table__header-wrapper .border-hide th,
+  ::v-deep .el-table__fixed-header-wrapper .border-hide th {
     border: 0;
   }
   ::v-deep .el-checkbox {
