@@ -10,7 +10,11 @@
         { margin: state.navShow ? '0 15px 15px' : '15px' }
       ]"
     >
-      <router-view></router-view>
+      <el-scrollbar>
+        <div>
+          <router-view></router-view>
+        </div>
+      </el-scrollbar>
     </div>
   </div>
 </template>
@@ -44,6 +48,11 @@ onBeforeRouteUpdate(to => {
 #route-body {
   background: #fff;
 }
+::v-deep .el-scrollbar .el-scrollbar__view,
+::v-deep .el-scrollbar .el-scrollbar__view > div {
+  height: 100%;
+}
+
 @media screen and (max-width: 1200px) {
   #route-wrapper {
     width: 970px;
@@ -52,6 +61,9 @@ onBeforeRouteUpdate(to => {
 @media screen and (max-width: 1125px) {
   #route-wrapper {
     width: calc(100% - 64px);
+  }
+  ::v-deep .el-scrollbar .el-scrollbar__view > div {
+    min-width: 700px;
   }
 }
 </style>
