@@ -174,7 +174,7 @@ onMounted(() => {
   max-height: 100%;
   width: calc(100% - 40px);
   position: absolute;
-  z-index: 99;
+  z-index: 1;
   ::v-deep tr {
     background: transparent;
   }
@@ -208,7 +208,7 @@ onMounted(() => {
 .el-scrollbar {
   margin: 0 22px;
   ::v-deep .el-scrollbar__bar {
-    z-index: 999;
+    z-index: 99;
   }
 }
 </style>

@@ -51,6 +51,7 @@ onBeforeRouteUpdate(to => {
 ::v-deep .el-scrollbar .el-scrollbar__view,
 ::v-deep .el-scrollbar .el-scrollbar__view > div#scrollbar-layout-wrapper {
   height: 100%;
+  z-index: 999;
 }
 
 @media screen and (max-width: 1200px) {

@@ -48,7 +48,7 @@ let tableOptions = [
 let tableConfig = {
   // select: false,
   // border: true
-  // tableH: 'calc(100% - 30px)',
+  tableH: 'calc(150px - 30px)'
   // headerH: '55'
   // lineH: 40
   // headerBg: 'red',
