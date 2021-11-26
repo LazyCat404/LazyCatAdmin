@@ -1,7 +1,7 @@
 import { myObject } from '@types';
 
 const MyComponents: Array<myObject> = [];
-const modulesFiles = import.meta.globEager('./auto/**/*.ts');
+const modulesFiles = import.meta.globEager('./auto/*/index.ts');
 for (const path in modulesFiles) {
   if (!modulesFiles[path].default.name) {
     // 兼容无 name 情况

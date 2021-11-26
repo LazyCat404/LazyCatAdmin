@@ -39,6 +39,7 @@
 <script lang="ts" setup>
 import tool from '@/utils/tool';
 import { defineProps, onMounted, reactive, ref } from 'vue';
+import { config } from './config';
 const elScrollbarDom = ref(null);
 const elTableDom = ref(null);
 const props = defineProps({
@@ -57,24 +58,31 @@ const state = reactive({
   // 表格默认配置
   config: {
     // 复选框（默认开启）
-    select: props.tableConfig && props.tableConfig.select !== undefined ? props.tableConfig.select : true,
+    select: props.tableConfig && props.tableConfig.select !== undefined ? props.tableConfig.select : config.select,
     // 框线（默认关闭）
-    border: props.tableConfig && props.tableConfig.border !== undefined ? props.tableConfig.border : false,
+    border: props.tableConfig && props.tableConfig.border !== undefined ? props.tableConfig.border : config.border,
     // table 高度（默认100%）
     tableH:
-      props.tableConfig && props.tableConfig.tableH !== undefined ? tool.targetCss(props.tableConfig.tableH) : '100%',
+      props.tableConfig && props.tableConfig.tableH !== undefined
+        ? tool.targetCss(props.tableConfig.tableH)
+        : config.tableH,
     // 表头高度（默认50px）
     headerH:
-      props.tableConfig && props.tableConfig.headerH !== undefined ? tool.targetCss(props.tableConfig.headerH) : '50px',
+      props.tableConfig && props.tableConfig.headerH !== undefined
+        ? tool.targetCss(props.tableConfig.headerH)
+        : config.headerH,
     // 表头背景色
-    headerBg: props.tableConfig && props.tableConfig.headerBg !== undefined ? props.tableConfig.headerBg : '#edf0f9',
+    headerBg:
+      props.tableConfig && props.tableConfig.headerBg !== undefined ? props.tableConfig.headerBg : config.headerBg,
     // 行高（默认40px）
     lineH:
-      props.tableConfig && props.tableConfig.lineH !== undefined ? tool.targetCss(props.tableConfig.lineH) : '40px',
+      props.tableConfig && props.tableConfig.lineH !== undefined
+        ? tool.targetCss(props.tableConfig.lineH)
+        : config.lineH,
     // 奇数行背景色
-    oddBg: props.tableConfig && props.tableConfig.oddBg !== undefined ? props.tableConfig.oddBg : '#f5f7fd',
+    oddBg: props.tableConfig && props.tableConfig.oddBg !== undefined ? props.tableConfig.oddBg : config.oddBg,
     // 偶数行背景色
-    evenBg: props.tableConfig && props.tableConfig.evenBg !== undefined ? props.tableConfig.evenBg : '#fff'
+    evenBg: props.tableConfig && props.tableConfig.evenBg !== undefined ? props.tableConfig.evenBg : config.evenBg
   }
 });
 
@@ -93,7 +101,6 @@ function controlTableRow() {
   // 奇偶行颜色
   let oddNodeList = eTD.querySelectorAll('.el-table__body-wrapper .odd-row');
   let evenNodeList = eTD.querySelectorAll('.el-table__body-wrapper .even-row');
-  console.log(oddNodeList, evenNodeList);
   oddNodeList.forEach((element: any) => {
     element.style.background = state.config.oddBg;
   });
