@@ -11,6 +11,7 @@
       :data="tableData"
       :border="state.config.border"
       :height="state.config.tableH"
+      :max-height="state.config.tableH"
     >
       <!-- 空数据提示 -->
       <template #empty> 暂无数据 </template>
@@ -24,13 +25,11 @@
       </el-table-column>
     </el-table>
     <!-- 滚动条 -->
-    <div :style="[{ paddingTop: state.config.headerH }]">
-      <el-scrollbar
-        :style="[{ height: `calc(${state.config.tableH} - ${state.config.headerH})` }]"
-        ref="elScrollbarDom"
-        @scroll="scrollActive"
-      >
-        <div :style="[{ height: state.config.tableH }]"></div>
+    <div
+      :style="[{ paddingTop: state.config.headerH, height: `calc(${state.config.tableH} - ${state.config.headerH})` }]"
+    >
+      <el-scrollbar style="height: 100%" ref="elScrollbarDom" @scroll="scrollActive">
+        <div :style="[{ height: state.tableRealHeight }]"></div>
       </el-scrollbar>
     </div>
   </div>
@@ -84,10 +83,9 @@ const state = reactive({
     // 偶数行背景色
     evenBg: props.tableConfig && props.tableConfig.evenBg !== undefined ? props.tableConfig.evenBg : config.evenBg
     // 文字对齐方式（未完成）
-  }
+  },
+  tableRealHeight: '' // 表格实际高度
 });
-
-console.log('表格设置', state.config);
 // 表格奇偶行添加类名
 function tableRowClassName(value: { row: any; rowIndex: number }) {
   if (value.rowIndex % 2) {
@@ -99,6 +97,10 @@ function tableRowClassName(value: { row: any; rowIndex: number }) {
 // 控制表格
 function controlTable() {
   let eTD = elTableDom.value as any;
+  // 滚动条高度
+  let hNodeList = eTD.querySelector('.el-table__body');
+  state.tableRealHeight = `${hNodeList.clientHeight}px`;
+  // 异步设置
   setTimeout(() => {
     // 固定列奇偶行颜色
     let fixedOddNodeList = eTD.querySelectorAll('.odd-row');
@@ -109,10 +111,6 @@ function controlTable() {
     fixedEvenNodeList.forEach((element: any) => {
       element.style.background = state.config.evenBg;
     });
-    // 横向滚动条显示
-    // let tableWidth = eTD.querySelectorAll('.el-table__body')[0].offsetWidth;
-    // eTD.querySelector('#custom-table-scrollbar').style.width = 1920;
-    // console.log(eTD.querySelector('#custom-table-scrollbar'));
   });
 }
 // 鼠标进入table
@@ -144,16 +142,7 @@ function mouseOut() {
 // 设置滚动条距离顶部高度
 function setScrollTop(value: any) {
   let eSD = elScrollbarDom.value as any;
-  console.log();
-  if (value.target.scrollTop) {
-    if (value.target.scrollTop < 50) {
-      eSD.setScrollTop(50);
-    } else {
-      eSD.setScrollTop(value.target.scrollTop);
-    }
-  } else {
-    eSD.setScrollTop(value.target.scrollTop);
-  }
+  eSD.setScrollTop(value.target.scrollTop);
 }
 // 拖动滚动条
 function scrollActive(scr: { scrollLeft: number; scrollTop: number }) {
