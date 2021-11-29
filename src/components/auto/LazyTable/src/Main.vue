@@ -18,7 +18,12 @@
       <!-- 复选列表 -->
       <el-table-column type="selection" width="40px" v-if="state.config.select"></el-table-column>
       <!-- 表格列表 -->
-      <el-table-column v-for="(item, i) in tableOptions" :key="i" :width="item.width">
+      <el-table-column
+        v-for="(item, i) in tableOptions"
+        :key="i"
+        :width="item.width"
+        :minWidth="item.minWidth || item.minwidth"
+      >
         <template #header>{{ item.label }}</template>
 
         <template #default="scope">{{ scope.row[item.prop] }}</template>
@@ -26,10 +31,20 @@
     </el-table>
     <!-- 滚动条 -->
     <div
-      :style="[{ paddingTop: state.config.headerH, height: `calc(${state.config.tableH} - ${state.config.headerH})` }]"
+      :style="[
+        {
+          paddingTop: state.config.headerH,
+          height: `calc(${state.config.tableH} - ${state.config.headerH})`
+        }
+      ]"
     >
-      <el-scrollbar style="height: 100%" ref="elScrollbarDom" @scroll="scrollActive">
-        <div :style="[{ height: state.tableRealHeight }]"></div>
+      <!-- 主 -->
+      <el-scrollbar style="height: 100%" ref="elScrollbarDom" @scroll="scrollActive" v-if="state.scrollbarShow">
+        <div :style="[{ height: state.tableRealHeight, width: state.tableRealWidth }]"></div>
+      </el-scrollbar>
+      <!-- 辅（防止加载出错） -->
+      <el-scrollbar style="height: 100%" ref="elScrollbarDom" @scroll="scrollActive" v-if="!state.scrollbarShow">
+        <div :style="[{ height: state.tableRealHeight, width: state.tableRealWidth }]"></div>
       </el-scrollbar>
     </div>
   </div>
@@ -84,7 +99,9 @@ const state = reactive({
     evenBg: props.tableConfig && props.tableConfig.evenBg !== undefined ? props.tableConfig.evenBg : config.evenBg
     // 文字对齐方式（未完成）
   },
-  tableRealHeight: '' // 表格实际高度
+  scrollbarShow: false, // 滚动条显示
+  tableRealHeight: '', // 表格实际高度
+  tableRealWidth: '' // 表格实际宽度
 });
 // 表格奇偶行添加类名
 function tableRowClassName(value: { row: any; rowIndex: number }) {
@@ -98,8 +115,7 @@ function tableRowClassName(value: { row: any; rowIndex: number }) {
 function controlTable() {
   let eTD = elTableDom.value as any;
   // 滚动条高度
-  let hNodeList = eTD.querySelector('.el-table__body');
-  state.tableRealHeight = `${hNodeList.clientHeight}px`;
+  state.tableRealHeight = `${eTD.querySelector('.el-table__body').offsetHeight}px`;
   // 异步设置
   setTimeout(() => {
     // 固定列奇偶行颜色
@@ -111,6 +127,9 @@ function controlTable() {
     fixedEvenNodeList.forEach((element: any) => {
       element.style.background = state.config.evenBg;
     });
+    // 横向滚动条显示
+    state.tableRealWidth = `${eTD.querySelector('.el-table__body').offsetWidth - 4}px`;
+    state.scrollbarShow = true;
   });
 }
 // 鼠标进入table
@@ -150,6 +169,7 @@ function scrollActive(scr: { scrollLeft: number; scrollTop: number }) {
   let tNodeList = eTD.querySelectorAll('.el-table__body-wrapper');
   tNodeList.forEach((element: any) => {
     element.scrollTop = scr.scrollTop;
+    element.scrollLeft = scr.scrollLeft;
   });
 }
 onMounted(() => {
@@ -168,7 +188,8 @@ onMounted(() => {
     background: transparent;
   }
   ::v-deep.el-table::before,
-  ::v-deep.el-table .el-table__fixed::before {
+  ::v-deep.el-table .el-table__fixed::before,
+  ::v-deep.el-table .el-table__fixed-right::before {
     height: 0;
   }
   ::v-deep .el-table__fixed-header-wrapper th.el-table__cell,
