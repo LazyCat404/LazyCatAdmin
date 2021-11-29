@@ -7,5 +7,7 @@ export const config = {
   lineH: '40px',
   headerBg: '#edf0f9',
   oddBg: '#f5f7fd',
-  evenBg: '#fff'
+  evenBg: '#fff',
+  leftFixed: '2',
+  rightFixed: 1
 };

@@ -50,30 +50,29 @@ let tableOptions = [
   {
     prop: 'date',
     label: '日期',
-    width: 100
+    minwidth: 100
   },
   {
     prop: 'name',
-    filters: [
-      { text: '王小明', value: 0 },
-      { text: '王小刚', value: 1 }
-    ],
     label: '姓名'
   },
   {
     prop: 'address',
-    label: '地址'
+    label: '地址',
+    minwidth: 650
   }
 ];
 let tableConfig = {
   // select: false,
   // border: true
-  tableH: 'calc(150px - 30px)'
-  // headerH: '55'
+  // tableH: '200',
+  // headerH: 'calc(55px + 5px)',
   // lineH: 40
   // headerBg: 'red',
   // oddBg: 'red',
-  // evenBg: '#ddd'
+  // evenBg: '#ddd',
+  leftFixed: '2',
+  rightFixed: 1
 };
 </script>
 <style></style>

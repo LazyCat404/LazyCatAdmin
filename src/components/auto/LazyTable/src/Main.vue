@@ -34,7 +34,7 @@
       :style="[
         {
           paddingTop: state.config.headerH,
-          height: `calc(${state.config.tableH} - ${state.config.headerH})`
+          height: state.scrollbarBoxHeight
         }
       ]"
     >
@@ -101,7 +101,8 @@ const state = reactive({
   },
   scrollbarShow: false, // 滚动条显示
   tableRealHeight: '', // 表格实际高度
-  tableRealWidth: '' // 表格实际宽度
+  tableRealWidth: '', // 表格实际宽度
+  scrollbarBoxHeight: '' // 滚动条容器实际宽度
 });
 // 表格奇偶行添加类名
 function tableRowClassName(value: { row: any; rowIndex: number }) {
@@ -116,6 +117,12 @@ function controlTable() {
   let eTD = elTableDom.value as any;
   // 滚动条高度
   state.tableRealHeight = `${eTD.querySelector('.el-table__body').offsetHeight}px`;
+  // state.scrollbarBoxHeight = `${
+  //   eTD.querySelector('.el-table__body').offsetHeight + eTD.querySelector('.el-table__header').offsetHeight
+  // }px`;
+  state.scrollbarBoxHeight = `${
+    eTD.querySelector('.el-table').offsetHeight - eTD.querySelector('.el-table__header').offsetHeight
+  }px`;
   // 异步设置
   setTimeout(() => {
     // 固定列奇偶行颜色
