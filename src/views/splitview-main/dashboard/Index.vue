@@ -50,7 +50,8 @@ let tableOptions = [
   {
     prop: 'date',
     label: '日期',
-    minwidth: 100
+    minwidth: 100,
+    fixed: 'left'
   },
   {
     prop: 'name',
@@ -65,14 +66,12 @@ let tableOptions = [
 let tableConfig = {
   // select: false,
   // border: true
-  // tableH: '200',
+  tableH: '200'
   // headerH: 'calc(55px + 5px)',
   // lineH: 40
   // headerBg: 'red',
   // oddBg: 'red',
   // evenBg: '#ddd',
-  leftFixed: '2',
-  rightFixed: 1
 };
 </script>
 <style></style>

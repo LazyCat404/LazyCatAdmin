@@ -1,5 +1,8 @@
 <template>
-  <div :style="[{ height: state.config.tableH, position: 'relative' }]" ref="elTableDom">
+  <div
+    :style="[{ maxHeight: state.config.tableH, height: state.tableBoxHeight, position: 'relative' }]"
+    ref="elTableDom"
+  >
     <!-- 表格 -->
     <el-table
       :header-row-style="{ height: state.config.headerH, background: state.config.headerBg }"
@@ -23,6 +26,7 @@
         :key="i"
         :width="item.width"
         :minWidth="item.minWidth || item.minwidth"
+        :fixed="item.fixed"
       >
         <template #header>{{ item.label }}</template>
 
@@ -102,7 +106,8 @@ const state = reactive({
   scrollbarShow: false, // 滚动条显示
   tableRealHeight: '', // 表格实际高度
   tableRealWidth: '', // 表格实际宽度
-  scrollbarBoxHeight: '' // 滚动条容器实际宽度
+  scrollbarBoxHeight: '', // 滚动条容器实际宽度
+  tableBoxHeight: '' // 滚动条容器实际宽度
 });
 // 表格奇偶行添加类名
 function tableRowClassName(value: { row: any; rowIndex: number }) {
@@ -115,14 +120,6 @@ function tableRowClassName(value: { row: any; rowIndex: number }) {
 // 控制表格
 function controlTable() {
   let eTD = elTableDom.value as any;
-  // 滚动条高度
-  state.tableRealHeight = `${eTD.querySelector('.el-table__body').offsetHeight}px`;
-  // state.scrollbarBoxHeight = `${
-  //   eTD.querySelector('.el-table__body').offsetHeight + eTD.querySelector('.el-table__header').offsetHeight
-  // }px`;
-  state.scrollbarBoxHeight = `${
-    eTD.querySelector('.el-table').offsetHeight - eTD.querySelector('.el-table__header').offsetHeight
-  }px`;
   // 异步设置
   setTimeout(() => {
     // 固定列奇偶行颜色
@@ -134,7 +131,15 @@ function controlTable() {
     fixedEvenNodeList.forEach((element: any) => {
       element.style.background = state.config.evenBg;
     });
-    // 横向滚动条显示
+    // 横向滚动条显示/滚动条高度
+    state.tableRealHeight = `${eTD.querySelector('.el-table__body').offsetHeight}px`;
+    state.scrollbarBoxHeight = `${
+      eTD.querySelector('.el-table').offsetHeight - eTD.querySelector('.el-table__header').offsetHeight
+    }px`;
+    state.tableBoxHeight = `${
+      eTD.querySelector('.el-table__body-wrapper').offsetHeight + eTD.querySelector('.el-table__header').offsetHeight
+    }px`;
+    console.log(state.tableBoxHeight);
     state.tableRealWidth = `${eTD.querySelector('.el-table__body').offsetWidth - 4}px`;
     state.scrollbarShow = true;
   });
