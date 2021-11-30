@@ -34,8 +34,11 @@
         :fixed="item.fixed"
         :align="item.align ? item.align : state.config.align"
       >
-        <template #header>{{ item.label }}</template>
-
+        <!-- 表头 -->
+        <template #header>
+          <LazyTableHeader :headerItem="item"></LazyTableHeader>
+        </template>
+        <!-- 表体 -->
         <template #default="scope">{{ scope.row[item.prop] }}</template>
       </el-table-column>
     </el-table>
@@ -67,6 +70,7 @@
 import tool from '@/utils/tool';
 import { defineProps, onMounted, reactive, ref } from 'vue';
 import { config } from './config';
+import LazyTableHeader from './components/LazyTableHeader.vue';
 const elScrollbarDom = ref(null);
 const elTableDom = ref(null);
 const props = defineProps({

@@ -41,24 +41,39 @@ let tableOptions = [
     prop: 'date',
     label: '日期',
     minwidth: 100,
-    align: 'center'
+    align: 'center',
+    filter: {
+      list: [
+        { label: '2021-2020', value: 1 },
+        { label: '2020-2019', value: 2 }
+      ],
+      type: 'select' // 单选（默认）
+    }
     // fixed: 'left'
   },
   {
     prop: 'name',
-    label: '姓名'
+    label: '姓名',
+    filter: {
+      list: [
+        { label: '小明', value: 1 },
+        { label: '小红', value: 2 }
+      ],
+      type: 'check' // 复选
+    }
   },
   {
     prop: 'address',
     label: '地址',
-    minwidth: 300
+    minwidth: 300,
+    sort: []
   }
 ];
 let tableConfig = {
   // select: false,
   // border: true
   // tableH: '200'
-  // headerH: 'calc(55px + 5px)',
+  // headerH: 'calc(55px + 5px)'
   // lineH: 40
   // headerBg: 'red',
   // oddBg: 'red',
