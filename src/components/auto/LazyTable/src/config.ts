@@ -1,6 +1,7 @@
 // 默认表格设置
 export const config = {
   select: true,
+  selectFixed: null, // left、right、null
   border: false,
   tableH: '100%',
   headerH: '50px',

@@ -19,7 +19,12 @@
       <!-- 空数据提示 -->
       <template #empty> 暂无数据 </template>
       <!-- 复选列表 -->
-      <el-table-column type="selection" width="40px" v-if="state.config.select"></el-table-column>
+      <el-table-column
+        type="selection"
+        width="40px"
+        v-if="state.config.select"
+        :fixed="state.config.selectFixed"
+      ></el-table-column>
       <!-- 表格列表 -->
       <el-table-column
         v-for="(item, i) in tableOptions"
@@ -35,6 +40,7 @@
     </el-table>
     <!-- 滚动条 -->
     <div
+      v-if="state.scrollbarShow"
       :style="[
         {
           paddingTop: state.config.headerH,
@@ -42,12 +48,13 @@
         }
       ]"
     >
-      <!-- 主 -->
-      <el-scrollbar style="height: 100%" ref="elScrollbarDom" @scroll="scrollActive" v-if="state.scrollbarShow">
+      <el-scrollbar style="height: 100%" ref="elScrollbarDom" @scroll="scrollActive">
         <div :style="[{ height: state.tableRealHeight, width: state.tableRealWidth }]"></div>
       </el-scrollbar>
+    </div>
+    <div v-else>
       <!-- 辅（防止加载出错） -->
-      <el-scrollbar style="height: 100%" ref="elScrollbarDom" @scroll="scrollActive" v-if="!state.scrollbarShow">
+      <el-scrollbar style="height: 100%" ref="elScrollbarDom" @scroll="scrollActive">
         <div :style="[{ height: state.tableRealHeight, width: state.tableRealWidth }]"></div>
       </el-scrollbar>
     </div>
@@ -55,6 +62,7 @@
 </template>
 
 <script lang="ts" setup>
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import tool from '@/utils/tool';
 import { defineProps, onMounted, reactive, ref } from 'vue';
 import { config } from './config';
@@ -77,6 +85,11 @@ const state = reactive({
   config: {
     // 复选框（默认开启）
     select: props.tableConfig && props.tableConfig.select !== undefined ? props.tableConfig.select : config.select,
+    //复选框左侧固定
+    selectFixed:
+      props.tableConfig && props.tableConfig.selectFixed !== undefined
+        ? props.tableConfig.selectFixed
+        : config.selectFixed,
     // 框线（默认关闭）
     border: props.tableConfig && props.tableConfig.border !== undefined ? props.tableConfig.border : config.border,
     // table 高度（默认100%）
@@ -133,15 +146,16 @@ function controlTable() {
     });
     // 横向滚动条显示/滚动条高度
     state.tableRealHeight = `${eTD.querySelector('.el-table__body').offsetHeight}px`;
-    state.scrollbarBoxHeight = `${
-      eTD.querySelector('.el-table').offsetHeight - eTD.querySelector('.el-table__header').offsetHeight
-    }px`;
     state.tableBoxHeight = `${
       eTD.querySelector('.el-table__body-wrapper').offsetHeight + eTD.querySelector('.el-table__header').offsetHeight
     }px`;
-    console.log(state.tableBoxHeight);
     state.tableRealWidth = `${eTD.querySelector('.el-table__body').offsetWidth - 4}px`;
-    state.scrollbarShow = true;
+    setTimeout(() => {
+      state.scrollbarBoxHeight = `${
+        eTD.querySelector('.el-table').offsetHeight - eTD.querySelector('.el-table__header').offsetHeight
+      }px`;
+      state.scrollbarShow = true;
+    }, 300);
   });
 }
 // 鼠标进入table
