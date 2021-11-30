@@ -75,7 +75,7 @@ export function baseURL(par: string, fileUrl?: string): string {
  * @param {String} url [请求的url地址]
  * @param {Object} params [请求时携带的参数]
  */
-export function get(url: string, params?: string): Promise<unknown> {
+export function get(url: string, params?: myObject): Promise<unknown> {
   return new Promise((resolve, reject) => {
     axios
       .get(url, { params: params })
