@@ -8,5 +8,6 @@ export const config = {
   lineH: '40px',
   headerBg: '#edf0f9',
   oddBg: '#f5f7fd',
-  evenBg: '#fff'
+  evenBg: '#fff',
+  align: 'left' // left、right、 center、null ,可以设置表格整体对齐方式，也可以设置单列对齐方式
 };

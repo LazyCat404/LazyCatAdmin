@@ -34,103 +34,14 @@ let tableData = [
     date: '2016-05-04',
     name: '王小红',
     address: '上海市普陀区金沙江路 1514 弄'
-  },
-  {
-    date: '2016-05-01',
-    name: '王小刚',
-    address: '上海市普陀区金沙江路 1513 弄'
-  },
-  {
-    date: '2016-05-03',
-    name: '王小明',
-    address: '上海市普陀区金沙江路 1512 弄'
-  },
-  {
-    date: '2016-05-02',
-    name: '王小虎',
-    address: '上海市普陀区金沙江路 1518 弄'
-  },
-  {
-    date: '2016-05-04',
-    name: '王小红',
-    address: '上海市普陀区金沙江路 1517 弄'
-  },
-  {
-    date: '2016-05-01',
-    name: '王小刚',
-    address: '上海市普陀区金沙江路 1519 弄'
-  },
-  {
-    date: '2016-05-03',
-    name: '王小明',
-    address: '上海市普陀区金沙江路 1516 弄'
-  },
-  {
-    date: '2016-05-02',
-    name: '王小虎',
-    address: '上海市普陀区金沙江路 1515 弄'
-  },
-  {
-    date: '2016-05-04',
-    name: '王小红',
-    address: '上海市普陀区金沙江路 1514 弄'
-  },
-  {
-    date: '2016-05-01',
-    name: '王小刚',
-    address: '上海市普陀区金沙江路 1513 弄'
-  },
-  {
-    date: '2016-05-03',
-    name: '王小明',
-    address: '上海市普陀区金沙江路 1512 弄'
-  },
-  {
-    date: '2016-05-02',
-    name: '王小虎',
-    address: '上海市普陀区金沙江路 1518 弄'
-  },
-  {
-    date: '2016-05-04',
-    name: '王小红',
-    address: '上海市普陀区金沙江路 1517 弄'
-  },
-  {
-    date: '2016-05-01',
-    name: '王小刚',
-    address: '上海市普陀区金沙江路 1519 弄'
-  },
-  {
-    date: '2016-05-03',
-    name: '王小明',
-    address: '上海市普陀区金沙江路 1516 弄'
-  },
-  {
-    date: '2016-05-02',
-    name: '王小虎',
-    address: '上海市普陀区金沙江路 1515 弄'
-  },
-  {
-    date: '2016-05-04',
-    name: '王小红',
-    address: '上海市普陀区金沙江路 1514 弄'
-  },
-  {
-    date: '2016-05-01',
-    name: '王小刚',
-    address: '上海市普陀区金沙江路 1513 弄'
-  },
-  {
-    date: '2016-05-03',
-    name: '王小明',
-    address: '上海市普陀区金沙江路 1512 弄'
   }
 ];
 let tableOptions = [
   {
     prop: 'date',
     label: '日期',
-    minwidth: 100
+    minwidth: 100,
+    align: 'center'
     // fixed: 'left'
   },
   {
@@ -152,6 +63,7 @@ let tableConfig = {
   // headerBg: 'red',
   // oddBg: 'red',
   // evenBg: '#ddd',
+  // align: 'right'
 };
 </script>
 <style></style>

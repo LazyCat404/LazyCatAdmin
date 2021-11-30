@@ -32,6 +32,7 @@
         :width="item.width"
         :minWidth="item.minWidth || item.minwidth"
         :fixed="item.fixed"
+        :align="item.align ? item.align : state.config.align"
       >
         <template #header>{{ item.label }}</template>
 
@@ -113,8 +114,9 @@ const state = reactive({
     // 奇数行背景色
     oddBg: props.tableConfig && props.tableConfig.oddBg !== undefined ? props.tableConfig.oddBg : config.oddBg,
     // 偶数行背景色
-    evenBg: props.tableConfig && props.tableConfig.evenBg !== undefined ? props.tableConfig.evenBg : config.evenBg
-    // 文字对齐方式（未完成）
+    evenBg: props.tableConfig && props.tableConfig.evenBg !== undefined ? props.tableConfig.evenBg : config.evenBg,
+    // 文字对齐方式（默认左侧）
+    align: props.tableConfig && props.tableConfig.align !== undefined ? props.tableConfig.align : config.align
   },
   scrollbarShow: false, // 滚动条显示
   tableRealHeight: '', // 表格实际高度
