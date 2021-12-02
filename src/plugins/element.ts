@@ -8,6 +8,7 @@ import {
   ElFormItem,
   ElInput,
   ElCheckbox,
+  ElCheckboxGroup,
   ElDropdown,
   ElDropdownMenu,
   ElDropdownItem,
@@ -19,7 +20,9 @@ import {
   ElBreadcrumb,
   ElBreadcrumbItem,
   ElTable,
-  ElTableColumn
+  ElTableColumn,
+  ElRadioGroup,
+  ElRadioButton
 } from 'element-plus';
 
 const ElComponents = [
@@ -30,6 +33,7 @@ const ElComponents = [
   ElFormItem,
   ElInput,
   ElCheckbox,
+  ElCheckboxGroup,
   ElDropdown,
   ElDropdownMenu,
   ElDropdownItem,
@@ -41,7 +45,9 @@ const ElComponents = [
   ElBreadcrumb,
   ElBreadcrumbItem,
   ElTable,
-  ElTableColumn
+  ElTableColumn,
+  ElRadioGroup,
+  ElRadioButton
 ];
 
 const ElPlugins = [ElMessage];

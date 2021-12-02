@@ -42,14 +42,10 @@ let tableOptions = [
     label: '日期',
     minwidth: 100,
     align: 'center',
-    filter: {
-      list: [
-        { label: '2021-2020', value: 1 },
-        { label: '2020-2019', value: 2 }
-      ],
-      type: 'select' // 单选（默认）
-    }
-    // fixed: 'left'
+    filter: [
+      { label: '2021-2020', value: 1 },
+      { label: '2020-2019', value: 2 }
+    ]
   },
   {
     prop: 'name',
@@ -59,7 +55,7 @@ let tableOptions = [
         { label: '小明', value: 1 },
         { label: '小红', value: 2 }
       ],
-      type: 'check' // 复选
+      type: 'select' //  单选,check复选（默认）
     }
   },
   {

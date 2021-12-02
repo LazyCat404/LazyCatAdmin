@@ -8,6 +8,8 @@ import { MyComponents } from '@/components/index';
 import { ElComponents, ElPlugins } from '@/plugins/element';
 import 'element-plus/theme-chalk/base.css'; // elm 基础样式
 
+import '@/assets/css/custom.scss';
+
 const app = createApp(App);
 
 // 按需引入ui 组件/插件
