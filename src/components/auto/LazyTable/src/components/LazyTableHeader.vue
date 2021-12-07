@@ -26,11 +26,11 @@
       </template>
       <!-- 复选（默认） -->
       <template v-else>
-        <el-checkbox-group v-model="state.checkItem" @change="handleCheckedChange">
+        <el-checkbox-group v-model="state.checkItem" @click="handleCheckedChange">
           <el-checkbox v-for="(item, i) in state.filterList" :key="i" :label="item">{{ item.label }}</el-checkbox>
         </el-checkbox-group>
         <!-- 全选、确认、取消 -->
-        <div>
+        <div class="table-filter-btn">
           <el-checkbox v-model="state.checkAll" :indeterminate="state.isIndeterminate" @change="handleCheckAllChange">
           </el-checkbox>
           <span>确认</span>
@@ -59,7 +59,9 @@ const state = <any>reactive({
   filterType: '', // 筛选类型 select:单选，check:复选
   checkAll: false, // 是否全选
   checkItem: [], // 复选已选项
-  selectItem: null // 单选已选项（json符串）
+  selectItem: null, // 单选已选项（json符串）
+  selected: null, // （上次确定）单选选项
+  checked: [] // （上次确定）复选选项
 });
 console.log('自定义表头', props.headerItem);
 // 全选
@@ -75,7 +77,13 @@ function handleCheckedChange(value: Array<any>) {
 }
 // 单选
 function handleRadioChange(value: any) {
-  console.log(value);
+  if (state.selected != value) {
+    state.selected = value;
+    console.log('!=');
+  } else {
+    console.log('=');
+  }
+  console.log(value, state.selectItem);
 }
 // 初始化
 function init() {
@@ -120,10 +128,67 @@ init();
 .table-header-sort > i:hover {
   color: #409eff;
 }
+// 复选
+.el-checkbox-group {
+  padding: 10px;
+  padding-bottom: 0;
+  .el-checkbox {
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    height: auto;
+    margin-bottom: 15px;
+    max-width: 200px;
+    ::v-deep .el-checkbox__label {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+  }
+}
+.table-filter-btn {
+  display: -webkit-flex;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  padding-top: 0;
+
+  .el-checkbox {
+    height: auto;
+    margin-right: 10px;
+  }
+  & > span {
+    cursor: pointer;
+    margin-right: 10px;
+  }
+  & > span:hover {
+    color: #409eff;
+  }
+}
+// 单选
+.el-radio-group {
+  padding: 5px 0;
+  .el-radio-button {
+    display: block;
+    ::v-deep .el-radio-button__inner {
+      border: 0;
+      border-radius: 0 !important;
+      border-left: 0 !important;
+      padding: 11px 20px;
+    }
+    ::v-deep .el-radio-button__original-radio:checked + .el-radio-button__inner {
+      background-color: #ecf0fd;
+      color: #627af7;
+      box-shadow: 0 0 0 0 var(--el-radio-button-checked-border-color, var(--el-color-primary));
+    }
+  }
+}
 </style>
 
-<style lang="scss">
-.custom-el-popover.el-popper {
-  min-width: auto;
+<style>
+.custom-el-popover {
+  min-width: auto !important;
+  padding: 0 !important;
 }
 </style>
