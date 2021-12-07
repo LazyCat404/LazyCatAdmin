@@ -18,23 +18,28 @@
     <div>
       <!-- 单选 -->
       <template v-if="state.filterType == 'select'">
-        <el-radio-group v-model="state.selectItem" @change="handleRadioChange">
-          <el-radio-button v-for="(item, i) in state.filterList" :key="i" :label="JSON.stringify(item)">
+        <ul class="table-header-filter-select">
+          <li
+            v-for="(item, i) in state.filterList"
+            :key="i"
+            @click="handleRadioChange(item)"
+            :class="state.selected == item ? 'table-header-filter-select-active' : ''"
+          >
             {{ item.label }}
-          </el-radio-button>
-        </el-radio-group>
+          </li>
+        </ul>
       </template>
       <!-- 复选（默认） -->
       <template v-else>
-        <el-checkbox-group v-model="state.checkItem" @click="handleCheckedChange">
+        <el-checkbox-group v-model="state.checkItem" @change="handleCheckedChange">
           <el-checkbox v-for="(item, i) in state.filterList" :key="i" :label="item">{{ item.label }}</el-checkbox>
         </el-checkbox-group>
         <!-- 全选、确认、取消 -->
         <div class="table-filter-btn">
           <el-checkbox v-model="state.checkAll" :indeterminate="state.isIndeterminate" @change="handleCheckAllChange">
           </el-checkbox>
-          <span>确认</span>
-          <span>取消</span>
+          <el-button type="text" :disabled="state.disabledBtn" @click="confirmFilter(1)">确认</el-button>
+          <el-button type="text" :disabled="state.disabledBtn" @click="confirmFilter(0)">取消</el-button>
         </div>
       </template>
     </div>
@@ -48,42 +53,67 @@
 </template>
 <script lang="ts" setup>
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { defineProps, reactive } from 'vue';
+import { defineProps, defineEmits, reactive } from 'vue';
 const props = defineProps({
   headerItem: <any>Object
 });
+const $emits = defineEmits(['filterChange']);
 const state = <any>reactive({
   visible: false,
   isIndeterminate: false,
   filterList: [], // 筛选列表
   filterType: '', // 筛选类型 select:单选，check:复选
   checkAll: false, // 是否全选
-  checkItem: [], // 复选已选项
-  selectItem: null, // 单选已选项（json符串）
   selected: null, // （上次确定）单选选项
-  checked: [] // （上次确定）复选选项
+  checkItem: [], // 复选已选项
+  checked: [], // （上次确定）复选选项
+  disabledBtn: true // 确定/取消是否禁用
 });
-console.log('自定义表头', props.headerItem);
 // 全选
 function handleCheckAllChange(val: boolean) {
   state.checkItem = val ? state.filterList : [];
   state.isIndeterminate = false;
+  if (!val && !state.checked.length) {
+    state.disabledBtn = true;
+  } else {
+    state.disabledBtn = false;
+  }
 }
 // 复选
 function handleCheckedChange(value: Array<any>) {
   const checkedCount = value.length;
   state.checkAll = checkedCount === state.filterList.length;
   state.isIndeterminate = checkedCount > 0 && checkedCount < state.filterList.length;
+  state.disabledBtn = false;
 }
 // 单选
 function handleRadioChange(value: any) {
   if (state.selected != value) {
     state.selected = value;
-    console.log('!=');
   } else {
-    console.log('=');
+    state.selected = null;
   }
-  console.log(value, state.selectItem);
+  $emits('filterChange', {
+    type: '单选',
+    prop: props.headerItem.prop,
+    item: state.selected
+  });
+}
+// 确认/取消
+function confirmFilter(type: number) {
+  if (!type) {
+    state.checkItem = state.checked;
+    handleCheckedChange(state.checkItem);
+  } else {
+    state.checked = state.checkItem;
+    state.visible = false;
+    $emits('filterChange', {
+      type: '多选',
+      prop: props.headerItem.prop,
+      item: state.checked
+    });
+  }
+  state.disabledBtn = true;
 }
 // 初始化
 function init() {
@@ -158,30 +188,24 @@ init();
     height: auto;
     margin-right: 10px;
   }
-  & > span {
-    cursor: pointer;
-    margin-right: 10px;
-  }
-  & > span:hover {
-    color: #409eff;
+  .el-button--text {
+    min-height: auto;
+    padding: 0;
   }
 }
 // 单选
-.el-radio-group {
+.table-header-filter-select {
   padding: 5px 0;
-  .el-radio-button {
-    display: block;
-    ::v-deep .el-radio-button__inner {
-      border: 0;
-      border-radius: 0 !important;
-      border-left: 0 !important;
-      padding: 11px 20px;
-    }
-    ::v-deep .el-radio-button__original-radio:checked + .el-radio-button__inner {
-      background-color: #ecf0fd;
-      color: #627af7;
-      box-shadow: 0 0 0 0 var(--el-radio-button-checked-border-color, var(--el-color-primary));
-    }
+  li {
+    padding: 11px 20px;
+    cursor: pointer;
+  }
+  li:hover {
+    color: #409eff;
+  }
+  li.table-header-filter-select-active {
+    color: #409eff;
+    background-color: #ecf0fd;
   }
 }
 </style>

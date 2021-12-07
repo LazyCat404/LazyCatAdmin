@@ -36,7 +36,7 @@
       >
         <!-- 表头 -->
         <template #header>
-          <LazyTableHeader :headerItem="item"></LazyTableHeader>
+          <LazyTableHeader :headerItem="item" @filterChange="filterChange"></LazyTableHeader>
         </template>
         <!-- 表体 -->
         <template #default="scope">{{ scope.row[item.prop] }}</template>
@@ -126,7 +126,8 @@ const state = reactive({
   tableRealHeight: '', // 表格实际高度
   tableRealWidth: '', // 表格实际宽度
   scrollbarBoxHeight: '', // 滚动条容器实际宽度
-  tableBoxHeight: '' // 滚动条容器实际宽度
+  tableBoxHeight: '', // 滚动条容器实际宽度
+  filterObj: {}
 });
 // 表格奇偶行添加类名
 function tableRowClassName(value: { row: any; rowIndex: number }) {
@@ -203,6 +204,11 @@ function scrollActive(scr: { scrollLeft: number; scrollTop: number }) {
     element.scrollTop = scr.scrollTop;
     element.scrollLeft = scr.scrollLeft;
   });
+}
+// 筛选
+function filterChange(par: any) {
+  //
+  console.log('父组件：', par);
 }
 onMounted(() => {
   controlTable();
