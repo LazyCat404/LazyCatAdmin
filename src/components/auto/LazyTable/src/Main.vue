@@ -56,7 +56,7 @@
         <div :style="[{ height: state.tableRealHeight, width: state.tableRealWidth }]"></div>
       </el-scrollbar>
     </div>
-    <div v-else>
+    <div v-else style="opacity: 0">
       <!-- 辅（防止加载出错） -->
       <el-scrollbar style="height: 100%" ref="elScrollbarDom" @scroll="scrollActive">
         <div :style="[{ height: state.tableRealHeight, width: state.tableRealWidth }]"></div>
@@ -217,8 +217,19 @@ function sortChange(par: any) {
   state.sortObj[par.prop] = par;
   $emits('sortChange', state.sortObj);
 }
+// 屏幕大小改变
+function resize() {
+  let eTD = elTableDom.value as any;
+  state.scrollbarShow = false;
+  setTimeout(() => {
+    state.tableRealWidth = `${eTD.querySelector('.el-table__body').offsetWidth - 4}px`;
+    state.scrollbarShow = true;
+  }, 500);
+}
 onMounted(() => {
   controlTable();
+  window.addEventListener('resize', resize);
+  console.log(state.tableRealWidth);
 });
 </script>
 

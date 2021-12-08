@@ -57,6 +57,7 @@ let tableOptions = [
   {
     prop: 'name',
     label: '姓名',
+    minwidth: 100,
     filter: {
       list: [
         { label: '小明', value: 1 },
@@ -69,7 +70,7 @@ let tableOptions = [
   {
     prop: 'address',
     label: '地址',
-    minwidth: 300,
+    minwidth: 500,
     sort: ''
   }
 ];

@@ -153,7 +153,6 @@ function handleSort(type: string) {
     item: props.headerItem
   });
 }
-console.log(props.headerItem);
 // 初始化
 function init() {
   // 默认排序
