@@ -9,5 +9,6 @@ export const config = {
   headerBg: '#edf0f9',
   oddBg: '#f5f7fd',
   evenBg: '#fff',
-  align: 'left' // left、right、 center、null ,可以设置表格整体对齐方式，也可以设置单列对齐方式
+  align: 'left', // left、right、 center、null ,可以设置表格整体对齐方式，也可以设置单列对齐方式
+  tip: true // 显示一行超出隐藏，也可设置单列
 };

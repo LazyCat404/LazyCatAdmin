@@ -33,6 +33,7 @@
         :minWidth="item.minWidth || item.minwidth"
         :fixed="item.fixed"
         :align="item.align ? item.align : state.config.align"
+        :show-overflow-tooltip="item.tip === undefined ? config.tip : item.tip"
       >
         <!-- 表头 -->
         <template #header>

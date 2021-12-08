@@ -33,13 +33,14 @@ let tableData = [
   },
   {
     date: '2016-05-02',
-    name: '王小虎',
+    name: '王小虎王小虎王小虎王小虎王小虎王小虎王小虎王小虎',
     address: '上海市普陀区金沙江路 1515 弄'
   },
   {
     date: '2016-05-04',
     name: '王小红',
-    address: '上海市普陀区金沙江路 1514 弄'
+    address:
+      '上海市普陀区金沙江路 1514 弄上海市普陀区金沙江路 1514 弄上海市普陀区金沙江路 1514 弄上海市普陀区金沙江路 1514 弄'
   }
 ];
 let tableOptions = [
@@ -65,14 +66,16 @@ let tableOptions = [
       ],
       type: 'select' //  单选,check复选（默认）
     },
-    sort: null // 排序
+    sort: null, // 排序
+    tip: false
   },
   {
     prop: 'address',
     label: '地址',
-    minwidth: 500,
+    minwidth: 300,
     sort: 'asc',
-    edit: true
+    edit: true,
+    tip: true
   }
 ];
 let tableConfig = {
@@ -84,7 +87,7 @@ let tableConfig = {
   // headerBg: 'red',
   // oddBg: 'red',
   // evenBg: '#ddd',
-  align: 'right'
+  // align: 'right'
 };
 function filterChange(filter: any) {
   console.log('筛选：', filter);
