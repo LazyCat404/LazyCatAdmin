@@ -153,8 +153,18 @@ function handleSort(type: string) {
     item: props.headerItem
   });
 }
+console.log(props.headerItem);
 // 初始化
 function init() {
+  // 默认排序
+  if (props.headerItem.sort !== undefined) {
+    if (props.headerItem.sort) {
+      state.sort = props.headerItem.sort.toLocaleUpperCase();
+    } else {
+      state.sort = null;
+    }
+  }
+  // 过滤列表
   state.filterList = props.headerItem.filter
     ? props.headerItem.filter.list
       ? props.headerItem.filter.list

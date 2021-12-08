@@ -52,7 +52,7 @@ let tableOptions = [
       { label: '2021-2020', value: 1 },
       { label: '2020-2019', value: 2 }
     ],
-    sort: 'DES'
+    sort: 'des' // 排序，des：降序，ase:升序，null/'':无默认排序，不区分大小写
   },
   {
     prop: 'name',
@@ -64,13 +64,13 @@ let tableOptions = [
       ],
       type: 'select' //  单选,check复选（默认）
     },
-    sort: null
+    sort: null // 排序
   },
   {
     prop: 'address',
     label: '地址',
     minwidth: 300,
-    sort: 'ASC'
+    sort: ''
   }
 ];
 let tableConfig = {
