@@ -68,11 +68,12 @@
 <script lang="ts" setup>
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import tool from '@/utils/tool';
-import { defineProps, onMounted, reactive, ref } from 'vue';
+import { defineEmits, defineProps, onMounted, reactive, ref } from 'vue';
 import { config } from './config';
 import LazyTableHeader from './components/LazyTableHeader.vue';
 const elScrollbarDom = ref(null);
 const elTableDom = ref(null);
+const $emits = defineEmits(['filterChange']);
 const props = defineProps({
   tableData: {
     type: Array,
@@ -85,7 +86,7 @@ const props = defineProps({
   tableConfig: Object
 });
 
-const state = reactive({
+const state = reactive<any>({
   // 表格默认配置
   config: {
     // 复选框（默认开启）
@@ -207,8 +208,8 @@ function scrollActive(scr: { scrollLeft: number; scrollTop: number }) {
 }
 // 筛选
 function filterChange(par: any) {
-  //
-  console.log('父组件：', par);
+  state.filterObj[par.prop] = par;
+  $emits('filterChange', state.filterObj);
 }
 onMounted(() => {
   controlTable();

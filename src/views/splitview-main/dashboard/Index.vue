@@ -1,5 +1,10 @@
 <template>
-  <LazyTable :tableData="tableData" :tableOptions="tableOptions" :tableConfig="tableConfig"></LazyTable>
+  <LazyTable
+    :tableData="tableData"
+    :tableOptions="tableOptions"
+    :tableConfig="tableConfig"
+    @filterChange="filterChange"
+  ></LazyTable>
   <!-- <LazyTable :tableData="tableData" :tableOptions="tableOptions"></LazyTable> -->
 </template>
 
@@ -76,5 +81,8 @@ let tableConfig = {
   // evenBg: '#ddd',
   // align: 'right'
 };
+function filterChange(filter: any) {
+  console.log('筛选：', filter);
+}
 </script>
 <style></style>

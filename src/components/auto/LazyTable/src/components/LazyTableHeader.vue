@@ -1,6 +1,8 @@
 <template>
   <!-- 标题 -->
-  <span>{{ props.headerItem.label }}</span>
+  <span :style="[{ color: `${state.selected || state.checked.length ? '#409eff' : '#909399'}` }]">{{
+    props.headerItem.label
+  }}</span>
   <!-- 排序 -->
   <span class="table-header-sort" v-if="props.headerItem.sort ? true : false">
     <i class="iconfont icon-shaixuanjiantoushang" sign="asc" />
@@ -45,14 +47,16 @@
     </div>
     <!-- 筛选按钮 -->
     <template #reference>
-      <span class="table-header-filter">
+      <span
+        class="table-header-filter"
+        :style="[{ color: `${state.selected || state.checked.length ? '#409eff' : '#909399'}` }]"
+      >
         <i class="iconfont icon-shaixuan" />
       </span>
     </template>
   </el-popover>
 </template>
 <script lang="ts" setup>
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { defineProps, defineEmits, reactive } from 'vue';
 const props = defineProps({
   headerItem: <any>Object
