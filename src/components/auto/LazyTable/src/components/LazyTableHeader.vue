@@ -1,8 +1,10 @@
 <template>
+  <!-- 编辑 -->
   <!-- 标题 -->
-  <span :style="[{ color: `${state.selected || state.checked.length || state.sort ? '#409eff' : '#909399'}` }]">{{
-    props.headerItem.label
-  }}</span>
+  <span :style="[{ color: `${state.selected || state.checked.length || state.sort ? '#409eff' : '#909399'}` }]">
+    {{ props.headerItem.label }}
+    <i class="iconfont icon-bianji_o" v-if="props.headerItem.edit ? true : false"></i>
+  </span>
   <!-- 排序 -->
   <span class="table-header-sort caret-wrapper" v-if="props.headerItem.sort === undefined ? false : true">
     <i

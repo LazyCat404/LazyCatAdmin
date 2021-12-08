@@ -71,7 +71,8 @@ let tableOptions = [
     prop: 'address',
     label: '地址',
     minwidth: 500,
-    sort: ''
+    sort: 'asc',
+    edit: true
   }
 ];
 let tableConfig = {

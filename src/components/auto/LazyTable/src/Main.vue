@@ -39,7 +39,9 @@
           <LazyTableHeader :headerItem="item" @filterChange="filterChange" @sortChange="sortChange"></LazyTableHeader>
         </template>
         <!-- 表体 -->
-        <template #default="scope">{{ scope.row[item.prop] }}</template>
+        <template #default="scope">
+          <LazyTableBody :bodyItem="item" :rowData="scope.row"></LazyTableBody>
+        </template>
       </el-table-column>
     </el-table>
     <!-- 滚动条 -->
@@ -71,6 +73,7 @@ import tool from '@/utils/tool';
 import { defineEmits, defineProps, onMounted, reactive, ref } from 'vue';
 import { config } from './config';
 import LazyTableHeader from './components/LazyTableHeader.vue';
+import LazyTableBody from './components/LazyTableBody.vue';
 const elScrollbarDom = ref(null);
 const elTableDom = ref(null);
 const $emits = defineEmits(['filterChange', 'sortChange']);
@@ -229,7 +232,6 @@ function resize() {
 onMounted(() => {
   controlTable();
   window.addEventListener('resize', resize);
-  console.log(state.tableRealWidth);
 });
 </script>
 
