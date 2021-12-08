@@ -36,7 +36,7 @@
       >
         <!-- 表头 -->
         <template #header>
-          <LazyTableHeader :headerItem="item" @filterChange="filterChange"></LazyTableHeader>
+          <LazyTableHeader :headerItem="item" @filterChange="filterChange" @sortChange="sortChange"></LazyTableHeader>
         </template>
         <!-- 表体 -->
         <template #default="scope">{{ scope.row[item.prop] }}</template>
@@ -73,7 +73,7 @@ import { config } from './config';
 import LazyTableHeader from './components/LazyTableHeader.vue';
 const elScrollbarDom = ref(null);
 const elTableDom = ref(null);
-const $emits = defineEmits(['filterChange']);
+const $emits = defineEmits(['filterChange', 'sortChange']);
 const props = defineProps({
   tableData: {
     type: Array,
@@ -128,7 +128,8 @@ const state = reactive<any>({
   tableRealWidth: '', // 表格实际宽度
   scrollbarBoxHeight: '', // 滚动条容器实际宽度
   tableBoxHeight: '', // 滚动条容器实际宽度
-  filterObj: {}
+  filterObj: {}, // 过滤
+  sortObj: {} //排序
 });
 // 表格奇偶行添加类名
 function tableRowClassName(value: { row: any; rowIndex: number }) {
@@ -210,6 +211,11 @@ function scrollActive(scr: { scrollLeft: number; scrollTop: number }) {
 function filterChange(par: any) {
   state.filterObj[par.prop] = par;
   $emits('filterChange', state.filterObj);
+}
+// 排序
+function sortChange(par: any) {
+  state.sortObj[par.prop] = par;
+  $emits('sortChange', state.sortObj);
 }
 onMounted(() => {
   controlTable();

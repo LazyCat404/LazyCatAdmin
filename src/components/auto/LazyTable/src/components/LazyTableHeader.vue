@@ -1,12 +1,22 @@
 <template>
   <!-- 标题 -->
-  <span :style="[{ color: `${state.selected || state.checked.length ? '#409eff' : '#909399'}` }]">{{
+  <span :style="[{ color: `${state.selected || state.checked.length || state.sort ? '#409eff' : '#909399'}` }]">{{
     props.headerItem.label
   }}</span>
   <!-- 排序 -->
-  <span class="table-header-sort" v-if="props.headerItem.sort ? true : false">
-    <i class="iconfont icon-shaixuanjiantoushang" sign="asc" />
-    <i class="iconfont icon-shaixuanjiantouxia" sign="des" />
+  <span class="table-header-sort caret-wrapper" v-if="props.headerItem.sort === undefined ? false : true">
+    <i
+      class="sort-caret ascending"
+      sign="asc"
+      :style="[{ borderBottomColor: `${state.sort == 'ASC' ? '#409eff !important' : ''}` }]"
+      @click="handleSort('ASC')"
+    />
+    <i
+      class="sort-caret descending"
+      sign="des"
+      :style="[{ borderTopColor: `${state.sort == 'DES' ? '#409eff !important' : ''}` }]"
+      @click="handleSort('DES')"
+    />
   </span>
   <!-- 筛选 -->
   <el-popover
@@ -48,10 +58,20 @@
     <!-- 筛选按钮 -->
     <template #reference>
       <span
-        class="table-header-filter"
-        :style="[{ color: `${state.selected || state.checked.length ? '#409eff' : '#909399'}` }]"
+        class="table-header-filter el-icon"
+        :style="[
+          {
+            color: `${state.selected || state.checked.length ? '#409eff' : '#909399'}`,
+            marginLeft: `${props.headerItem.sort === undefined ? '5px' : '0px'}`
+          }
+        ]"
       >
-        <i class="iconfont icon-shaixuan" />
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+          <path
+            fill="currentColor"
+            d="M831.872 340.864 512 652.672 192.128 340.864a30.592 30.592 0 0 0-42.752 0 29.12 29.12 0 0 0 0 41.6L489.664 714.24a32 32 0 0 0 44.672 0l340.288-331.712a29.12 29.12 0 0 0 0-41.728 30.592 30.592 0 0 0-42.752 0z"
+          ></path>
+        </svg>
       </span>
     </template>
   </el-popover>
@@ -61,7 +81,7 @@ import { defineProps, defineEmits, reactive } from 'vue';
 const props = defineProps({
   headerItem: <any>Object
 });
-const $emits = defineEmits(['filterChange']);
+const $emits = defineEmits(['filterChange', 'sortChange']);
 const state = <any>reactive({
   visible: false,
   isIndeterminate: false,
@@ -71,7 +91,8 @@ const state = <any>reactive({
   selected: null, // （上次确定）单选选项
   checkItem: [], // 复选已选项
   checked: [], // （上次确定）复选选项
-  disabledBtn: true // 确定/取消是否禁用
+  disabledBtn: true, // 确定/取消是否禁用
+  sort: null // 排序，ASC 升序；DES 降序
 });
 // 全选
 function handleCheckAllChange(val: boolean) {
@@ -119,6 +140,19 @@ function confirmFilter(type: number) {
   }
   state.disabledBtn = true;
 }
+// 排序
+function handleSort(type: string) {
+  if (state.sort === type) {
+    state.sort = null;
+  } else {
+    state.sort = type;
+  }
+  $emits('sortChange', {
+    type: state.sort,
+    prop: props.headerItem.prop,
+    item: props.headerItem
+  });
+}
 // 初始化
 function init() {
   state.filterList = props.headerItem.filter
@@ -135,32 +169,20 @@ init();
 <style lang="scss" scoped>
 // 排序
 .table-header-sort {
-  position: relative;
-  margin-left: 5px;
+  .ascending:hover {
+    border-bottom-color: #409eff91 !important;
+  }
+  .descending:hover {
+    border-top-color: #409eff91 !important;
+  }
 }
-.table-header-sort > i {
-  cursor: pointer;
-  font-size: 10px;
-  position: absolute;
-  transform: scale(0.8);
-}
-.table-header-sort > i[sign='asc'] {
-  top: -6px;
-}
-.table-header-sort > i[sign='des'] {
-  top: 3px;
-}
+
 // 筛选
+
 .table-header-filter {
-  margin-left: 5px;
-}
-.table-header-filter > i {
   cursor: pointer;
-  font-size: 10px;
-}
-.table-header-filter > i:hover,
-.table-header-sort > i:hover {
-  color: #409eff;
+  position: relative;
+  top: 2px;
 }
 // 复选
 .el-checkbox-group {
@@ -211,6 +233,9 @@ init();
     color: #409eff;
     background-color: #ecf0fd;
   }
+}
+.table-header-filter:hover {
+  color: #409eff !important;
 }
 </style>
 

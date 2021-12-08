@@ -4,6 +4,7 @@
     :tableOptions="tableOptions"
     :tableConfig="tableConfig"
     @filterChange="filterChange"
+    @sortChange="sortChange"
   ></LazyTable>
   <!-- <LazyTable :tableData="tableData" :tableOptions="tableOptions"></LazyTable> -->
 </template>
@@ -50,7 +51,8 @@ let tableOptions = [
     filter: [
       { label: '2021-2020', value: 1 },
       { label: '2020-2019', value: 2 }
-    ]
+    ],
+    sort: 'DES'
   },
   {
     prop: 'name',
@@ -61,13 +63,14 @@ let tableOptions = [
         { label: '小红', value: 2 }
       ],
       type: 'select' //  单选,check复选（默认）
-    }
+    },
+    sort: null
   },
   {
     prop: 'address',
     label: '地址',
     minwidth: 300,
-    sort: []
+    sort: 'ASC'
   }
 ];
 let tableConfig = {
@@ -79,10 +82,13 @@ let tableConfig = {
   // headerBg: 'red',
   // oddBg: 'red',
   // evenBg: '#ddd',
-  // align: 'right'
+  align: 'right'
 };
 function filterChange(filter: any) {
   console.log('筛选：', filter);
+}
+function sortChange(sort: any) {
+  console.log('排序：', sort);
 }
 </script>
 <style></style>
