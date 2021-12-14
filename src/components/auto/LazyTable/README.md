@@ -15,20 +15,27 @@
 
 ### 类型
 
-> `tableOptions.type`
+> 输入框的类型：`tableOptions.edit.type`
 
 可能的值:
 
-- `text`：默认
+- `text`：默认，单行文本输入框
 
-- `textrea`:
+- `textrea`:   多行文本输入框
 
-- `number`
+- `number`：数字输入框
 
-- `email`
+- `date`： 时间
 
-- `tel`
+- `select`：下拉选
 
-- `url`
+### 验证规则
+
+> 原则上可以自定义规则：`tableOptions.edit.inspect`
+
+### 失败提示
+
+`tableOptions.edit.err`
+
 
 

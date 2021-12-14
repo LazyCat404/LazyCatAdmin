@@ -21,17 +21,40 @@
         @mouseleave="state.isConfirm = false"
         :style="[{ width: `${props.bodyItem.state === undefined ? '100%' : 'calc(100% - 16px)'}` }]"
       >
-        <el-input
-          ref="tableRowInput"
-          autofocus
-          autosize
-          size="small"
-          suffix-icon="iconfont"
-          @blur="blurInput"
-          v-model="state.editData"
-        />
-        <!-- 确认按钮 -->
-        <span class="iconfont icon-queren" v-if="state.isEdit" @click="rowConfirm"></span>
+        <!-- text、textarea 、number -->
+        <div
+          v-if="
+            !props.bodyItem.edit.type ||
+            props.bodyItem.edit.type === 'text' ||
+            props.bodyItem.edit.type === 'number' ||
+            props.bodyItem.edit.type === 'textarea'
+              ? true
+              : false
+          "
+        >
+          <el-input-number
+            v-if="props.bodyItem.edit.type === 'number'"
+            ref="tableRowInput"
+            autofocus
+            size="small"
+            v-model="state.editData"
+            controls-position="right"
+          />
+          <el-input
+            v-else
+            ref="tableRowInput"
+            autofocus
+            autosize
+            size="small"
+            suffix-icon="iconfont"
+            @blur="blurInput"
+            v-model="state.editData"
+            :type="props.bodyItem.edit.type"
+          />
+          <!-- 确认按钮 -->
+          <span class="iconfont icon-queren" v-if="state.isEdit" @click="rowConfirm"></span>
+        </div>
+        <div v-else>……</div>
       </div>
       <span v-show="!state.isEdit"> {{ props.rowData[props.bodyItem.prop] }}</span>
     </template>
