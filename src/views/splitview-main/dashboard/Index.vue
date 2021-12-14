@@ -59,6 +59,7 @@ let tableOptions = [
     prop: 'name',
     label: '姓名',
     minwidth: 100,
+    state: 1,
     filter: {
       list: [
         { label: '小明', value: 1 },
