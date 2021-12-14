@@ -68,14 +68,17 @@ let tableOptions = [
       type: 'select' //  单选,check复选（默认）
     },
     sort: null, // 排序
-    tip: false
+    tip: false,
+    edit: {
+      // show: false,
+      type: 'number'
+    }
   },
   {
     prop: 'address',
     label: '地址',
     minwidth: 300,
     sort: 'asc',
-    edit: true,
     tip: true
   }
 ];
@@ -88,7 +91,7 @@ let tableConfig = {
   // headerBg: 'red',
   // oddBg: 'red',
   // evenBg: '#ddd',
-  // align: 'right'
+  align: 'right'
 };
 function filterChange(filter: any) {
   console.log('筛选：', filter);
