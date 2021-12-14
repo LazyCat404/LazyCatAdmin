@@ -41,7 +41,7 @@
         </template>
         <!-- 表体 -->
         <template #default="scope">
-          <LazyTableBody :bodyItem="item" :rowData="scope.row"></LazyTableBody>
+          <LazyTableBody :bodyItem="item" :rowData="scope.row" @rowConfirm="rowConfirm"></LazyTableBody>
         </template>
       </el-table-column>
     </el-table>
@@ -69,7 +69,6 @@
 </template>
 
 <script lang="ts" setup>
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import tool from '@/utils/tool';
 import { defineEmits, defineProps, onMounted, reactive, ref } from 'vue';
 import { config } from './config';
@@ -77,7 +76,7 @@ import LazyTableHeader from './components/LazyTableHeader.vue';
 import LazyTableBody from './components/LazyTableBody.vue';
 const elScrollbarDom = ref(null);
 const elTableDom = ref(null);
-const $emits = defineEmits(['filterChange', 'sortChange']);
+const $emits = defineEmits(['filterChange', 'sortChange', 'rowConfirm']);
 const props = defineProps({
   tableData: {
     type: Array,
@@ -220,6 +219,10 @@ function filterChange(par: any) {
 function sortChange(par: any) {
   state.sortObj[par.prop] = par;
   $emits('sortChange', state.sortObj);
+}
+// 行编辑确认
+function rowConfirm(par: any) {
+  $emits('rowConfirm', par);
 }
 // 屏幕大小改变
 function resize() {

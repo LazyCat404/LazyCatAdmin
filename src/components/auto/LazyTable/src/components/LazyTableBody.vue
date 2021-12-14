@@ -12,47 +12,74 @@
     <span v-if="!props.bodyItem.edit">
       {{ props.rowData[props.bodyItem.prop] }}
     </span>
-    <!-- 单行可不编辑 -->
-    <template v-else class="table-row-edit-box">
-      <el-input
-        ref="tableRowInput"
+    <!-- 单行可编辑 -->
+    <template v-else>
+      <div
+        class="table-edit-box"
         v-show="state.isEdit"
-        @blur="state.isEdit = false"
-        autofocus
-        v-model="state.editData"
+        @mouseenter="state.isConfirm = true"
+        @mouseleave="state.isConfirm = false"
         :style="[{ width: `${props.bodyItem.state === undefined ? '100%' : 'calc(100% - 16px)'}` }]"
-      />
+      >
+        <el-input
+          ref="tableRowInput"
+          autofocus
+          autosize
+          size="small"
+          suffix-icon="iconfont"
+          @blur="blurInput"
+          v-model="state.editData"
+        />
+        <!-- 确认按钮 -->
+        <span class="iconfont icon-queren" v-if="state.isEdit" @click="rowConfirm"></span>
+      </div>
       <span v-show="!state.isEdit"> {{ props.rowData[props.bodyItem.prop] }}</span>
     </template>
   </div>
 </template>
 <script lang="ts" setup>
 import { config, stateColor } from '../config';
-import { defineProps, reactive, ref } from 'vue';
+import { defineEmits, defineProps, reactive, ref } from 'vue';
 const props = defineProps({
   bodyItem: <any>Object, // 表格列设置
   rowData: <any>Object //行数据
 });
+const $emits = defineEmits(['rowConfirm']);
 const state = reactive<any>({
   setColor: stateColor,
   editData: props.rowData[props.bodyItem.prop],
-  isEdit: false
+  isEdit: false,
+  isConfirm: true // 鼠标是否在输入框内
 });
 const tableRowInput = ref(null);
 // 双击事件
 function dobleClick() {
   if (props.bodyItem.edit) {
+    state.editData = props.rowData[props.bodyItem.prop];
     let tRI = tableRowInput.value as any;
     state.isEdit = true;
     tRI.focus();
   }
 }
-// 初始化
-function init() {
-  //
-  // console.log(props.bodyItem.edit);
+// 行编辑确认
+function rowConfirm(even: any) {
+  state.isEdit = false;
+  if (state.editData !== props.rowData[props.bodyItem.prop]) {
+    $emits('rowConfirm', {
+      prop: props.bodyItem.prop,
+      label: props.bodyItem.label,
+      rowIndex: even.path[5].rowIndex, // 行数 从0 开
+      res: state.editData, // 编辑结果
+      original: props.rowData[props.bodyItem.prop] // 未编辑前结果
+    });
+  }
 }
-init();
+// 失去焦点触发
+function blurInput() {
+  if (!state.isConfirm) {
+    state.isEdit = false;
+  }
+}
 </script>
 <style lang="scss" scoped>
 .lazy-table-list-col-box[tip='show'] {
@@ -64,13 +91,6 @@ init();
   div {
     display: inline-block;
   }
-  .table-row-edit-box {
-    // position: relative;
-    // width: 100%;
-    // div {
-    //   position: absolute;
-    // }
-  }
   // 状态
   .state-sign-box {
     position: relative;
@@ -81,6 +101,15 @@ init();
       font-size: 25px;
       position: absolute;
       left: -7px;
+    }
+  }
+  .table-edit-box {
+    position: relative;
+    .icon-queren {
+      position: absolute;
+      right: 8px;
+      top: 5px;
+      cursor: pointer;
     }
   }
 }

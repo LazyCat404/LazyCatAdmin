@@ -1,48 +1,52 @@
 <template>
   <LazyTable
-    :tableData="tableData"
+    :tableData="state.tableData"
     :tableOptions="tableOptions"
     :tableConfig="tableConfig"
     @filterChange="filterChange"
     @sortChange="sortChange"
+    @rowConfirm="rowConfirm"
   ></LazyTable>
   <!-- <LazyTable :tableData="tableData" :tableOptions="tableOptions"></LazyTable> -->
 </template>
 
 <script lang="ts" setup>
-let tableData = [
-  {
-    date: '2016-05-02',
-    name: '王小虎',
-    address: '上海市普陀区金沙江路 1518 弄'
-  },
-  {
-    date: '2016-05-04',
-    name: '王小红',
-    address: '上海市普陀区金沙江路 1517 弄'
-  },
-  {
-    date: '2016-05-01',
-    name: '王小刚',
-    address: '上海市普陀区金沙江路 1519 弄'
-  },
-  {
-    date: '2016-05-03',
-    name: '王小明',
-    address: '上海市普陀区金沙江路 1516 弄'
-  },
-  {
-    date: '2016-05-02',
-    name: '王小虎王小虎王小虎王小虎王小虎王小虎王小虎王小虎',
-    address: '上海市普陀区金沙江路 1515 弄'
-  },
-  {
-    date: '2016-05-04',
-    name: '王小红',
-    address:
-      '上海市普陀区金沙江路 1514 弄上海市普陀区金沙江路 1514 弄上海市普陀区金沙江路 1514 弄上海市普陀区金沙江路 1514 弄'
-  }
-];
+import { reactive } from 'vue';
+const state = reactive<any>({
+  tableData: [
+    {
+      date: '2016-05-02',
+      name: '王小虎',
+      address: '上海市普陀区金沙江路 1518 弄'
+    },
+    {
+      date: '2016-05-04',
+      name: '王小红',
+      address: '上海市普陀区金沙江路 1517 弄'
+    },
+    {
+      date: '2016-05-01',
+      name: '王小刚',
+      address: '上海市普陀区金沙江路 1519 弄'
+    },
+    {
+      date: '2016-05-03',
+      name: '王小明',
+      address: '上海市普陀区金沙江路 1516 弄'
+    },
+    {
+      date: '2016-05-02',
+      name: '王小虎王小虎王小虎王小虎王小虎王小虎王小虎王小虎',
+      address: '上海市普陀区金沙江路 1515 弄'
+    },
+    {
+      date: '2016-05-04',
+      name: '王小红',
+      address:
+        '上海市普陀区金沙江路 1514 弄上海市普陀区金沙江路 1514 弄上海市普陀区金沙江路 1514 弄上海市普陀区金沙江路 1514 弄'
+    }
+  ]
+});
 let tableOptions = [
   {
     prop: 'date',
@@ -98,6 +102,11 @@ function filterChange(filter: any) {
 }
 function sortChange(sort: any) {
   console.log('排序：', sort);
+}
+function rowConfirm(par: any) {
+  console.log('行编辑确认(已修改)：', par);
+  // 修改对应行数据
+  state.tableData[par.rowIndex][par.prop] = par.res;
 }
 </script>
 <style></style>
