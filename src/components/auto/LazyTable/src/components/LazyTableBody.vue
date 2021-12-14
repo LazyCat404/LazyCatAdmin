@@ -3,14 +3,14 @@
     class="lazy-table-list-col-box"
     :tip="props.bodyItem.tip === undefined ? (config.tip ? 'show' : 'hide') : props.bodyItem.tip ? 'show' : 'hide'"
   >
-    <span
-      v-if="props.bodyItem.state === undefined ? false : true"
-      class="iconfont icon-dian"
-      state="real"
-      :style="[{ color: state.setColor[props.bodyItem.state] }]"
-    ></span>
-    <span v-if="props.bodyItem.state === undefined ? false : true" class="state-seize-seat iconfont icon-dian"></span>
-    {{ props.rowData[props.bodyItem.prop] }}
+    <!-- 状态 -->
+    <span v-if="props.bodyItem.state === undefined ? false : true" class="state-sign-box">
+      <span class="iconfont icon-dian" state="real" :style="[{ color: state.setColor[props.bodyItem.state] }]"> </span>
+    </span>
+    <!-- 单行可编辑 -->
+    <span>
+      {{ props.rowData[props.bodyItem.prop] }}
+    </span>
   </div>
 </template>
 <script lang="ts" setup>
@@ -35,12 +35,18 @@ init();
   white-space: nowrap; /*设置内容不换行*/
   text-overflow: ellipsis;
 }
-.icon-dian[state='real'] {
-  font-size: 25px;
-  position: absolute;
-  left: 6px;
-}
-.state-seize-seat {
-  color: transparent;
+.lazy-table-list-col-box {
+  // 状态
+  .state-sign-box {
+    position: relative;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    .icon-dian {
+      font-size: 25px;
+      position: absolute;
+      left: -7px;
+    }
+  }
 }
 </style>
