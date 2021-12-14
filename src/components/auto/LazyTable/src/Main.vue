@@ -70,7 +70,7 @@
 
 <script lang="ts" setup>
 import tool from '@/utils/tool';
-import { defineEmits, defineProps, onMounted, reactive, ref } from 'vue';
+import { defineEmits, defineProps, onBeforeUnmount, onMounted, reactive, ref } from 'vue';
 import { config } from './config';
 import LazyTableHeader from './components/LazyTableHeader.vue';
 import LazyTableBody from './components/LazyTableBody.vue';
@@ -236,6 +236,9 @@ function resize() {
 onMounted(() => {
   controlTable();
   window.addEventListener('resize', resize);
+});
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', resize);
 });
 </script>
 
