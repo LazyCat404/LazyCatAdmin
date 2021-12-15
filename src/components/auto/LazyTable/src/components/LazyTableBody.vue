@@ -32,16 +32,7 @@
               : false
           "
         >
-          <el-input-number
-            v-if="props.bodyItem.edit.type === 'number'"
-            ref="tableRowInput"
-            autofocus
-            size="small"
-            v-model="state.editData"
-            controls-position="right"
-          />
           <el-input
-            v-else
             ref="tableRowInput"
             autofocus
             autosize
@@ -91,7 +82,7 @@ function rowConfirm(even: any) {
     $emits('rowConfirm', {
       prop: props.bodyItem.prop,
       label: props.bodyItem.label,
-      rowIndex: even.path[5].rowIndex, // 行数 从0 开
+      rowIndex: even.path[5].rowIndex || even.path[6].rowIndex, // 行数 从0 开
       res: state.editData, // 编辑结果
       original: props.rowData[props.bodyItem.prop] // 未编辑前结果
     });
@@ -126,6 +117,7 @@ function blurInput() {
       left: -7px;
     }
   }
+  // 单行编辑
   .table-edit-box {
     position: relative;
     .icon-queren {
@@ -133,6 +125,10 @@ function blurInput() {
       right: 8px;
       top: 5px;
       cursor: pointer;
+    }
+    ::v-deep .el-input input::-webkit-outer-spin-button,
+    ::v-deep .el-input input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
     }
   }
 }

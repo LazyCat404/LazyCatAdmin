@@ -16,7 +16,7 @@ const state = reactive<any>({
   tableData: [
     {
       date: '2016-05-02',
-      name: 11,
+      name: '赵小四',
       address: '上海市普陀区金沙江路 1518 弄'
     },
     {
@@ -75,7 +75,7 @@ let tableOptions = [
     tip: false,
     edit: {
       // show: false,
-      type: 'number',
+      type: '',
       inspect: 'isTel',
       err: '手机号验证失败'
     }
