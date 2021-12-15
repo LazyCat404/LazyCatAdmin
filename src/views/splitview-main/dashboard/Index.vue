@@ -53,6 +53,7 @@ let tableOptions = [
     label: '日期',
     minwidth: 100,
     align: 'center',
+    edit: true,
     filter: [
       { label: '2021-2020', value: 1 },
       { label: '2020-2019', value: 2 }

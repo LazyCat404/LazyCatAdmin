@@ -54,6 +54,8 @@
 <script lang="ts" setup>
 import { config, stateColor } from '../config';
 import { defineEmits, defineProps, reactive, ref } from 'vue';
+import { inspect } from '@/utils/inspect';
+import { ElMessage } from 'element-plus';
 const props = defineProps({
   bodyItem: <any>Object, // 表格列设置
   rowData: <any>Object //行数据
@@ -79,6 +81,15 @@ function dobleClick() {
 function rowConfirm(even: any) {
   state.isEdit = false;
   if (state.editData !== props.rowData[props.bodyItem.prop]) {
+    // 有验证规则，且不能为下拉选框
+    if (props.bodyItem.edit.inspect && props.bodyItem.edit.type !== 'select') {
+      let ins = inspect as any;
+      let insRes = ins[props.bodyItem.edit.inspect](state.editData);
+      if (!insRes) {
+        ElMessage.error(props.bodyItem.edit.err || '验证失败！');
+        return;
+      }
+    }
     $emits('rowConfirm', {
       prop: props.bodyItem.prop,
       label: props.bodyItem.label,
