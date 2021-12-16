@@ -14,6 +14,7 @@
     </span>
     <!-- 单行可编辑 -->
     <template v-else>
+      <!-- 编辑时显示 -->
       <div
         class="table-edit-box"
         v-show="state.isEdit"
@@ -22,7 +23,7 @@
         :style="[{ width: `${props.bodyItem.state === undefined ? '100%' : 'calc(100% - 16px)'}` }]"
       >
         <!-- text、textarea 、number -->
-        <div
+        <template
           v-if="
             !props.bodyItem.edit.type ||
             props.bodyItem.edit.type === 'text' ||
@@ -42,11 +43,25 @@
             v-model="state.editData"
             :type="props.bodyItem.edit.type"
           />
-          <!-- 确认按钮 -->
-          <span class="iconfont icon-queren" v-if="state.isEdit" @click="rowConfirm"></span>
+        </template>
+        <div v-else ref="tableDateInput">
+          <el-date-picker
+            ref="tableRowInput"
+            size="small"
+            :clearable="false"
+            :value-format="props.bodyItem.edit.valueFormat || 'YYYY-MM-DD'"
+            :format="props.bodyItem.edit.format || 'YYYY-MM-DD'"
+            @blur="blurInput"
+            v-model="state.editData"
+            :type="props.bodyItem.edit.type"
+            style="width: 100%"
+          >
+          </el-date-picker>
         </div>
-        <div v-else>……</div>
+        <!-- 确认按钮 -->
+        <span class="iconfont icon-queren" v-if="state.isEdit" @click="rowConfirm"></span>
       </div>
+      <!-- 未编辑时显示 -->
       <span v-show="!state.isEdit"> {{ props.rowData[props.bodyItem.prop] }}</span>
     </template>
   </div>
@@ -65,20 +80,41 @@ const state = reactive<any>({
   setColor: stateColor,
   editData: props.rowData[props.bodyItem.prop],
   isEdit: false,
-  isConfirm: true // 鼠标是否在输入框内
+  isConfirm: true, // 鼠标是否在输入框内
+  nowDateId: null // 当前日期弹出框id
 });
 const tableRowInput = ref(null);
 // 双击事件
-function dobleClick() {
+function dobleClick(event: any) {
   if (props.bodyItem.edit) {
     state.editData = props.rowData[props.bodyItem.prop];
     let tRI = tableRowInput.value as any;
     state.isEdit = true;
     tRI.focus();
+    // 判断是否是日期选框
+    if (props.bodyItem.edit.type === 'date') {
+      for (let i = 0; i < event.path.length; i++) {
+        if (event.path[i].className === 'lazy-table-list-col-box') {
+          // 对应dom id
+          state.nowDateId = event.path[i].querySelector('.el-input__inner').attributes['aria-describedby'].value;
+          let dateDom = document.getElementById(state.nowDateId);
+          dateDom?.addEventListener('mouseenter', mouseEnter);
+          dateDom?.addEventListener('mouseleave', mouseLeave);
+          return;
+        }
+      }
+    }
   }
 }
 // 行编辑确认
 function rowConfirm(even: any) {
+  // 日期
+  if (props.bodyItem.edit.type === 'date') {
+    let dateDom = document.getElementById(state.nowDateId) as any;
+    dateDom.style.display = 'none';
+    console.log(222, dateDom);
+    removeListener();
+  }
   state.isEdit = false;
   if (state.editData !== props.rowData[props.bodyItem.prop]) {
     // 有验证规则，且不能为下拉选框
@@ -93,16 +129,41 @@ function rowConfirm(even: any) {
     $emits('rowConfirm', {
       prop: props.bodyItem.prop,
       label: props.bodyItem.label,
-      rowIndex: even.path[5].rowIndex || even.path[6].rowIndex, // 行数 从0 开
+      rowIndex: even.path[5].rowIndex || even.path[6].rowIndex, // 行数 从0 开始，不准确，仅用于前端修改数，后期优化
       res: state.editData, // 编辑结果
       original: props.rowData[props.bodyItem.prop] // 未编辑前结果
     });
   }
 }
+// 鼠标进入
+function mouseEnter() {
+  state.isConfirm = true;
+}
+// 鼠标离开
+function mouseLeave() {
+  state.isConfirm = false;
+}
+// 移除监听
+function removeListener() {
+  let dateDom = document.getElementById(state.nowDateId);
+  dateDom?.removeEventListener('mouseenter', mouseEnter);
+  dateDom?.removeEventListener('mouseleave', mouseLeave);
+}
 // 失去焦点触发
 function blurInput() {
   if (!state.isConfirm) {
+    if (props.bodyItem.edit.type === 'date') {
+      let dateDom = document.getElementById(state.nowDateId) as any;
+      dateDom.style.display = 'none';
+      console.log(111, dateDom);
+      removeListener();
+    }
     state.isEdit = false;
+  } else {
+    if (props.bodyItem.edit.type === 'date') {
+      let tRI = tableRowInput.value as any;
+      tRI.focus();
+    }
   }
 }
 </script>

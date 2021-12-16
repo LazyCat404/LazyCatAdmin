@@ -53,7 +53,9 @@ let tableOptions = [
     label: '日期',
     minwidth: 100,
     align: 'center',
-    edit: true,
+    edit: {
+      type: 'date'
+    },
     filter: [
       { label: '2021-2020', value: 1 },
       { label: '2020-2019', value: 2 }
@@ -109,7 +111,7 @@ function sortChange(sort: any) {
 function rowConfirm(par: any) {
   console.log('行编辑确认(已修改)：', par);
   // 修改对应行数据
-  state.tableData[par.rowIndex][par.prop] = par.res;
+  state.tableData[par.rowIndex || 0][par.prop] = par.res;
 }
 </script>
 <style></style>

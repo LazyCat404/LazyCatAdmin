@@ -23,7 +23,8 @@ import {
   ElTable,
   ElTableColumn,
   ElRadioGroup,
-  ElRadioButton
+  ElRadioButton,
+  ElDatePicker
 } from 'element-plus';
 
 const ElComponents = [
@@ -49,7 +50,8 @@ const ElComponents = [
   ElTable,
   ElTableColumn,
   ElRadioGroup,
-  ElRadioButton
+  ElRadioButton,
+  ElDatePicker
 ];
 
 const ElPlugins = [ElMessage];
