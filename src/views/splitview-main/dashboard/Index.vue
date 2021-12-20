@@ -12,38 +12,51 @@
 
 <script lang="ts" setup>
 import { reactive } from 'vue';
+let selList = [
+  { label: '和平区', value: 1 },
+  { label: '南开区', value: 2 },
+  { label: '虹桥区', value: 3 },
+  { label: '静海区', value: 4 },
+  { label: '东丽区', value: 5 }
+];
 const state = reactive<any>({
   tableData: [
     {
       date: '2016-05-02',
       name: '赵小四',
-      address: '上海市普陀区金沙江路 1518 弄'
+      address: '上海市普陀区金沙江路 1518 弄',
+      addressId: 1
     },
     {
       date: '2016-05-04',
       name: '王小红',
-      address: '上海市普陀区金沙江路 1517 弄'
+      address: '上海市普陀区金沙江路 1517 弄',
+      addressId: 2
     },
     {
       date: '2016-05-01',
       name: '王小刚',
-      address: '上海市普陀区金沙江路 1519 弄'
+      address: '上海市普陀区金沙江路 1519 弄',
+      addressId: 3
     },
     {
       date: '2016-05-03',
       name: '王小明',
-      address: '上海市普陀区金沙江路 1516 弄'
+      address: '上海市普陀区金沙江路 1516 弄',
+      addressId: 4
     },
     {
       date: '2016-05-02',
       name: '王小虎王小虎王小虎王小虎王小虎王小虎王小虎王小虎',
-      address: '上海市普陀区金沙江路 1515 弄'
+      address: '上海市普陀区金沙江路 1515 弄',
+      addressId: 5
     },
     {
       date: '2016-05-04',
       name: '王小红',
       address:
-        '上海市普陀区金沙江路 1514 弄上海市普陀区金沙江路 1514 弄上海市普陀区金沙江路 1514 弄上海市普陀区金沙江路 1514 弄'
+        '上海市普陀区金沙江路 1514 弄上海市普陀区金沙江路 1514 弄上海市普陀区金沙江路 1514 弄上海市普陀区金沙江路 1514 弄',
+      addressId: [1, 2, 3, 4, 5]
     }
   ]
 });
@@ -54,7 +67,7 @@ let tableOptions = [
     minwidth: 100,
     align: 'center',
     edit: {
-      type: 'date'
+      type: 'year'
     },
     filter: [
       { label: '2021-2020', value: 1 },
@@ -78,7 +91,7 @@ let tableOptions = [
     tip: false,
     edit: {
       // show: false,
-      type: '',
+      // type: '',
       inspect: 'isTel',
       err: '手机号验证失败'
     }
@@ -88,7 +101,12 @@ let tableOptions = [
     label: '地址',
     minwidth: 300,
     sort: 'asc',
-    tip: true
+    tip: true,
+    edit: {
+      type: 'select',
+      list: selList,
+      selectProp: 'addressId'
+    }
   }
 ];
 let tableConfig = {
@@ -111,7 +129,12 @@ function sortChange(sort: any) {
 function rowConfirm(par: any) {
   console.log('行编辑确认(已修改)：', par);
   // 修改对应行数据
-  state.tableData[par.rowIndex || 0][par.prop] = par.res;
+  if (par.editType === 'select') {
+    state.tableData[par.rowIndex || 0][par.prop] = par.resLabel;
+    state.tableData[par.rowIndex || 0][par.selectProp] = par.res;
+  } else {
+    state.tableData[par.rowIndex || 0][par.prop] = par.res;
+  }
 }
 </script>
 <style></style>

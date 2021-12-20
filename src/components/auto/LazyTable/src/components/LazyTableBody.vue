@@ -22,7 +22,8 @@
           !props.bodyItem.edit.type ||
           props.bodyItem.edit.type === 'text' ||
           props.bodyItem.edit.type === 'number' ||
-          props.bodyItem.edit.type === 'textarea'
+          props.bodyItem.edit.type === 'textarea' ||
+          props.bodyItem.edit.type === 'select'
             ? (state.isConfirm = true)
             : ((state.isConfirm = false), (state.dateRow = true))
         "
@@ -30,13 +31,14 @@
           !props.bodyItem.edit.type ||
           props.bodyItem.edit.type === 'text' ||
           props.bodyItem.edit.type === 'number' ||
-          props.bodyItem.edit.type === 'textarea'
+          props.bodyItem.edit.type === 'textarea' ||
+          props.bodyItem.edit.type === 'select'
             ? (state.isConfirm = false)
             : ((state.isConfirm = false), (state.dateRow = false))
         "
         :style="[{ width: `${props.bodyItem.state === undefined ? '100%' : 'calc(100% - 16px)'}` }]"
       >
-        <!-- text、textarea 、number -->
+        <!-- text、textarea 、number 普通输入框 -->
         <template
           v-if="
             !props.bodyItem.edit.type ||
@@ -58,7 +60,22 @@
             :type="props.bodyItem.edit.type"
           />
         </template>
-        <div v-else ref="tableDateInput">
+        <!-- select 下拉选框 -->
+        <div ref="tableSelectInput" v-else-if="props.bodyItem.edit.type === 'select'">
+          <el-select
+            v-model="state.editData"
+            filterable
+            ref="tableRowInput"
+            autofocus
+            size="small"
+            @visible-change="visibleChange"
+          >
+            <el-option v-for="(item, i) in props.bodyItem.edit.list" :key="i" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+        </div>
+        <!-- 时间 -->
+        <template v-else>
           <el-date-picker
             ref="tableRowInput"
             size="small"
@@ -71,7 +88,7 @@
             style="width: 100%"
           >
           </el-date-picker>
-        </div>
+        </template>
         <!-- 确认按钮 -->
         <span class="iconfont icon-queren" v-if="state.isEdit" @click="rowConfirm"></span>
       </div>
@@ -99,13 +116,21 @@ const state = reactive<any>({
   nowRowIndex: null, // 当前行序号
   dateRow: true // 日期类型，是否点击行内编辑确认按钮
 });
-const tableRowInput = ref(null);
+const tableRowInput = ref(null); // 编辑输入框
+const tableSelectInput = ref(null); // 下拉选dom
+
 // 双击事件
 function dobleClick(event: any) {
   if (props.bodyItem.edit) {
-    state.editData = props.rowData[props.bodyItem.prop];
-    let tRI = tableRowInput.value as any;
+    // 编辑绑定数据赋值
+    if (props.bodyItem.edit.type === 'select') {
+      state.editData = props.rowData[props.bodyItem.edit.selectProp];
+    } else {
+      state.editData = props.rowData[props.bodyItem.prop];
+    }
     state.isEdit = true;
+    // 输入框自动活得焦点
+    let tRI = tableRowInput.value as any;
     tRI.focus();
     // 获取当前序号
     for (let i = 0; i < event.path.length; i++) {
@@ -114,7 +139,7 @@ function dobleClick(event: any) {
         break;
       }
     }
-    // 判断是否是日期选框
+    // 日期选框特殊处理
     if (
       props.bodyItem.edit.type === 'date' ||
       props.bodyItem.edit.type === 'year' ||
@@ -155,6 +180,10 @@ function rowConfirm() {
   ) {
     removeListener();
   }
+  // 下拉选
+  if (props.bodyItem.edit.type === 'select') {
+    visibleChange(true); // 移除监听
+  }
   state.isEdit = false;
   if (state.editData !== props.rowData[props.bodyItem.prop]) {
     // 有验证规则，且不能为下拉选框
@@ -166,13 +195,31 @@ function rowConfirm() {
         return;
       }
     }
-    $emits('rowConfirm', {
+    let parame = {
+      editType:
+        props.bodyItem.edit === true
+          ? 'text'
+          : props.bodyItem.edit.type === undefined || props.bodyItem.edit.type === ''
+          ? 'text'
+          : props.bodyItem.edit.type,
       prop: props.bodyItem.prop,
       label: props.bodyItem.label,
       rowIndex: state.nowRowIndex, // 行数 从0 开始，仅用于前端修改数
       res: state.editData, // 编辑结果
       original: props.rowData[props.bodyItem.prop] // 未编辑前结果
-    });
+    };
+    if (props.bodyItem.edit.type === 'select') {
+      let tSI = tableSelectInput.value as any;
+      let nowSelectDom = tSI.querySelector('.el-select .el-input__inner');
+      let selPar = {
+        resLabel: nowSelectDom.value,
+        list: props.bodyItem.edit.list,
+        selectProp: props.bodyItem.edit.selectProp,
+        originalProp: props.rowData[props.bodyItem.edit.selectProp]
+      };
+      parame = Object.assign(parame, selPar);
+    }
+    $emits('rowConfirm', parame);
   }
 }
 // 鼠标进入
@@ -227,6 +274,16 @@ function blurInput() {
       let tRI = tableRowInput.value as any;
       tRI.focus();
     }
+  }
+}
+// 下拉选框出现/隐藏
+function visibleChange(type: boolean) {
+  let tSI = tableSelectInput.value as any;
+  let nowSelectDom = tSI.querySelector('.el-select .el-input__inner');
+  if (!type) {
+    nowSelectDom?.addEventListener('blur', blurInput);
+  } else {
+    nowSelectDom?.removeEventListener('blur', blurInput);
   }
 }
 </script>
