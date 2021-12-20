@@ -115,7 +115,17 @@ function dobleClick(event: any) {
       }
     }
     // 判断是否是日期选框
-    if (props.bodyItem.edit.type === 'date') {
+    if (
+      props.bodyItem.edit.type === 'date' ||
+      props.bodyItem.edit.type === 'year' ||
+      props.bodyItem.edit.type === 'month' ||
+      props.bodyItem.edit.type === 'dates' ||
+      props.bodyItem.edit.type === 'datetime' ||
+      props.bodyItem.edit.type === 'week' ||
+      props.bodyItem.edit.type === 'datetimerange' ||
+      props.bodyItem.edit.type === 'daterange' ||
+      props.bodyItem.edit.type === 'monthrange'
+    ) {
       for (let i = 0; i < event.path.length; i++) {
         if (event.path[i].className === 'lazy-table-list-col-box') {
           // 对应dom id（用于监听，避免失去焦点冲突）
@@ -132,7 +142,17 @@ function dobleClick(event: any) {
 // 行编辑确认
 function rowConfirm() {
   // 日期
-  if (props.bodyItem.edit.type === 'date') {
+  if (
+    props.bodyItem.edit.type === 'date' ||
+    props.bodyItem.edit.type === 'year' ||
+    props.bodyItem.edit.type === 'month' ||
+    props.bodyItem.edit.type === 'dates' ||
+    props.bodyItem.edit.type === 'datetime' ||
+    props.bodyItem.edit.type === 'week' ||
+    props.bodyItem.edit.type === 'datetimerange' ||
+    props.bodyItem.edit.type === 'daterange' ||
+    props.bodyItem.edit.type === 'monthrange'
+  ) {
     removeListener();
   }
   state.isEdit = false;
@@ -172,7 +192,17 @@ function removeListener() {
 // 失去焦点触发
 function blurInput() {
   if (!state.isConfirm) {
-    if (props.bodyItem.edit.type === 'date') {
+    if (
+      props.bodyItem.edit.type === 'date' ||
+      props.bodyItem.edit.type === 'year' ||
+      props.bodyItem.edit.type === 'month' ||
+      props.bodyItem.edit.type === 'dates' ||
+      props.bodyItem.edit.type === 'datetime' ||
+      props.bodyItem.edit.type === 'week' ||
+      props.bodyItem.edit.type === 'datetimerange' ||
+      props.bodyItem.edit.type === 'daterange' ||
+      props.bodyItem.edit.type === 'monthrange'
+    ) {
       let dateDom = document.getElementById(state.nowDateId) as any;
       dateDom.style.display = 'none';
       removeListener();
@@ -183,7 +213,17 @@ function blurInput() {
     state.isEdit = false;
   } else {
     // 点击弹出框不失去焦点
-    if (props.bodyItem.edit.type === 'date') {
+    if (
+      props.bodyItem.edit.type === 'date' ||
+      props.bodyItem.edit.type === 'year' ||
+      props.bodyItem.edit.type === 'month' ||
+      props.bodyItem.edit.type === 'dates' ||
+      props.bodyItem.edit.type === 'datetime' ||
+      props.bodyItem.edit.type === 'week' ||
+      props.bodyItem.edit.type === 'datetimerange' ||
+      props.bodyItem.edit.type === 'daterange' ||
+      props.bodyItem.edit.type === 'monthrange'
+    ) {
       let tRI = tableRowInput.value as any;
       tRI.focus();
     }
