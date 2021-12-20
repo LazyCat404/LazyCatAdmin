@@ -18,8 +18,22 @@
       <div
         class="table-edit-box"
         v-show="state.isEdit"
-        @mouseenter="state.isConfirm = true"
-        @mouseleave="state.isConfirm = false"
+        @mouseenter="
+          !props.bodyItem.edit.type ||
+          props.bodyItem.edit.type === 'text' ||
+          props.bodyItem.edit.type === 'number' ||
+          props.bodyItem.edit.type === 'textarea'
+            ? (state.isConfirm = true)
+            : ((state.isConfirm = false), (state.dateRow = true))
+        "
+        @mouseleave="
+          !props.bodyItem.edit.type ||
+          props.bodyItem.edit.type === 'text' ||
+          props.bodyItem.edit.type === 'number' ||
+          props.bodyItem.edit.type === 'textarea'
+            ? (state.isConfirm = false)
+            : ((state.isConfirm = false), (state.dateRow = false))
+        "
         :style="[{ width: `${props.bodyItem.state === undefined ? '100%' : 'calc(100% - 16px)'}` }]"
       >
         <!-- text、textarea 、number -->
@@ -81,7 +95,9 @@ const state = reactive<any>({
   editData: props.rowData[props.bodyItem.prop],
   isEdit: false,
   isConfirm: true, // 鼠标是否在输入框内
-  nowDateId: null // 当前日期弹出框id
+  nowDateId: null, // 当前日期弹出框id
+  nowRowIndex: null, // 当前行序号
+  dateRow: true // 日期类型，是否点击行内编辑确认按钮
 });
 const tableRowInput = ref(null);
 // 双击事件
@@ -91,11 +107,18 @@ function dobleClick(event: any) {
     let tRI = tableRowInput.value as any;
     state.isEdit = true;
     tRI.focus();
+    // 获取当前序号
+    for (let i = 0; i < event.path.length; i++) {
+      if (event.path[i].nodeName === 'TR') {
+        state.nowRowIndex = event.path[i].rowIndex;
+        break;
+      }
+    }
     // 判断是否是日期选框
     if (props.bodyItem.edit.type === 'date') {
       for (let i = 0; i < event.path.length; i++) {
         if (event.path[i].className === 'lazy-table-list-col-box') {
-          // 对应dom id
+          // 对应dom id（用于监听，避免失去焦点冲突）
           state.nowDateId = event.path[i].querySelector('.el-input__inner').attributes['aria-describedby'].value;
           let dateDom = document.getElementById(state.nowDateId);
           dateDom?.addEventListener('mouseenter', mouseEnter);
@@ -107,12 +130,9 @@ function dobleClick(event: any) {
   }
 }
 // 行编辑确认
-function rowConfirm(even: any) {
+function rowConfirm() {
   // 日期
   if (props.bodyItem.edit.type === 'date') {
-    let dateDom = document.getElementById(state.nowDateId) as any;
-    dateDom.style.display = 'none';
-    console.log(222, dateDom);
     removeListener();
   }
   state.isEdit = false;
@@ -129,7 +149,7 @@ function rowConfirm(even: any) {
     $emits('rowConfirm', {
       prop: props.bodyItem.prop,
       label: props.bodyItem.label,
-      rowIndex: even.path[5].rowIndex || even.path[6].rowIndex, // 行数 从0 开始，不准确，仅用于前端修改数，后期优化
+      rowIndex: state.nowRowIndex, // 行数 从0 开始，仅用于前端修改数
       res: state.editData, // 编辑结果
       original: props.rowData[props.bodyItem.prop] // 未编辑前结果
     });
@@ -155,11 +175,14 @@ function blurInput() {
     if (props.bodyItem.edit.type === 'date') {
       let dateDom = document.getElementById(state.nowDateId) as any;
       dateDom.style.display = 'none';
-      console.log(111, dateDom);
       removeListener();
+      if (state.dateRow) {
+        rowConfirm();
+      }
     }
     state.isEdit = false;
   } else {
+    // 点击弹出框不失去焦点
     if (props.bodyItem.edit.type === 'date') {
       let tRI = tableRowInput.value as any;
       tRI.focus();
