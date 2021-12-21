@@ -90,7 +90,7 @@
           </el-date-picker>
         </template>
         <!-- 确认按钮 -->
-        <span class="iconfont icon-queren" v-if="state.isEdit" @click="rowConfirm"></span>
+        <span class="iconfont icon-queren" v-if="state.isEdit && state.showConfirmBtn" @click="rowConfirm"></span>
       </div>
       <!-- 未编辑时显示 -->
       <span v-show="!state.isEdit"> {{ props.rowData[props.bodyItem.prop] }}</span>
@@ -114,7 +114,8 @@ const state = reactive<any>({
   isConfirm: true, // 鼠标是否在输入框内
   nowDateId: null, // 当前日期弹出框id
   nowRowIndex: null, // 当前行序号
-  dateRow: true // 日期类型，是否点击行内编辑确认按钮
+  dateRow: true, // 日期类型，是否点击行内编辑确认按钮
+  showConfirmBtn: true // 显示确认按钮
 });
 const tableRowInput = ref(null); // 编辑输入框
 const tableSelectInput = ref(null); // 下拉选dom
@@ -281,8 +282,10 @@ function visibleChange(type: boolean) {
   let tSI = tableSelectInput.value as any;
   let nowSelectDom = tSI.querySelector('.el-select .el-input__inner');
   if (!type) {
+    state.showConfirmBtn = true;
     nowSelectDom?.addEventListener('blur', blurInput);
   } else {
+    state.showConfirmBtn = false;
     nowSelectDom?.removeEventListener('blur', blurInput);
   }
 }
@@ -317,6 +320,7 @@ function visibleChange(type: boolean) {
       right: 8px;
       top: 5px;
       cursor: pointer;
+      background: #fff;
     }
     ::v-deep .el-input input::-webkit-outer-spin-button,
     ::v-deep .el-input input::-webkit-inner-spin-button {
