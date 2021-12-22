@@ -63,8 +63,11 @@
         <!-- select 下拉选框 -->
         <div ref="tableSelectInput" v-else-if="props.bodyItem.edit.type === 'select'">
           <el-select
+            :class="tool.isArray(state.editData) ? 'custom-el-multiple' : ''"
             v-model="state.editData"
-            filterable
+            :filterable="!tool.isArray(state.editData)"
+            :multiple="tool.isArray(state.editData)"
+            collapse-tags
             ref="tableRowInput"
             autofocus
             size="small"
@@ -102,6 +105,7 @@ import { config, stateColor } from '../config';
 import { defineEmits, defineProps, reactive, ref } from 'vue';
 import { inspect } from '@/utils/inspect';
 import { ElMessage } from 'element-plus';
+import tool from '@/utils/tool';
 const props = defineProps({
   bodyItem: <any>Object, // 表格列设置
   rowData: <any>Object //行数据
@@ -212,6 +216,19 @@ function rowConfirm() {
     if (props.bodyItem.edit.type === 'select') {
       let tSI = tableSelectInput.value as any;
       let nowSelectDom = tSI.querySelector('.el-select .el-input__inner');
+      if (tool.isArray(props.rowData[props.bodyItem.edit.selectProp])) {
+        //多选
+        let resLable = '';
+        state.editData.forEach((item: any) => {
+          for (let i = 0; i < props.bodyItem.edit.list.length; i++) {
+            if (item == props.bodyItem.edit.list[i].value) {
+              resLable = `${resLable + props.bodyItem.edit.list[i].label};`;
+              break;
+            }
+          }
+        });
+        nowSelectDom.value = resLable;
+      }
       let selPar = {
         resLabel: nowSelectDom.value,
         list: props.bodyItem.edit.list,
@@ -325,6 +342,48 @@ function visibleChange(type: boolean) {
     ::v-deep .el-input input::-webkit-outer-spin-button,
     ::v-deep .el-input input::-webkit-inner-spin-button {
       -webkit-appearance: none;
+    }
+    // 下拉选框
+    ::v-deep .custom-el-multiple .el-input__inner {
+      color: #fff;
+    }
+    ::v-deep .custom-el-multiple .el-select__tags .el-tag--info {
+      background-color: #f0f2f5;
+      height: 22px;
+      line-height: 22px;
+      margin: 2px 0 2px 6px;
+      display: inline-block;
+      padding: 0 8px;
+      border-radius: 4px;
+    }
+    ::v-deep .custom-el-multiple .el-select__tags-text {
+      text-overflow: ellipsis;
+      display: inline-block;
+      overflow-x: hidden;
+      vertical-align: bottom;
+      color: #909399;
+      line-height: 22px;
+      font-size: 12px;
+    }
+    ::v-deep .custom-el-multiple .el-select__tags .el-tag .el-icon-close {
+      background-color: transparent;
+      border-radius: 50%;
+      text-align: center;
+      position: relative;
+      cursor: pointer;
+      font-size: 12px;
+      height: 16px;
+      width: 16px;
+      line-height: 16px;
+      vertical-align: middle;
+      top: 0px;
+      color: #909399;
+      right: -5px;
+    }
+    ::v-deep .custom-el-multiple .el-select__tags .el-tag .el-icon-close:hover {
+      background-color: #909399;
+      color: #fff;
+      right: -5px;
     }
   }
 }
