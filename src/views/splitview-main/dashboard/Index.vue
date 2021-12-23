@@ -3,12 +3,12 @@
     :tableData="state.tableData"
     :tableOptions="tableOptions"
     :tableConfig="tableConfig"
-    @filter-change="filterChange"
     @select="handleSelection"
     @select-all="handleSelectionAll"
-    @sort-change="sortChange"
-    @row-confirm="rowConfirm"
     @selection-change="handleSelectionChange"
+    @sort-change="sortChange"
+    @filter-change="filterChange"
+    @row-confirm="rowConfirm"
   ></LazyTable>
   <!-- <LazyTable :tableData="tableData" :tableOptions="tableOptions"></LazyTable> -->
 </template>
@@ -91,13 +91,13 @@ let tableOptions = [
       type: 'select' //  单选,check复选（默认）
     },
     sort: null, // 排序
-    tip: false,
-    edit: {
-      // show: false,
-      // type: '',
-      inspect: 'isTel',
-      err: '手机号验证失败'
-    }
+    tip: false
+    // edit: {
+    //   // show: false,
+    //   // type: '',
+    //   inspect: 'isTel',
+    //   err: '手机号验证失败'
+    // }
   },
   {
     prop: 'address',

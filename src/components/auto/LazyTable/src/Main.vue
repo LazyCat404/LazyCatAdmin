@@ -14,6 +14,14 @@
       @selection-change="handleSelectionChange"
       @cell-mouse-enter="cellMouseEnter"
       @cell-mouse-leave="cellMouseLeave"
+      @cell-click="cellClick"
+      @cell-dblclick="cellDblclick"
+      @cell-contextmenu="cellContextmenu"
+      @row-click="rowClick"
+      @row-contextmenu="rowContextmenu"
+      @row-dblclick="rowDblclick"
+      @header-click="headerClick"
+      @header-contextmenu="headerContextmenu"
       :data="tableData"
       :border="state.config.border"
       :height="state.config.tableH"
@@ -85,6 +93,14 @@ const $emits = defineEmits([
   'selection-change',
   'cell-mouse-enter',
   'cell-mouse-leave',
+  'cell-click',
+  'cell-dblclick',
+  'cell-contextmenu',
+  'row-click',
+  'row-contextmenu',
+  'row-dblclick',
+  'header-click',
+  'header-contextmenu',
   'sort-change',
   'filter-change',
   'row-confirm'
@@ -241,6 +257,38 @@ function cellMouseEnter(row: unknown, column: unknown, cell: unknown, event: unk
 // 鼠标离开单元格
 function cellMouseLeave(row: unknown, column: unknown, cell: unknown, event: unknown) {
   $emits('cell-mouse-leave', row, column, cell, event);
+}
+// 单击单元格
+function cellClick(row: unknown, column: unknown, cell: unknown, event: unknown) {
+  $emits('cell-click', row, column, cell, event);
+}
+// 双击单元格
+function cellDblclick(row: unknown, column: unknown, cell: unknown, event: unknown) {
+  $emits('cell-dblclick', row, column, cell, event);
+}
+// 右击单元格
+function cellContextmenu(row: unknown, column: unknown, cell: unknown, event: unknown) {
+  $emits('cell-contextmenu', row, column, cell, event);
+}
+// 单击行
+function rowClick(row: unknown, column: unknown, event: unknown) {
+  $emits('row-click', row, column, event);
+}
+// 右击单击行
+function rowContextmenu(row: unknown, column: unknown, event: unknown) {
+  $emits('row-contextmenu', row, column, event);
+}
+// 双击单击行
+function rowDblclick(row: unknown, column: unknown, event: unknown) {
+  $emits('row-dblclick', row, column, event);
+}
+// 单击某一列表头
+function headerClick(column: unknown, event: unknown) {
+  $emits('header-click', column, event);
+}
+// 右击某一列表头
+function headerContextmenu(column: unknown, event: unknown) {
+  $emits('header-contextmenu', column, event);
 }
 // 筛选
 function filterChange(par: any) {
