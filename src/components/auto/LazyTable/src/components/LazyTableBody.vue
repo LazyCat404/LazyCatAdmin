@@ -186,7 +186,10 @@ function rowConfirm() {
     removeListener();
   }
   state.isEdit = false;
-  if (state.editData !== props.rowData[props.bodyItem.prop]) {
+  if (
+    state.editData !== props.rowData[props.bodyItem.prop] &&
+    state.editData !== props.rowData[props.bodyItem.edit.selectProp]
+  ) {
     // 有验证规则，且不能为下拉选框
     if (props.bodyItem.edit.inspect && props.bodyItem.edit.type !== 'select') {
       let ins = inspect as any;
@@ -394,6 +397,7 @@ function visibleChange(type: boolean) {
       color: #fff;
       right: -5px;
     }
+    ::v-deep .el-select .el-input__inner,
     ::v-deep .custom-el-multiple .el-input__inner {
       border-color: var(--el-select-input-focus-border-color);
     }
