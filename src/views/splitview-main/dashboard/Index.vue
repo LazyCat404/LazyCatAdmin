@@ -3,11 +3,11 @@
     :tableData="state.tableData"
     :tableOptions="tableOptions"
     :tableConfig="tableConfig"
-    @filterChange="filterChange"
+    @filter-change="filterChange"
     @select="handleSelection"
     @select-all="handleSelectionAll"
-    @sortChange="sortChange"
-    @rowConfirm="rowConfirm"
+    @sort-change="sortChange"
+    @row-confirm="rowConfirm"
     @selection-change="handleSelectionChange"
   ></LazyTable>
   <!-- <LazyTable :tableData="tableData" :tableOptions="tableOptions"></LazyTable> -->

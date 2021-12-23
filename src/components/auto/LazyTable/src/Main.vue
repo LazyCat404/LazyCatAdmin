@@ -9,11 +9,11 @@
       :row-style="{ height: state.config.lineH }"
       :header-row-class-name="state.config.border ? '' : 'border-hide'"
       :row-class-name="tableRowClassName"
-      @cell-mouse-enter="mouseHover"
-      @cell-mouse-leave="mouseOut"
       @select="handleSelection"
       @select-all="handleSelectionAll"
       @selection-change="handleSelectionChange"
+      @cell-mouse-enter="cellMouseEnter"
+      @cell-mouse-leave="cellMouseLeave"
       :data="tableData"
       :border="state.config.border"
       :height="state.config.tableH"
@@ -40,11 +40,11 @@
       >
         <!-- 表头 -->
         <template #header>
-          <LazyTableHeader :headerItem="item" @filterChange="filterChange" @sortChange="sortChange"></LazyTableHeader>
+          <LazyTableHeader :headerItem="item" @filter-change="filterChange" @sort-change="sortChange"></LazyTableHeader>
         </template>
         <!-- 表体 -->
         <template #default="scope">
-          <LazyTableBody :bodyItem="item" :rowData="scope.row" @rowConfirm="rowConfirm"></LazyTableBody>
+          <LazyTableBody :bodyItem="item" :rowData="scope.row" @row-confirm="rowConfirm"></LazyTableBody>
         </template>
       </el-table-column>
     </el-table>
@@ -80,14 +80,14 @@ import LazyTableBody from './components/LazyTableBody.vue';
 const elScrollbarDom = ref(null);
 const elTableDom = ref(null);
 const $emits = defineEmits([
-  'filterChange',
-  'sortChange',
-  'rowConfirm',
   'select',
   'select-all',
   'selection-change',
   'cell-mouse-enter',
-  'cell-mouse-leave'
+  'cell-mouse-leave',
+  'sort-change',
+  'filter-change',
+  'row-confirm'
 ]);
 const props = defineProps({
   tableData: {
@@ -183,7 +183,7 @@ function controlTable() {
   });
 }
 // 鼠标进入table
-function mouseHover(row: unknown, column: unknown, cell: unknown, event: unknown) {
+function mouseEnter() {
   let eSD = elScrollbarDom.value as any;
   let eTD = elTableDom.value as any;
   let sNodeList = eSD.scrollbar.querySelectorAll('.el-scrollbar__bar');
@@ -194,10 +194,9 @@ function mouseHover(row: unknown, column: unknown, cell: unknown, event: unknown
   tNodeList.forEach((element: any) => {
     element.addEventListener('scroll', setScrollTop);
   });
-  $emits('cell-mouse-enter', row, column, cell, event);
 }
 // 鼠标离开table
-function mouseOut(row: unknown, column: unknown, cell: unknown, event: unknown) {
+function mouseLeave() {
   let eSD = elScrollbarDom.value as any;
   let eTD = elTableDom.value as any;
   let sNodeList = eSD.scrollbar.querySelectorAll('.el-scrollbar__bar');
@@ -208,7 +207,6 @@ function mouseOut(row: unknown, column: unknown, cell: unknown, event: unknown) 
   tNodeList.forEach((element: any) => {
     element.removeEventListener('scroll', setScrollTop);
   });
-  $emits('cell-mouse-leave', row, column, cell, event);
 }
 // 设置滚动条距离顶部高度
 function setScrollTop(value: any) {
@@ -224,16 +222,6 @@ function scrollActive(scr: { scrollLeft: number; scrollTop: number }) {
     element.scrollLeft = scr.scrollLeft;
   });
 }
-// 筛选
-function filterChange(par: any) {
-  state.filterObj[par.prop] = par;
-  $emits('filterChange', state.filterObj);
-}
-// 排序
-function sortChange(par: any) {
-  state.sortObj[par.prop] = par;
-  $emits('sortChange', state.sortObj);
-}
 // 手动勾选数据行的 Checkbox
 function handleSelection(selection: Array<unknown>, row: unknown) {
   $emits('select', selection, row);
@@ -246,9 +234,27 @@ function handleSelectionAll(selection: Array<unknown>) {
 function handleSelectionChange(selection: Array<unknown>) {
   $emits('selection-change', selection);
 }
+// 鼠标进入单元格
+function cellMouseEnter(row: unknown, column: unknown, cell: unknown, event: unknown) {
+  $emits('cell-mouse-enter', row, column, cell, event);
+}
+// 鼠标离开单元格
+function cellMouseLeave(row: unknown, column: unknown, cell: unknown, event: unknown) {
+  $emits('cell-mouse-leave', row, column, cell, event);
+}
+// 筛选
+function filterChange(par: any) {
+  state.filterObj[par.prop] = par;
+  $emits('filter-change', state.filterObj);
+}
+// 排序
+function sortChange(par: any) {
+  state.sortObj[par.prop] = par;
+  $emits('sort-change', state.sortObj);
+}
 // 行编辑确认
 function rowConfirm(par: unknown) {
-  $emits('rowConfirm', par);
+  $emits('row-confirm', par);
 }
 // 屏幕大小改变
 function resize() {
@@ -259,12 +265,26 @@ function resize() {
     state.scrollbarShow = true;
   }, 500);
 }
+// 初始化
+function init() {
+  let eTD = elTableDom.value as any;
+  eTD?.addEventListener('mouseenter', mouseEnter);
+  eTD?.addEventListener('mouseleave', mouseLeave);
+}
+// 移除监听
+function removeListener() {
+  let eTD = elTableDom.value as any;
+  eTD?.removeEventListener('mouseenter', mouseEnter);
+  eTD?.removeEventListener('mouseleave', mouseLeave);
+  window.removeEventListener('resize', resize);
+}
 onMounted(() => {
+  init();
   controlTable();
   window.addEventListener('resize', resize);
 });
 onBeforeUnmount(() => {
-  window.removeEventListener('resize', resize);
+  removeListener();
 });
 </script>
 
