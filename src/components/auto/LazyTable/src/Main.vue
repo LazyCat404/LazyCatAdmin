@@ -346,6 +346,9 @@ onBeforeUnmount(() => {
   ::v-deep tr {
     background: transparent;
   }
+  ::v-deep tr:hover {
+    background: #edf1f4 !important;
+  }
   ::v-deep.el-table::before,
   ::v-deep.el-table .el-table__fixed::before,
   ::v-deep.el-table .el-table__fixed-right::before {
@@ -358,6 +361,7 @@ onBeforeUnmount(() => {
     padding: 0;
     background: transparent;
   }
+
   ::v-deep .el-table__body-wrapper .border-hide td,
   ::v-deep .el-table__fixed-body-wrapper .border-hide td,
   ::v-deep .el-table__header-wrapper .border-hide th,
