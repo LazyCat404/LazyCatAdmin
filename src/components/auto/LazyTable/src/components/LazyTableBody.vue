@@ -22,8 +22,7 @@
           !props.bodyItem.edit.type ||
           props.bodyItem.edit.type === 'text' ||
           props.bodyItem.edit.type === 'number' ||
-          props.bodyItem.edit.type === 'textarea' ||
-          props.bodyItem.edit.type === 'select'
+          props.bodyItem.edit.type === 'textarea'
             ? (state.isConfirm = true)
             : ((state.isConfirm = false), (state.dateRow = true))
         "
@@ -31,8 +30,7 @@
           !props.bodyItem.edit.type ||
           props.bodyItem.edit.type === 'text' ||
           props.bodyItem.edit.type === 'number' ||
-          props.bodyItem.edit.type === 'textarea' ||
-          props.bodyItem.edit.type === 'select'
+          props.bodyItem.edit.type === 'textarea'
             ? (state.isConfirm = false)
             : ((state.isConfirm = false), (state.dateRow = false))
         "
@@ -76,6 +74,7 @@
             <el-option v-for="(item, i) in props.bodyItem.edit.list" :key="i" :label="item.label" :value="item.value">
             </el-option>
           </el-select>
+          <span class="iconfont icon-queren" v-if="state.showConfirmBtn" @click="rowConfirm"></span>
         </div>
         <!-- 时间 -->
         <template v-else>
@@ -93,7 +92,11 @@
           </el-date-picker>
         </template>
         <!-- 确认按钮 -->
-        <span class="iconfont icon-queren" v-if="state.isEdit && state.showConfirmBtn" @click="rowConfirm"></span>
+        <span
+          class="iconfont icon-queren"
+          v-if="state.isEdit && props.bodyItem.edit.type != 'select'"
+          @click="rowConfirm"
+        ></span>
       </div>
       <!-- 未编辑时显示 -->
       <span v-show="!state.isEdit"> {{ props.rowData[props.bodyItem.prop] }}</span>
@@ -130,6 +133,9 @@ function dobleClick(event: any) {
     // 编辑绑定数据赋值
     if (props.bodyItem.edit.type === 'select') {
       state.editData = props.rowData[props.bodyItem.edit.selectProp];
+      let tSI = tableSelectInput.value as any;
+      tSI?.addEventListener('mouseenter', mouseEnter);
+      tSI?.addEventListener('mouseleave', mouseLeave);
     } else {
       state.editData = props.rowData[props.bodyItem.prop];
     }
@@ -171,23 +177,10 @@ function dobleClick(event: any) {
 }
 // 行编辑确认
 function rowConfirm() {
-  // 日期
-  if (
-    props.bodyItem.edit.type === 'date' ||
-    props.bodyItem.edit.type === 'year' ||
-    props.bodyItem.edit.type === 'month' ||
-    props.bodyItem.edit.type === 'dates' ||
-    props.bodyItem.edit.type === 'datetime' ||
-    props.bodyItem.edit.type === 'week' ||
-    props.bodyItem.edit.type === 'datetimerange' ||
-    props.bodyItem.edit.type === 'daterange' ||
-    props.bodyItem.edit.type === 'monthrange'
-  ) {
-    removeListener();
-  }
   // 下拉选
   if (props.bodyItem.edit.type === 'select') {
     visibleChange(true); // 移除监听
+    removeListener();
   }
   state.isEdit = false;
   if (state.editData !== props.rowData[props.bodyItem.prop]) {
@@ -250,9 +243,15 @@ function mouseLeave() {
 }
 // 移除监听
 function removeListener() {
-  let dateDom = document.getElementById(state.nowDateId);
-  dateDom?.removeEventListener('mouseenter', mouseEnter);
-  dateDom?.removeEventListener('mouseleave', mouseLeave);
+  if (props.bodyItem.edit.type === 'select') {
+    let tSI = tableSelectInput.value as any;
+    tSI?.removeEventListener('mouseenter', mouseEnter);
+    tSI?.removeEventListener('mouseleave', mouseLeave);
+  } else {
+    let dateDom = document.getElementById(state.nowDateId);
+    dateDom?.removeEventListener('mouseenter', mouseEnter);
+    dateDom?.removeEventListener('mouseleave', mouseLeave);
+  }
 }
 // 失去焦点触发
 function blurInput() {
@@ -266,14 +265,19 @@ function blurInput() {
       props.bodyItem.edit.type === 'week' ||
       props.bodyItem.edit.type === 'datetimerange' ||
       props.bodyItem.edit.type === 'daterange' ||
-      props.bodyItem.edit.type === 'monthrange'
+      props.bodyItem.edit.type === 'monthrange' ||
+      props.bodyItem.edit.type === 'select'
     ) {
-      let dateDom = document.getElementById(state.nowDateId) as any;
-      dateDom.style.display = 'none';
-      removeListener();
-      if (state.dateRow) {
-        rowConfirm();
+      // 日期框特殊处理
+      if (props.bodyItem.edit.type !== 'select') {
+        let dateDom = document.getElementById(state.nowDateId) as any;
+        dateDom.style.display = 'none';
+        if (state.dateRow) {
+          // 点击行内确认按钮
+          rowConfirm();
+        }
       }
+      removeListener();
     }
     state.isEdit = false;
   } else {
