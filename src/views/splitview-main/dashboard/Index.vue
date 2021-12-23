@@ -4,8 +4,11 @@
     :tableOptions="tableOptions"
     :tableConfig="tableConfig"
     @filterChange="filterChange"
+    @select="handleSelection"
+    @select-all="handleSelectionAll"
     @sortChange="sortChange"
     @rowConfirm="rowConfirm"
+    @selection-change="handleSelectionChange"
   ></LazyTable>
   <!-- <LazyTable :tableData="tableData" :tableOptions="tableOptions"></LazyTable> -->
 </template>
@@ -135,6 +138,18 @@ function rowConfirm(par: any) {
   } else {
     state.tableData[par.rowIndex || 0][par.prop] = par.res;
   }
+}
+// 手动勾选数据行的 Checkbox
+function handleSelection(selection: Array<unknown>, row: unknown) {
+  console.log('手动勾选数据行的 Checkbox', row);
+}
+// 手动勾选全选 Checkbox
+function handleSelectionAll(selection: Array<unknown>) {
+  console.log('手动勾选全选框', selection);
+}
+// 选择项发生变化
+function handleSelectionChange(selection: Array<unknown>) {
+  console.log('选择项发生变化', selection);
 }
 </script>
 <style></style>

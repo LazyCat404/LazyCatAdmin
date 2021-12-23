@@ -11,6 +11,9 @@
       :row-class-name="tableRowClassName"
       @cell-mouse-enter="mouseHover"
       @cell-mouse-leave="mouseOut"
+      @select="handleSelection"
+      @select-all="handleSelectionAll"
+      @selection-change="handleSelectionChange"
       :data="tableData"
       :border="state.config.border"
       :height="state.config.tableH"
@@ -76,7 +79,16 @@ import LazyTableHeader from './components/LazyTableHeader.vue';
 import LazyTableBody from './components/LazyTableBody.vue';
 const elScrollbarDom = ref(null);
 const elTableDom = ref(null);
-const $emits = defineEmits(['filterChange', 'sortChange', 'rowConfirm']);
+const $emits = defineEmits([
+  'filterChange',
+  'sortChange',
+  'rowConfirm',
+  'select',
+  'select-all',
+  'selection-change',
+  'cell-mouse-enter',
+  'cell-mouse-leave'
+]);
 const props = defineProps({
   tableData: {
     type: Array,
@@ -171,7 +183,7 @@ function controlTable() {
   });
 }
 // 鼠标进入table
-function mouseHover() {
+function mouseHover(row: unknown, column: unknown, cell: unknown, event: unknown) {
   let eSD = elScrollbarDom.value as any;
   let eTD = elTableDom.value as any;
   let sNodeList = eSD.scrollbar.querySelectorAll('.el-scrollbar__bar');
@@ -182,9 +194,10 @@ function mouseHover() {
   tNodeList.forEach((element: any) => {
     element.addEventListener('scroll', setScrollTop);
   });
+  $emits('cell-mouse-enter', row, column, cell, event);
 }
 // 鼠标离开table
-function mouseOut() {
+function mouseOut(row: unknown, column: unknown, cell: unknown, event: unknown) {
   let eSD = elScrollbarDom.value as any;
   let eTD = elTableDom.value as any;
   let sNodeList = eSD.scrollbar.querySelectorAll('.el-scrollbar__bar');
@@ -195,6 +208,7 @@ function mouseOut() {
   tNodeList.forEach((element: any) => {
     element.removeEventListener('scroll', setScrollTop);
   });
+  $emits('cell-mouse-leave', row, column, cell, event);
 }
 // 设置滚动条距离顶部高度
 function setScrollTop(value: any) {
@@ -220,8 +234,20 @@ function sortChange(par: any) {
   state.sortObj[par.prop] = par;
   $emits('sortChange', state.sortObj);
 }
+// 手动勾选数据行的 Checkbox
+function handleSelection(selection: Array<unknown>, row: unknown) {
+  $emits('select', selection, row);
+}
+// 手动勾选全选 Checkbox
+function handleSelectionAll(selection: Array<unknown>) {
+  $emits('select-all', selection);
+}
+// 选择项发生变化
+function handleSelectionChange(selection: Array<unknown>) {
+  $emits('selection-change', selection);
+}
 // 行编辑确认
-function rowConfirm(par: any) {
+function rowConfirm(par: unknown) {
   $emits('rowConfirm', par);
 }
 // 屏幕大小改变
