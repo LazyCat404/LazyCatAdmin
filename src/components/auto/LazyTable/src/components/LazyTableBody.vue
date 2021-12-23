@@ -398,8 +398,9 @@ function visibleChange(type: boolean) {
       right: -5px;
     }
     ::v-deep .el-select .el-input__inner,
+    ::v-deep .el-date-editor .el-input__inner,
     ::v-deep .custom-el-multiple .el-input__inner {
-      border-color: var(--el-select-input-focus-border-color);
+      border-color: #409eff;
     }
   }
 }
