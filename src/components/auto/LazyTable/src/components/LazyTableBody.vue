@@ -124,7 +124,8 @@ const state = reactive<any>({
   nowDateId: null, // 当前日期弹出框id
   nowRowIndex: null, // 当前行序号
   dateRow: true, // 日期类型，是否点击行内编辑确认按钮
-  showConfirmBtn: true // 显示确认按钮
+  showConfirmBtn: true, // 显示确认按钮
+  selDomClick: false // 是否点击下拉选弹出框
 });
 const tableRowInput = ref(null); // 编辑输入框
 const tableSelectInput = ref(null); // 下拉选dom
@@ -138,6 +139,7 @@ function dobleClick(event: any) {
       let tSI = tableSelectInput.value as any;
       tSI?.addEventListener('mouseenter', mouseEnter);
       tSI?.addEventListener('mouseleave', mouseLeave);
+      window.addEventListener('click', clickSelDom);
     } else {
       state.editData = props.rowData[props.bodyItem.prop];
     }
@@ -181,7 +183,6 @@ function dobleClick(event: any) {
 function rowConfirm() {
   // 下拉选
   if (props.bodyItem.edit.type === 'select') {
-    visibleChange(true); // 移除监听
     removeListener();
   }
   state.isEdit = false;
@@ -249,6 +250,7 @@ function removeListener() {
     let tSI = tableSelectInput.value as any;
     tSI?.removeEventListener('mouseenter', mouseEnter);
     tSI?.removeEventListener('mouseleave', mouseLeave);
+    window.removeEventListener('click', clickSelDom);
   } else {
     let dateDom = document.getElementById(state.nowDateId);
     dateDom?.removeEventListener('mouseenter', mouseEnter);
@@ -300,16 +302,18 @@ function blurInput() {
     }
   }
 }
+// 点击事件
+function clickSelDom() {
+  state.isEdit = false;
+  window.removeEventListener('click', clickSelDom);
+}
 // 下拉选框出现/隐藏
 function visibleChange(type: boolean) {
-  let tSI = tableSelectInput.value as any;
-  let nowSelectDom = tSI.querySelector('.el-select .el-input__inner');
   if (!type) {
     state.showConfirmBtn = true;
-    nowSelectDom?.addEventListener('blur', blurInput);
+    // r
   } else {
     state.showConfirmBtn = false;
-    nowSelectDom?.removeEventListener('blur', blurInput);
   }
 }
 </script>
@@ -390,6 +394,9 @@ function visibleChange(type: boolean) {
       background-color: #909399;
       color: #fff;
       right: -5px;
+    }
+    ::v-deep .custom-el-multiple .el-input__inner {
+      border-color: var(--el-select-input-focus-border-color);
     }
   }
 }
