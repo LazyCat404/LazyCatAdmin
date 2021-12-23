@@ -311,7 +311,6 @@ function clickSelDom() {
 function visibleChange(type: boolean) {
   if (!type) {
     state.showConfirmBtn = true;
-    // r
   } else {
     state.showConfirmBtn = false;
   }
