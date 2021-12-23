@@ -10,7 +10,7 @@
     </span>
     <!-- 单行可不编辑 -->
     <span v-if="!props.bodyItem.edit">
-      {{ props.rowData[props.bodyItem.prop] }}
+      {{ props.rowData[props.bodyItem.prop] ? props.rowData[props.bodyItem.prop] : '-' }}
     </span>
     <!-- 单行可编辑 -->
     <template v-else>
@@ -99,7 +99,9 @@
         ></span>
       </div>
       <!-- 未编辑时显示 -->
-      <span v-show="!state.isEdit"> {{ props.rowData[props.bodyItem.prop] }}</span>
+      <span v-show="!state.isEdit">
+        {{ props.rowData[props.bodyItem.prop] ? props.rowData[props.bodyItem.prop] : '-' }}</span
+      >
     </template>
   </div>
 </template>
