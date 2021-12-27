@@ -26,7 +26,9 @@ import {
   ElRadioButton,
   ElDatePicker,
   ElSelect,
-  ElOption
+  ElOption,
+  ElTooltip,
+  ElSwitch
 } from 'element-plus';
 
 const ElComponents = [
@@ -55,7 +57,9 @@ const ElComponents = [
   ElRadioButton,
   ElDatePicker,
   ElSelect,
-  ElOption
+  ElOption,
+  ElTooltip,
+  ElSwitch
 ];
 
 const ElPlugins = [ElMessage];
