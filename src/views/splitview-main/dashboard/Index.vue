@@ -71,6 +71,8 @@ let tableOptions = [
     edit: {
       type: 'year'
     },
+    state: 2,
+    // ico: 'iconfont icon-gerenshezhi',
     filter: [
       { label: '2021-2020', value: 1 },
       { label: '2020-2019', value: 2 }
@@ -81,7 +83,9 @@ let tableOptions = [
     prop: 'name',
     label: '姓名',
     minwidth: 100,
+    edit: true,
     state: 1,
+    ico: 'iconfont icon-shezhi',
     filter: {
       list: [
         { label: '小明', value: 1 },
@@ -89,8 +93,8 @@ let tableOptions = [
       ],
       type: 'select' //  单选,check复选（默认）
     },
-    sort: null, // 排序
-    edit: true
+    sort: null // 排序
+    // edit: true,
     // tip: false
     // edit: {
     //   // show: false,

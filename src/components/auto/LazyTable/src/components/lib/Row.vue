@@ -4,7 +4,10 @@
     :tip="props.bodyItem.tip === undefined ? (config.tip ? 'show' : 'hide') : props.bodyItem.tip ? 'show' : 'hide'"
   >
     <!-- 状态 -->
-    <State v-if="props.bodyItem.state === undefined ? false : true" :bodyItem="props.bodyItem"></State>
+    <State
+      v-if="props.bodyItem.state !== undefined || props.bodyItem.ico !== undefined ? true : false"
+      :bodyItem="props.bodyItem"
+    ></State>
     <!-- 行显示 -->
     <span>
       {{ props.rowData[props.bodyItem.prop] === undefined ? '-' : props.rowData[props.bodyItem.prop] }}

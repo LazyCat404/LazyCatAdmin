@@ -5,7 +5,10 @@
     @dblclick="dobleClick"
   >
     <!-- 状态 -->
-    <State v-if="props.bodyItem.state === undefined ? false : true" :bodyItem="props.bodyItem"></State>
+    <State
+      v-if="props.bodyItem.state !== undefined || props.bodyItem.ico !== undefined ? true : false"
+      :bodyItem="props.bodyItem"
+    ></State>
     <!-- 编辑时显示 -->
     <div
       class="table-edit-box"
@@ -26,7 +29,19 @@
           ? (state.isConfirm = false)
           : ((state.isConfirm = false), (state.dateRow = false))
       "
-      :style="[{ width: `${props.bodyItem.state === undefined ? '100%' : 'calc(100% - 16px)'}` }]"
+      :style="[
+        {
+          width: `${
+            props.bodyItem.state === undefined && props.bodyItem.ico === undefined
+              ? '100%'
+              : props.bodyItem.ico !== undefined && props.bodyItem.state !== undefined
+              ? 'calc(100% - 37px)'
+              : props.bodyItem.ico !== undefined
+              ? 'calc(100% - 21px)'
+              : 'calc(100% - 16px)'
+          }`
+        }
+      ]"
     >
       <!-- text、textarea 、number 普通输入框 -->
       <template
