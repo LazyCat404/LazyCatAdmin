@@ -52,7 +52,12 @@
         </template>
         <!-- 表体 -->
         <template #default="scope">
-          <LazyTableBody :bodyItem="item" :rowData="scope.row" @row-confirm="rowConfirm"></LazyTableBody>
+          <LazyTableBody
+            :bodyItem="item"
+            :rowData="scope.row"
+            @row-confirm="rowConfirm"
+            @switch-change="switchChange"
+          ></LazyTableBody>
         </template>
       </el-table-column>
     </el-table>
@@ -103,7 +108,8 @@ const $emits = defineEmits([
   'header-contextmenu',
   'sort-change',
   'filter-change',
-  'row-confirm'
+  'row-confirm',
+  'change'
 ]);
 const props = defineProps({
   tableData: {
@@ -303,6 +309,10 @@ function sortChange(par: any) {
 // 行编辑确认
 function rowConfirm(par: unknown) {
   $emits('row-confirm', par);
+}
+// switch 值改变
+function switchChange(parame: unknown) {
+  $emits('change', parame);
 }
 // 屏幕大小改变
 function resize() {

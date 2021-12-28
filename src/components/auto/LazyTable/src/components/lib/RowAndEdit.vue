@@ -115,7 +115,7 @@ const props = defineProps({
   bodyItem: <any>Object, // 表格列设置
   rowData: <any>Object //行数据
 });
-const $emits = defineEmits(['rowConfirm']);
+const $emits = defineEmits(['row-confirm']);
 const state = reactive<any>({
   setColor: stateColor,
   editData: props.rowData[props.bodyItem.prop],
@@ -236,7 +236,7 @@ function rowConfirm() {
       };
       parame = Object.assign(parame, selPar);
     }
-    $emits('rowConfirm', parame);
+    $emits('row-confirm', parame);
   }
 }
 // 鼠标进入

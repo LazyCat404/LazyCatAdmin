@@ -44,7 +44,33 @@
 
 - `tip`: 单列超出是否隐藏，同 `tableConfig.tip`
 
-### 排序、筛选/过滤
+
+### 开关（switch ）行
+
+> 通过设置 `switch` **为真**，可开启开关行，仅支持`Object`、`String`、`Number`、`Boolean`
+
+- 当 `switch`类型为`Number` 或 `String`时，`switch` 的值就是`switch`的 `activeValue`值
+
+- 当 `switch`类型为 `Object` 时，会自动检测`tableData` 对应值的类型，如果该值为 `Boolean` 则不需要额外设置`activeValue`，否，则需要，若不设置，会默认依据`Boolean`类型做出判断
+
+```js
+// switch 为对象时支持的属性
+switch: {
+    disabled: false, // 是否禁用（不可编辑），默认禁用
+    activeColor: 'red'        // 活跃颜色
+    inactiveColor:'#f7f7f7'  // 非活颜色
+    activeValue: true,      // 活跃值
+    inactiveColor:false,   // 非活跃值
+    tip: '提示文字',       
+    tipActive: '为真时提示替换文字'
+    tipInactive: '为假时提示替换文字'
+}
+```
+PS：当`switch.tip`、`switch.tipActive`、`switch.tipInactive`    均未定义时，则不会显示提示框
+
+### 普通行/可编辑行
+
+#### 排序、筛选/过滤
 
 1. `sort`：排序，`des`：降序，`ase`：升序，`null/''`：无默认排序，不区分大小写
 
@@ -71,7 +97,7 @@
         },
         ```
 
-### 单行可编辑
+#### 单行可编辑
 
 > 表头编辑 ico 可编辑行默认显示
 
@@ -84,7 +110,7 @@
 - `tableOptions.edit.show === false`：可编辑，但不显示
 
 
-### 类型
+#### 类型
 
 > 输入框的类型：`tableOptions.edit.type`
 
@@ -100,11 +126,11 @@
 
 - `select`：下拉选
 
-### 验证规则
+#### 验证规则
 
 > 原则上可以自定义规则：`tableOptions.edit.inspect`
 
-### 失败提示
+#### 失败提示
 
 `tableOptions.edit.err`
 

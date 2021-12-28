@@ -9,6 +9,7 @@
     @sort-change="sortChange"
     @filter-change="filterChange"
     @row-confirm="rowConfirm"
+    @change="switchChange"
   ></LazyTable>
   <!-- <LazyTable :tableData="tableData" :tableOptions="tableOptions"></LazyTable> -->
 </template>
@@ -42,7 +43,7 @@ const state = reactive<any>({
       date: '2016-05-01',
       name: '王小刚',
       address: '上海市普陀区金沙江路 1519 弄',
-      onLine: 0,
+      onLine: '123',
       addressId: 3
     },
     {
@@ -112,11 +113,16 @@ let tableOptions = [
   {
     prop: 'onLine',
     label: '在线',
-    // switch: true
+    // switch: '123'
+    // switch: []
+    // switch: 0
     switch: {
-      disabled: false // 是否禁用（不可编辑），默认禁用
+      disabled: false, // 是否禁用（不可编辑），默认禁用
       // activeColor: 'red'
-      // tip: '在线状态'
+      // activeValue: 1,
+      // tip: '',
+      // tipActive: '在线'
+      tipInactive: '离线'
     }
   }
 ];
@@ -158,6 +164,10 @@ function handleSelectionAll(selection: Array<unknown>) {
 // 选择项发生变化
 function handleSelectionChange(selection: Array<unknown>) {
   console.log('选择项发生变化', selection);
+}
+// switch 值改变
+function switchChange(parame: unknown) {
+  console.log('switch', parame);
 }
 </script>
 <style></style>
