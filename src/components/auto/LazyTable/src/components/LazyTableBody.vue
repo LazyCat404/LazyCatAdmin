@@ -5,14 +5,18 @@
     :bodyItem="props.bodyItem"
     :rowData="rowData"
     @switch-change="switchChange"
-  ></Switch>
-  <!-- 普通行/可编辑行 -->
-  <RowAndEdit v-else :bodyItem="props.bodyItem" :rowData="rowData" @row-confirm="rowConfirm"></RowAndEdit>
+  >
+  </Switch>
+  <!-- 可编辑行 -->
+  <Edit v-else-if="props.bodyItem.edit" :bodyItem="props.bodyItem" :rowData="rowData" @row-confirm="rowConfirm"></Edit>
+  <!-- 普通行 -->
+  <Row v-else :bodyItem="props.bodyItem" :rowData="rowData"></Row>
 </template>
 <script lang="ts" setup>
 import { defineEmits, defineProps } from 'vue';
 import Switch from './lib/Switch.vue';
-import RowAndEdit from './lib/RowAndEdit.vue';
+import Edit from './lib/Edit.vue';
+import Row from './lib/Row.vue';
 const props = defineProps({
   bodyItem: <any>Object, // 表格列设置
   rowData: <any>Object //行数据

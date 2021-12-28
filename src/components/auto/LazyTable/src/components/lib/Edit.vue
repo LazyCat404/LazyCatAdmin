@@ -5,119 +5,110 @@
     @dblclick="dobleClick"
   >
     <!-- 状态 -->
-    <span v-if="props.bodyItem.state === undefined ? false : true" class="state-sign-box">
-      <span class="iconfont icon-dian" state="real" :style="[{ color: state.setColor[props.bodyItem.state] }]"> </span>
-    </span>
-    <!-- 单行可不编辑 -->
-    <span v-if="!props.bodyItem.edit">
-      {{ props.rowData[props.bodyItem.prop] === undefined ? '-' : props.rowData[props.bodyItem.prop] }}
-    </span>
-    <!-- 单行可编辑 -->
-    <template v-else>
-      <!-- 编辑时显示 -->
-      <div
-        class="table-edit-box"
-        v-show="state.isEdit"
-        @mouseenter="
+    <State v-if="props.bodyItem.state === undefined ? false : true" :bodyItem="props.bodyItem"></State>
+    <!-- 编辑时显示 -->
+    <div
+      class="table-edit-box"
+      v-show="state.isEdit"
+      @mouseenter="
+        !props.bodyItem.edit.type ||
+        props.bodyItem.edit.type === 'text' ||
+        props.bodyItem.edit.type === 'number' ||
+        props.bodyItem.edit.type === 'textarea'
+          ? (state.isConfirm = true)
+          : ((state.isConfirm = false), (state.dateRow = true))
+      "
+      @mouseleave="
+        !props.bodyItem.edit.type ||
+        props.bodyItem.edit.type === 'text' ||
+        props.bodyItem.edit.type === 'number' ||
+        props.bodyItem.edit.type === 'textarea'
+          ? (state.isConfirm = false)
+          : ((state.isConfirm = false), (state.dateRow = false))
+      "
+      :style="[{ width: `${props.bodyItem.state === undefined ? '100%' : 'calc(100% - 16px)'}` }]"
+    >
+      <!-- text、textarea 、number 普通输入框 -->
+      <template
+        v-if="
           !props.bodyItem.edit.type ||
           props.bodyItem.edit.type === 'text' ||
           props.bodyItem.edit.type === 'number' ||
           props.bodyItem.edit.type === 'textarea'
-            ? (state.isConfirm = true)
-            : ((state.isConfirm = false), (state.dateRow = true))
+            ? true
+            : false
         "
-        @mouseleave="
-          !props.bodyItem.edit.type ||
-          props.bodyItem.edit.type === 'text' ||
-          props.bodyItem.edit.type === 'number' ||
-          props.bodyItem.edit.type === 'textarea'
-            ? (state.isConfirm = false)
-            : ((state.isConfirm = false), (state.dateRow = false))
-        "
-        :style="[{ width: `${props.bodyItem.state === undefined ? '100%' : 'calc(100% - 16px)'}` }]"
       >
-        <!-- text、textarea 、number 普通输入框 -->
-        <template
-          v-if="
-            !props.bodyItem.edit.type ||
-            props.bodyItem.edit.type === 'text' ||
-            props.bodyItem.edit.type === 'number' ||
-            props.bodyItem.edit.type === 'textarea'
-              ? true
-              : false
-          "
+        <el-input
+          ref="tableRowInput"
+          autofocus
+          autosize
+          size="small"
+          suffix-icon="iconfont"
+          @blur="blurInput"
+          v-model="state.editData"
+          :type="props.bodyItem.edit.type"
+        />
+      </template>
+      <!-- select 下拉选框 -->
+      <div ref="tableSelectInput" v-else-if="props.bodyItem.edit.type === 'select'">
+        <el-select
+          :class="tool.isArray(state.editData) ? 'custom-el-multiple' : ''"
+          v-model="state.editData"
+          :filterable="!tool.isArray(state.editData)"
+          :multiple="tool.isArray(state.editData)"
+          collapse-tags
+          ref="tableRowInput"
+          autofocus
+          size="small"
+          @visible-change="visibleChange"
         >
-          <el-input
-            ref="tableRowInput"
-            autofocus
-            autosize
-            size="small"
-            suffix-icon="iconfont"
-            @blur="blurInput"
-            v-model="state.editData"
-            :type="props.bodyItem.edit.type"
-          />
-        </template>
-        <!-- select 下拉选框 -->
-        <div ref="tableSelectInput" v-else-if="props.bodyItem.edit.type === 'select'">
-          <el-select
-            :class="tool.isArray(state.editData) ? 'custom-el-multiple' : ''"
-            v-model="state.editData"
-            :filterable="!tool.isArray(state.editData)"
-            :multiple="tool.isArray(state.editData)"
-            collapse-tags
-            ref="tableRowInput"
-            autofocus
-            size="small"
-            @visible-change="visibleChange"
-          >
-            <el-option v-for="(item, i) in props.bodyItem.edit.list" :key="i" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
-          <span class="iconfont icon-queren" v-if="state.showConfirmBtn" @click="rowConfirm"></span>
-        </div>
-        <!-- 时间 -->
-        <template v-else>
-          <el-date-picker
-            ref="tableRowInput"
-            size="small"
-            :clearable="false"
-            :value-format="props.bodyItem.edit.valueFormat || 'YYYY-MM-DD'"
-            :format="props.bodyItem.edit.format || 'YYYY-MM-DD'"
-            @blur="blurInput"
-            v-model="state.editData"
-            :type="props.bodyItem.edit.type"
-            style="width: 100%"
-          >
-          </el-date-picker>
-        </template>
-        <!-- 确认按钮 -->
-        <span
-          class="iconfont icon-queren"
-          v-if="state.isEdit && props.bodyItem.edit.type != 'select'"
-          @click="rowConfirm"
-        ></span>
+          <el-option v-for="(item, i) in props.bodyItem.edit.list" :key="i" :label="item.label" :value="item.value">
+          </el-option>
+        </el-select>
+        <span class="iconfont icon-queren" v-if="state.showConfirmBtn" @click="rowConfirm"></span>
       </div>
-      <!-- 未编辑时显示 -->
-      <span v-show="!state.isEdit">
-        {{ props.rowData[props.bodyItem.prop] === undefined ? '-' : props.rowData[props.bodyItem.prop] }}</span
-      >
-    </template>
+      <!-- 时间 -->
+      <template v-else>
+        <el-date-picker
+          ref="tableRowInput"
+          size="small"
+          :clearable="false"
+          :value-format="props.bodyItem.edit.valueFormat || 'YYYY-MM-DD'"
+          :format="props.bodyItem.edit.format || 'YYYY-MM-DD'"
+          @blur="blurInput"
+          v-model="state.editData"
+          :type="props.bodyItem.edit.type"
+          style="width: 100%"
+        >
+        </el-date-picker>
+      </template>
+      <!-- 确认按钮 -->
+      <span
+        class="iconfont icon-queren"
+        v-if="state.isEdit && props.bodyItem.edit.type != 'select'"
+        @click="rowConfirm"
+      ></span>
+    </div>
+    <!-- 未编辑时显示 -->
+    <span v-show="!state.isEdit">
+      {{ props.rowData[props.bodyItem.prop] === undefined ? '-' : props.rowData[props.bodyItem.prop] }}</span
+    >
   </div>
 </template>
 <script lang="ts" setup>
-import { config, stateColor } from '../../config';
+import { config } from '../../config';
 import { defineEmits, defineProps, reactive, ref } from 'vue';
 import { inspect } from '@/utils/inspect';
 import { ElMessage } from 'element-plus';
 import tool from '@/utils/tool';
+import State from './components/State.vue';
 const props = defineProps({
   bodyItem: <any>Object, // 表格列设置
   rowData: <any>Object //行数据
 });
 const $emits = defineEmits(['row-confirm']);
 const state = reactive<any>({
-  setColor: stateColor,
   editData: props.rowData[props.bodyItem.prop],
   isEdit: false,
   isConfirm: true, // 鼠标是否在输入框内
@@ -328,18 +319,6 @@ function visibleChange(type: boolean) {
 .lazy-table-list-col-box {
   div {
     display: inline-block;
-  }
-  // 状态
-  .state-sign-box {
-    position: relative;
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    .icon-dian {
-      font-size: 25px;
-      position: absolute;
-      left: -7px;
-    }
   }
   // 单行编辑
   .table-edit-box {

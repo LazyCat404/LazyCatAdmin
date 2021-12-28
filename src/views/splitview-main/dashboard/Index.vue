@@ -90,7 +90,8 @@ let tableOptions = [
       type: 'select' //  单选,check复选（默认）
     },
     sort: null, // 排序
-    tip: false
+    edit: true
+    // tip: false
     // edit: {
     //   // show: false,
     //   // type: '',

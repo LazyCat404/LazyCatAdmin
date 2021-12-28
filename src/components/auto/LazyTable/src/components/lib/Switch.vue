@@ -66,4 +66,3 @@ function init() {
 }
 init();
 </script>
-<style lang="sass"></style>
