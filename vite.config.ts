@@ -8,6 +8,7 @@ export default (par: { mode: string; command: string }): unknown => {
     base: './',
     resolve: {
       alias: {
+        vue: 'vue/dist/vue.esm-bundler.js', // 定义vue的别名，如果使用其他的插件，可能会用到别名
         '@': path.resolve(__dirname, 'src'),
         '@views': path.resolve(__dirname, 'src/views'),
         '@types': path.resolve(__dirname, 'src/@types')
