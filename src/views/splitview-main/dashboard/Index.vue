@@ -77,7 +77,8 @@ let tableOptions = [
       { label: '2021-2020', value: 1 },
       { label: '2020-2019', value: 2 }
     ],
-    sort: 'des' // 排序，des：降序，ase:升序，null/'':无默认排序，不区分大小写
+    sort: 'des', // 排序，des：降序，ase:升序，null/'':无默认排序，不区分大小写
+    click: '11'
   },
   {
     prop: 'name',
@@ -115,6 +116,9 @@ let tableOptions = [
       type: 'select',
       list: selList,
       selectProp: 'addressId'
+    },
+    click: (par: unknown) => {
+      console.log('点击事件', par);
     }
   },
   {

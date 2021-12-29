@@ -107,7 +107,7 @@
       ></span>
     </div>
     <!-- 未编辑时显示 -->
-    <Row :bodyItem="props.bodyItem" :rowData="props.rowData"></Row>
+    <Row :bodyItem="props.bodyItem" :rowData="props.rowData" ref="rowRef"></Row>
   </div>
 </template>
 <script lang="ts" setup>
@@ -135,10 +135,15 @@ const state = reactive<any>({
 });
 const tableRowInput = ref(null); // 编辑输入框
 const tableSelectInput = ref(null); // 下拉选dom
-
+const rowRef = ref(null);
 // 双击事件
 function dobleClick(event: any) {
   if (props.bodyItem.edit) {
+    // 清除单击事件
+    if (typeof props.bodyItem.click === 'function') {
+      let rowR = rowRef.value as any;
+      rowR.clearTimer();
+    }
     // 编辑绑定数据赋值
     if (props.bodyItem.edit.type === 'select') {
       state.editData = props.rowData[props.bodyItem.edit.selectProp];
