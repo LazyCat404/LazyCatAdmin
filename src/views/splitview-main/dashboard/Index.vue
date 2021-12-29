@@ -68,9 +68,9 @@ let tableOptions = [
     label: '日期',
     minwidth: 100,
     align: 'center',
-    edit: {
-      type: 'year'
-    },
+    // edit: {
+    //   type: 'year'
+    // },
     state: 2,
     // ico: 'iconfont icon-gerenshezhi',
     filter: [

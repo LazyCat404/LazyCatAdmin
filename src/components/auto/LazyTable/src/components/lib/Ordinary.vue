@@ -10,24 +10,17 @@
     >
     </State>
     <!-- 行显示 -->
-    <span :style="[{ color: props.bodyItem.color }]">
-      {{
-        props.rowData[props.bodyItem.prop] === undefined ||
-        props.rowData[props.bodyItem.prop] === '' ||
-        props.rowData[props.bodyItem.prop] === null
-          ? '-'
-          : props.rowData[props.bodyItem.prop]
-      }}
-    </span>
+    <Row :bodyItem="props.bodyItem" :rowData="props.rowData"></Row>
   </div>
 </template>
 <script lang="ts" setup>
 import { defineProps } from 'vue';
 import { config } from '../../config';
 import State from './components/State.vue';
+import Row from './components/Row.vue';
 const props = defineProps({
   bodyItem: <any>Object, // 表格列设置
-  rowData: <any>Object //行数据
+  rowData: Object //行数据
 });
 </script>
 <style lang="scss" scoped>

@@ -10,13 +10,13 @@
   <!-- 可编辑行 -->
   <Edit v-else-if="props.bodyItem.edit" :bodyItem="props.bodyItem" :rowData="rowData" @row-confirm="rowConfirm"></Edit>
   <!-- 普通行 -->
-  <Row v-else :bodyItem="props.bodyItem" :rowData="rowData"></Row>
+  <Ordinary v-else :bodyItem="props.bodyItem" :rowData="rowData"></Ordinary>
 </template>
 <script lang="ts" setup>
 import { defineEmits, defineProps } from 'vue';
 import Switch from './lib/Switch.vue';
 import Edit from './lib/Edit.vue';
-import Row from './lib/Row.vue';
+import Ordinary from './lib/Ordinary.vue';
 const props = defineProps({
   bodyItem: <any>Object, // 表格列设置
   rowData: <any>Object //行数据
