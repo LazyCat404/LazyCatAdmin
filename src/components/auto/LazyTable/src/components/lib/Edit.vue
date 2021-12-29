@@ -107,8 +107,14 @@
       ></span>
     </div>
     <!-- 未编辑时显示 -->
-    <span v-show="!state.isEdit">
-      {{ props.rowData[props.bodyItem.prop] === undefined ? '-' : props.rowData[props.bodyItem.prop] }}</span
+    <span v-show="!state.isEdit" :style="[{ color: props.bodyItem.color }]">
+      {{
+        props.rowData[props.bodyItem.prop] === undefined ||
+        props.rowData[props.bodyItem.prop] === '' ||
+        props.rowData[props.bodyItem.prop] === null
+          ? '-'
+          : props.rowData[props.bodyItem.prop]
+      }}</span
     >
   </div>
 </template>
@@ -199,10 +205,24 @@ function rowConfirm() {
   ) {
     // 有验证规则，且不能为下拉选框
     if (props.bodyItem.edit.inspect && props.bodyItem.edit.type !== 'select') {
-      let ins = inspect as any;
-      let insRes = ins[props.bodyItem.edit.inspect](state.editData);
-      if (!insRes) {
-        ElMessage.error(props.bodyItem.edit.err || '验证失败！');
+      if (typeof props.bodyItem.edit.inspect === 'string') {
+        let ins = inspect as any;
+        if (typeof ins[props.bodyItem.edit.inspect] === 'function') {
+          let insRes = ins[props.bodyItem.edit.inspect](state.editData);
+          if (!insRes) {
+            ElMessage.error(props.bodyItem.edit.err || '验证失败！');
+            return;
+          }
+        } else {
+          if (ins[props.bodyItem.edit.inspect] === undefined) {
+            console.error('验证规则未定义');
+          } else {
+            console.error('inspect not a function，请前往/src/utils/inspect.ts 检查');
+          }
+          return;
+        }
+      } else {
+        console.error('请检查inspect类型，仅支持 string');
         return;
       }
     }

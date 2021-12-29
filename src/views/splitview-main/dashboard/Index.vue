@@ -83,7 +83,9 @@ let tableOptions = [
     prop: 'name',
     label: '姓名',
     minwidth: 100,
-    edit: true,
+    color: 'red',
+    // icoColor: 'red',
+    // edit: true,
     state: 1,
     ico: 'iconfont icon-shezhi',
     filter: {
@@ -93,15 +95,15 @@ let tableOptions = [
       ],
       type: 'select' //  单选,check复选（默认）
     },
-    sort: null // 排序
+    sort: null, // 排序
     // edit: true,
     // tip: false
-    // edit: {
-    //   // show: false,
-    //   // type: '',
-    //   inspect: 'isTel',
-    //   err: '手机号验证失败'
-    // }
+    edit: {
+      // show: false,
+      // type: '',
+      inspect: 'isTel',
+      err: '手机号验证失败'
+    }
   },
   {
     prop: 'address',

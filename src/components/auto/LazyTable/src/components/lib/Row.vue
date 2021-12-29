@@ -10,8 +10,14 @@
     >
     </State>
     <!-- 行显示 -->
-    <span>
-      {{ props.rowData[props.bodyItem.prop] === undefined ? '-' : props.rowData[props.bodyItem.prop] }}
+    <span :style="[{ color: props.bodyItem.color }]">
+      {{
+        props.rowData[props.bodyItem.prop] === undefined ||
+        props.rowData[props.bodyItem.prop] === '' ||
+        props.rowData[props.bodyItem.prop] === null
+          ? '-'
+          : props.rowData[props.bodyItem.prop]
+      }}
     </span>
   </div>
 </template>

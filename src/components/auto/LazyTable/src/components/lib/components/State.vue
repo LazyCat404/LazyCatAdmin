@@ -5,7 +5,12 @@
     class="state-sign-box"
     style="margin-right: 5px"
   >
-    <span :class="props.bodyItem.ico" style="position: absolute; left: 0px; top: -0.5px"> </span>
+    <span
+      :class="props.bodyItem.ico"
+      style="position: absolute; left: 0px; top: -0.5px"
+      :style="[{ color: props.bodyItem.icoColor }]"
+    >
+    </span>
   </span>
   <!-- 状态 -->
   <span v-if="props.bodyItem.state === undefined ? false : true" class="state-sign-box">
@@ -17,7 +22,12 @@
     class="state-sign-box"
     style="margin-right: 5px"
   >
-    <span :class="props.bodyItem.ico" style="position: absolute; left: 0px; top: -0.5px"> </span>
+    <span
+      :class="props.bodyItem.ico"
+      style="position: absolute; left: 0px; top: -0.5px"
+      :style="[{ color: props.bodyItem.icoColor }]"
+    >
+    </span>
   </span>
 </template>
 <script lang="ts" setup>

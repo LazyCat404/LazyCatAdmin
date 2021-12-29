@@ -44,33 +44,15 @@
 
 - `tip`: 单列超出是否隐藏，同 `tableConfig.tip`
 
+- `state`：状态，可设置颜色的一个小点，值可依据config 文件中自定义的`Key`值
 
-### 开关（switch ）行
+- `ico`：图标，值为 ico 类名，当与`state`同时存在时，属性顺序决定洗显示顺序，
 
-> 通过设置 `switch` **为真**，可开启开关行，仅支持`Object`、`String`、`Number`、`Boolean`
+- `color`:列字体颜色
 
-- 当 `switch`类型为`Number` 或 `String`时，`switch` 的值就是`switch`的 `activeValue`值
+- `icoColor`：列图标颜色（仅有图标时起作用）
 
-- 当 `switch`类型为 `Object` 时，会自动检测`tableData` 对应值的类型，如果该值为 `Boolean` 则不需要额外设置`activeValue`，否，则需要，若不设置，会默认依据`Boolean`类型做出判断
-
-```js
-// switch 为对象时支持的属性
-switch: {
-    disabled: false, // 是否禁用（不可编辑），默认禁用
-    activeColor: 'red'        // 活跃颜色
-    inactiveColor:'#f7f7f7'  // 非活颜色
-    activeValue: true,      // 活跃值
-    inactiveColor:false,   // 非活跃值
-    tip: '提示文字',       
-    tipActive: '为真时提示替换文字'
-    tipInactive: '为假时提示替换文字'
-}
-```
-PS：当`switch.tip`、`switch.tipActive`、`switch.tipInactive`    均未定义时，则不会显示提示框
-
-### 普通行/可编辑行
-
-#### 排序、筛选/过滤
+### 排序、筛选/过滤
 
 1. `sort`：排序，`des`：降序，`ase`：升序，`null/''`：无默认排序，不区分大小写
 
@@ -97,11 +79,32 @@ PS：当`switch.tip`、`switch.tipActive`、`switch.tipInactive`    均未定义
         },
         ```
 
-#### 单行可编辑
+### 开关（switch ）行
 
-> 表头编辑 ico 可编辑行默认显示
+> 通过设置 `switch` **为真**，可开启开关行，仅支持`Object`、`String`、`Number`、`Boolean`
 
-以下条件不显示：
+- 当 `switch`类型为`Number` 或 `String`时，`switch` 的值就是`switch`的 `activeValue`值
+
+- 当 `switch`类型为 `Object` 时，会自动检测`tableData` 对应值的类型，如果该值为 `Boolean` 则不需要额外设置`activeValue`，否，则需要，若不设置，会默认依据`Boolean`类型做出判断
+
+```js
+// switch 为对象时支持的属性
+switch: {
+    disabled: false, // 是否禁用（不可编辑），默认禁用
+    activeColor: 'red'        // 活跃颜色
+    inactiveColor:'#f7f7f7'  // 非活颜色
+    activeValue: true,      // 活跃值
+    inactiveColor:false,   // 非活跃值
+    tip: '提示文字',       
+    tipActive: '为真时提示替换文字'
+    tipInactive: '为假时提示替换文字'
+}
+```
+PS：当`switch.tip`、`switch.tipActive`、`switch.tipInactive`    均未定义时，则不会显示提示框
+
+### 可编辑（edit）行 
+
+> 通过设置 `edit` **为真**，开启可编辑行，建议类型`Object` 和 `Boolean`，开启该功能后，对应列的表头会多出一个编辑ico，具体有以下设置
 
 - `tableOptions.edit === undefined` ：不显示，不可编辑 
 
@@ -109,30 +112,45 @@ PS：当`switch.tip`、`switch.tipActive`、`switch.tipInactive`    均未定义
 
 - `tableOptions.edit.show === false`：可编辑，但不显示
 
+PS：当 `edit` 的值是不为 `Object` 的真值时，一切配置均为默认
 
-#### 类型
+#### 编辑框类型 `edit.type`
 
-> 输入框的类型：`tableOptions.edit.type`
+> 当且仅当 `edit` 为 `Object`时，可进行该设置
 
 可能的值:
 
-- `text`：默认，单行文本输入框
+- `text`：单行文本输入框，未设置 `type`时，编辑框的默认值
 
 - `textrea`:   多行文本输入框
 
 - `number`：数字输入框
 
-- `date`： 时间
+- `date`： 日期框，**elm-ui** 日期框支持的全部类型
 
-- `select`：下拉选
+- `select`：下拉选框
 
-#### 验证规则
+```js
+    edit: {
+      type: 'select',
+      list: [], // 下拉选列表，{label:'xx',value:1} 组成的数组
+      selectProp: 'xx'   // tableData 为中选中值的属性名，类似tableOptions.prop，数组则为多选，否则为单选
+    }
+```
 
-> 原则上可以自定义规则：`tableOptions.edit.inspect`
+#### 编辑验证 
 
-#### 失败提示
+> 原则上可以自定义规则：依赖 `utils/inspect.ts`
 
-`tableOptions.edit.err`
+```js
+edit:{
+    inspect: 'isTel',       //inspect.ts 内 导出的inspect属性key
+    err: '手机号验证失败'   // 验证失败后提示文字
+}
+```
+
+
+
 
 
 
