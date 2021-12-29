@@ -40,7 +40,7 @@ function rowClick() {
     }
   } else {
     if (props.bodyItem.click !== undefined) {
-      console.warn('tableOptions -> click not a function');
+      console.error('tableOptions -> click not a function');
     }
   }
 }
