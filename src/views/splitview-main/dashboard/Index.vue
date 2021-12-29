@@ -64,6 +64,12 @@ const state = reactive<any>({
 });
 let tableOptions = [
   {
+    // template: ` <el-button size="mini">Edit</el-button>`
+    template: `
+       <div>{{scope}}</div>
+    `
+  },
+  {
     prop: 'date',
     label: '日期',
     minwidth: 100,
@@ -130,7 +136,7 @@ let tableOptions = [
     switch: {
       disabled: false, // 是否禁用（不可编辑），默认禁用
       // activeColor: 'red'
-      // activeValue: 1,
+      activeValue: 1,
       // tip: '',
       // tipActive: '在线'
       tipInactive: '离线'
@@ -181,4 +187,8 @@ function switchChange(parame: unknown) {
   console.log('switch', parame);
 }
 </script>
-<style></style>
+<style scoped>
+.el-button {
+  color: red;
+}
+</style>
