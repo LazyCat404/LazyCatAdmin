@@ -3,13 +3,20 @@
     :style="[{ color: props.bodyItem.color, cursor: props.bodyItem.edit || props.bodyItem.click ? 'pointer' : '' }]"
     @click="rowClick"
   >
-    {{
-      props.rowData[props.bodyItem.prop] === undefined ||
-      props.rowData[props.bodyItem.prop] === '' ||
-      props.rowData[props.bodyItem.prop] === null
-        ? '-'
-        : props.rowData[props.bodyItem.prop]
-    }}
+    <template v-if="Object.prototype.toString.call(props.rowData[props.bodyItem.prop]) === '[object Array]'">
+      <template v-for="(item, i) in props.rowData[props.bodyItem.prop]" :key="i">
+        {{ i === 0 ? '' : props.bodyItem.mark === undefined ? ',' : props.bodyItem.mark }}{{ item }}
+      </template>
+    </template>
+    <template v-else>
+      {{
+        props.rowData[props.bodyItem.prop] === undefined ||
+        props.rowData[props.bodyItem.prop] === '' ||
+        props.rowData[props.bodyItem.prop] === null
+          ? '-'
+          : props.rowData[props.bodyItem.prop]
+      }}
+    </template>
   </span>
 </template>
 <script lang="ts" setup>
