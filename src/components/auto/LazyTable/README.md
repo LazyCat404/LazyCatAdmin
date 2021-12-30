@@ -44,6 +44,8 @@
 
 - `tip`: 单列超出是否隐藏，同 `tableConfig.tip`
 
+### 常用功能
+
 - `state`：状态，可设置颜色的一个小点，值可依据config 文件中自定义的`Key`值
 
 - `ico`：图标，值为 ico 类名，当与`state`同时存在时，属性顺序决定洗显示顺序，
@@ -80,6 +82,32 @@
             type: 'select' // select单选，check复选（默认）
         },
         ```
+
+### 自定义（custom）行
+
+> 通过设置`template` 属性，开启自定义行，仅支持`Object`（单文件组件）、`String`（自定义模板）两种类型，设置该属性后，仅**表头功能**和**常用配置生效**，但`prop`不在生效
+
+PS: 此功能主要解决表格自定义操作列，及一般复杂显示，原则上自定行可以加载任意组件到表格中，但为了表格正常显示，**不建议添加超过行高**的内容或组件，若需要显示复杂内容，建议预先设置**行高**。
+
+#### 单文件组件
+
+在父组件内正常引入单文件组件`xx.vue` 将其赋值给`template`即可；可接收参数：`scope`（对应行数据）
+
+#### 自定义模板
+
+`template` 也可以设置成**htlm字符串**，可直接使用`scope`调取对应行数据，如果有调用自定义方法，需要额外注册`methods`属性，使用方法同Vue2
+
+```js
+    template: `
+        <el-button size="small" @click='myClick(scope)'>点击</el-button>
+    `,
+    methods: {
+      myClick(scope) {
+        console.log('单击事件', scope);
+      }
+    },
+```
+
 
 ### 开关（switch ）行
 

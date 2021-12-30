@@ -16,6 +16,7 @@
 
 <script lang="ts" setup>
 import { reactive } from 'vue';
+// import Test from './Test.vue';
 let selList = [
   { label: '和平区', value: 1 },
   { label: '南开区', value: 2 },
@@ -63,12 +64,6 @@ const state = reactive<any>({
   ]
 });
 let tableOptions = [
-  {
-    // template: ` <el-button size="mini">Edit</el-button>`
-    template: `
-       <div>{{scope}}</div>
-    `
-  },
   {
     prop: 'date',
     label: '日期',
@@ -141,6 +136,28 @@ let tableOptions = [
       // tipActive: '在线'
       tipInactive: '离线'
     }
+  },
+  {
+    label: '操作',
+    template: `
+      <el-popover
+        placement="top-start"
+        title="Title"
+        :width="200"
+        trigger="hover"
+        content="this is content, this is content, this is content"
+      >
+        <template #reference>
+          <el-button size="small" @click='myClick(scope)'>Hover</el-button>
+        </template>
+      </el-popover>
+    `,
+    // template: Test,
+    // sort: 'des',
+    methods: {
+      myClick
+    },
+    tip: false
   }
 ];
 let tableConfig = {
@@ -185,6 +202,10 @@ function handleSelectionChange(selection: Array<unknown>) {
 // switch 值改变
 function switchChange(parame: unknown) {
   console.log('switch', parame);
+}
+// 自定义模板方法
+function myClick(scope: unknown) {
+  console.log('自定义模板法', scope);
 }
 </script>
 <style scoped>
