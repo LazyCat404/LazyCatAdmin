@@ -155,8 +155,7 @@ function handleSort(type: string) {
   }
   $emits('sortChange', {
     type: state.sort,
-    prop: props.headerItem.prop,
-    item: props.headerItem
+    prop: props.headerItem.prop
   });
 }
 // 初始化

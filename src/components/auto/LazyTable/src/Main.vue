@@ -164,9 +164,7 @@ const state = reactive<any>({
   tableRealHeight: '', // 表格实际高度
   tableRealWidth: '', // 表格实际宽度
   scrollbarBoxHeight: '', // 滚动条容器实际宽度
-  tableBoxHeight: '', // 滚动条容器实际宽度
-  filterObj: {}, // 过滤
-  sortObj: {} //排序
+  tableBoxHeight: '' // 滚动条容器实际宽度
 });
 // 表格奇偶行添加类名
 function tableRowClassName(value: { row: any; rowIndex: number }) {
@@ -297,14 +295,12 @@ function headerContextmenu(column: unknown, event: unknown) {
   $emits('header-contextmenu', column, event);
 }
 // 筛选
-function filterChange(par: any) {
-  state.filterObj[par.prop] = par;
-  $emits('filter-change', state.filterObj);
+function filterChange(par: unknown) {
+  $emits('filter-change', par);
 }
 // 排序
-function sortChange(par: any) {
-  state.sortObj[par.prop] = par;
-  $emits('sort-change', state.sortObj);
+function sortChange(par: unknown) {
+  $emits('sort-change', par);
 }
 // 行编辑确认
 function rowConfirm(par: unknown) {
