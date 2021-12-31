@@ -8,6 +8,7 @@
     <State
       v-if="props.bodyItem.state !== undefined || props.bodyItem.ico !== undefined ? true : false"
       :bodyItem="props.bodyItem"
+      :rowData="rowData"
     >
     </State>
     <!-- 行显示 -->

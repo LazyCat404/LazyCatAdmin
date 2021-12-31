@@ -30,35 +30,40 @@ const state = reactive<any>({
       name: '赵小四',
       address: '上海市普陀区金沙江路 1518 弄',
       onLine: false,
-      addressId: 1
+      addressId: 1,
+      state: 1
     },
     {
       date: '2016-05-04',
       name: '王小红',
       address: '上海市普陀区金沙江路 1517 弄',
       onLine: 1,
-      addressId: 2
+      addressId: 2,
+      state: 2
     },
     {
       date: '2016-05-01',
       name: '王小刚',
       address: '上海市普陀区金沙江路 1519 弄',
       onLine: '123',
-      addressId: 3
+      addressId: 3,
+      state: 3
     },
     {
       date: '2016-05-03',
       name: '王小明王小明王小明王小明王小明王小明王小明王小明王小明王小明王小明王小明王小明王小明',
       address: '上海市普陀区金沙江路 1516 弄',
       onLine: true,
-      addressId: 4
+      addressId: 4,
+      state: 4
     },
     {
       date: '2016-05-04',
       name: '王小红',
       address:
         '上海市普陀区金沙江路 1514 弄上海市普陀区金沙江路 1514 弄上海市普陀区金沙江路 1514 弄上海市普陀区金沙江路 1514 弄',
-      addressId: [1, 2, 3, 4, 5]
+      addressId: [1, 2, 3, 4, 5],
+      state: 5
     }
   ]
 });
@@ -71,7 +76,7 @@ let tableOptions = [
     // edit: {
     //   type: 'year'
     // },
-    state: 2,
+    state: 'state',
     // ico: 'iconfont icon-gerenshezhi',
     filter: [
       { label: '2021-2020', value: 1 },
@@ -89,7 +94,7 @@ let tableOptions = [
     // icoColor: 'red',
     // edit: true,
     copy: true,
-    state: 1,
+    state: 'state',
     ico: 'iconfont icon-shezhi',
     filter: {
       list: [

@@ -14,7 +14,7 @@
   </span>
   <!-- 状态 -->
   <span v-if="props.bodyItem.state === undefined ? false : true" class="state-sign-box">
-    <span class="iconfont icon-dian" :style="[{ color: state.setColor[props.bodyItem.state] }]"> </span>
+    <span class="iconfont icon-dian" :style="[{ color: state.setColor[props.rowData[props.bodyItem.state]] }]"> </span>
   </span>
   <!-- ico -->
   <span
@@ -34,7 +34,8 @@
 import { defineProps, reactive } from 'vue';
 import { stateColor } from '../../../config';
 const props = defineProps({
-  bodyItem: <any>Object // 表格列设置
+  bodyItem: <any>Object, // 表格列设置
+  rowData: <any>Object
 });
 const state = reactive<any>({
   setColor: stateColor,
