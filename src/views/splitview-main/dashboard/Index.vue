@@ -11,7 +11,6 @@
     @row-confirm="rowConfirm"
     @change="switchChange"
   ></LazyTable>
-  <!-- <LazyTable :tableData="tableData" :tableOptions="tableOptions"></LazyTable> -->
 </template>
 
 <script lang="ts" setup>
@@ -27,7 +26,7 @@ let selList = [
 const state = reactive<any>({
   tableData: [
     {
-      date: '2016-05-02',
+      date: '2016-05-04',
       name: '赵小四',
       address: '上海市普陀区金沙江路 1518 弄',
       onLine: false,
@@ -79,7 +78,8 @@ let tableOptions = [
       { label: '2020-2019', value: 2 }
     ],
     sort: 'des', // 排序，des：降序，ase:升序，null/'':无默认排序，不区分大小写
-    click: '11'
+    click: '11',
+    copy: true
   },
   {
     prop: 'name',
@@ -88,6 +88,7 @@ let tableOptions = [
     color: 'red',
     // icoColor: 'red',
     // edit: true,
+    copy: true,
     state: 1,
     ico: 'iconfont icon-shezhi',
     filter: {
@@ -99,7 +100,7 @@ let tableOptions = [
     },
     sort: null, // 排序
     // edit: true,
-    // tip: false
+    // tip: false,
     edit: {
       // show: false,
       // type: '',

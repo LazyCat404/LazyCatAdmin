@@ -25,7 +25,9 @@
 import Clipboard from 'clipboard';
 import { defineProps, onBeforeUnmount, reactive } from 'vue';
 const props = defineProps({
-  content: String
+  content: {
+    type: [String, Number, Object, Function, Boolean]
+  }
 });
 const state = reactive<any>({
   isSucceed: false,
@@ -36,7 +38,7 @@ function clickCopy() {
   if (state.timer) {
     clearTimeout(state.timer);
   }
-  if (props.content !== undefined) {
+  if (props.content !== undefined && props.content !== null && props.content !== '') {
     let clipboard = new Clipboard('.copy-box');
     clipboard.on('success', () => {
       state.isSucceed = true;

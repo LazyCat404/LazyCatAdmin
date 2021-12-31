@@ -4,9 +4,7 @@
     @click="rowClick"
   >
     <template v-if="Object.prototype.toString.call(props.rowData[props.bodyItem.prop]) === '[object Array]'">
-      <template v-for="(item, i) in props.rowData[props.bodyItem.prop]" :key="i">
-        {{ i === 0 ? '' : props.bodyItem.mark === undefined ? ',' : props.bodyItem.mark }}{{ item }}
-      </template>
+      {{ props.rowData[props.bodyItem.prop].join(`${props.bodyItem.mark === undefined ? ',' : props.bodyItem.mark}`) }}
     </template>
     <template v-else>
       {{
@@ -18,15 +16,17 @@
       }}
     </template>
   </span>
+  <CopyText :content="state.copyContent" class="lazy-table-copy-position" v-if="props.bodyItem.copy"></CopyText>
 </template>
 <script lang="ts" setup>
-import { defineExpose, defineProps, reactive } from 'vue';
+import { defineExpose, defineProps, onBeforeUnmount, reactive } from 'vue';
 const props = defineProps({
   bodyItem: <any>Object, // 表格列设置
   rowData: <any>Object //行数据
 });
 const state = reactive<any>({
-  timer: null
+  timer: null,
+  copyContent: null
 });
 function rowClick() {
   if (typeof props.bodyItem.click === 'function') {
@@ -57,9 +57,34 @@ function clearTimer() {
     clearTimeout(state.timer);
   }
 }
+function init() {
+  if (props.bodyItem.copy) {
+    if (Object.prototype.toString.call(props.rowData[props.bodyItem.prop]) === '[object Array]') {
+      state.copyContent = props.rowData[props.bodyItem.prop];
+      state.copyContent = props.rowData[props.bodyItem.prop].join(
+        `${props.bodyItem.mark === undefined ? ',' : props.bodyItem.mark}`
+      );
+    } else if (Object.prototype.toString.call(props.rowData[props.bodyItem.prop]) === '[object Object]') {
+      state.copyContent = JSON.stringify(props.rowData[props.bodyItem.prop]);
+    } else {
+      state.copyContent = props.rowData[props.bodyItem.prop];
+    }
+  }
+}
+init();
 // 供父元素调用
 defineExpose({
   clearTimer
 });
+onBeforeUnmount(() => {
+  clearTimer();
+});
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.lazy-table-copy-position {
+  position: absolute;
+  right: 5px;
+  top: calc(50% - 10px);
+  z-index: 999;
+}
+</style>

@@ -1,6 +1,7 @@
 <template>
   <div
     class="lazy-table-list-col-box"
+    :style="[{ width: props.bodyItem.copy ? 'calc(100% - 14px)' : '' }]"
     :tip="props.bodyItem.tip === undefined ? (config.tip ? 'show' : 'hide') : props.bodyItem.tip ? 'show' : 'hide'"
     @dblclick="dobleClick"
   >
