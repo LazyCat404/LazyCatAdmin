@@ -1,0 +1,15 @@
+/* 过渡动画，配合vue内置 Transition 组件使用*/
+
+// 1. 渐隐渐显 <Transition name="fade">
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+.fade-enter-to,
+.fade-leave-from {
+  opacity: 1;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.25s ease;
+}
