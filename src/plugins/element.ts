@@ -28,7 +28,8 @@ import {
   ElSelect,
   ElOption,
   ElTooltip,
-  ElSwitch
+  ElSwitch,
+  ElLoading
 } from 'element-plus';
 
 const ElComponents = [
@@ -62,6 +63,6 @@ const ElComponents = [
   ElSwitch
 ];
 
-const ElPlugins = [ElMessage];
+const ElPlugins = [ElMessage, ElLoading];
 
 export { ElComponents, ElPlugins };
