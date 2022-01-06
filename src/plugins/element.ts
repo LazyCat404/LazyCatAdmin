@@ -1,7 +1,8 @@
 // element-plus 按需引入
 import {
-  ElButton,
   ElMessage,
+  ElLoading,
+  ElButton,
   ElSubMenu,
   ElScrollbar,
   ElForm,
@@ -29,7 +30,9 @@ import {
   ElOption,
   ElTooltip,
   ElSwitch,
-  ElLoading
+  ElTree,
+  ElCollapse,
+  ElCollapseItem
 } from 'element-plus';
 
 const ElComponents = [
@@ -60,7 +63,10 @@ const ElComponents = [
   ElSelect,
   ElOption,
   ElTooltip,
-  ElSwitch
+  ElSwitch,
+  ElTree,
+  ElCollapse,
+  ElCollapseItem
 ];
 
 const ElPlugins = [ElMessage, ElLoading];
