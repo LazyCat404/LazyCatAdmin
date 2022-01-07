@@ -175,6 +175,7 @@ function dobleClick(event: any) {
       props.bodyItem.edit.type === 'daterange' ||
       props.bodyItem.edit.type === 'monthrange'
     ) {
+      window.addEventListener('click', clickSelDom);
       for (let i = 0; i < event.path.length; i++) {
         if (event.path[i].className === 'lazy-table-list-col-box') {
           // 对应dom id（用于监听，避免失去焦点冲突）
@@ -329,8 +330,14 @@ function blurInput() {
   }
 }
 // 点击事件
-function clickSelDom() {
-  state.isEdit = false;
+function clickSelDom(event: any) {
+  if (props.bodyItem.edit.type === 'select') {
+    state.isEdit = false;
+  } else {
+    if (event.target.localName !== 'input' && event.target.localName !== 'svg') {
+      state.isEdit = false;
+    }
+  }
   window.removeEventListener('click', clickSelDom);
 }
 // 下拉选框出现/隐藏
