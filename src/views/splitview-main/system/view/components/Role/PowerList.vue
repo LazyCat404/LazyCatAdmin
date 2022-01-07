@@ -77,20 +77,23 @@ function disableModule(node: any, data: Tree) {
       });
       // 兄弟元素全部禁用，则父元素不可在勾选
       if (isDis) {
-        let parentDom = powerTreeRef.value?.el$.querySelector(`#keep-out-${node.parent.id}`);
+        let pow = powerTreeRef.value as { el$: Element };
+        let parentDom = pow.el$.querySelector(`#keep-out-${node.parent.id}`);
         if (parentDom) {
           parentDom.setAttribute('style', 'display:inline-block');
         }
       }
     } else {
       node.parent.data.disable = false;
-      let parentDom = powerTreeRef.value?.el$.querySelector(`#keep-out-${node.parent.id}`);
+      let pow = powerTreeRef.value as { el$: Element };
+      let parentDom = pow.el$.querySelector(`#keep-out-${node.parent.id}`);
       if (parentDom) {
         parentDom.setAttribute('style', 'display:none');
       }
     }
   } else {
-    let selfDom = powerTreeRef.value?.el$.querySelector(`#keep-out-${node.id}`);
+    let pow = powerTreeRef.value as { el$: Element };
+    let selfDom = pow.el$.querySelector(`#keep-out-${node.id}`);
     if (selfDom) {
       selfDom.setAttribute('style', 'display:none');
     }

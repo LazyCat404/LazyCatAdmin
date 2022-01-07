@@ -206,7 +206,7 @@ function controlTable() {
 function mouseEnter() {
   let eSD = elScrollbarDom.value as any;
   let eTD = elTableDom.value as any;
-  let sNodeList = eSD.scrollbar.querySelectorAll('.el-scrollbar__bar');
+  let sNodeList = eSD.scrollbar$.querySelectorAll('.el-scrollbar__bar');
   let tNodeList = eTD.querySelectorAll('.el-table__body-wrapper');
   sNodeList.forEach((element: any) => {
     element.style.display = 'block';
@@ -219,7 +219,7 @@ function mouseEnter() {
 function mouseLeave() {
   let eSD = elScrollbarDom.value as any;
   let eTD = elTableDom.value as any;
-  let sNodeList = eSD.scrollbar.querySelectorAll('.el-scrollbar__bar');
+  let sNodeList = eSD.scrollbar$.querySelectorAll('.el-scrollbar__bar');
   let tNodeList = eTD.querySelectorAll('.el-table__body-wrapper');
   sNodeList.forEach((element: any) => {
     element.style.display = 'none';
