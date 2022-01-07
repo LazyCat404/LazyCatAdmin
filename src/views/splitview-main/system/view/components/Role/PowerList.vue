@@ -3,9 +3,10 @@
     <el-scrollbar height="100%">
       <el-tree
         ref="powerTreeRef"
-        show-checkbox
         node-key="id"
+        show-checkbox
         default-expand-all
+        empty-text="暂无数据"
         :data="state.powerList"
         :expand-on-click-node="false"
         :default-checked-keys="state.defaultChecked"
