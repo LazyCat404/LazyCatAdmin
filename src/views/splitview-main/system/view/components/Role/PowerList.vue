@@ -9,7 +9,7 @@
         :data="state.powerList"
         :expand-on-click-node="false"
         :default-checked-keys="state.defaultChecked"
-        :props="{ disabled: customNode }"
+        :props="{ disabled: customNodeDisabled, class: customNodeClass }"
       >
         <template #default="{ node, data }">
           <span class="keep-out" :id="`keep-out-${node.id}`"> </span>
@@ -29,6 +29,8 @@
 import api from '@/apis/system';
 import { defineProps, reactive, ref, watch } from 'vue';
 import type { ElTree } from 'element-plus';
+import type Node from 'element-plus/es/components/tree/src/model/node';
+
 const props = defineProps({
   id: {
     type: [String, Number]
@@ -48,12 +50,18 @@ interface Tree {
 }
 const powerTreeRef = ref<InstanceType<typeof ElTree>>();
 
-function customNode(data: Tree, node: any) {
+function customNodeDisabled(data: Tree, node: Node) {
   if (data.children && data.children.length) {
     return data.disable;
   } else {
     return node.parent.data.disable;
   }
+}
+function customNodeClass(data: Tree, node: Node) {
+  if (data.children && data.children.length && node.level > 1) {
+    return 'power-list-box';
+  }
+  return null;
 }
 // 获取角色权限
 function getPower() {
@@ -66,7 +74,7 @@ function getPower() {
   });
 }
 // 模块禁用
-function disableModule(node: any, data: Tree) {
+function disableModule(node: Node, data: Tree) {
   data.disable = !data.disable;
   // 非一级模块
   if (node.level > 1) {
@@ -130,6 +138,13 @@ watch(
   float: left;
   width: calc(100% - 150px);
   height: 100%;
+  ::v-deep .el-tree-node.is-expanded.power-list-box > .el-tree-node__children {
+    display: flex;
+    flex-direction: row;
+  }
+  ::v-deep .power-list-box > .el-tree-node__children > div {
+    width: 25%;
+  }
 }
 .keep-out {
   position: absolute;
