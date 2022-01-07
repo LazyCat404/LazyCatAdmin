@@ -19,7 +19,7 @@ const $emits = defineEmits(['deliverPar']);
 
 // 获取角色列表
 function getRole() {
-  api.getRole().then((res: any) => {
+  api.getRole().then(res => {
     state.roleList = res.data;
     $emits('deliverPar', res.data[0].id);
   });

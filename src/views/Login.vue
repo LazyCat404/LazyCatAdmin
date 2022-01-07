@@ -64,7 +64,7 @@ function submitForm() {
   const form = unref(userFormRef);
   form?.validate((valid: boolean) => {
     if (valid) {
-      api.login(state.userForm).then((res: any) => {
+      api.login(state.userForm).then(res => {
         let commit = $store.commit as any;
         // 缓存token
         commit('setToken', res.data.token);
