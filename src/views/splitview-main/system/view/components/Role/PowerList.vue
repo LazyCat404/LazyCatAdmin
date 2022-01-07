@@ -8,9 +8,11 @@
         default-expand-all
         :data="state.powerList"
         :expand-on-click-node="false"
+        :default-checked-keys="state.defaultChecked"
         :props="{ disabled: customNode }"
       >
         <template #default="{ node, data }">
+          <span class="keep-out" :id="`keep-out-${node.id}`"> </span>
           <span>{{ node.label }}</span>
           <span
             v-if="data.disable !== undefined"
@@ -35,7 +37,7 @@ const props = defineProps({
 const state = reactive<any>({
   loading: true, // 加载中
   powerList: [],
-  default: true
+  defaultChecked: []
 });
 interface Tree {
   id: number;
@@ -45,31 +47,54 @@ interface Tree {
   power?: boolean;
 }
 const powerTreeRef = ref<InstanceType<typeof ElTree>>();
+
 function customNode(data: Tree, node: any) {
   if (data.children && data.children.length) {
     return data.disable;
   } else {
-    // 最内层节点
-    // if (data.power !== node.checked && state.default) {
-    //   node.checked = data.power;
-    // }
-    // node.checked = data.power;
-
     return node.parent.data.disable;
   }
 }
-
 // 获取角色权限
 function getPower() {
   state.loading = true;
+  state.defaultChecked = [];
   api.getPower({ id: props.id }).then((res: any) => {
     state.powerList = res.data;
     state.loading = false;
+    defaultChecked(res.data);
   });
 }
 // 模块禁用
-function disableModule(node: any, data: any) {
+function disableModule(node: any, data: Tree) {
   data.disable = !data.disable;
+  // 非一级模块
+  if (node.level > 1) {
+    if (data.disable) {
+      let isDis = true;
+      node.parent.data.children.forEach((item: { disable: boolean }) => {
+        isDis = isDis && item.disable;
+      });
+      // 兄弟元素全部禁用，则父元素不可在勾选
+      if (isDis) {
+        let parentDom = powerTreeRef.value?.el$.querySelector(`#keep-out-${node.parent.id}`);
+        if (parentDom) {
+          parentDom.setAttribute('style', 'display:inline-block');
+        }
+      }
+    } else {
+      node.parent.data.disable = false;
+      let parentDom = powerTreeRef.value?.el$.querySelector(`#keep-out-${node.parent.id}`);
+      if (parentDom) {
+        parentDom.setAttribute('style', 'display:none');
+      }
+    }
+  } else {
+    let selfDom = powerTreeRef.value?.el$.querySelector(`#keep-out-${node.id}`);
+    if (selfDom) {
+      selfDom.setAttribute('style', 'display:none');
+    }
+  }
   if (data.children && data.children.length) {
     data.children.forEach((item: Tree) => {
       if (item.children && item.children.length) {
@@ -77,6 +102,18 @@ function disableModule(node: any, data: any) {
       }
     });
   }
+}
+// 默认勾选
+function defaultChecked(par: Array<Tree>) {
+  par.forEach((item: Tree) => {
+    if (item.children && item.children.length) {
+      defaultChecked(item.children);
+    } else {
+      if (item.power === true) {
+        state.defaultChecked.push(item.id);
+      }
+    }
+  });
 }
 watch(
   () => props.id,
@@ -90,5 +127,14 @@ watch(
   float: left;
   width: calc(100% - 150px);
   height: 100%;
+}
+.keep-out {
+  position: absolute;
+  z-index: 99;
+  margin-left: 24px;
+  width: 15px;
+  height: 15px;
+  background-color: transparent;
+  display: none;
 }
 </style>
