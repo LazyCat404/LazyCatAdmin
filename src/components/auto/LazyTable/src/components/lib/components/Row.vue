@@ -29,25 +29,31 @@ const state = reactive<any>({
   copyContent: null
 });
 function rowClick() {
-  if (typeof props.bodyItem.click === 'function') {
-    if (props.bodyItem.edit) {
-      clearTimer();
-      state.timer = setTimeout(() => {
+  if (props.bodyItem.edit) {
+    clearTimer();
+    state.timer = setTimeout(() => {
+      if (typeof props.bodyItem.click === 'function') {
         props.bodyItem.click({
           value: props.rowData[props.bodyItem.prop],
           prop: props.bodyItem.prop,
           rowData: props.rowData
         });
-      }, 500);
-    } else {
+      } else {
+        if (props.bodyItem.click !== undefined) {
+          console.error('tableOptions -> click not a function');
+        }
+      }
+    }, 500);
+  } else {
+    if (typeof props.bodyItem.click === 'function') {
       props.bodyItem.click({
         prop: props.bodyItem.prop,
         rowData: props.rowData
       });
-    }
-  } else {
-    if (props.bodyItem.click !== undefined) {
-      console.error('tableOptions -> click not a function');
+    } else {
+      if (props.bodyItem.click !== undefined) {
+        console.error('tableOptions -> click not a function');
+      }
     }
   }
 }

@@ -59,9 +59,7 @@
       >
         <el-input
           ref="tableRowInput"
-          autofocus
           autosize
-          size="small"
           suffix-icon="iconfont"
           @blur="blurInput"
           v-model="state.editData"
@@ -77,8 +75,6 @@
           :multiple="tool.isArray(state.editData)"
           collapse-tags
           ref="tableRowInput"
-          autofocus
-          size="small"
           @visible-change="visibleChange"
         >
           <el-option v-for="(item, i) in props.bodyItem.edit.list" :key="i" :label="item.label" :value="item.value">
@@ -90,7 +86,7 @@
       <template v-else>
         <el-date-picker
           ref="tableRowInput"
-          size="small"
+          class="custom-date-picker"
           :clearable="false"
           :value-format="props.bodyItem.edit.valueFormat || 'YYYY-MM-DD'"
           :format="props.bodyItem.edit.format || 'YYYY-MM-DD'"
@@ -142,7 +138,7 @@ const rowRef = ref(null);
 function dobleClick(event: any) {
   if (props.bodyItem.edit) {
     // 清除单击事件
-    if (typeof props.bodyItem.click === 'function') {
+    if (typeof props.bodyItem.click !== undefined) {
       let rowR = rowRef.value as any;
       rowR.clearTimer();
     }
@@ -375,13 +371,9 @@ function visibleChange(type: boolean) {
       color: #fff;
     }
     ::v-deep .custom-el-multiple .el-select__tags .el-tag--info {
-      background-color: #f0f2f5;
-      height: 22px;
-      line-height: 22px;
-      margin: 2px 0 2px 6px;
       display: inline-block;
-      padding: 0 8px;
       border-radius: 4px;
+      padding: 0 3px;
     }
     ::v-deep .custom-el-multiple .el-select__tags-text {
       text-overflow: ellipsis;
@@ -416,6 +408,11 @@ function visibleChange(type: boolean) {
     ::v-deep .el-date-editor .el-input__inner,
     ::v-deep .custom-el-multiple .el-input__inner {
       border-color: #409eff;
+    }
+    // 时间选框
+    ::v-deep .custom-date-picker .el-input__icon {
+      position: relative;
+      top: 9px;
     }
   }
 }
