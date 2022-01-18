@@ -65,10 +65,10 @@ function customNodeClass(data: Tree, node: Node) {
   return null;
 }
 // 获取角色权限
-function getPower() {
+function getPowerList() {
   state.loading = true;
   state.defaultChecked = [];
-  api.getPower({ id: props.id }).then(res => {
+  api.getPowerList({ id: props.id }).then(res => {
     state.powerList = res.data;
     state.loading = false;
     defaultChecked(res.data);
@@ -130,7 +130,7 @@ function defaultChecked(par: Array<Tree>) {
 watch(
   () => props.id,
   () => {
-    getPower();
+    getPowerList();
   }
 );
 </script>

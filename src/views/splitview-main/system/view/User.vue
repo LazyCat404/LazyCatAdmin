@@ -1,1 +1,5 @@
-<template>用户</template>
+<template>
+  <LazyTable></LazyTable>
+</template>
+<script lang="ts" setup></script>
+<style lang="scss" scoped></style>

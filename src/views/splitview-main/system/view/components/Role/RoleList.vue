@@ -30,8 +30,8 @@ const state = reactive<any>({
 const $emits = defineEmits(['deliverPar']);
 
 // 获取角色列表
-function getRole() {
-  api.getRole().then(res => {
+function getRoleList() {
+  api.getRoleList().then(res => {
     state.roleList = res.data;
     state.activeRole = res.data[0].id;
     $emits('deliverPar', res.data[0]);
@@ -43,7 +43,7 @@ function deliverPar(role: { id: unknown }) {
   $emits('deliverPar', role);
 }
 function init() {
-  getRole();
+  getRoleList();
 }
 init();
 </script>

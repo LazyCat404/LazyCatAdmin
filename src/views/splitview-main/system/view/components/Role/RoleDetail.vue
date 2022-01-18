@@ -32,7 +32,6 @@ import { defineProps } from 'vue';
 const props = defineProps({
   detail: <any>Object
 });
-console.log(props);
 </script>
 <style lang="scss" scoped>
 .system-role-detail-wrapper {
