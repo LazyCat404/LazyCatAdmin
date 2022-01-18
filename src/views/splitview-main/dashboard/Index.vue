@@ -3,6 +3,7 @@
     :tableData="state.tableData"
     :tableOptions="tableOptions"
     :tableConfig="tableConfig"
+    :sync="true"
     @select="handleSelection"
     @select-all="handleSelectionAll"
     @selection-change="handleSelectionChange"

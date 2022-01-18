@@ -86,7 +86,7 @@
 
 <script lang="ts" setup>
 import tool from '@/utils/tool';
-import { defineEmits, defineProps, onBeforeUnmount, onMounted, reactive, ref } from 'vue';
+import { defineEmits, defineProps, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue';
 import { config } from './config';
 import LazyTableHeader from './components/LazyTableHeader.vue';
 import LazyTableBody from './components/LazyTableBody.vue';
@@ -120,7 +120,12 @@ const props = defineProps({
     type: <any>Array,
     required: true
   },
-  tableConfig: Object
+  tableConfig: Object,
+  sync: {
+    // 是否为同步数据，默认异步获取数据
+    type: Boolean,
+    default: false
+  }
 });
 
 const state = reactive<any>({
@@ -166,6 +171,13 @@ const state = reactive<any>({
   scrollbarBoxHeight: '', // 滚动条容器实际宽度
   tableBoxHeight: '' // 滚动条容器实际宽度
 });
+
+watch(
+  () => props.tableData,
+  () => {
+    controlTable();
+  }
+);
 // 表格奇偶行添加类名
 function tableRowClassName(value: { row: any; rowIndex: number }) {
   if (value.rowIndex % 2) {
@@ -256,10 +268,12 @@ function handleSelectionChange(selection: Array<unknown>) {
 }
 // 鼠标进入单元格
 function cellMouseEnter(row: unknown, column: unknown, cell: unknown, event: unknown) {
+  mouseEnter();
   $emits('cell-mouse-enter', row, column, cell, event);
 }
 // 鼠标离开单元格
 function cellMouseLeave(row: unknown, column: unknown, cell: unknown, event: unknown) {
+  mouseLeave();
   $emits('cell-mouse-leave', row, column, cell, event);
 }
 // 单击单元格
@@ -319,22 +333,15 @@ function resize() {
     state.scrollbarShow = true;
   }, 500);
 }
-// 初始化
-function init() {
-  let eTD = elTableDom.value as any;
-  eTD?.addEventListener('mouseenter', mouseEnter);
-  eTD?.addEventListener('mouseleave', mouseLeave);
-}
 // 移除监听
 function removeListener() {
-  let eTD = elTableDom.value as any;
-  eTD?.removeEventListener('mouseenter', mouseEnter);
-  eTD?.removeEventListener('mouseleave', mouseLeave);
   window.removeEventListener('resize', resize);
 }
 onMounted(() => {
-  init();
-  controlTable();
+  // 同步数据，表格渲染
+  if (props.sync) {
+    controlTable();
+  }
   window.addEventListener('resize', resize);
 });
 onBeforeUnmount(() => {
