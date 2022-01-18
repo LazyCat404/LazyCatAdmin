@@ -16,7 +16,7 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/eslint-recommended'
   ],
-  plugins: ['prettier', '@typescript-eslint'], //定义了eslint文件所依赖的插件
+  plugins: ['prettier', '@typescript-eslint'], // 定义了eslint文件所依赖的插件
   rules: {
     'prettier/prettier': 'warn', // prettier 检查警告
     // '@typescript-eslint/no-explicit-any': 'off', // 允许使用any
@@ -32,6 +32,14 @@ module.exports = {
         newIsCap: true,
         capIsNew: false,
         properties: true
+      }
+    ],
+    // 多词组件名称
+    'vue/multi-word-component-names': [
+      'warn',
+      {
+        // 忽略的组件
+        ignores: ['User']
       }
     ]
   }
