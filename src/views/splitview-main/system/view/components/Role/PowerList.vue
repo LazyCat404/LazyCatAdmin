@@ -137,8 +137,8 @@ watch(
 <style lang="scss" scoped>
 .system-role-power-wrapper {
   float: left;
-  width: calc(100% - 150px);
-  height: 100%;
+  width: calc(100% - 170px);
+  height: calc(100% - 90px);
   ::v-deep .el-tree-node.is-expanded.power-list-box > .el-tree-node__children {
     display: flex;
     flex-direction: row;
