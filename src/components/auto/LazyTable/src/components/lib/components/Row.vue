@@ -1,6 +1,6 @@
 <template>
   <span
-    :style="[{ color: props.bodyItem.color, cursor: props.bodyItem.edit || props.bodyItem.click ? 'pointer' : '' }]"
+    :style="[{ color: state.color, cursor: props.bodyItem.edit || props.bodyItem.click ? 'pointer' : '' }]"
     @click="rowClick"
   >
     <template v-if="Object.prototype.toString.call(props.rowData[props.bodyItem.prop]) === '[object Array]'">
@@ -26,7 +26,8 @@ const props = defineProps({
 });
 const state = reactive<any>({
   timer: null,
-  copyContent: null
+  copyContent: null,
+  color: props.bodyItem.color
 });
 function rowClick() {
   if (props.bodyItem.edit) {
@@ -75,6 +76,12 @@ function init() {
     } else {
       state.copyContent = props.rowData[props.bodyItem.prop];
     }
+  }
+  // 如果颜色是三元表达式
+  if (props.bodyItem.color && props.bodyItem.color.includes('?')) {
+    // eslint-disable-next-line no-unused-vars
+    let prop = props.rowData[props.bodyItem.colorX ? props.bodyItem.colorX : props.bodyItem.prop];
+    state.color = eval(props.bodyItem.color);
   }
 }
 init();

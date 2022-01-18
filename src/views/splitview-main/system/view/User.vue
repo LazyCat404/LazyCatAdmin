@@ -26,11 +26,16 @@ function init() {
     },
     {
       prop: 'roleName',
-      label: '所属角色'
+      label: '所属角色',
+      ico: 'prop === "超级管理员" ? "iconfont icon-qiyeguanli_yuangongguanli": prop === "普通员工" ? "iconfont icon-yonghu2" : "iconfont icon-yonghuguanli1"',
+      icoColor: 'prop === "超级管理员" ? "#a0a6ff": prop === "普通员工" ? "#a1d9ce" : "#f0cf9e"'
     },
     {
       prop: 'state',
-      label: '状态'
+      label: '状态',
+      align: 'center',
+      colorX: 'state',
+      color: 'prop === "已登录" ? "#37ac19" : prop === "游离" ? "#198aac" : "#b3b4b4"'
     }
   ];
   getUserList();

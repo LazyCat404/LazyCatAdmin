@@ -50,9 +50,15 @@
 
 - `ico`：图标，值为 ico 类名，当与`state`同时存在时，属性顺序决定洗显示顺序，
 
-- `color`:列字体颜色
+    > `icoX`：指定在 `ico`三元表达式中`prop`的变量
 
 - `icoColor`：列图标颜色（仅有图标时起作用）
+
+    > `icoColorX`：指定在 `icoColor`三元表达式中`prop`的变量 
+
+- `color`:列字体颜色，也可以是三元表达式，以`prop`为变量，例：`'prop === "已登录" ? "red":"yellow"'`
+
+    > `colorX`：指定在 `color`三元表达式中`prop`的变量
 
 - `click`：可点击，`function` 类型，返回当前行数据`rowData`和`prop`对应的字段名
 

@@ -5,11 +5,7 @@
     class="state-sign-box"
     style="margin-right: 5px"
   >
-    <span
-      :class="props.bodyItem.ico"
-      style="position: absolute; left: 0px; top: -0.5px"
-      :style="[{ color: props.bodyItem.icoColor }]"
-    >
+    <span :class="state.ico" style="position: absolute; left: 0px; top: -0.5px" :style="[{ color: state.icoColor }]">
     </span>
   </span>
   <!-- 状态 -->
@@ -22,11 +18,7 @@
     class="state-sign-box"
     style="margin-right: 5px"
   >
-    <span
-      :class="props.bodyItem.ico"
-      style="position: absolute; left: 0px; top: -0.5px"
-      :style="[{ color: props.bodyItem.icoColor }]"
-    >
+    <span :class="state.ico" style="position: absolute; left: 0px; top: -0.5px" :style="[{ color: state.icoColor }]">
     </span>
   </span>
 </template>
@@ -39,7 +31,9 @@ const props = defineProps({
 });
 const state = reactive<any>({
   setColor: stateColor,
-  first: 'ico' // 显示顺序
+  first: 'ico', // 显示顺序
+  ico: props.bodyItem.ico,
+  icoColor: props.bodyItem.icoColor
 });
 function init() {
   // ico 和状态都显示的时候，判断显示顺序
@@ -50,6 +44,18 @@ function init() {
         return;
       }
     }
+  }
+  // 如果ico是三元表达式
+  if (props.bodyItem.ico && props.bodyItem.ico.includes('?')) {
+    // eslint-disable-next-line no-unused-vars
+    let prop = props.rowData[props.bodyItem.icoX ? props.bodyItem.icoX : props.bodyItem.prop];
+    state.ico = eval(props.bodyItem.ico);
+  }
+  // 如果icoColor是三元表达式
+  if (props.bodyItem.icoColor && props.bodyItem.icoColor.includes('?')) {
+    // eslint-disable-next-line no-unused-vars
+    let prop = props.rowData[props.bodyItem.icoColorX ? props.bodyItem.icoX : props.bodyItem.prop];
+    state.icoColor = eval(props.bodyItem.icoColor);
   }
 }
 init();
