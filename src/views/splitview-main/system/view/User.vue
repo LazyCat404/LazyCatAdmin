@@ -1,5 +1,10 @@
 <template>
-  <LazyTable :tableData="state.tableData" :tableOptions="state.tableOptions"></LazyTable>
+  <LazyTable
+    :tableData="state.tableData"
+    :tableOptions="state.tableOptions"
+    :tableConfig="state.tableConfig"
+    :page="state.page"
+  ></LazyTable>
 </template>
 <script lang="ts" setup>
 import api from '@/apis/system';
@@ -7,11 +12,17 @@ import { reactive } from 'vue';
 
 const state = reactive<any>({
   tableData: [],
-  tableOptions: []
+  tableOptions: [],
+  tableConfig: {},
+  page: {
+    pageNum: 2,
+    pageSize: 20
+  }
 });
 function getUserList() {
   api.getUserList().then(res => {
     state.tableData = res.data;
+    state.page.total = 281;
   });
 }
 function init() {
@@ -38,8 +49,16 @@ function init() {
       color: 'prop === "已登录" ? "#37ac19" : prop === "游离" ? "#198aac" : "#b3b4b4"'
     }
   ];
+  state.tableConfig = {
+    // tableH: 'calc(100% - 60px)'
+    // tableH: '300px'
+  };
   getUserList();
 }
 init();
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.system-user-wrapper {
+  height: calc(100% - 60px);
+}
+</style>

@@ -32,7 +32,8 @@ import {
   ElSwitch,
   ElTree,
   ElCollapse,
-  ElCollapseItem
+  ElCollapseItem,
+  ElPagination
 } from 'element-plus';
 
 const ElComponents = [
@@ -66,7 +67,8 @@ const ElComponents = [
   ElSwitch,
   ElTree,
   ElCollapse,
-  ElCollapseItem
+  ElCollapseItem,
+  ElPagination
 ];
 
 const ElPlugins = [ElMessage, ElLoading];

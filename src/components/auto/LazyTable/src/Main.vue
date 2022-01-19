@@ -3,7 +3,7 @@
     :style="[
       {
         maxHeight: state.config.tableH,
-        height: state.tableBoxHeight,
+        height: state.config.tableH,
         position: 'relative'
       }
     ]"
@@ -30,8 +30,8 @@
       @header-contextmenu="headerContextmenu"
       :data="tableData"
       :border="state.config.border"
-      height="100%"
-      max-height="100%"
+      :height="props.page === undefined ? '100%' : 'calc(100% - 60px)'"
+      :max-height="props.page === undefined ? '100%' : 'calc(100% - 60px)'"
     >
       <!-- 空数据提示 -->
       <template #empty> 暂无数据 </template>
@@ -88,7 +88,7 @@
       </el-scrollbar>
     </div>
     <!-- 分页 -->
-    <!-- <LazyPage></LazyPage> -->
+    <LazyPage v-if="props.page !== undefined" :page="props.page"></LazyPage>
   </div>
 </template>
 
@@ -129,6 +129,7 @@ const props = defineProps({
     required: true
   },
   tableConfig: Object,
+  page: Object,
   sync: {
     // 是否为同步数据，默认异步获取数据
     type: Boolean,
