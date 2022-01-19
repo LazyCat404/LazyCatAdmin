@@ -1,6 +1,12 @@
 <template>
   <div
-    :style="[{ maxHeight: state.config.tableH, height: state.tableBoxHeight, position: 'relative' }]"
+    :style="[
+      {
+        maxHeight: state.config.tableH.search('%') === -1 ? state.config.tableH : '',
+        height: state.tableBoxHeight,
+        position: 'relative'
+      }
+    ]"
     ref="elTableDom"
   >
     <!-- 表格 -->
