@@ -2,7 +2,7 @@
   <div
     :style="[
       {
-        maxHeight: state.config.tableH.search('%') === -1 ? state.config.tableH : '',
+        maxHeight: state.config.tableH,
         height: state.tableBoxHeight,
         position: 'relative'
       }
@@ -30,8 +30,8 @@
       @header-contextmenu="headerContextmenu"
       :data="tableData"
       :border="state.config.border"
-      :height="state.config.tableH"
-      :max-height="state.config.tableH"
+      height="100%"
+      max-height="100%"
     >
       <!-- 空数据提示 -->
       <template #empty> 暂无数据 </template>
@@ -87,6 +87,8 @@
         <div :style="[{ height: state.tableRealHeight, width: state.tableRealWidth }]"></div>
       </el-scrollbar>
     </div>
+    <!-- 分页 -->
+    <!-- <LazyPage></LazyPage> -->
   </div>
 </template>
 
