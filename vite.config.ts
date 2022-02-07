@@ -1,7 +1,7 @@
 import path from 'path';
 import { defineConfig, loadEnv } from 'vite';
 import vue from '@vitejs/plugin-vue';
-import styleImport from 'vite-plugin-style-import';
+import styleImport, { ElementPlusResolve } from 'vite-plugin-style-import';
 
 export default (par: { mode: string; command: string }): unknown => {
   const config = {
@@ -17,16 +17,18 @@ export default (par: { mode: string; command: string }): unknown => {
     plugins: [
       vue(),
       styleImport({
-        libs: [
-          {
-            libraryName: 'element-plus',
-            esModule: true,
-            ensureStyleFile: true,
-            resolveStyle: name => {
-              return `element-plus/theme-chalk/${name}.css`;
-            }
-          }
-        ]
+        resolves: [ElementPlusResolve()]
+        // （自动引入样式）或
+        // libs: [
+        //   {
+        //     libraryName: 'element-plus',
+        //     esModule: true,
+        //     ensureStyleFile: true,
+        //     resolveStyle: name => {
+        //       return `element-plus/theme-chalk/${name}.css`;
+        //     }
+        //   }
+        // ]
       })
     ],
     css: {
