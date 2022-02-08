@@ -28,12 +28,12 @@
   <el-popover
     v-if="props.headerItem.filter ? true : false"
     popper-class="custom-el-popover"
-    v-model:visible="state.visible"
     placement="bottom"
     width="auto"
+    trigger="click"
   >
     <!-- 筛选列表（弹出层） -->
-    <div>
+    <template #default>
       <!-- 单选 -->
       <template v-if="state.filterType == 'select'">
         <ul class="table-header-filter-select">
@@ -60,7 +60,7 @@
           <el-button type="text" :disabled="state.disabledBtn" @click="confirmFilter(0)">取消</el-button>
         </div>
       </template>
-    </div>
+    </template>
     <!-- 筛选按钮 -->
     <template #reference>
       <span
@@ -89,7 +89,6 @@ const props = defineProps({
 });
 const $emits = defineEmits(['filterChange', 'sortChange']);
 const state = <any>reactive({
-  visible: false,
   isIndeterminate: false,
   filterList: [], // 筛选列表
   filterType: '', // 筛选类型 select:单选，check:复选
@@ -137,7 +136,6 @@ function confirmFilter(type: number) {
     handleCheckedChange(state.checkItem);
   } else {
     state.checked = state.checkItem;
-    state.visible = false;
     $emits('filterChange', {
       type: '多选',
       prop: props.headerItem.prop,
