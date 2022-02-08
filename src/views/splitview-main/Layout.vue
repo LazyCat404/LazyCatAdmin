@@ -10,7 +10,7 @@
         { margin: state.navShow ? '0 15px 15px' : '15px' }
       ]"
     >
-      <el-scrollbar>
+      <el-scrollbar v-if="state.scrollbarView">
         <div id="scrollbar-layout-wrapper">
           <router-view></router-view>
         </div>
@@ -24,18 +24,26 @@ import Menu from '../splitview-sample/layout/Menu.vue';
 import Header from '../splitview-sample/layout/Header.vue';
 import Navigation from '../splitview-sample/layout/Navigation.vue';
 import useCurrentInstance from '@/utils/useCurrentInstance';
-import { reactive } from 'vue';
+import { reactive, watch } from 'vue';
 import { onBeforeRouteUpdate, useRoute } from 'vue-router';
 // 全局属性
 const { gpr } = useCurrentInstance();
 const $stores = gpr.$stores as any;
 const route = useRoute();
 const state = reactive({
-  navShow: route.meta.breadcrumb && $stores.systemSet.getters.nav()
+  navShow: route.meta.breadcrumb && $stores.systemSet.getters.nav(),
+  scrollbarView: true // 控制滚动条视图刷新
 });
 onBeforeRouteUpdate(to => {
+  state.scrollbarView = false;
   state.navShow = to.meta.breadcrumb && $stores.systemSet.getters.nav();
 });
+watch(
+  () => route.path,
+  () => {
+    state.scrollbarView = true;
+  }
+);
 </script>
 
 <style lang="scss" scoped>
