@@ -368,7 +368,7 @@ onBeforeUnmount(() => {
   ::v-deep tr {
     background: transparent;
   }
-  ::v-deep tr:hover {
+  ::v-deep tbody tr:hover {
     background: #edf1f4 !important;
   }
   ::v-deep.el-table::before,
