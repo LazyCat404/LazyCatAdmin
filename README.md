@@ -18,12 +18,18 @@ npm run build
 - [element-plus](https://element-plus.org/#/zh-CN)
 
 
-### 开发依赖
+### 主要插件依赖
 
-- typescript
+- typescript: ts 语法检查
 
-- vite
+- vite：打包工具
 
-- sass
+- sass：css预编译
 
-- typescript-eslint
+- vite-plugin-style-import：按需导入 .css 文件
+
+- splitpanes：窗格拆分/大小控制
+
+- clipboard：复制面板
+
+- vuex-persistedstate: vuex 持久化

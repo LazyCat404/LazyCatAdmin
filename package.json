@@ -12,6 +12,7 @@
     "clipboard": "^2.0.10",
     "element-plus": "^2.0.0",
     "qs": "^6.10.3",
+    "splitpanes": "^3.0.6",
     "vue": "^3.2.30",
     "vue-router": "^4.0.12",
     "vuex": "^4.0.2",
@@ -20,6 +21,7 @@
   "devDependencies": {
     "@types/node": "^17.0.15",
     "@types/qs": "^6.9.7",
+    "@types/splitpanes": "^2.2.1",
     "@typescript-eslint/eslint-plugin": "^5.10.2",
     "@typescript-eslint/parser": "^5.10.2",
     "@vitejs/plugin-vue": "^2.1.0",
