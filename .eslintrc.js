@@ -39,7 +39,7 @@ module.exports = {
       'warn',
       {
         // 忽略的组件
-        ignores: ['User']
+        ignores: ['User', 'Index']
       }
     ]
   }
