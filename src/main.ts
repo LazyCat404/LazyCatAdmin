@@ -6,7 +6,7 @@ import globalMount from './utils/globalMount';
 import { MyComponents } from '@/components/index';
 
 import { ElComponents, ElPlugins } from '@/plugins/element';
-import { customDirective } from '@/plugins/directive';
+import { customDirective } from '@/directive';
 import 'element-plus/theme-chalk/base.css'; // elm 基础样式
 import '@/assets/css/custom.scss';
 

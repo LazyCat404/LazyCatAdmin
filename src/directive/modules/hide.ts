@@ -17,7 +17,9 @@ function inDom(event: Event) {
       line-height: 14px;
       word-wrap: break-word;
       background: #303133;
-      color: #FFF;`
+      color: #FFF;
+      z-index:3000;
+      max-width:500px;`
     );
     /**
      * 指示三角
@@ -28,7 +30,7 @@ function inDom(event: Event) {
       `position: absolute;
       width: 10px;
       height: 10px;
-      top:29px;
+      top:${tipDom.offsetHeight - 5}px;
       left:${tipDom.offsetWidth / 2 - 5}px;
       background: #303133;
       transform:rotate(45deg);
@@ -57,10 +59,10 @@ function inDom(event: Event) {
     /**
      * 提示框上偏移量
      */
-    let tipTopOffset = contSize.top - 44;
-    if (contSize.top <= 44) {
+    let tipTopOffset = contSize.top - (tipDom.offsetHeight + 10);
+    if (contSize.top <= tipDom.offsetHeight - 5) {
       // 靠上
-      tipTopOffset = contSize.top - contDom.offsetHeight + 48;
+      tipTopOffset = contSize.top + contDom.offsetHeight + 10;
       indicateDom.style.top = `-5px`;
     }
     tipDom.style.top = `${tipTopOffset}px`;
@@ -72,20 +74,19 @@ function outDom() {
   }
 }
 
-const customDirective = [
-  {
-    name: 'hide',
-    dir: {
-      mounted(el: HTMLElement): void {
-        el.setAttribute('style', `overflow: hidden;white-space: nowrap;text-overflow: ellipsis;`);
-        el.addEventListener('mouseenter', inDom);
-        el.addEventListener('mouseleave', outDom);
-      },
-      beforeUnmount(el: HTMLElement): void {
-        el.removeEventListener('mouseenter', inDom);
-        el.removeEventListener('mouseleave', outDom);
-      }
+const hide = {
+  name: 'hide',
+  dir: {
+    mounted(el: HTMLElement): void {
+      el.setAttribute('style', `overflow: hidden;white-space: nowrap;text-overflow: ellipsis;`);
+      el.addEventListener('mouseenter', inDom);
+      el.addEventListener('mouseleave', outDom);
+    },
+    beforeUnmount(el: HTMLElement): void {
+      el.removeEventListener('mouseenter', inDom);
+      el.removeEventListener('mouseleave', outDom);
     }
   }
-];
-export { customDirective };
+};
+
+export default hide;
