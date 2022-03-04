@@ -1,7 +1,10 @@
+let bindObj: { value: unknown } = { value: undefined };
 let tipDom: HTMLElement | null = null;
+let timer: any = null;
+let isInTip = false;
 function inDom(event: Event) {
   const contDom: HTMLElement = <HTMLElement>event.target;
-  if (contDom.scrollWidth > contDom.offsetWidth) {
+  if (!timer && contDom.scrollWidth > contDom.offsetWidth) {
     tipDom = document.createElement('span');
     document.body.appendChild(tipDom);
     tipDom.innerHTML = `
@@ -70,14 +73,41 @@ function inDom(event: Event) {
 }
 function outDom() {
   if (tipDom && document.body.contains(tipDom)) {
-    document.body.removeChild(tipDom);
+    // 默认可以复制
+    if (bindObj.value || bindObj.value === undefined) {
+      tipDom?.addEventListener('mouseenter', inTip);
+      if (!timer) {
+        timer = setTimeout(() => {
+          if (!isInTip) {
+            document.body.removeChild(<HTMLElement>tipDom);
+            tipDom = null;
+          } else {
+            tipDom?.removeEventListener('mouseenter', inTip);
+          }
+          timer = null;
+        }, 200);
+      }
+    } else {
+      document.body.removeChild(<HTMLElement>tipDom);
+    }
   }
 }
-
+function inTip() {
+  isInTip = true;
+  // 添加移出监听
+  tipDom?.addEventListener('mouseleave', outTip);
+}
+function outTip() {
+  tipDom?.removeEventListener('mouseleave', outTip);
+  document.body.removeChild(<HTMLElement>tipDom);
+  tipDom = null;
+  isInTip = false;
+}
 const hide = {
   name: 'hide',
   dir: {
-    mounted(el: HTMLElement): void {
+    mounted(el: HTMLElement, binding: { value: unknown }): void {
+      bindObj = binding;
       el.setAttribute('style', `overflow: hidden;white-space: nowrap;text-overflow: ellipsis;`);
       el.addEventListener('mouseenter', inDom);
       el.addEventListener('mouseleave', outDom);
@@ -85,6 +115,7 @@ const hide = {
     beforeUnmount(el: HTMLElement): void {
       el.removeEventListener('mouseenter', inDom);
       el.removeEventListener('mouseleave', outDom);
+      clearTimeout(timer);
     }
   }
 };
