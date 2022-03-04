@@ -35,9 +35,9 @@
 </template>
 
 <script lang="ts" setup>
-import api from '@/apis/user';
+import api from '@api';
 import useCurrentInstance from '@/utils/useCurrentInstance';
-import { myObject } from '@types';
+import { myObject,res } from '@types';
 import { reactive, ref, unref } from 'vue';
 import { useRouter } from 'vue-router';
 const state = reactive({
@@ -64,7 +64,7 @@ function submitForm() {
   const form = unref(userFormRef);
   form?.validate((valid: boolean) => {
     if (valid) {
-      api.login(state.userForm).then(res => {
+      api.login(state.userForm).then((res:res) => {
         let commit = $store.commit as any;
         // 缓存token
         commit('setToken', res.data.token);

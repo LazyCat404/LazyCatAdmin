@@ -1,7 +1,7 @@
 import path from 'path';
 import { defineConfig, loadEnv } from 'vite';
 import vue from '@vitejs/plugin-vue';
-import styleImport, { ElementPlusResolve } from 'vite-plugin-style-import';
+import styleImport from 'vite-plugin-style-import';
 
 export default (par: { mode: string; command: string }): unknown => {
   const config = {
@@ -10,6 +10,7 @@ export default (par: { mode: string; command: string }): unknown => {
       alias: {
         vue: 'vue/dist/vue.esm-bundler.js', // 定义vue的别名，如果使用其他的插件，可能会用到别名
         '@': path.resolve(__dirname, 'src'),
+        '@api': path.resolve(__dirname, 'src/api'),
         '@views': path.resolve(__dirname, 'src/views'),
         '@types': path.resolve(__dirname, 'src/@types')
       }
@@ -17,18 +18,17 @@ export default (par: { mode: string; command: string }): unknown => {
     plugins: [
       vue(),
       styleImport({
-        resolves: [ElementPlusResolve()]
-        // （自动引入样式）或
-        // libs: [
-        //   {
-        //     libraryName: 'element-plus',
-        //     esModule: true,
-        //     ensureStyleFile: true,
-        //     resolveStyle: name => {
-        //       return `element-plus/theme-chalk/${name}.css`;
-        //     }
-        //   }
-        // ]
+        // （自动引入样式）
+        libs: [
+          {
+            libraryName: 'element-plus',
+            esModule: true,
+            ensureStyleFile: true,
+            resolveStyle: name => {
+              return `element-plus/theme-chalk/${name}.css`;
+            }
+          }
+        ]
       })
     ],
     css: {

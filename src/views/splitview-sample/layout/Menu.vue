@@ -37,7 +37,8 @@
 </template>
 
 <script lang="ts" setup>
-import api from '@/apis/user';
+import api from '@api';
+import { res } from '@types';
 import { onBeforeUnmount, reactive } from 'vue';
 import { useRoute } from 'vue-router';
 
@@ -51,7 +52,7 @@ const menu = reactive<any>({
 });
 // 获取菜单
 (function getMenu() {
-  api.getMenu().then(res => {
+  api.getMenu().then((res:res) => {
     menu.list = res.data;
   });
 })();

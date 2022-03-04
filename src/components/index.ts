@@ -11,4 +11,4 @@ for (const path in modulesFiles) {
   }
   MyComponents.push(modulesFiles[path].default);
 }
-export { MyComponents };
+export default  MyComponents;

@@ -21,7 +21,8 @@
   </div>
 </template>
 <script lang="ts" setup>
-import api from '@/apis/system';
+import api from '@api';
+import { res } from '@types';
 import { defineEmits, reactive } from 'vue';
 const state = reactive<any>({
   roleList: [],
@@ -31,7 +32,7 @@ const $emits = defineEmits(['deliverPar']);
 
 // 获取角色列表
 function getRoleList() {
-  api.getRoleList().then(res => {
+  api.getRoleList().then((res:res) => {
     state.roleList = res.data;
     state.activeRole = res.data[0].id;
     $emits('deliverPar', res.data[0]);

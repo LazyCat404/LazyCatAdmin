@@ -7,7 +7,8 @@
   ></LazyTable>
 </template>
 <script lang="ts" setup>
-import api from '@/apis/system';
+import api from '@api';
+import { res } from '@types';
 import { reactive } from 'vue';
 
 const state = reactive<any>({
@@ -20,7 +21,7 @@ const state = reactive<any>({
   }
 });
 function getUserList() {
-  api.getUserList().then(res => {
+  api.getUserList().then((res:res) => {
     state.tableData = res.data;
     state.page.total = 281;
   });
