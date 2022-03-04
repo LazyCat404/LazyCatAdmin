@@ -4,7 +4,7 @@ let timer: any = null;
 let isInTip = false;
 function inDom(event: Event) {
   const contDom: HTMLElement = <HTMLElement>event.target;
-  if (!timer && contDom.scrollWidth > contDom.offsetWidth) {
+  if (!tipDom && contDom.scrollWidth > contDom.offsetWidth) {
     tipDom = document.createElement('span');
     document.body.appendChild(tipDom);
     tipDom.innerHTML = `
@@ -79,8 +79,10 @@ function outDom() {
       if (!timer) {
         timer = setTimeout(() => {
           if (!isInTip) {
-            document.body.removeChild(<HTMLElement>tipDom);
-            tipDom = null;
+            if (tipDom && document.body.contains(tipDom)) {
+              document.body.removeChild(<HTMLElement>tipDom);
+              tipDom = null;
+            }
           } else {
             tipDom?.removeEventListener('mouseenter', inTip);
           }
