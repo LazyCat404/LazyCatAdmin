@@ -159,12 +159,12 @@ let tableOptions = [
         </template>
       </el-popover>
     `,
-    // template: Test,
-    // sort: 'des',
+    sort: 'des',
     methods: {
       myClick
     },
     tip: false
+    // template: Test
   }
 ];
 let tableConfig = {
@@ -212,7 +212,7 @@ function switchChange(parame: unknown) {
 }
 // 自定义模板方法
 function myClick(scope: unknown) {
-  console.log('自定义模板法', scope);
+  console.log('自定义模板方法', scope);
 }
 </script>
 <style scoped>
