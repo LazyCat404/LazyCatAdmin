@@ -1,7 +1,9 @@
 import path from 'path';
 import { defineConfig, loadEnv } from 'vite';
 import vue from '@vitejs/plugin-vue';
-import styleImport from 'vite-plugin-style-import';
+import AutoImport from 'unplugin-auto-import/vite';
+import Components from 'unplugin-vue-components/vite';
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 
 export default (par: { mode: string; command: string }): unknown => {
   const config = {
@@ -17,18 +19,12 @@ export default (par: { mode: string; command: string }): unknown => {
     },
     plugins: [
       vue(),
-      styleImport({
-        // （自动引入样式）
-        libs: [
-          {
-            libraryName: 'element-plus',
-            esModule: true,
-            ensureStyleFile: true,
-            resolveStyle: name => {
-              return `element-plus/theme-chalk/${name}.css`;
-            }
-          }
-        ]
+      AutoImport({
+        resolvers: [ElementPlusResolver()]
+      }),
+      Components({
+        deep: false, // 搜索子目录
+        resolvers: [ElementPlusResolver()]
       })
     ],
     css: {

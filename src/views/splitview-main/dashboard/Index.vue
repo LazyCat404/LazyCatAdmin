@@ -16,7 +16,7 @@
 
 <script lang="ts" setup>
 import { reactive } from 'vue';
-// import Test from './Test.vue';
+import Test from './Test.vue';
 let selList = [
   { label: '和平区', value: 1 },
   { label: '南开区', value: 2 },
@@ -146,25 +146,8 @@ let tableOptions = [
   },
   {
     label: '操作',
-    template: `
-      <el-popover
-        placement="top-start"
-        title="Title"
-        :width="200"
-        trigger="hover"
-        content="this is content, this is content, this is content"
-      >
-        <template #reference>
-          <el-button size="small" @click='myClick(scope)'>Hover</el-button>
-        </template>
-      </el-popover>
-    `,
-    sort: 'des',
-    methods: {
-      myClick
-    },
-    tip: false
-    // template: Test
+    tip: false,
+    template: Test
   }
 ];
 let tableConfig = {
@@ -209,10 +192,6 @@ function handleSelectionChange(selection: Array<unknown>) {
 // switch 值改变
 function switchChange(parame: unknown) {
   console.log('switch', parame);
-}
-// 自定义模板方法
-function myClick(scope: unknown) {
-  console.log('自定义模板方法', scope);
 }
 </script>
 <style scoped>

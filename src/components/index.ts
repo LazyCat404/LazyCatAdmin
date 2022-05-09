@@ -1,6 +1,6 @@
-import { myObject } from '@types';
+import { App, Component } from 'vue';
 
-const MyComponents: Array<myObject> = [];
+const componentsArr: Component[] = [];
 const modulesFiles = import.meta.globEager('./auto/*/index.ts');
 for (const path in modulesFiles) {
   if (!modulesFiles[path].default.name) {
@@ -9,6 +9,16 @@ for (const path in modulesFiles) {
     const matchResult = path.match(reg) as RegExpMatchArray;
     modulesFiles[path].default.name = matchResult[0];
   }
-  MyComponents.push(modulesFiles[path].default);
+  componentsArr.push(modulesFiles[path].default);
 }
-export default  MyComponents;
+
+// 组件注册
+const customComponents = {
+  install(app: App) {
+    componentsArr.map((item: Component) => {
+      app.component(item.name as string, item);
+    });
+  }
+};
+
+export default customComponents;
