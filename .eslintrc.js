@@ -39,8 +39,12 @@ module.exports = {
       'warn',
       {
         // 忽略的组件
-        ignores: ['User', 'Index']
+        ignores: ['User', 'Index', 'Main']
       }
     ]
+  },
+  // 全局变量
+  globals: {
+    ElMessage: 'readonly' // readonly/false -> 只读；writable/true —> 可写；off -> 禁用
   }
 };
