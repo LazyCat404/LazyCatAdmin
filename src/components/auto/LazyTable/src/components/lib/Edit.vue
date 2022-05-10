@@ -16,22 +16,8 @@
     <div
       class="table-edit-box"
       v-show="state.isEdit"
-      @mouseenter="
-        !props.bodyItem.edit.type ||
-        props.bodyItem.edit.type === 'text' ||
-        props.bodyItem.edit.type === 'number' ||
-        props.bodyItem.edit.type === 'textarea'
-          ? (state.isConfirm = true)
-          : ((state.isConfirm = false), (state.dateRow = true))
-      "
-      @mouseleave="
-        !props.bodyItem.edit.type ||
-        props.bodyItem.edit.type === 'text' ||
-        props.bodyItem.edit.type === 'number' ||
-        props.bodyItem.edit.type === 'textarea'
-          ? (state.isConfirm = false)
-          : ((state.isConfirm = false), (state.dateRow = false))
-      "
+      @mouseenter="state.isConfirm = true"
+      @mouseleave="state.isConfirm = false"
       :style="[
         {
           width: `${
@@ -90,7 +76,9 @@
           :clearable="false"
           :value-format="props.bodyItem.edit.valueFormat || 'YYYY-MM-DD'"
           :format="props.bodyItem.edit.format || 'YYYY-MM-DD'"
-          @blur="blurInput"
+          @change="dateChange"
+          @panelc-hange="dateChange"
+          @visible-change="dateVisiblechange"
           v-model="state.editData"
           :type="props.bodyItem.edit.type"
           style="width: 100%"
@@ -112,7 +100,6 @@
 import { config } from '../../config';
 import { defineEmits, defineProps, reactive, ref } from 'vue';
 import { inspect } from '@/utils/inspect';
-import { ElMessage } from 'element-plus';
 import tool from '@/utils/tool';
 import State from './components/State.vue';
 import Row from './components/Row.vue';
@@ -125,11 +112,8 @@ const state = reactive<any>({
   editData: props.rowData[props.bodyItem.prop],
   isEdit: false,
   isConfirm: true, // 鼠标是否在输入框内
-  nowDateId: null, // 当前日期弹出框id
   nowRowIndex: null, // 当前行序号
-  dateRow: true, // 日期类型，是否点击行内编辑确认按钮
-  showConfirmBtn: true, // 显示确认按钮
-  selDomClick: false // 是否点击下拉选弹出框
+  showConfirmBtn: true // 显示确认按钮
 });
 const tableRowInput = ref(null); // 编辑输入框
 const tableSelectInput = ref(null); // 下拉选dom
@@ -145,17 +129,12 @@ function dobleClick(event: any) {
     // 编辑绑定数据赋值
     if (props.bodyItem.edit.type === 'select') {
       state.editData = props.rowData[props.bodyItem.edit.selectProp];
-      let tSI = tableSelectInput.value as any;
-      tSI?.addEventListener('mouseenter', mouseEnter);
-      tSI?.addEventListener('mouseleave', mouseLeave);
       window.addEventListener('click', clickSelDom);
     } else {
       state.editData = props.rowData[props.bodyItem.prop];
     }
     state.isEdit = true;
-    // 输入框自动活得焦点
-    let tRI = tableRowInput.value as any;
-    tRI.focus();
+
     // 获取当前序号
     for (let i = 0; i < event.path.length; i++) {
       if (event.path[i].nodeName === 'TR') {
@@ -163,39 +142,15 @@ function dobleClick(event: any) {
         break;
       }
     }
-    // 日期选框特殊处理
-    if (
-      props.bodyItem.edit.type === 'date' ||
-      props.bodyItem.edit.type === 'year' ||
-      props.bodyItem.edit.type === 'month' ||
-      props.bodyItem.edit.type === 'dates' ||
-      props.bodyItem.edit.type === 'datetime' ||
-      props.bodyItem.edit.type === 'week' ||
-      props.bodyItem.edit.type === 'datetimerange' ||
-      props.bodyItem.edit.type === 'daterange' ||
-      props.bodyItem.edit.type === 'monthrange'
-    ) {
-      window.addEventListener('click', clickSelDom);
-      for (let i = 0; i < event.path.length; i++) {
-        if (event.path[i].className === 'lazy-table-list-col-box') {
-          // 对应dom id（用于监听，避免失去焦点冲突）
-          state.nowDateId = event.path[i].querySelector('.el-input__inner').attributes['aria-describedby'].value;
-          let dateDom = document.getElementById(state.nowDateId);
-          dateDom?.addEventListener('mouseenter', mouseEnter);
-          dateDom?.addEventListener('mouseleave', mouseLeave);
-          return;
-        }
-      }
-    }
+    // 输入框自动获得焦点
+    let tRI = tableRowInput.value as any;
+    setTimeout(() => {
+      tRI.focus();
+    });
   }
 }
 // 行编辑确认
 function rowConfirm() {
-  // 下拉选
-  if (props.bodyItem.edit.type === 'select') {
-    removeListener();
-  }
-  state.isEdit = false;
   if (
     state.editData !== props.rowData[props.bodyItem.prop] &&
     state.editData !== props.rowData[props.bodyItem.edit.selectProp]
@@ -208,6 +163,8 @@ function rowConfirm() {
           let insRes = ins[props.bodyItem.edit.inspect](state.editData);
           if (!insRes) {
             ElMessage.error(props.bodyItem.edit.err || '验证失败！');
+            let tRI = tableRowInput.value as any;
+            tRI.focus();
             return;
           }
         } else {
@@ -216,10 +173,14 @@ function rowConfirm() {
           } else {
             console.error('inspect not a function，请前往/src/utils/inspect.ts 检查');
           }
+          let tRI = tableRowInput.value as any;
+          tRI.focus();
           return;
         }
       } else {
         console.error('请检查inspect类型，仅支持 string');
+        let tRI = tableRowInput.value as any;
+        tRI.focus();
         return;
       }
     }
@@ -262,74 +223,15 @@ function rowConfirm() {
     }
     $emits('row-confirm', parame);
   }
+  state.isEdit = false;
 }
-// 鼠标进入
-function mouseEnter() {
-  state.isConfirm = true;
-}
-// 鼠标离开
-function mouseLeave() {
-  state.isConfirm = false;
-}
-// 移除监听
-function removeListener() {
-  if (props.bodyItem.edit.type === 'select') {
-    let tSI = tableSelectInput.value as any;
-    tSI?.removeEventListener('mouseenter', mouseEnter);
-    tSI?.removeEventListener('mouseleave', mouseLeave);
-    window.removeEventListener('click', clickSelDom);
-  } else {
-    let dateDom = document.getElementById(state.nowDateId);
-    dateDom?.removeEventListener('mouseenter', mouseEnter);
-    dateDom?.removeEventListener('mouseleave', mouseLeave);
-  }
-}
-// 失去焦点触发
+// input失去焦点触发
 function blurInput() {
   if (!state.isConfirm) {
-    if (
-      props.bodyItem.edit.type === 'date' ||
-      props.bodyItem.edit.type === 'year' ||
-      props.bodyItem.edit.type === 'month' ||
-      props.bodyItem.edit.type === 'dates' ||
-      props.bodyItem.edit.type === 'datetime' ||
-      props.bodyItem.edit.type === 'week' ||
-      props.bodyItem.edit.type === 'datetimerange' ||
-      props.bodyItem.edit.type === 'daterange' ||
-      props.bodyItem.edit.type === 'monthrange' ||
-      props.bodyItem.edit.type === 'select'
-    ) {
-      // 日期框特殊处理
-      if (props.bodyItem.edit.type !== 'select') {
-        let dateDom = document.getElementById(state.nowDateId) as any;
-        dateDom.style.display = 'none';
-        if (state.dateRow) {
-          // 点击行内确认按钮
-          rowConfirm();
-        }
-      }
-      removeListener();
-    }
     state.isEdit = false;
-  } else {
-    // 点击弹出框不失去焦点
-    if (
-      props.bodyItem.edit.type === 'date' ||
-      props.bodyItem.edit.type === 'year' ||
-      props.bodyItem.edit.type === 'month' ||
-      props.bodyItem.edit.type === 'dates' ||
-      props.bodyItem.edit.type === 'datetime' ||
-      props.bodyItem.edit.type === 'week' ||
-      props.bodyItem.edit.type === 'datetimerange' ||
-      props.bodyItem.edit.type === 'daterange' ||
-      props.bodyItem.edit.type === 'monthrange'
-    ) {
-      let tRI = tableRowInput.value as any;
-      tRI.focus();
-    }
   }
 }
-// 点击事件
+// select 空白点击失去编辑状态
 function clickSelDom(event: any) {
   if (props.bodyItem.edit.type === 'select') {
     state.isEdit = false;
@@ -340,13 +242,18 @@ function clickSelDom(event: any) {
   }
   window.removeEventListener('click', clickSelDom);
 }
-// 下拉选框出现/隐藏
+// 下拉选弹框显隐
 function visibleChange(type: boolean) {
-  if (!type) {
-    state.showConfirmBtn = true;
-  } else {
-    state.showConfirmBtn = false;
-  }
+  state.showConfirmBtn = !type;
+}
+// 日期框面板改变（持续获得焦点）
+function dateChange() {
+  let tRI = tableRowInput.value as any;
+  tRI.focus();
+}
+// 日期弹框显隐
+function dateVisiblechange(show: boolean) {
+  state.isEdit = show;
 }
 </script>
 <style lang="scss" scoped>
@@ -368,6 +275,11 @@ function visibleChange(type: boolean) {
       top: 5px;
       cursor: pointer;
       background: #fff;
+      z-index: 99;
+    }
+    ::v-deep .el-input__wrapper {
+      width: 100%;
+      box-shadow: 0 0 0 1px var(--el-color-primary) inset !important;
     }
     ::v-deep .el-input input::-webkit-outer-spin-button,
     ::v-deep .el-input input::-webkit-inner-spin-button {
@@ -376,11 +288,6 @@ function visibleChange(type: boolean) {
     // 下拉选框
     ::v-deep .custom-el-multiple .el-input__inner {
       color: #fff;
-    }
-    ::v-deep .custom-el-multiple .el-select__tags .el-tag--info {
-      display: inline-block;
-      border-radius: 4px;
-      padding: 0 3px;
     }
     ::v-deep .custom-el-multiple .el-select__tags-text {
       text-overflow: ellipsis;
@@ -415,11 +322,6 @@ function visibleChange(type: boolean) {
     ::v-deep .el-date-editor .el-input__inner,
     ::v-deep .custom-el-multiple .el-input__inner {
       border-color: #409eff;
-    }
-    // 时间选框
-    ::v-deep .custom-date-picker .el-input__icon {
-      position: relative;
-      top: 9px;
     }
   }
 }
