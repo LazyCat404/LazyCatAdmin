@@ -9,4 +9,4 @@ for (const path in modulesFiles) {
   customDirective.push(modulesFiles[path].default);
 }
 
-export default customDirective ;
+export default customDirective;

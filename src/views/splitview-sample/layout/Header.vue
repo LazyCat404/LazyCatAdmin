@@ -20,11 +20,9 @@
 <script lang="ts" setup>
 import userImage from '@/assets/images/user.png';
 import useCurrentInstance from '@/utils/useCurrentInstance';
-import { myObject } from '@types';
-
 // 全局属性
 const { gpr } = useCurrentInstance();
-const $store = gpr.$store as myObject;
+const $store = gpr.$store as any;
 const $router = gpr.$router as any;
 // 用户头像
 const userImg = userImage;

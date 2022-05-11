@@ -52,7 +52,7 @@ const menu = reactive<any>({
 });
 // 获取菜单
 (function getMenu() {
-  api.getMenu().then((res:res) => {
+  api.getMenu().then((res: res) => {
     menu.list = res.data;
   });
 })();

@@ -1,14 +1,11 @@
 /**
  * 同步修改状态
  */
-
-import { myObject } from '@types';
-
 const mutations = {
-  setUser: (state: myObject, payload: myObject): void => {
+  setUser: (state: any, payload: any): void => {
     state.user = payload;
   },
-  setToken: (state: myObject, payload: myObject): void => {
+  setToken: (state: any, payload: any): void => {
     state.token = payload;
   }
 };

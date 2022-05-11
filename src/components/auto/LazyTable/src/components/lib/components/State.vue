@@ -47,13 +47,13 @@ function init() {
   }
   // 如果ico是三元表达式
   if (props.bodyItem.ico && props.bodyItem.ico.includes('?')) {
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     let prop = props.rowData[props.bodyItem.icoX ? props.bodyItem.icoX : props.bodyItem.prop];
     state.ico = eval(props.bodyItem.ico);
   }
   // 如果icoColor是三元表达式
   if (props.bodyItem.icoColor && props.bodyItem.icoColor.includes('?')) {
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     let prop = props.rowData[props.bodyItem.icoColorX ? props.bodyItem.icoX : props.bodyItem.prop];
     state.icoColor = eval(props.bodyItem.icoColor);
   }

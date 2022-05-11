@@ -1,4 +1,3 @@
-import { myObject } from '@types';
 import { createStore, createLogger } from 'vuex';
 import createPersistedState from 'vuex-persistedstate';
 import global from './modules/global';
@@ -13,7 +12,7 @@ const modules: any = {};
 const modulesFiles = import.meta.glob('./modules/*/index.ts');
 for (const path in modulesFiles) {
   if (path.includes('global') === false) {
-    modulesFiles[path]().then((res: myObject): void => {
+    modulesFiles[path]().then((res: any): void => {
       modules[path.replace(/(\.\/modules\/|\/index.ts)/g, '')] = res.default;
     });
   }

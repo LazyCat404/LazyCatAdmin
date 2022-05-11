@@ -1,11 +1,10 @@
 import { post } from '@/plugins/axios';
-import { myObject, res } from '@types';
 
 const api = {
   // 菜单
-  getMenu: (par?: myObject): Promise<res> => post('/api/user/menu', par),
+  getMenu: (par?: any): Promise<res> => post('/api/user/menu', par),
   // 登录
-  login: (par: myObject): Promise<res> => post('/api/user/login', par)
+  login: (par: any): Promise<res> => post('/api/user/login', par)
 };
 
 export default api;

@@ -23,8 +23,8 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'max-params': ['warn', 7], // 函数参数禁止超过7个
-    'no-unused-vars': 'error', // 禁止变量声明未使用
-    'no-undef': 'error',
+    'no-unused-vars': 'off', // 禁用（允许）变量声明未使用
+    '@typescript-eslint/no-unused-vars': ['error'], // 使用@typescript-eslint 扩展规则
     // new 后面的类名必须首字母大写
     'new-cap': [
       'error',

@@ -3,12 +3,8 @@
   <el-button @click="btnClick">按钮</el-button>
 </template>
 <script setup lang="ts">
-import tool from '@/utils/tool';
-import api from '@api';
-
 function btnClick() {
-  console.log(api)
-  tool.blobDownload('/api/v1/system/userExcel/template', {}, `用户信息导入模板.xlsx`, 'get');
+  console.log('您点击了按钮');
 }
 </script>
 <style lang="scss" scoped>

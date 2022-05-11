@@ -21,7 +21,7 @@ const state = reactive<any>({
   }
 });
 function getUserList() {
-  api.getUserList().then((res:res) => {
+  api.getUserList().then((res: res) => {
     state.tableData = res.data;
     state.page.total = 281;
   });

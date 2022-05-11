@@ -1,7 +1,6 @@
 /**
  * axios封装
  */
-import { myObject, res } from '@types';
 import axios from 'axios';
 import QS from 'qs';
 
@@ -75,7 +74,7 @@ export function baseURL(par: string, fileUrl?: string): string {
  * @param {String} url [请求的url地址]
  * @param {Object} params [请求时携带的参数]
  */
-export function get(url: string, params?: myObject): Promise<res> {
+export function get(url: string, params?: any): Promise<res> {
   return new Promise((resolve, reject) => {
     axios
       .get(url, { params: params })
@@ -94,7 +93,7 @@ export function get(url: string, params?: myObject): Promise<res> {
  * @param {Object} params [请求时携带的参数]
  * @param {String} type [参数类型，默认Query数据，可能为json或表单]
  */
-export function post(url: string, params?: myObject, type?: string): Promise<res> {
+export function post(url: string, params?: any, type?: string): Promise<res> {
   if (type) {
     let headers = { 'Content-Type': 'application/json;' };
     if (type == 'DATA' || type == 'data') {
@@ -134,8 +133,8 @@ export function post(url: string, params?: myObject, type?: string): Promise<res
  * @param {Object} params [请求时携带的参数，默认Query数据]
  * @param {String} type [参数类型，默认Query数据，可能为json或表单]
  */
-export function del(url: string, params?: myObject, type?: string): Promise<res> {
-  let par: myObject;
+export function del(url: string, params?: any, type?: string): Promise<res> {
+  let par: any;
   if (type == 'JSON' || type == 'json') {
     par = { data: params };
   } else {

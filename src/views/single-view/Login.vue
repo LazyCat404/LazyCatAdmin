@@ -37,7 +37,6 @@
 <script lang="ts" setup>
 import api from '@api';
 import useCurrentInstance from '@/utils/useCurrentInstance';
-import { myObject,res } from '@types';
 import { reactive, ref, unref } from 'vue';
 import { useRouter } from 'vue-router';
 const state = reactive({
@@ -56,7 +55,7 @@ const rules = {
 
 // 全局属性
 const { gpr } = useCurrentInstance();
-const $store = gpr.$store as myObject;
+const $store = gpr.$store as any;
 const router = useRouter();
 // 登录表单
 const userFormRef = ref();
@@ -64,7 +63,7 @@ function submitForm() {
   const form = unref(userFormRef);
   form?.validate((valid: boolean) => {
     if (valid) {
-      api.login(state.userForm).then((res:res) => {
+      api.login(state.userForm).then((res: res) => {
         let commit = $store.commit as any;
         // 缓存token
         commit('setToken', res.data.token);
