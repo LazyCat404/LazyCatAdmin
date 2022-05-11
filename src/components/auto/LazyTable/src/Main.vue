@@ -42,7 +42,7 @@
         v-if="state.config.select"
         :fixed="state.config.selectFixed"
       ></el-table-column>
-      <!-- 表格列表 -->
+      <!-- 表格列表（自定义单文件行自动关闭tip） -->
       <el-table-column
         v-for="(item, i) in tableOptions"
         :key="i"
@@ -50,7 +50,13 @@
         :minWidth="item.minWidth || item.minwidth"
         :fixed="item.fixed"
         :align="item.align ? item.align : state.config.align"
-        :show-overflow-tooltip="item.tip === undefined ? config.tip : item.tip"
+        :show-overflow-tooltip="
+          !item.prop && Object.prototype.toString.call(item.template) === '[object Object]'
+            ? false
+            : item.tip === undefined
+            ? config.tip
+            : item.tip
+        "
       >
         <!-- 表头 -->
         <template #header>

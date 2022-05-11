@@ -146,7 +146,11 @@ let tableOptions = [
   },
   {
     label: '操作',
-    tip: false,
+    methods: {
+      myClick
+    },
+    // template: `<el-button @click="myClick(scope)">click</el-button>` // 无法正常加载
+    // template: `<span @click="myClick(scope)">clickclickclickclickclickclickclickclickclickclick</span>`
     template: Test
   }
 ];
@@ -192,6 +196,10 @@ function handleSelectionChange(selection: Array<unknown>) {
 // switch 值改变
 function switchChange(parame: unknown) {
   console.log('switch', parame);
+}
+// 自定义模板组件点击事件
+function myClick(scope: unknown) {
+  console.log('自定义模板组件点击事件:', scope);
 }
 </script>
 <style scoped>

@@ -20,10 +20,11 @@ export default (par: { mode: string; command: string }): unknown => {
     plugins: [
       vue(),
       AutoImport({
+        dts: false, // 禁止生成全局配置文件 auto-imports.d.ts
         resolvers: [ElementPlusResolver()]
       }),
       Components({
-        deep: false, // 搜索子目录
+        dts: false, // 禁止生成全局配置文件 components.d.ts
         resolvers: [ElementPlusResolver()]
       })
     ],
