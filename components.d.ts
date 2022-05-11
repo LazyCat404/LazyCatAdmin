@@ -5,8 +5,6 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    Custom: typeof import('./src/components/auto/LazyTable/src/components/lib/Custom.vue')['default']
-    Edit: typeof import('./src/components/auto/LazyTable/src/components/lib/Edit.vue')['default']
     ElBreadcrumb: typeof import('element-plus/es')['ElBreadcrumb']
     ElBreadcrumbItem: typeof import('element-plus/es')['ElBreadcrumbItem']
     ElButton: typeof import('element-plus/es')['ElButton']
@@ -31,15 +29,10 @@ declare module '@vue/runtime-core' {
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
-    LazyTableBody: typeof import('./src/components/auto/LazyTable/src/components/LazyTableBody.vue')['default']
-    LazyTableHeader: typeof import('./src/components/auto/LazyTable/src/components/LazyTableHeader.vue')['default']
-    Main: typeof import('./src/components/auto/CopyText/src/Main.vue')['default']
-    Ordinary: typeof import('./src/components/auto/LazyTable/src/components/lib/Ordinary.vue')['default']
+    ElTree: typeof import('element-plus/es')['ElTree']
+    Loading: typeof import('element-plus/es')['ElLoadingDirective']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    Row: typeof import('./src/components/auto/LazyTable/src/components/lib/components/Row.vue')['default']
-    State: typeof import('./src/components/auto/LazyTable/src/components/lib/components/State.vue')['default']
-    Switch: typeof import('./src/components/auto/LazyTable/src/components/lib/Switch.vue')['default']
   }
 }
 
