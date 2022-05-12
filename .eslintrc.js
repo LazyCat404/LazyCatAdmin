@@ -34,14 +34,8 @@ module.exports = {
         properties: true
       }
     ],
-    // 多词组件名称
-    'vue/multi-word-component-names': [
-      'warn',
-      {
-        // 忽略的组件
-        ignores: ['User', 'Index', 'Main']
-      }
-    ]
+    // 允许单个词组件名称
+    'vue/multi-word-component-names': ['off']
   },
   // 全局变量
   globals: {

@@ -73,26 +73,6 @@
         </template>
       </el-table-column>
     </el-table>
-    <!-- 滚动条 -->
-    <div
-      v-if="state.scrollbarShow"
-      :style="[
-        {
-          paddingTop: state.config.headerH,
-          height: state.scrollbarBoxHeight
-        }
-      ]"
-    >
-      <el-scrollbar style="height: 100%" ref="elScrollbarDom" @scroll="scrollActive">
-        <div :style="[{ height: state.tableRealHeight, width: state.tableRealWidth }]"></div>
-      </el-scrollbar>
-    </div>
-    <div v-else style="opacity: 0">
-      <!-- 辅（防止加载出错） -->
-      <el-scrollbar style="height: 100%" ref="elScrollbarDom" @scroll="scrollActive">
-        <div :style="[{ height: state.tableRealHeight, width: state.tableRealWidth }]"></div>
-      </el-scrollbar>
-    </div>
     <!-- 分页 -->
     <LazyPage v-if="props.page !== undefined" :page="props.page"></LazyPage>
   </div>
@@ -100,11 +80,10 @@
 
 <script lang="ts" setup>
 import tool from '@/utils/tool';
-import { defineEmits, defineProps, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue';
+import { defineEmits, defineProps, reactive, ref, watch } from 'vue';
 import { config } from './config';
 import LazyTableHeader from './components/LazyTableHeader.vue';
 import LazyTableBody from './components/LazyTableBody.vue';
-const elScrollbarDom = ref(null);
 const elTableDom = ref(null);
 const $emits = defineEmits([
   'select',
@@ -179,12 +158,7 @@ const state = reactive<any>({
     evenBg: props.tableConfig && props.tableConfig.evenBg !== undefined ? props.tableConfig.evenBg : config.evenBg,
     // 文字对齐方式（默认左侧）
     align: props.tableConfig && props.tableConfig.align !== undefined ? props.tableConfig.align : config.align
-  },
-  scrollbarShow: false, // 滚动条显示
-  tableRealHeight: '', // 表格实际高度
-  tableRealWidth: '', // 表格实际宽度
-  scrollbarBoxHeight: '', // 滚动条容器实际宽度
-  tableBoxHeight: '' // 滚动条容器实际宽度
+  }
 });
 
 watch(
@@ -215,60 +189,9 @@ function controlTable() {
     fixedEvenNodeList.forEach((element: any) => {
       element.style.background = state.config.evenBg;
     });
-    // 横向滚动条显示/滚动条高度
-    state.tableRealHeight = `${eTD.querySelector('.el-table__body').offsetHeight}px`;
-    state.tableBoxHeight = `${
-      eTD.querySelector('.el-table__body-wrapper').offsetHeight + eTD.querySelector('.el-table__header').offsetHeight
-    }px`;
-    state.tableRealWidth = `${eTD.querySelector('.el-table__body').offsetWidth - 4}px`;
-    setTimeout(() => {
-      state.scrollbarBoxHeight = `${
-        eTD.querySelector('.el-table').offsetHeight - eTD.querySelector('.el-table__header').offsetHeight
-      }px`;
-      state.scrollbarShow = true;
-    }, 300);
   });
 }
-// 鼠标进入table
-function mouseEnter() {
-  let eSD = elScrollbarDom.value as any;
-  let eTD = elTableDom.value as any;
-  let sNodeList = eSD.scrollbar$.querySelectorAll('.el-scrollbar__bar');
-  let tNodeList = eTD.querySelectorAll('.el-table__body-wrapper');
-  sNodeList.forEach((element: any) => {
-    element.style.display = 'block';
-  });
-  tNodeList.forEach((element: any) => {
-    element.addEventListener('scroll', setScrollTop);
-  });
-}
-// 鼠标离开table
-function mouseLeave() {
-  let eSD = elScrollbarDom.value as any;
-  let eTD = elTableDom.value as any;
-  let sNodeList = eSD.scrollbar$.querySelectorAll('.el-scrollbar__bar');
-  let tNodeList = eTD.querySelectorAll('.el-table__body-wrapper');
-  sNodeList.forEach((element: any) => {
-    element.style.display = 'none';
-  });
-  tNodeList.forEach((element: any) => {
-    element.removeEventListener('scroll', setScrollTop);
-  });
-}
-// 设置滚动条距离顶部高度
-function setScrollTop(value: any) {
-  let eSD = elScrollbarDom.value as any;
-  eSD.setScrollTop(value.target.scrollTop);
-}
-// 拖动滚动条
-function scrollActive(scr: { scrollLeft: number; scrollTop: number }) {
-  let eTD = elTableDom.value as any;
-  let tNodeList = eTD.querySelectorAll('.el-table__body-wrapper');
-  tNodeList.forEach((element: any) => {
-    element.scrollTop = scr.scrollTop;
-    element.scrollLeft = scr.scrollLeft;
-  });
-}
+
 // 手动勾选数据行的 Checkbox
 function handleSelection(selection: Array<unknown>, row: unknown) {
   $emits('select', selection, row);
@@ -283,12 +206,10 @@ function handleSelectionChange(selection: Array<unknown>) {
 }
 // 鼠标进入单元格
 function cellMouseEnter(row: unknown, column: unknown, cell: unknown, event: unknown) {
-  mouseEnter();
   $emits('cell-mouse-enter', row, column, cell, event);
 }
 // 鼠标离开单元格
 function cellMouseLeave(row: unknown, column: unknown, cell: unknown, event: unknown) {
-  mouseLeave();
   $emits('cell-mouse-leave', row, column, cell, event);
 }
 // 单击单元格
@@ -339,29 +260,6 @@ function rowConfirm(par: unknown) {
 function switchChange(parame: unknown) {
   $emits('change', parame);
 }
-// 屏幕大小改变
-function resize() {
-  let eTD = elTableDom.value as any;
-  state.scrollbarShow = false;
-  setTimeout(() => {
-    state.tableRealWidth = `${eTD.querySelector('.el-table__body').offsetWidth - 4}px`;
-    state.scrollbarShow = true;
-  }, 500);
-}
-// 移除监听
-function removeListener() {
-  window.removeEventListener('resize', resize);
-}
-onMounted(() => {
-  // 同步数据，表格渲染
-  if (props.sync) {
-    controlTable();
-  }
-  window.addEventListener('resize', resize);
-});
-onBeforeUnmount(() => {
-  removeListener();
-});
 </script>
 
 <style lang="scss" scoped>
