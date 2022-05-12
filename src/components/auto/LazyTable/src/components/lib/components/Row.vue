@@ -79,7 +79,7 @@ function init() {
   }
   // 如果颜色是三元表达式
   if (props.bodyItem.color && props.bodyItem.color.includes('?')) {
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     let prop = props.rowData[props.bodyItem.colorX ? props.bodyItem.colorX : props.bodyItem.prop];
     state.color = eval(props.bodyItem.color);
   }

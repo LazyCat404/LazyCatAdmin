@@ -56,6 +56,8 @@
 
     > `icoColorX`：指定在 `icoColor`三元表达式中`prop`的变量 
 
+PS：`ico`/`state`设置顺序决定显示顺序
+
 - `color`:列字体颜色，也可以是三元表达式，以`prop`为变量，例：`'prop === "已登录" ? "red":"yellow"'`
 
     > `colorX`：指定在 `color`三元表达式中`prop`的变量

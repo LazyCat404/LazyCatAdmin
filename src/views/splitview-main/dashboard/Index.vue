@@ -91,7 +91,7 @@ let tableOptions = [
     prop: 'name',
     label: '姓名',
     minwidth: 100,
-    color: 'red',
+    color: 'prop === "赵小四" ? "red":"yellow"',
     // icoColor: 'red',
     // edit: true,
     copy: true,
