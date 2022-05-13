@@ -1,4 +1,11 @@
 <template>
+  <!-- 附加功能 -->
+  <AdditionalFunctions
+    :tableOptions="state.customTableOptions"
+    :templateList="customTemplateList"
+    @customList="customList"
+  ></AdditionalFunctions>
+  <!-- 表格内容 -->
   <div
     :style="[
       {
@@ -43,47 +50,61 @@
         :fixed="state.config.selectFixed"
       ></el-table-column>
       <!-- 表格列表（自定义单文件行自动关闭tip） -->
-      <el-table-column
-        v-for="(item, i) in tableOptions"
-        :key="i"
-        :width="item.width"
-        :minWidth="item.minWidth || item.minwidth"
-        :fixed="item.fixed"
-        :align="item.align ? item.align : state.config.align"
-        :show-overflow-tooltip="
-          !item.prop && Object.prototype.toString.call(item.template) === '[object Object]'
-            ? false
-            : item.tip === undefined
-            ? config.tip
-            : item.tip
-        "
-      >
-        <!-- 表头 -->
-        <template #header>
-          <LazyTableHeader :headerItem="item" @filter-change="filterChange" @sort-change="sortChange"></LazyTableHeader>
-        </template>
-        <!-- 表体 -->
-        <template #default="scope">
-          <LazyTableBody
-            :bodyItem="item"
-            :rowData="scope.row"
-            @row-confirm="rowConfirm"
-            @switch-change="switchChange"
-          ></LazyTableBody>
-        </template>
-      </el-table-column>
+      <template v-for="(item, i) in state.customTableOptions" :key="i">
+        <el-table-column
+          v-if="
+            item.customList === undefined
+              ? item.show === undefined
+                ? true
+                : item.show
+              : item.customList.show === undefined
+              ? true
+              : item.customList.show
+          "
+          :width="item.width"
+          :minWidth="item.minWidth || item.minwidth"
+          :fixed="item.fixed"
+          :align="item.align ? item.align : state.config.align"
+          :show-overflow-tooltip="
+            !item.prop && Object.prototype.toString.call(item.template) === '[object Object]'
+              ? false
+              : item.tip === undefined
+              ? config.tip
+              : item.tip
+          "
+        >
+          <!-- 表头 -->
+          <template #header>
+            <LazyTableHeader
+              :headerItem="item"
+              @filter-change="filterChange"
+              @sort-change="sortChange"
+            ></LazyTableHeader>
+          </template>
+          <!-- 表体 -->
+          <template #default="scope">
+            <LazyTableBody
+              :bodyItem="item"
+              :rowData="scope.row"
+              @row-confirm="rowConfirm"
+              @switch-change="switchChange"
+            ></LazyTableBody>
+          </template>
+        </el-table-column>
+      </template>
     </el-table>
     <!-- 分页 -->
-    <LazyPage v-if="props.page !== undefined" :page="props.page"></LazyPage>
+    <LazyPage v-if="page !== undefined" :page="page"></LazyPage>
   </div>
 </template>
 
 <script lang="ts" setup>
 import tool from '@/utils/tool';
-import { defineEmits, defineProps, reactive, ref, watch } from 'vue';
+import { reactive, ref, watch } from 'vue';
 import { config } from './config';
 import LazyTableHeader from './components/LazyTableHeader.vue';
 import LazyTableBody from './components/LazyTableBody.vue';
+import AdditionalFunctions from './components/AdditionalFunctions.vue';
 const elTableDom = ref(null);
 const $emits = defineEmits([
   'select',
@@ -114,15 +135,11 @@ const props = defineProps({
     required: true
   },
   tableConfig: Object,
-  page: Object,
-  sync: {
-    // 是否为同步数据，默认异步获取数据
-    type: Boolean,
-    default: false
-  }
+  page: Object
 });
-
 const state = reactive<any>({
+  customTableOptions: props.tableOptions, // 自定义列数据
+  customTemplateList: [],
   // 表格默认配置
   config: {
     // 复选框（默认开启）
@@ -160,13 +177,21 @@ const state = reactive<any>({
     align: props.tableConfig && props.tableConfig.align !== undefined ? props.tableConfig.align : config.align
   }
 });
-
+// 表格自定义模板列表（避免数据处理影响模板加载）
+const customTemplateList = props.tableOptions.filter(
+  (item: any) => Object.prototype.toString.call(item.template) === '[object Object]'
+);
 watch(
   () => props.tableData,
   () => {
     controlTable();
   }
 );
+// 自定义列
+function customList(par: any) {
+  state.customTableOptions = par;
+  // 调用父组件方法 传递参数
+}
 // 表格奇偶行添加类名
 function tableRowClassName(value: { row: any; rowIndex: number }) {
   if (value.rowIndex % 2) {
@@ -191,7 +216,6 @@ function controlTable() {
     });
   });
 }
-
 // 手动勾选数据行的 Checkbox
 function handleSelection(selection: Array<unknown>, row: unknown) {
   $emits('select', selection, row);

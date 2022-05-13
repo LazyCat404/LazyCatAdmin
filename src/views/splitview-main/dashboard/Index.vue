@@ -3,7 +3,7 @@
     :tableData="state.tableData"
     :tableOptions="tableOptions"
     :tableConfig="tableConfig"
-    :sync="true"
+    :page="{}"
     @select="handleSelection"
     @select-all="handleSelectionAll"
     @selection-change="handleSelectionChange"
@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive } from 'vue';
+import { markRaw, reactive } from 'vue';
 import Test from './Test.vue';
 let selList = [
   { label: '和平区', value: 1 },
@@ -66,6 +66,19 @@ const state = reactive<any>({
       addressId: [1, 2, 3, 4, 5],
       state: 5
     }
+  ],
+  tableOptions: [
+    {
+      prop: 'date',
+      label: '日期',
+      minwidth: 100,
+      state: 'state',
+      sort: 'des'
+    },
+    {
+      label: '操作',
+      template: markRaw(Test)
+    }
   ]
 });
 let tableOptions = [
@@ -85,7 +98,9 @@ let tableOptions = [
     ],
     sort: 'des', // 排序，des：降序，ase:升序，null/'':无默认排序，不区分大小写
     click: '11',
-    copy: true
+    copy: true,
+    disabled: true // 是否禁止设置
+    // customList: {}
   },
   {
     prop: 'name',
@@ -112,6 +127,10 @@ let tableOptions = [
       // type: '',
       inspect: 'isTel',
       err: '手机号验证失败'
+    },
+    customList: {
+      show: false, // 默认不显示
+      disabled: false // 是否禁止设置（真值不可改变，不可控制显隐）
     }
   },
   {
@@ -142,6 +161,20 @@ let tableOptions = [
       // tip: '',
       // tipActive: '在线'
       tipInactive: '离线'
+    },
+    show: false //是否显示
+  },
+  {
+    label: '操作',
+    methods: {
+      myClick
+    },
+    // template: `<el-button @click="myClick(scope)">click</el-button>` // 无法正常加载
+    // template: `<span @click="myClick(scope)">clickclickclickclickclickclickclickclickclickclick</span>`,
+    template: Test,
+    customList: {
+      // show: false, // 默认不显示
+      disabled: false // 是否禁止设置（真值不可改变，不可控制显隐）
     }
   },
   {
@@ -150,20 +183,25 @@ let tableOptions = [
       myClick
     },
     // template: `<el-button @click="myClick(scope)">click</el-button>` // 无法正常加载
-    // template: `<span @click="myClick(scope)">clickclickclickclickclickclickclickclickclickclick</span>`
-    template: Test
+    // template: `<span @click="myClick(scope)">clickclickclickclickclickclickclickclickclickclick</span>`,
+    template: Test,
+    customList: {
+      // show: false, // 默认不显示
+      disabled: false // 是否禁止设置（真值不可改变，不可控制显隐）
+    }
   }
 ];
 let tableConfig = {
   // select: false,
   // border: true
-  // tableH: '200'
-  // headerH: 'calc(55px + 5px)'
+  // tableH: '200',
+  // headerH: 'calc(55px + 5px)',
   // lineH: 40
   // headerBg: 'red',
   // oddBg: 'red',
   // evenBg: '#ddd',
-  align: 'right'
+  align: 'right',
+  customList: true // 自定义列
 };
 function filterChange(filter: any) {
   console.log('筛选：', filter);
