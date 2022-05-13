@@ -48,7 +48,7 @@
     </template>
   </Draggable>
   <!-- 按钮 -->
-  <div class="dialog-footer">
+  <div class="custom-column-btn-wrapper">
     <el-button @click="resetBtn">重置</el-button>
     <el-button type="primary" @click="confirmBtn">确认</el-button>
   </div>
@@ -67,11 +67,12 @@ const props = defineProps({
   }
 });
 
-const $emits = defineEmits(['customList']);
+const $emits = defineEmits(['confirmBtn']);
 const state = reactive<any>({
   tableOptions: JSON.parse(JSON.stringify(props.tableOptions)),
   isDragging: false
 });
+// 确认按钮
 function confirmBtn() {
   state.dialogVisible = false;
   // 自定义组件模板处理
@@ -84,20 +85,14 @@ function confirmBtn() {
       }
     });
   }
-  $emits('customList', state.tableOptions);
+  $emits('confirmBtn', state.tableOptions, '自定义列');
 }
+// 重置按钮
 function resetBtn() {
   state.tableOptions = JSON.parse(JSON.stringify(props.tableOptions));
 }
 </script>
 <style lang="scss" scoped>
-.table-additional-functions-wrapper {
-  margin: 0 20px;
-  overflow: hidden;
-  li {
-    float: right;
-  }
-}
 .table-list-setup-wrapper {
   overflow: hidden;
   > div {
@@ -131,5 +126,9 @@ function resetBtn() {
     border: 1px solid #206bfa;
     color: #206bfa;
   }
+}
+.custom-column-btn-wrapper {
+  display: flex;
+  justify-content: flex-end;
 }
 </style>

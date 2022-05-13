@@ -3,7 +3,7 @@
   <AdditionalFunctions
     :tableOptions="state.customTableOptions"
     :templateList="customTemplateList"
-    @customList="customList"
+    @additionalConfirm="additionalConfirm"
   ></AdditionalFunctions>
   <!-- 表格内容 -->
   <div
@@ -187,10 +187,14 @@ watch(
     controlTable();
   }
 );
-// 自定义列
-function customList(par: any) {
-  state.customTableOptions = par;
-  // 调用父组件方法 传递参数
+// 附加功能确认
+function additionalConfirm(par: any, type: string) {
+  switch (type) {
+    case '自定义列':
+      state.customTableOptions = par;
+      // 调用父组件方法 传递参数
+      break;
+  }
 }
 // 表格奇偶行添加类名
 function tableRowClassName(value: { row: any; rowIndex: number }) {
@@ -208,6 +212,7 @@ function controlTable() {
     // 固定列奇偶行颜色
     let fixedOddNodeList = eTD.querySelectorAll('.odd-row');
     let fixedEvenNodeList = eTD.querySelectorAll('.even-row');
+    console.log(111);
     fixedOddNodeList.forEach((element: any) => {
       element.style.background = state.config.oddBg;
     });
