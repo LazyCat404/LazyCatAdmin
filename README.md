@@ -26,8 +26,6 @@ npm run build
 
 - sass：css预编译
 
-- vite-plugin-style-import：按需导入 .css 文件
-
 - splitpanes：窗格拆分/大小控制
 
 - clipboard：复制面板
