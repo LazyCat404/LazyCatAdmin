@@ -8,24 +8,28 @@
     @start="state.isDragging = true"
   >
     <template #item="{ element }">
-      <template v-if="element.customList && Object.prototype.toString.call(element.customList) === '[object Object]'">
+      <template
+        v-if="element.customColumn && Object.prototype.toString.call(element.customColumn) === '[object Object]'"
+      >
         <div
           :class="
-            element.customList.disabled === undefined ? 'disabled' : element.customList.disabled ? null : 'disabled'
+            element.customColumn.disabled === undefined ? 'disabled' : element.customColumn.disabled ? null : 'disabled'
           "
-          :check="element.customList.show == undefined ? '' : element.customList.show ? '' : null"
+          :check="element.customColumn.show == undefined ? '' : element.customColumn.show ? '' : null"
           @click="
-            element.customList.disabled === undefined
-              ? (element.customList.show = element.customList.show == undefined ? false : !element.customList.show)
-              : element.customList.disabled
+            element.customColumn.disabled === undefined
+              ? (element.customColumn.show =
+                  element.customColumn.show == undefined ? false : !element.customColumn.show)
+              : element.customColumn.disabled
               ? null
-              : (element.customList.show = element.customList.show == undefined ? false : !element.customList.show)
+              : (element.customColumn.show =
+                  element.customColumn.show == undefined ? false : !element.customColumn.show)
           "
         >
           <span>{{ element.label }}</span>
           <i
             class="iconfont icon-jiaobiaoxuanzhong"
-            v-if="element.customList.show == undefined ? true : element.customList.show"
+            v-if="element.customColumn.show == undefined ? true : element.customColumn.show"
           ></i>
         </div>
       </template>

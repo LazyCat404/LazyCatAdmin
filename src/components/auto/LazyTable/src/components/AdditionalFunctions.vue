@@ -52,9 +52,20 @@ function confirmBtn(par: any, type: string) {
 <style lang="scss" scoped>
 .table-additional-functions-wrapper {
   margin: 0 20px;
+  margin-bottom: 16px;
   overflow: hidden;
   li {
     float: right;
+    i.iconfont {
+      width: 30px;
+      height: 30px;
+      display: inline-block;
+      text-align: center;
+      line-height: 30px;
+      background-color: rgba(32, 107, 250, 0.05);
+      border-radius: 4px;
+      cursor: pointer;
+    }
   }
 }
 </style>

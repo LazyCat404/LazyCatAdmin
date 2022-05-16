@@ -1,6 +1,7 @@
 <template>
   <!-- 附加功能 -->
   <AdditionalFunctions
+    v-if="tableConfig?.customColumn"
     :tableOptions="state.customTableOptions"
     :templateList="customTemplateList"
     @additionalConfirm="additionalConfirm"
@@ -9,8 +10,8 @@
   <div
     :style="[
       {
-        maxHeight: state.config.tableH,
-        height: state.config.tableH,
+        maxHeight: `${tableConfig?.customColumn ? `calc(${state.config.tableH} - 46px)` : `${state.config.tableH}`}`,
+        height: `${tableConfig?.customColumn ? `calc(${state.config.tableH} - 46px)` : `${state.config.tableH}`}`,
         position: 'relative'
       }
     ]"
@@ -53,13 +54,13 @@
       <template v-for="(item, i) in state.customTableOptions" :key="i">
         <el-table-column
           v-if="
-            item.customList === undefined
+            item.customColumn === undefined
               ? item.show === undefined
                 ? true
                 : item.show
-              : item.customList.show === undefined
+              : item.customColumn.show === undefined
               ? true
-              : item.customList.show
+              : item.customColumn.show
           "
           :width="item.width"
           :minWidth="item.minWidth || item.minwidth"

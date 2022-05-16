@@ -100,7 +100,7 @@ let tableOptions = [
     click: '11',
     copy: true,
     disabled: true // 是否禁止设置
-    // customList: {}
+    // customColumn: {}
   },
   {
     prop: 'name',
@@ -128,7 +128,7 @@ let tableOptions = [
       inspect: 'isTel',
       err: '手机号验证失败'
     },
-    customList: {
+    customColumn: {
       show: false, // 默认不显示
       disabled: false // 是否禁止设置（真值不可改变，不可控制显隐）
     }
@@ -172,7 +172,7 @@ let tableOptions = [
     // template: `<el-button @click="myClick(scope)">click</el-button>` // 无法正常加载
     // template: `<span @click="myClick(scope)">clickclickclickclickclickclickclickclickclickclick</span>`,
     template: Test,
-    customList: {
+    customColumn: {
       // show: false, // 默认不显示
       disabled: false // 是否禁止设置（真值不可改变，不可控制显隐）
     }
@@ -185,7 +185,7 @@ let tableOptions = [
     // template: `<el-button @click="myClick(scope)">click</el-button>` // 无法正常加载
     // template: `<span @click="myClick(scope)">clickclickclickclickclickclickclickclickclickclick</span>`,
     template: Test,
-    customList: {
+    customColumn: {
       // show: false, // 默认不显示
       disabled: false // 是否禁止设置（真值不可改变，不可控制显隐）
     }
@@ -200,8 +200,8 @@ let tableConfig = {
   // headerBg: 'red',
   // oddBg: 'red',
   // evenBg: '#ddd',
-  align: 'right',
-  customList: true // 自定义列
+  align: 'right'
+  // customColumn: true // 自定义列
 };
 function filterChange(filter: any) {
   console.log('筛选：', filter);
