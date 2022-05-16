@@ -2,6 +2,7 @@
   <!-- 功能按钮 -->
   <ul class="table-additional-functions-wrapper">
     <li>
+      <i class="iconfont icon-daochu" @click="operSelect('导出')"></i>
       <i class="iconfont icon-shezhi1" @click="operSelect('自定义列')"></i>
     </li>
   </ul>
@@ -13,11 +14,13 @@
       @confirmBtn="confirmBtn"
       v-if="state.dialogTitle == '自定义列'"
     ></CustomColumn>
+    <Export :tableOptions="tableOptions" @confirmBtn="confirmBtn" v-else-if="state.dialogTitle == '导出'"></Export>
   </el-dialog>
 </template>
 <script lang="ts" setup>
 import { reactive } from 'vue';
 import CustomColumn from './lib/components/additional/CustomColumn.vue';
+import Export from './lib/components/additional/Export.vue';
 defineProps({
   tableOptions: {
     type: <any>Array,
@@ -38,6 +41,10 @@ const state = reactive<any>({
 function operSelect(type: string) {
   switch (type) {
     case '自定义列':
+      state.dialogTitle = type;
+      state.dialogVisible = true;
+      break;
+    case '导出':
       state.dialogTitle = type;
       state.dialogVisible = true;
       break;
@@ -65,6 +72,9 @@ function confirmBtn(par: any, type: string) {
       background-color: rgba(32, 107, 250, 0.05);
       border-radius: 4px;
       cursor: pointer;
+    }
+    i.iconfont + i.iconfont {
+      margin-left: 10px;
     }
   }
 }

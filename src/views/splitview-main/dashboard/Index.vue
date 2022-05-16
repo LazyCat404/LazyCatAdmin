@@ -200,8 +200,8 @@ let tableConfig = {
   // headerBg: 'red',
   // oddBg: 'red',
   // evenBg: '#ddd',
-  align: 'right'
-  // customColumn: true // 自定义列
+  align: 'right',
+  customColumn: true // 自定义列
 };
 function filterChange(filter: any) {
   console.log('筛选：', filter);
