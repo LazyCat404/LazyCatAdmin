@@ -4,7 +4,7 @@
 </template>
 <script setup lang="ts">
 function btnClick() {
-  console.log('您点击了按钮');
+  console.log('按钮');
 }
 </script>
 <style lang="scss" scoped>
