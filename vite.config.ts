@@ -4,6 +4,7 @@ import vue from '@vitejs/plugin-vue';
 import AutoImport from 'unplugin-auto-import/vite';
 import Components from 'unplugin-vue-components/vite';
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
+import { globalMount } from './src/utils/globalMount';
 
 export default (par: { mode: string; command: string }): unknown => {
   const config = {
@@ -20,7 +21,12 @@ export default (par: { mode: string; command: string }): unknown => {
     plugins: [
       vue(),
       AutoImport({
-        dts: false, // 禁止生成全局配置文件 auto-imports.d.ts
+        imports: [
+          {
+            ...globalMount
+          }
+        ],
+        // dts: false, // 禁止生成全局配置文件 auto-imports.d.ts
         resolvers: [ElementPlusResolver()]
       }),
       Components({
