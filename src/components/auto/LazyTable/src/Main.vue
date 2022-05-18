@@ -102,7 +102,7 @@
 
 <script lang="ts" setup>
 import tool from '@/utils/tool';
-import { reactive, ref, watch } from 'vue';
+import { onMounted, reactive, ref, watch } from 'vue';
 import { config } from './config';
 import LazyTableHeader from './components/LazyTableHeader.vue';
 import LazyTableBody from './components/LazyTableBody.vue';
@@ -217,7 +217,6 @@ function controlTable() {
     // 固定列奇偶行颜色
     let fixedOddNodeList = eTD.querySelectorAll('.odd-row');
     let fixedEvenNodeList = eTD.querySelectorAll('.even-row');
-    console.log(111);
     fixedOddNodeList.forEach((element: any) => {
       element.style.background = state.config.oddBg;
     });
@@ -294,6 +293,9 @@ function rowConfirm(par: unknown) {
 function switchChange(parame: unknown) {
   $emits('change', parame);
 }
+onMounted(() => {
+  controlTable();
+});
 </script>
 
 <style lang="scss" scoped>
