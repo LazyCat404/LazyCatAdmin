@@ -3,7 +3,10 @@
     :tableData="state.tableData"
     :tableOptions="tableOptions"
     :tableConfig="tableConfig"
-    :page="{}"
+    :page="{
+      total: 21,
+      pageNum: 2
+    }"
     @select="handleSelection"
     @select-all="handleSelectionAll"
     @selection-change="handleSelectionChange"
@@ -11,6 +14,7 @@
     @filter-change="filterChange"
     @row-confirm="rowConfirm"
     @change="switchChange"
+    @expot="expotBtn"
   ></LazyTable>
 </template>
 
@@ -174,7 +178,7 @@ let tableOptions = [
     template: Test,
     customColumn: {
       // show: false, // 默认不显示
-      disabled: false // 是否禁止设置（真值不可改变，不可控制显隐）
+      disabled: true // 是否禁止设置（真值不可改变，不可控制显隐）
     }
   },
   {
@@ -188,7 +192,7 @@ let tableOptions = [
     template: Test,
     customColumn: {
       // show: false, // 默认不显示
-      disabled: false // 是否禁止设置（真值不可改变，不可控制显隐）
+      disabled: true // 是否禁止设置（真值不可改变，不可控制显隐）
     }
   }
 ];
@@ -202,7 +206,8 @@ let tableConfig = {
   // oddBg: 'red',
   // evenBg: '#ddd',
   align: 'right',
-  customColumn: true // 自定义列
+  customColumn: true, // 自定义列
+  export: true // 导出
 };
 function filterChange(filter: any) {
   console.log('筛选：', filter);
@@ -239,6 +244,10 @@ function switchChange(parame: unknown) {
 // 自定义模板组件点击事件
 function myClick(scope: unknown) {
   console.log('自定义模板组件点击事件:', scope);
+}
+// 导出
+function expotBtn(par: unknown) {
+  console.log('导出：', par);
 }
 </script>
 <style scoped>

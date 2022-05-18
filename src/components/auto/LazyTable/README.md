@@ -196,8 +196,57 @@ edit:{
 }
 ```
 
+## 附加功能
 
+### 自定义列
 
+> 只需设置 `tableConfig.customColumn = true`即可
 
+开启该功能后，会自动将`tableOptions`识别为可变列，因此可以通过对`tableOptions` 进行简单设置，以控制某列是否可控
+
+```js
+let tableOptions = [{
+    label: '操作',
+    disabled: false,// 是否禁止设置该列，默认不禁止
+    show:true,  // 是否显示该列默认显示
+}]
+
+// 等价于
+let tableOptions = [{
+    label: '操作',
+    customColumn: {
+        disabled: false,
+        show:true,  
+    }
+}]
+
+// 等价于
+let tableOptions = [{
+    label: '操作',
+    disabled: false,
+}]
+
+// 以上设置可解释为：操作列不可设置为不显示（隐藏）
+```
+
+### 导出
+
+> 只需设置 `tableConfig.export = true`即可
+
+该功能并不会真的导出文件，只是将导出条件进行可视化选择，将结果通过`expot`方法传递给父组件
+
+```vue
+<template>
+    <LazyTable 
+    @expot="expotBtn"
+    ></LazyTable>
+</template>
+<script lang="ts" setup>
+
+function expotBtn(par: unknown) {
+  console.log('导出：', par);
+}
+</script>
+```
 
 

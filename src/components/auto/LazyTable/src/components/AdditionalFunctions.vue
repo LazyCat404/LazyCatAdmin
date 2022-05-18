@@ -14,7 +14,12 @@
       @confirmBtn="confirmBtn"
       v-if="state.dialogTitle == '自定义列'"
     ></CustomColumn>
-    <Export :tableOptions="tableOptions" @confirmBtn="confirmBtn" v-else-if="state.dialogTitle == '导出'"></Export>
+    <Export
+      :tableOptions="tableOptions"
+      :page="page"
+      @confirmBtn="confirmBtn"
+      v-else-if="state.dialogTitle == '导出'"
+    ></Export>
   </el-dialog>
 </template>
 <script lang="ts" setup>
@@ -29,7 +34,8 @@ defineProps({
   templateList: {
     type: <any>Array,
     required: true
-  }
+  },
+  page: Object
 });
 const $emits = defineEmits(['additionalConfirm']);
 const state = reactive<any>({

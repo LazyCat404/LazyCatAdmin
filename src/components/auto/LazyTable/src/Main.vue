@@ -4,6 +4,7 @@
     v-if="tableConfig?.customColumn"
     :tableOptions="state.customTableOptions"
     :templateList="customTemplateList"
+    :page="page"
     @additionalConfirm="additionalConfirm"
   ></AdditionalFunctions>
   <!-- 表格内容 -->
@@ -124,7 +125,8 @@ const $emits = defineEmits([
   'sort-change',
   'filter-change',
   'row-confirm',
-  'change'
+  'change',
+  'expot'
 ]);
 const props = defineProps({
   tableData: {
@@ -189,12 +191,14 @@ watch(
   }
 );
 // 附加功能确认
-function additionalConfirm(par: any, type: string) {
+function additionalConfirm(par: unknown, type: string) {
   switch (type) {
     case '自定义列':
       state.customTableOptions = par;
       // 调用父组件方法 传递参数
       break;
+    case '导出':
+      $emits('expot', par);
   }
 }
 // 表格奇偶行添加类名
