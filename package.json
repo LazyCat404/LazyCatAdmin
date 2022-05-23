@@ -1,5 +1,6 @@
 {
-  "name": "my-vue-app",
+  "name": "lazy-cat-admin",
+  "private": true,
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",

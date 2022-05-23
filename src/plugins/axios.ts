@@ -32,6 +32,14 @@ function myAxios(customOptions: unknown) {
        * 其它请求前调整
        * 例如：服务器地址（config.baseURL）、接口地址（config.url）设置token、追加请求头等
        */
+      // 线上环境接口处理
+      if (import.meta.env.MODE === 'production' && config.url) {
+        const interfaceUrl = <string>config.url;
+        if (interfaceUrl.startsWith('/api')) {
+          config.url = interfaceUrl.replace(/^\/api/, '');
+        }
+      }
+      // 还可以进行请求头配置
       // if (config.headers) {
       //   config.headers.Authorization =
       //     'k7r+vB0fj+dqxcRF3ts9GyKsDOXwYFlL2toZUTNuUN1PY12Ip+ZLJcv8d8pad+nPuuCwEHZU2A9/XzSgSs7vr+DWYbJRRZYLeJupp0T8RXU3Noq5Jj0ZBmO8ibnGXuj2';

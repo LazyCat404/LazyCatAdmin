@@ -22,7 +22,7 @@ export default (par: { mode: string; command: string }): unknown => {
       vue(),
       AutoImport({
         imports: globalMount,
-        // dts: false, // 禁止生成全局配置文件 auto-imports.d.ts
+        dts: false, // 禁止生成全局配置文件 auto-imports.d.ts
         resolvers: [ElementPlusResolver()]
       }),
       Components({
