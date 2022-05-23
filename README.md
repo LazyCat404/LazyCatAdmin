@@ -13,6 +13,12 @@ npm run dev
 npm run build
 ```
 
+### 线上环境
+
+```
+npm run serve
+```
+
 ### UI 框架
 
 - [element-plus](https://element-plus.org/#/zh-CN)
