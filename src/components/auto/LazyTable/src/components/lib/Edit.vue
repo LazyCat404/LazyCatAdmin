@@ -55,10 +55,10 @@
       <!-- select 下拉选框 -->
       <div ref="tableSelectInput" v-else-if="props.bodyItem.edit.type === 'select'">
         <el-select
-          :class="tool.isArray(state.editData) ? 'custom-el-multiple' : ''"
+          :class="$tool.isArray(state.editData) ? 'custom-el-multiple' : ''"
           v-model="state.editData"
-          :filterable="!tool.isArray(state.editData)"
-          :multiple="tool.isArray(state.editData)"
+          :filterable="!$tool.isArray(state.editData)"
+          :multiple="$tool.isArray(state.editData)"
           collapse-tags
           ref="tableRowInput"
           @visible-change="visibleChange"
@@ -100,7 +100,6 @@
 import { config } from '../../config';
 import { defineEmits, defineProps, reactive, ref } from 'vue';
 import { inspect } from '@/utils/inspect';
-import tool from '@/utils/tool';
 import State from './components/State.vue';
 import Row from './components/Row.vue';
 const props = defineProps({
@@ -200,7 +199,7 @@ function rowConfirm() {
     if (props.bodyItem.edit.type === 'select') {
       let tSI = tableSelectInput.value as any;
       let nowSelectDom = tSI.querySelector('.el-select .el-input__inner');
-      if (tool.isArray(props.rowData[props.bodyItem.edit.selectProp])) {
+      if ($tool.isArray(props.rowData[props.bodyItem.edit.selectProp])) {
         //多选
         let resLable = '';
         state.editData.forEach((item: any) => {

@@ -19,11 +19,8 @@
 
 <script lang="ts" setup>
 import userImage from '@/assets/images/user.png';
-import useCurrentInstance from '@/utils/useCurrentInstance';
-// 全局属性
-const { gpr } = useCurrentInstance();
-const $store = gpr.$store as any;
-const $router = gpr.$router as any;
+
+const router = useRouter();
 // 用户头像
 const userImg = userImage;
 
@@ -37,7 +34,7 @@ function outLogin() {
   commit('setToken', null);
   commit('setUser', null);
   // 跳转至登录页
-  $router.push({ path: '/login' });
+  router.push({ path: '/login' });
 }
 </script>
 

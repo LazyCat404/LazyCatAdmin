@@ -2,6 +2,11 @@
 // We suggest you to commit this file into source control
 declare global {
   const $axios: typeof import('axios')['default']
+  const $store: typeof import('@/store')['default']
+  const $stores: typeof import('@/store')['stores']
+  const $tool: typeof import('@/utils/tool')['default']
   const ElMessage: typeof import('element-plus/es')['ElMessage']
+  const useRoute: typeof import('vue-router')['useRoute']
+  const useRouter: typeof import('vue-router')['useRouter']
 }
 export {}

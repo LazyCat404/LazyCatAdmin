@@ -38,9 +38,7 @@
 
 <script lang="ts" setup>
 import api from '@api';
-import { res } from '@types';
 import { onBeforeUnmount, reactive } from 'vue';
-import { useRoute } from 'vue-router';
 
 const route = useRoute();
 const state = reactive({

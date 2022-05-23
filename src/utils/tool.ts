@@ -1,4 +1,4 @@
-const tool = {
+export const $tool = {
   // 判断：是否为数组
   isArray: (value: any): boolean => {
     return Object.prototype.toString.call(value) === '[object Array]';
@@ -19,4 +19,13 @@ const tool = {
     }
   }
 };
-export default tool;
+
+// 用于全局挂载
+export const tool = {
+  install(app: any) {
+    app.config.globalProperties.$tool = $tool;
+  }
+};
+
+// 解决ts检查
+export default $tool;

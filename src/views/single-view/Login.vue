@@ -36,9 +36,8 @@
 
 <script lang="ts" setup>
 import api from '@api';
-import useCurrentInstance from '@/utils/useCurrentInstance';
 import { reactive, ref, unref } from 'vue';
-import { useRouter } from 'vue-router';
+
 const state = reactive({
   userForm: {
     name: null,
@@ -54,8 +53,6 @@ const rules = {
 };
 
 // 全局属性
-const { gpr } = useCurrentInstance();
-const $store = gpr.$store as any;
 const router = useRouter();
 // 登录表单
 const userFormRef = ref();

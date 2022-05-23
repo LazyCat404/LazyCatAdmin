@@ -101,7 +101,6 @@
 </template>
 
 <script lang="ts" setup>
-import tool from '@/utils/tool';
 import { onMounted, reactive, ref, watch } from 'vue';
 import { config } from './config';
 import LazyTableHeader from './components/LazyTableHeader.vue';
@@ -157,12 +156,12 @@ const state = reactive<any>({
     // table 高度（默认100%）
     tableH:
       props.tableConfig && props.tableConfig.tableH !== undefined
-        ? tool.targetCss(props.tableConfig.tableH)
+        ? $tool.targetCss(props.tableConfig.tableH)
         : config.tableH,
     // 表头高度（默认50px）
     headerH:
       props.tableConfig && props.tableConfig.headerH !== undefined
-        ? tool.targetCss(props.tableConfig.headerH)
+        ? $tool.targetCss(props.tableConfig.headerH)
         : config.headerH,
     // 表头背景色
     headerBg:
@@ -170,7 +169,7 @@ const state = reactive<any>({
     // 行高（默认40px）
     lineH:
       props.tableConfig && props.tableConfig.lineH !== undefined
-        ? tool.targetCss(props.tableConfig.lineH)
+        ? $tool.targetCss(props.tableConfig.lineH)
         : config.lineH,
     // 奇数行背景色
     oddBg: props.tableConfig && props.tableConfig.oddBg !== undefined ? props.tableConfig.oddBg : config.oddBg,

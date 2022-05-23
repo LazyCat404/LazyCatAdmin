@@ -23,12 +23,9 @@
 import Menu from '../splitview-sample/layout/Menu.vue';
 import Header from '../splitview-sample/layout/Header.vue';
 import Navigation from '../splitview-sample/layout/Navigation.vue';
-import useCurrentInstance from '@/utils/useCurrentInstance';
 import { reactive, watch } from 'vue';
-import { onBeforeRouteUpdate, useRoute } from 'vue-router';
+import { onBeforeRouteUpdate } from 'vue-router';
 // 全局属性
-const { gpr } = useCurrentInstance();
-const $stores = gpr.$stores as any;
 const route = useRoute();
 const state = reactive({
   navShow: route.meta.breadcrumb && $stores.systemSet.getters.nav(),

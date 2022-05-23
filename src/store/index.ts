@@ -2,7 +2,7 @@ import { createStore, createLogger } from 'vuex';
 import createPersistedState from 'vuex-persistedstate';
 import global from './modules/global';
 
-const plugins = [];
+const plugins = <any>[];
 plugins.push(createPersistedState({ storage: window.sessionStorage }));
 if (import.meta.env.MODE === 'development') {
   plugins.push(createLogger());
@@ -18,7 +18,7 @@ for (const path in modulesFiles) {
   }
 }
 
-export const store: any = createStore({
+const store: any = createStore({
   state: global.state,
   getters: global.getters,
   mutations: global.mutations,
@@ -26,5 +26,5 @@ export const store: any = createStore({
   modules,
   plugins
 });
-
-export default store;
+export const stores = store._modules.root._rawModule.modules; // 模块
+export default store; // 全部
