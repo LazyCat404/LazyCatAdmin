@@ -341,7 +341,7 @@ export function del(url: string, ...theArgs: any[]): Promise<res> {
         if (typeof item == 'object') {
           params = item;
         } else if (typeof item == 'string') {
-          if (item.toLowerCase() === 'query') {
+          if (item.toLowerCase() === 'query' || item.toLowerCase() === 'json') {
             requestType = item.toLowerCase();
           } else {
             console.error('请求参数仅支持 Object、Array 类型');
@@ -355,7 +355,7 @@ export function del(url: string, ...theArgs: any[]): Promise<res> {
         if (Object.prototype.toString.call(item) == '[object Object]') {
           customOptions = item;
         } else if (typeof item == 'string') {
-          if (item.toLowerCase() === 'query') {
+          if (item.toLowerCase() === 'query' || item.toLowerCase() === 'json') {
             requestType = item.toLowerCase();
           } else {
             console.warn('存在无法处理的参数类型，这可能会影响您的程序');
