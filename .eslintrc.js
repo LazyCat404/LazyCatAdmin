@@ -19,12 +19,14 @@ module.exports = {
   plugins: ['prettier', '@typescript-eslint'], // 定义了eslint文件所依赖的插件
   rules: {
     'prettier/prettier': 'warn', // prettier 检查警告
-    // '@typescript-eslint/no-explicit-any': 'off', // 允许使用any
+    'max-params': ['warn', 7], // 函数参数禁止超过7个
+    '@typescript-eslint/no-explicit-any': 'off', // 允许使用any
+    'vue/multi-word-component-names': ['off'], // 允许单个词组件名称
+    'vue/prefer-import-from-vue': 'off', // 强制从“vue”导入，而不是从“@vue/*”导入
+    'no-unused-vars': 'off', // 禁用（允许）变量声明未使用（即使禁用TS也会限制）
+    '@typescript-eslint/no-unused-vars': ['error'], // 使用@typescript-eslint 扩展规则
     'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-    'max-params': ['warn', 7], // 函数参数禁止超过7个
-    'no-unused-vars': 'off', // 禁用（允许）变量声明未使用
-    '@typescript-eslint/no-unused-vars': ['error'], // 使用@typescript-eslint 扩展规则
     // new 后面的类名必须首字母大写
     'new-cap': [
       'error',
@@ -33,12 +35,6 @@ module.exports = {
         capIsNew: false,
         properties: true
       }
-    ],
-    // 允许单个词组件名称
-    'vue/multi-word-component-names': ['off']
-  },
-  // 全局变量
-  globals: {
-    ElMessage: 'readonly' // readonly/false -> 只读；writable/true —> 可写；off -> 禁用
+    ]
   }
 };

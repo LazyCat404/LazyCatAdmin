@@ -3,7 +3,7 @@ import { App, Component } from 'vue';
 const componentsArr: Component[] = [];
 const modulesFiles = import.meta.globEager('./auto/*/index.ts');
 for (const path in modulesFiles) {
-  if (!modulesFiles[path].default.name) {
+  if (!modulesFiles[path].default.name || modulesFiles[path].default.name == 'Main') {
     // 兼容无 name 情况
     const reg = /(?<=.\/auto\/).+(?=\/index.ts)/;
     const matchResult = path.match(reg) as RegExpMatchArray;

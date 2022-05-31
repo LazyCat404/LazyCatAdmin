@@ -27,6 +27,7 @@ export default (par: { mode: string; command: string }): unknown => {
       }),
       Components({
         dts: false, // 禁止生成全局配置文件 components.d.ts
+        dirs: [], // （设置）自动注册全局组件目录
         resolvers: [ElementPlusResolver()]
       })
     ],
