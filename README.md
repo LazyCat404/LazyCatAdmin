@@ -39,3 +39,13 @@ npm run serve
 - vuex-persistedstate: vuex 持久化
 
 - vuedraggable：拖拽
+
+### node版本
+
+> 推荐**最新LTS版本**
+
+最低要求node版本为14+
+
+- 如果为了适应低版本node，可舍去部分配置
+
+    - `unplugin-auto-import` : 自动引入，全局变量（依赖或自定义）、适配TS、ESLint检查
