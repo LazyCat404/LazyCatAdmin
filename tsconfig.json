@@ -16,6 +16,9 @@
       "@/*": ["./src/*"],
     }
   },
+  "vueCompilerOptions": {
+    // "experimentalDisableTemplateSupport": true  // 此配置临时解决volar报错(已在V0.37.3版本修复)
+  },
   "include": [
     "src/**/*.ts", 
     "src/**/*.d.ts", 
