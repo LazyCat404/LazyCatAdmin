@@ -2,7 +2,7 @@ let bindObj: { value: unknown } = { value: undefined };
 let tipDom: HTMLElement | null = null;
 let timer: any = null;
 let isInTip = false;
-function inDom(event: Event) {
+function inDom(event: MouseEvent) {
   const contDom: HTMLElement = <HTMLElement>event.target;
   if (!tipDom && contDom.scrollWidth > contDom.offsetWidth) {
     tipDom = document.createElement('span');

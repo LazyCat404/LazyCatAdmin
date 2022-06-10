@@ -1,5 +1,5 @@
 <template>
-  <div>xx</div>
+  <div>没错是我</div>
 </template>
 
 <script lang="ts" setup>
@@ -17,4 +17,8 @@ defineExpose({
 });
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+div {
+  background-color: red;
+}
+</style>
