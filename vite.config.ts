@@ -7,7 +7,7 @@ import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 import { globalMount } from './src/utils/globalMount';
 
 export default (par: { mode: string; command: string }): unknown => {
-  const config = {
+  const config: any = {
     base: './',
     resolve: {
       alias: {
