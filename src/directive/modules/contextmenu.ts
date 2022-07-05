@@ -1,4 +1,4 @@
-import { DirectiveBinding, render } from 'vue';
+import { createApp, DirectiveBinding } from 'vue';
 let menuWrapper: HTMLElement | null;
 // 右键点击
 function rightClick(event: MouseEvent, binding: DirectiveBinding) {
@@ -23,19 +23,29 @@ function contextMenuRender(binding: DirectiveBinding): void {
     (menuWrapper as HTMLElement).innerHTML = defaultContextMenu();
   }
 }
-// 模板渲染
+/**
+ * 自定义模板渲染
+ * @param contextmenuRef 单文件组件实例
+ */
 function templateContextMenu(contextmenuRef: any): void {
-  render(contextmenuRef.render(), menuWrapper as any);
-  /**
-   * TODOing
-   * 仅将dom渲染，不是真个单文件组件，因此不具备组件的能力
-   */
+  createApp(contextmenuRef).mount(menuWrapper as any);
+  clickListener();
 }
-// 默认渲染
+/**
+ * 默认渲染
+ * @returns 模板字符串
+ */
 function defaultContextMenu(): string {
-  const defaultDom = `<div>哈哈</div>`;
+  const defaultDom = `
+    <div>默认右键菜单</div>
+  `;
   return defaultDom;
 }
+
+function clickListener() {
+  window.addEventListener('click', removeWrapper);
+}
+
 // 移除菜单
 function removeWrapper() {
   if (menuWrapper) {
@@ -58,25 +68,9 @@ const contextmenu = {
     beforeUnmount(el: any): void {
       removeWrapper();
       el.removeEventListener('contextmenu', el._bindRightClick);
+      window.removeEventListener('click', removeWrapper);
     }
   }
 };
 
 export default contextmenu;
-
-/**
- * 组件实例已经添加到组件内：
- * 1. 通过实例控制已添加的组件显隐
- * 2. 可能会造成闪现效果，要根据实际结果待定此方案是否推荐
- */
-
-// if (binding.arg) {
-//   // 自定义模板渲染实例
-//   const contextmenuRef: any = isRef(binding.arg) ? binding.arg.value : binding.instance?.$refs[binding.arg as string];
-//   if (contextmenuRef) {
-//     contextMenuDom = templateContextMenu(contextmenuRef);
-//   } else {
-//     console.warn(`未找到实例：${binding.arg}，已为您展示默认渲染`);
-//     contextMenuDom = defaultContextMenu();
-//   }
-// }
