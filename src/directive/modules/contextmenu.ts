@@ -1,4 +1,4 @@
-import { createApp, DirectiveBinding } from 'vue';
+import { createApp, DirectiveBinding, Component, Fragment, h } from 'vue';
 let menuWrapper: HTMLElement | null;
 // 右键点击
 function rightClick(event: MouseEvent, binding: DirectiveBinding) {
@@ -11,6 +11,8 @@ function rightClick(event: MouseEvent, binding: DirectiveBinding) {
     `position: fixed;
     left:${event.clientX}px;
     top:${event.clientY}px;
+    box-shadow: 0px 2px 20px 2px rgb(0 0 0 / 8%);
+    border-radius: 10px;
     `
   );
   contextMenuRender(binding);
@@ -18,18 +20,66 @@ function rightClick(event: MouseEvent, binding: DirectiveBinding) {
 }
 function contextMenuRender(binding: DirectiveBinding): void {
   if (binding.value) {
-    templateContextMenu(binding.value);
+    customContextMenu(binding.value);
   } else {
     (menuWrapper as HTMLElement).innerHTML = defaultContextMenu();
   }
 }
+export interface contextMenuList {
+  label: string;
+  click?: object;
+  disable?: boolean;
+  ico?: string;
+  sub?: string;
+  children?: [
+    {
+      label: string;
+      click?: object;
+      disable?: boolean;
+    }
+  ];
+}
 /**
- * 自定义模板渲染
- * @param contextmenuRef 单文件组件实例
+ * 自定义渲染
+ * @param contextmenuRef 单文件组件实例、对象数组
  */
-function templateContextMenu(contextmenuRef: any): void {
-  createApp(contextmenuRef).mount(menuWrapper as any);
+function customContextMenu(contextmenuRef: Component | Array<contextMenuList>): void {
+  if (Object.prototype.toString.call(contextmenuRef) === '[object Array]') {
+    customArrayMenu(contextmenuRef as Array<contextMenuList>);
+  } else {
+    createApp(contextmenuRef).mount(menuWrapper as any);
+  }
   clickListener();
+}
+/**
+ * 自定义数组菜单
+ * @param contextmenuRef 对象数组
+ */
+function customArrayMenu(contextmenuRef: Array<contextMenuList>) {
+  const renderList: Array<any> = [];
+  contextmenuRef.forEach((item: contextMenuList) => {
+    renderList.push(
+      h(
+        'div',
+        {
+          onclick: item.disable ? null : item.click,
+          style: `cursor: ${item.disable ? 'no-drop' : 'pointer'};
+            background:#fff;
+            width:100px;
+            padding:5px 20px;
+            color: ${item.disable ? '#ddd' : '#333'}
+          `
+        },
+        item.label
+      )
+    );
+  });
+  const App: object = {
+    render() {
+      return h(Fragment, renderList);
+    }
+  };
+  createApp(App).mount(menuWrapper as any);
 }
 /**
  * 默认渲染
