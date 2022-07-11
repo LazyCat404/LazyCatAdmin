@@ -2,16 +2,9 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router';
 import { tool } from './utils/tool';
-
 // 全局自定义安装
-import customDirective from '@/directive';
 import customComponents from '@/components/index';
 
+import vueExtendDirectives from 'vue-extend-directives';
 const app = createApp(App);
-
-// 自定义指令
-customDirective.forEach(directive => {
-  app.directive(`${directive.name}`, directive.dir);
-});
-
-app.use(router).use(customComponents).use(tool).mount('#app');
+app.use(router).use(vueExtendDirectives).use(customComponents).use(tool).mount('#app');

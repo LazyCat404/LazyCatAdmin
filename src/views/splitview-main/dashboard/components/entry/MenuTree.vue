@@ -15,6 +15,7 @@
 </template>
 
 <script lang="ts" setup>
+import 'vue-extend-directives/dist/style.css';
 import ContextMenu from '../ContextMenu.vue';
 import { Menu as Location } from '@element-plus/icons-vue';
 const menuList = [
