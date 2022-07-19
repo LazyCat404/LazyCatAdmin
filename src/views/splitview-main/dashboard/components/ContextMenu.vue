@@ -2,6 +2,7 @@
   <div>
     <ul>
       <li>
+        <i class="iconfont icon-shuaxin"></i>
         <span>刷新</span>
       </li>
       <li>
@@ -9,6 +10,9 @@
       </li>
       <li>
         <span>新建同级</span>
+      </li>
+      <li>
+        <span>新建顶级</span>
       </li>
       <li class="division-line">
         <i class="iconfont icon-shanchu"></i>
@@ -41,6 +45,10 @@ ul {
       position: absolute;
       left: 16px;
     }
+  }
+  li:hover {
+    background-color: #ecf5ff;
+    color: #409eff;
   }
   li.division-line {
     border-top: 1px solid #f0f1f3;
