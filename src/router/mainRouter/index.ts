@@ -2,9 +2,10 @@
 
 const modules = [];
 
-const modulesFiles = import.meta.globEager('./modules/*.ts');
+const modulesFiles = import.meta.glob('./modules/*.ts', { eager: true });
 for (const path in modulesFiles) {
-  modules.push(...modulesFiles[path].default);
+  const dirInstance = modulesFiles[path] as any;
+  modules.push(...dirInstance.default);
 }
 
 export default [

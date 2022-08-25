@@ -4,9 +4,10 @@ interface dir {
 }
 const customDirective: dir[] = [];
 
-const modulesFiles = import.meta.globEager('./modules/*.ts');
+const modulesFiles = import.meta.glob('./modules/*.ts', { eager: true });
 for (const path in modulesFiles) {
-  customDirective.push(modulesFiles[path].default);
+  const dirInstance = modulesFiles[path] as any;
+  customDirective.push(dirInstance.default);
 }
 
 export default customDirective;

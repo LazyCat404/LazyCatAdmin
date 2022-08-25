@@ -1,15 +1,18 @@
 import { App, Component } from 'vue';
 
 const componentsArr: Component[] = [];
-const modulesFiles = import.meta.globEager('./auto/*/index.ts');
+const modulesFiles = import.meta.glob('./auto/*/index.ts', { eager: true });
 for (const path in modulesFiles) {
-  if (!modulesFiles[path].default.name || modulesFiles[path].default.name == 'Main') {
-    // 兼容无 name 情况
-    const reg = /(?<=.\/auto\/).+(?=\/index.ts)/;
-    const matchResult = path.match(reg) as RegExpMatchArray;
-    modulesFiles[path].default.name = matchResult[0];
+  const dirInstance = modulesFiles[path] as any;
+  if (dirInstance.default) {
+    if (!dirInstance.default.name || dirInstance.default.name == 'Main') {
+      // 兼容无 name 情况
+      const reg = /(?<=.\/auto\/).+(?=\/index.ts)/;
+      const matchResult = path.match(reg) as RegExpMatchArray;
+      dirInstance.default.name = matchResult[0];
+    }
+    componentsArr.push(dirInstance.default);
   }
-  componentsArr.push(modulesFiles[path].default);
 }
 
 // 组件注册
