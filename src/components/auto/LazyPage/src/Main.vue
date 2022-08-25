@@ -20,9 +20,9 @@
 <script lang="ts" setup>
 import { defineProps, reactive } from 'vue';
 
-const props = defineProps({
-  page: <any>Object
-});
+const props = defineProps<{
+  page?: any;
+}>();
 const state = reactive<any>({
   pageNum: props.page.pageNum === undefined ? 1 : +props.page.pageNum, // 当前页
   goPage: props.page.pageNum === undefined ? 1 : +props.page.pageNum, // 前往页

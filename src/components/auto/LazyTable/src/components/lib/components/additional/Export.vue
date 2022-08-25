@@ -80,13 +80,10 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue';
 
-const props = defineProps({
-  tableOptions: {
-    type: <any>Array,
-    required: true
-  },
-  page: Object
-});
+const props = defineProps<{
+  tableOptions: Array<any>;
+  page?: any;
+}>();
 const form = reactive({
   name: '',
   type: '.xlsx',

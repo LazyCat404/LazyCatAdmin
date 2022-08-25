@@ -20,10 +20,10 @@ import { defineProps } from 'vue';
 import { config } from '../../config';
 import State from './components/State.vue';
 import Row from './components/Row.vue';
-const props = defineProps({
-  bodyItem: <any>Object, // 表格列设置
-  rowData: Object //行数据
-});
+const props = defineProps<{
+  bodyItem: any; // 表格列设置
+  rowData: any; //行数据
+}>();
 </script>
 <style lang="scss" scoped>
 .lazy-table-list-row-box[tip='show'] {

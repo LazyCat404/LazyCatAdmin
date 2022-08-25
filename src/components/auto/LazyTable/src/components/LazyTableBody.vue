@@ -20,10 +20,10 @@ import Switch from './lib/Switch.vue';
 import Edit from './lib/Edit.vue';
 import Ordinary from './lib/Ordinary.vue';
 import Custom from './lib/Custom.vue';
-const props = defineProps({
-  bodyItem: <any>Object, // 表格列设置
-  rowData: <any>Object //行数据
-});
+const props = defineProps<{
+  bodyItem: any; // 表格列设置
+  rowData: any; //行数据
+}>();
 const $emits = defineEmits(['row-confirm', 'switch-change']);
 // switch 值改变
 function switchChange(parame: unknown) {

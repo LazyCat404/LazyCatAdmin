@@ -29,9 +29,9 @@
 <script setup lang="ts">
 import { defineProps } from 'vue';
 
-const props = defineProps({
-  detail: <any>Object
-});
+const props = defineProps<{
+  detail?: any;
+}>();
 </script>
 <style lang="scss" scoped>
 .system-role-detail-wrapper {

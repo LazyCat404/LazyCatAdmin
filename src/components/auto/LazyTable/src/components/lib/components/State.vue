@@ -25,10 +25,10 @@
 <script lang="ts" setup>
 import { defineProps, reactive } from 'vue';
 import { stateColor } from '../../../config';
-const props = defineProps({
-  bodyItem: <any>Object, // 表格列设置
-  rowData: <any>Object
-});
+const props = defineProps<{
+  bodyItem: any; // 表格列设置
+  rowData: any;
+}>();
 const state = reactive<any>({
   setColor: stateColor,
   first: 'ico', // 显示顺序

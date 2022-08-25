@@ -84,11 +84,9 @@
 </template>
 <script lang="ts" setup>
 import { defineProps, defineEmits, reactive } from 'vue';
-const props = defineProps({
-  headerItem: <any>Object
-});
+const props = defineProps<{ headerItem: any }>();
 const $emits = defineEmits(['filterChange', 'sortChange']);
-const state = <any>reactive({
+const state = reactive<any>({
   isIndeterminate: false,
   filterList: [], // 筛选列表
   filterType: '', // 筛选类型 select:单选，check:复选

@@ -102,10 +102,10 @@ import { defineEmits, defineProps, reactive, ref } from 'vue';
 import { inspect } from '@/utils/inspect';
 import State from './components/State.vue';
 import Row from './components/Row.vue';
-const props = defineProps({
-  bodyItem: <any>Object, // 表格列设置
-  rowData: <any>Object //行数据
-});
+const props = defineProps<{
+  bodyItem: any; // 表格列设置
+  rowData: any; //行数据
+}>();
 const $emits = defineEmits(['row-confirm']);
 const state = reactive<any>({
   editData: props.rowData[props.bodyItem.prop],

@@ -127,18 +127,14 @@ const $emits = defineEmits([
   'change',
   'expot'
 ]);
-const props = defineProps({
-  tableData: {
-    type: Array,
-    required: true
-  },
-  tableOptions: {
-    type: <any>Array,
-    required: true
-  },
-  tableConfig: Object,
-  page: Object
-});
+
+const props = defineProps<{
+  tableData: Array<any>;
+  tableOptions: Array<any>;
+  tableConfig?: any;
+  page?: any;
+}>();
+
 const state = reactive<any>({
   customTableOptions: props.tableOptions, // 自定义列数据
   customTemplateList: [],

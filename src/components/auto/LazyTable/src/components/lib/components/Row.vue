@@ -20,10 +20,10 @@
 </template>
 <script lang="ts" setup>
 import { defineExpose, defineProps, onBeforeUnmount, reactive } from 'vue';
-const props = defineProps({
-  bodyItem: <any>Object, // 表格列设置
-  rowData: <any>Object //行数据
-});
+const props = defineProps<{
+  bodyItem: any; // 表格列设置
+  rowData: any; //行数据
+}>();
 const state = reactive<any>({
   timer: null,
   copyContent: null,

@@ -4,10 +4,10 @@
 <script lang="ts" setup>
 import { createApp, defineProps } from 'vue';
 
-const props = defineProps({
-  bodyItem: <any>Object, // 表格列设置
-  rowData: <any>Object //行数据
-});
+const props = defineProps<{
+  bodyItem: any; // 表格列设置
+  rowData: any; //行数据
+}>();
 
 let CustomTableComponent = {
   props: ['scope'],

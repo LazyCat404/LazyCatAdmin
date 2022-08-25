@@ -29,10 +29,10 @@
 </template>
 <script lang="ts" setup>
 import { defineEmits, defineProps, reactive } from 'vue';
-const props = defineProps({
-  bodyItem: <any>Object, // 表格列设置
-  rowData: <any>Object //行数据
-});
+const props = defineProps<{
+  bodyItem: any; // 表格列设置
+  rowData: any; //行数据
+}>();
 const $emits = defineEmits(['switch-change']);
 const state = reactive<any>({
   switchValue: props.rowData[props.bodyItem.prop],

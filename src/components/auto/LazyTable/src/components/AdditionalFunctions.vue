@@ -26,17 +26,12 @@
 import { reactive } from 'vue';
 import CustomColumn from './lib/components/additional/CustomColumn.vue';
 import Export from './lib/components/additional/Export.vue';
-defineProps({
-  tableOptions: {
-    type: <any>Array,
-    required: true
-  },
-  templateList: {
-    type: <any>Array,
-    required: true
-  },
-  page: Object
-});
+defineProps<{
+  tableOptions: Array<any>;
+  templateList: Array<any>;
+  page?: any;
+}>();
+
 const $emits = defineEmits(['additionalConfirm']);
 const state = reactive<any>({
   dialogVisible: false, // 弹框显示

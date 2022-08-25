@@ -60,16 +60,10 @@
 <script lang="ts" setup>
 import { reactive } from 'vue';
 import Draggable from 'vuedraggable';
-const props = defineProps({
-  tableOptions: {
-    type: <any>Array,
-    required: true
-  },
-  templateList: {
-    type: <any>Array,
-    required: true
-  }
-});
+const props = defineProps<{
+  tableOptions: Array<any>;
+  templateList: Array<any>;
+}>();
 
 const $emits = defineEmits(['confirmBtn']);
 const state = reactive<any>({
