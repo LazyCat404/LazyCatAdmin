@@ -56,8 +56,8 @@
         <div class="table-filter-btn">
           <el-checkbox v-model="state.checkAll" :indeterminate="state.isIndeterminate" @change="handleCheckAllChange">
           </el-checkbox>
-          <el-button type="text" :disabled="state.disabledBtn" @click="confirmFilter(1)">确认</el-button>
-          <el-button type="text" :disabled="state.disabledBtn" @click="confirmFilter(0)">取消</el-button>
+          <el-button link :disabled="state.disabledBtn" @click="confirmFilter(1)">确认</el-button>
+          <el-button link :disabled="state.disabledBtn" @click="confirmFilter(0)">取消</el-button>
         </div>
       </template>
     </template>
@@ -87,7 +87,7 @@ import { defineProps, defineEmits, reactive } from 'vue';
 const props = defineProps<{ headerItem: any }>();
 const $emits = defineEmits(['filterChange', 'sortChange']);
 const state = reactive<any>({
-  isIndeterminate: false,
+  isIndeterminate: false, // 半选状态
   filterList: [], // 筛选列表
   filterType: '', // 筛选类型 select:单选，check:复选
   checkAll: false, // 是否全选
