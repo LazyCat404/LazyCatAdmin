@@ -20,6 +20,7 @@
   >
     <!-- 表格 -->
     <el-table
+      :key="tableKey"
       :header-row-style="{ height: state.config.headerH, background: state.config.headerBg }"
       :row-style="{ height: state.config.lineH }"
       :header-row-class-name="state.config.border ? '' : 'border-hide'"
@@ -55,13 +56,13 @@
       <template v-for="(item, i) in state.customTableOptions" :key="i">
         <el-table-column
           v-if="
-            item.customColumn === undefined
-              ? item.show === undefined
+            item.show == undefined
+              ? item.customColumn === undefined
                 ? true
-                : item.show
-              : item.customColumn.show === undefined
-              ? true
-              : item.customColumn.show
+                : item.customColumn.show === undefined
+                ? true
+                : item.customColumn.show
+              : item.show
           "
           :width="item.width"
           :minWidth="item.minWidth || item.minwidth"
@@ -135,6 +136,8 @@ const props = defineProps<{
   page?: any;
 }>();
 
+const tableKey = ref(Math.ceil(Math.random() * 10000000000));
+
 const state = reactive<any>({
   customTableOptions: props.tableOptions, // 自定义列数据
   customTemplateList: [],
@@ -189,9 +192,13 @@ watch(
 function additionalConfirm(par: unknown, type: string) {
   switch (type) {
     case '自定义列':
-      state.customTableOptions = par;
       // 调用父组件方法 传递参数
+      state.customTableOptions = par;
+      tableKey.value = Math.ceil(Math.random() * 10000000000); // 修改key值，使表格重新渲染
       break;
+    case '重置':
+      state.customTableOptions = props.tableOptions;
+      tableKey.value = Math.ceil(Math.random() * 10000000000); // 修改key值，使表格重新渲染
     case '导出':
       $emits('expot', par);
   }
@@ -328,17 +335,14 @@ onMounted(() => {
   ::v-deep .el-checkbox {
     height: auto;
   }
+  // 复选框
+  ::v-deep .el-table-column--selection {
+    text-align: center;
+  }
 }
 ::v-deep .el-table-column--selection .cell {
   text-overflow: unset;
   padding: 0 !important;
   text-align: center;
-}
-// 滚动条
-.el-scrollbar {
-  margin: 0 22px;
-  ::v-deep .el-scrollbar__bar {
-    z-index: 99;
-  }
 }
 </style>

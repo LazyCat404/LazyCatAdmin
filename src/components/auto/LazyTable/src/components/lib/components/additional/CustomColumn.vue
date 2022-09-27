@@ -8,9 +8,7 @@
     @start="state.isDragging = true"
   >
     <template #item="{ element }">
-      <template
-        v-if="element.customColumn && Object.prototype.toString.call(element.customColumn) === '[object Object]'"
-      >
+      <template v-if="element.show || element.show == undefined">
         <div
           :class="
             element.customColumn.disabled === undefined ? 'disabled' : element.customColumn.disabled ? null : 'disabled'
@@ -33,27 +31,11 @@
           ></i>
         </div>
       </template>
-      <template v-else>
-        <div
-          :class="element.disabled === undefined ? 'disabled' : element.disabled ? null : 'disabled'"
-          :check="element.show == undefined ? '' : element.show ? '' : null"
-          @click="
-            element.disabled === undefined
-              ? (element.show = element.show == undefined ? false : !element.show)
-              : element.disabled
-              ? null
-              : (element.show = element.show == undefined ? false : !element.show)
-          "
-        >
-          <span>{{ element.label }}</span>
-          <i class="iconfont icon-jiaobiaoxuanzhong" v-if="element.show == undefined ? true : element.show"></i>
-        </div>
-      </template>
     </template>
   </Draggable>
   <!-- 按钮 -->
   <div class="custom-column-btn-wrapper">
-    <el-button @click="resetBtn">重置</el-button>
+    <el-button @click="init">重置</el-button>
     <el-button type="primary" @click="confirmBtn">确认</el-button>
   </div>
 </template>
@@ -67,7 +49,7 @@ const props = defineProps<{
 
 const $emits = defineEmits(['confirmBtn']);
 const state = reactive<any>({
-  tableOptions: JSON.parse(JSON.stringify(props.tableOptions)),
+  tableOptions: [],
   isDragging: false
 });
 // 确认按钮
@@ -85,10 +67,31 @@ function confirmBtn() {
   }
   $emits('confirmBtn', state.tableOptions, '自定义列');
 }
-// 重置按钮
-function resetBtn() {
-  state.tableOptions = JSON.parse(JSON.stringify(props.tableOptions));
+
+// 初始化/重置按钮
+function init() {
+  // 可自定义列项
+  state.tableOptions = [];
+  JSON.parse(JSON.stringify(props.tableOptions)).forEach((item: any, i: number) => {
+    if (item.customColumn && Object.prototype.toString.call(item.customColumn) === '[object Object]') {
+      state.tableOptions.push({
+        ...item,
+        click: props.tableOptions[i].click
+      });
+    } else {
+      state.tableOptions.push({
+        ...item,
+        customColumn: {
+          show: true,
+          disabled: item.disabled
+        },
+        click: props.tableOptions[i].click
+      });
+    }
+  });
 }
+
+init();
 </script>
 <style lang="scss" scoped>
 .table-list-setup-wrapper {

@@ -44,6 +44,8 @@
 
 - `tip`: 单列超出是否隐藏，同 `tableConfig.tip`
 
+- `show`：单列是否显示，默认显示，假值时不显示
+
 ### 常用功能
 
 - `state`：状态，可设置颜色的一个小点，值可依据config 文件中自定义的`Key`值
@@ -207,19 +209,10 @@ edit:{
 ```js
 let tableOptions = [{
     label: '操作',
-    disabled: false,// 是否禁止设置该列，默认不禁止
-    show:true,  // 是否显示该列默认显示
-}]
-
-// 等价于
-let tableOptions = [{
-    label: '操作',
     customColumn: {
         disabled: false,
-        show:true,  
     }
 }]
-
 // 等价于
 let tableOptions = [{
     label: '操作',
@@ -227,7 +220,9 @@ let tableOptions = [{
 }]
 
 // 以上设置可解释为：操作列不可设置为不显示（隐藏）
+
 ```
+>`customColumn.show` 是指可操控列（默认）是否显示,可通过交互操作控制显隐；通用配置中的`show`则指该列是否显示，级别要高，隐藏后的列不出现在**自定义列**操作中
 
 ### 导出
 
