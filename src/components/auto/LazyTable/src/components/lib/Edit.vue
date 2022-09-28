@@ -78,7 +78,7 @@
           :format="props.bodyItem.edit.format || 'YYYY-MM-DD'"
           @change="dateChange"
           @panelc-hange="dateChange"
-          @visible-change="dateVisiblechange"
+          @blur="dateBlur"
           v-model="state.editData"
           :type="props.bodyItem.edit.type"
           style="width: 100%"
@@ -250,9 +250,11 @@ function dateChange() {
   let tRI = tableRowInput.value as any;
   tRI.focus();
 }
-// 日期弹框显隐
-function dateVisiblechange(show: boolean) {
-  state.isEdit = show;
+// 日期失去焦点
+function dateBlur() {
+  setTimeout(() => {
+    state.isEdit = false;
+  }, 300);
 }
 </script>
 <style lang="scss" scoped>
