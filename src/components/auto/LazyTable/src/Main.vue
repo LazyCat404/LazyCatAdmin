@@ -21,7 +21,7 @@
     <!-- 表格 -->
     <el-table
       :key="tableKey"
-      :header-row-style="{ height: state.config.headerH, background: state.config.headerBg }"
+      :header-row-style="{ height: state.config.headerH }"
       :row-style="{ height: state.config.lineH }"
       :header-row-class-name="state.config.border ? '' : 'border-hide'"
       :row-class-name="tableRowClassName"
@@ -49,6 +49,7 @@
       <el-table-column
         type="selection"
         width="40px"
+        :selectable="selectable"
         v-if="state.config.select"
         :fixed="state.config.selectFixed"
       ></el-table-column>
@@ -216,9 +217,13 @@ function controlTable() {
   let eTD = elTableDom.value as any;
   // 异步设置
   setTimeout(() => {
-    // 固定列奇偶行颜色
-    let fixedOddNodeList = eTD.querySelectorAll('.odd-row');
-    let fixedEvenNodeList = eTD.querySelectorAll('.even-row');
+    // 固定列奇偶行颜色及表头颜色
+    let fixedOddNodeList = eTD.querySelectorAll('.odd-row > td');
+    let fixedEvenNodeList = eTD.querySelectorAll('.even-row > td');
+    let theadNodeList = eTD.querySelectorAll('.el-table__header > thead > tr > th');
+    theadNodeList.forEach((element: any) => {
+      element.style.background = state.config.headerBg;
+    });
     fixedOddNodeList.forEach((element: any) => {
       element.style.background = state.config.oddBg;
     });
@@ -226,6 +231,14 @@ function controlTable() {
       element.style.background = state.config.evenBg;
     });
   });
+}
+// 单行复选框禁止勾选
+function selectable(row: { selectable: unknown }) {
+  if (Object.keys(row).includes('selectable') && !row.selectable) {
+    return false;
+  } else {
+    return true;
+  }
 }
 // 手动勾选数据行的 Checkbox
 function handleSelection(selection: Array<unknown>, row: unknown) {
@@ -323,7 +336,6 @@ onMounted(() => {
   ::v-deep .el-table__body-wrapper .el-table__cell,
   ::v-deep .el-table__fixed-body-wrapper .el-table__cell {
     padding: 0;
-    background: transparent;
   }
 
   ::v-deep .el-table__body-wrapper .border-hide td,
@@ -338,6 +350,10 @@ onMounted(() => {
   // 复选框
   ::v-deep .el-table-column--selection {
     text-align: center;
+  }
+  // 表头内容不换行
+  ::v-deep .el-table__header-wrapper thead th > div {
+    white-space: nowrap;
   }
 }
 ::v-deep .el-table-column--selection .cell {
