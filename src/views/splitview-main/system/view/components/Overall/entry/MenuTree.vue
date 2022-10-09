@@ -1,22 +1,24 @@
 <template>
-  <el-menu default-active="2" class="el-menu-vertical-demo">
+  <el-menu class="el-menu-vertical-demo">
     <template v-for="(item, i) in state.menuList" :key="i">
       <!-- 有子菜单 -->
-      <el-sub-menu v-if="item.children">
+      <el-sub-menu v-if="item.children" :index="item.name">
         <template #title>
           <div>
             <i :class="'iconfont ' + item.icon" />
             <span v-contextmenu="ContextMenu">{{ item.name }}</span>
           </div>
         </template>
-        <el-menu-item v-for="(ite, j) in item.children" :key="j">
-          {{ ite.name }}
+        <el-menu-item v-for="(ite, j) in item.children" :key="j" :index="ite.name">
+          <div @click="menuClick(ite)" v-contextmenu="ContextMenu">
+            {{ ite.name }}
+          </div>
         </el-menu-item>
       </el-sub-menu>
       <!-- 无子菜单 -->
-      <el-menu-item v-else>
+      <el-menu-item v-else :index="item.name">
         <template #title>
-          <div v-contextmenu="ContextMenu">
+          <div @click="menuClick(item)" v-contextmenu="ContextMenu">
             <i :class="'iconfont ' + item.icon" />
             <span>
               {{ item.name }}
@@ -25,16 +27,6 @@
         </template>
       </el-menu-item>
     </template>
-    <!-- <el-sub-menu index="1">
-      <template #title>
-        <el-icon><location /></el-icon>
-        <span v-contextmenu="ContextMenu">item oneitem</span>
-      </template>
-      <el-sub-menu index="1-4">
-        <template #title><span>item four4</span></template>
-        <el-menu-item index="1-4-1">item one</el-menu-item>
-      </el-sub-menu>
-    </el-sub-menu> -->
   </el-menu>
   <!-- 右键菜单 -->
 </template>
@@ -42,13 +34,16 @@
 <script lang="ts" setup>
 import 'vue-extend-directives/dist/style.css';
 import ContextMenu from '../ContextMenu.vue';
-// import { Menu as Location } from '@element-plus/icons-vue';
 import api from '@api';
 import { reactive } from 'vue';
-
+const $emits = defineEmits(['cutMenu']);
 const state = reactive<any>({
   menuList: []
 });
+
+function menuClick(item: unknown) {
+  $emits('cutMenu', item);
+}
 
 function init() {
   getMenuList();
@@ -62,8 +57,32 @@ init();
 </script>
 
 <style lang="scss" scoped>
+.el-menu {
+  border-right: 0;
+  .el-menu-item > div {
+    width: 100%;
+    > span {
+      margin-left: 10px;
+    }
+  }
+  .el-sub-menu {
+    width: 100%;
+    ::v-deep > .el-sub-menu__title {
+      display: block;
+      > div {
+        > span {
+          display: inline-block;
+          width: calc(100% - 26px);
+          margin-left: 10px;
+        }
+      }
+    }
+    .el-menu-item > div {
+      margin-left: 10px;
+    }
+  }
+}
 .el-menu-vertical-demo:not(.el-menu--collapse) {
-  width: 200px;
-  min-height: 400px;
+  min-width: 200px;
 }
 </style>
