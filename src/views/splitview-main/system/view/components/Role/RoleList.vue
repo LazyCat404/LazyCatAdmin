@@ -32,7 +32,7 @@ const $emits = defineEmits(['deliverPar']);
 
 // 获取角色列表
 function getRoleList() {
-  api.getRoleList().then((res: res) => {
+  api.system.getRoleList().then((res: res) => {
     state.roleList = res.data;
     state.activeRole = res.data[0].id;
     $emits('deliverPar', res.data[0]);

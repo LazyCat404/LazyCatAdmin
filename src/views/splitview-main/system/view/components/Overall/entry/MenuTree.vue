@@ -49,7 +49,7 @@ function init() {
   getMenuList();
 }
 function getMenuList() {
-  api.getMenuList().then((res: res) => {
+  api.system.getMenuList().then((res: res) => {
     state.menuList = res.data;
   });
 }

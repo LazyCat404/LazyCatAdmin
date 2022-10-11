@@ -68,7 +68,7 @@ function customNodeClass(data: Tree, node: Node) {
 function getPowerList() {
   state.loading = true;
   state.defaultChecked = [];
-  api.getPowerList({ id: props.id }).then((res: res) => {
+  api.system.getPowerList({ id: props.id }).then((res: res) => {
     state.powerList = res.data;
     state.loading = false;
     defaultChecked(res.data);
