@@ -11,13 +11,13 @@ for (const path in modulesFiles) {
 export default [
   {
     path: '/',
-    component: (): unknown => import('@views/splitview-main/Layout.vue'),
+    component: (): unknown => import('@views/layout/Index.vue'),
     redirect: '/dashboard',
     children: [
       {
         path: '/dashboard',
         name: 'Dashboard',
-        component: (): unknown => import('@views/splitview-main/dashboard/Index.vue')
+        component: (): unknown => import('@views/core/dashboard/Index.vue')
       },
       ...modules
     ],

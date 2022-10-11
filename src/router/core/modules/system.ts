@@ -3,13 +3,13 @@ export default [
   {
     path: '/system',
     name: 'System',
-    component: (): unknown => import('@views/splitview-main/system/Index.vue'),
+    component: (): unknown => import('@views/core/system/Index.vue'),
     redirect: '/system/overall',
     children: [
       {
         path: 'overall',
         name: 'SystemOverall',
-        component: (): unknown => import('@views/splitview-main/system/view/Overall.vue'),
+        component: (): unknown => import('@views/core/system/view/Overall.vue'),
         meta: {
           requireAuth: true,
           breadcrumb: [
@@ -21,7 +21,7 @@ export default [
       {
         path: 'user',
         name: 'SystemUser',
-        component: (): unknown => import('@views/splitview-main/system/view/User.vue'),
+        component: (): unknown => import('@views/core/system/view/User.vue'),
         meta: {
           requireAuth: true,
           breadcrumb: [
@@ -33,7 +33,7 @@ export default [
       {
         path: 'role',
         name: 'SystemRole',
-        component: (): unknown => import('@views/splitview-main/system/view/Role.vue'),
+        component: (): unknown => import('@views/core/system/view/Role.vue'),
         meta: {
           requireAuth: true,
           breadcrumb: [
@@ -45,7 +45,7 @@ export default [
       {
         path: 'journal',
         name: 'SystemJournal',
-        component: (): unknown => import('@views/splitview-main/system/view/Journal.vue'),
+        component: (): unknown => import('@views/core/system/view/Journal.vue'),
         meta: {
           requireAuth: true,
           breadcrumb: [

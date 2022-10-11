@@ -3,7 +3,7 @@ export default [
   {
     path: '/login',
     name: 'Login',
-    component: (): unknown => import('@views/single-view/Login.vue'),
+    component: (): unknown => import('@views/single/Login.vue'),
     meta: {
       title: '用户登录',
       authority: []
@@ -12,7 +12,7 @@ export default [
   {
     path: '/visualization',
     name: 'Visualization',
-    component: (): unknown => import('@views/single-view/visualization/Index.vue'),
+    component: (): unknown => import('@views/single/visualization/Index.vue'),
     meta: {
       title: '用户登录',
       authority: []

@@ -1,11 +1,11 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 import store from '@/store/index';
-import singleRouter from './singleRouter';
-import mainRouter from './mainRouter';
+import single from './single';
+import core from './core';
 
 const router = createRouter({
   history: createWebHashHistory(),
-  routes: [...singleRouter, ...mainRouter]
+  routes: [...single, ...core]
 });
 
 // 路由守卫

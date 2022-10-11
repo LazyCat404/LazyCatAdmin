@@ -20,9 +20,9 @@
 </template>
 
 <script lang="ts" setup>
-import Menu from '../splitview-sample/layout/Menu.vue';
-import Header from '../splitview-sample/layout/Header.vue';
-import Navigation from '../splitview-sample/layout/Navigation.vue';
+import Menu from './Menu.vue';
+import Header from './Header.vue';
+import Navigation from './Navigation.vue';
 import { reactive, watch } from 'vue';
 import { onBeforeRouteUpdate } from 'vue-router';
 // 全局属性
