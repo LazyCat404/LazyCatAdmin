@@ -10,11 +10,11 @@ export default [
     }
   },
   {
-    path: '/visualization',
-    name: 'Visualization',
-    component: (): unknown => import('@views/single/visualization/Index.vue'),
+    path: '/error',
+    name: 'Error',
+    component: (): unknown => import('@views/single/Error.vue'),
     meta: {
-      title: '用户登录',
+      title: '404',
       authority: []
     }
   }
