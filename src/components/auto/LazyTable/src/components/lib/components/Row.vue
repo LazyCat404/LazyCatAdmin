@@ -1,6 +1,12 @@
 <template>
   <span
-    :style="[{ color: state.color, cursor: props.bodyItem.edit || props.bodyItem.click ? 'pointer' : '' }]"
+    :style="[
+      {
+        color: state.color,
+        cursor: props.bodyItem.edit || props.bodyItem.click ? 'pointer' : '',
+        fontWeight: props.bodyItem.fontWeight ? props.bodyItem.fontWeight : ''
+      }
+    ]"
     @click="rowClick"
   >
     <template v-if="Object.prototype.toString.call(props.rowData[props.bodyItem.prop]) === '[object Array]'">

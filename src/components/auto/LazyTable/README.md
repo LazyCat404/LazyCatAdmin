@@ -66,6 +66,8 @@ PS：`ico`/`state`设置顺序决定显示顺序
 
     > `colorX`：指定在 `color`三元表达式中`prop`的变量
 
+- `fontWeight`:列字体加粗，值为css `font-weight`支持的值
+
 - `click`：可点击，`function` 类型，返回当前行数据`rowData`和`prop`对应的字段名
 
 - `mark`：如果`prop`对应内容为数组时，该属性可设置间隔符，建议`string`类型

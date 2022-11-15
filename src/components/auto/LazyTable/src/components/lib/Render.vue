@@ -10,7 +10,13 @@
             rowData: rowData
           })
     "
-    :style="[{ color: state.color, cursor: bodyItem.click ? 'pointer' : '' }]"
+    :style="[
+      {
+        color: state.color,
+        cursor: bodyItem.click ? 'pointer' : '',
+        fontWeight: props.bodyItem.fontWeight ? props.bodyItem.fontWeight : ''
+      }
+    ]"
     @click="rowClick"
   ></div>
   <div v-else>-</div>
