@@ -1,6 +1,8 @@
 <template>
+  <!-- 渲染行 -->
+  <Render v-if="props.bodyItem.render" :bodyItem="props.bodyItem" :rowData="rowData"></Render>
   <!-- 自定义行 -->
-  <Custom v-if="!props.bodyItem.prop" :bodyItem="props.bodyItem" :rowData="rowData"></Custom>
+  <Custom v-else-if="!props.bodyItem.prop" :bodyItem="props.bodyItem" :rowData="rowData"></Custom>
   <!-- 开关行 -->
   <Switch
     v-else-if="props.bodyItem.switch !== undefined && props.bodyItem.switch"
@@ -20,6 +22,7 @@ import Switch from './lib/Switch.vue';
 import Edit from './lib/Edit.vue';
 import Ordinary from './lib/Ordinary.vue';
 import Custom from './lib/Custom.vue';
+import Render from './lib/Render.vue';
 const props = defineProps<{
   bodyItem: any; // 表格列设置
   rowData: any; //行数据
