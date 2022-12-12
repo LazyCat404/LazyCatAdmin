@@ -2,7 +2,7 @@
   <div class="down-run-wrapper">
     <!-- 标题、按钮 -->
     <div class="down-run-btn">
-      <BasicTitle title="停机/运行时长占比"></BasicTitle>
+      <LazyTitle title="停机/运行时长占比"></LazyTitle>
       <div class="top-btn">
         <i class="iconfont icon-xiazai"></i>
         <span>导出图表</span>

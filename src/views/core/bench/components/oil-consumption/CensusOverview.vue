@@ -1,7 +1,7 @@
 <template>
   <div class="census-overview-wrapper">
     <div class="census-overview-btn">
-      <BasicTitle title="统计看板"></BasicTitle>
+      <LazyTitle title="统计看板"></LazyTitle>
       <div class="top-btn">
         <span>
           <i class="iconfont icon-xiazai"></i>

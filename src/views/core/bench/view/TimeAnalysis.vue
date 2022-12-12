@@ -6,7 +6,7 @@
       <div class="analysis-right-box">
         <div class="run-time-census">
           <div class="time-census-btn">
-            <BasicTitle title="运行时间统计"></BasicTitle>
+            <LazyTitle title="运行时间统计"></LazyTitle>
             <div class="top-btn">
               <span>
                 <i class="iconfont icon-xiazai"></i>

@@ -9,20 +9,20 @@
       <div class="cart-two">
         <!-- 标题、按钮 -->
         <div class="top-btn-box">
-          <BasicTitle title="数据筛选结果"></BasicTitle>
+          <LazyTitle title="数据筛选结果"></LazyTitle>
           <div class="top-btn">
             <i class="iconfont icon-xiazai"></i>
             <span>导出图表</span>
           </div>
         </div>
         <div class="table-box" :style="[{ height: state.tableData.length ? 'auto' : '120px' }]">
-          <BasicTable
+          <LazyTable
             :spanMethod="arraySpanMethod"
             :tableData="state.tableData"
             :tableOptions="state.tableOptions"
             :tableConfig="state.tableConfig"
             :page="state.page"
-          ></BasicTable>
+          ></LazyTable>
         </div>
       </div>
     </div>

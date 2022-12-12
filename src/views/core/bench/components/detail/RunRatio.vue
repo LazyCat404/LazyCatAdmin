@@ -4,7 +4,7 @@
       <div class="run-ratio-content">
         <!-- 上方按钮 -->
         <div>
-          <BasicTitle title="运行时间占比"></BasicTitle>
+          <LazyTitle title="运行时间占比"></LazyTitle>
           <div>
             <i class="iconfont icon-xiazai"></i>
             <el-date-picker

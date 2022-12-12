@@ -4,7 +4,7 @@
       <ul class="board-config-box">
         <li v-for="(item, i) in configList" :key="i">
           <div class="board-name">
-            <BasicTitle :title="item.name"></BasicTitle>
+            <LazyTitle :title="item.name"></LazyTitle>
             <span :style="[{ color: item.show ? '#01BC8F' : '#5E6389' }]"
               >（{{ item.show ? '展示中' : '未展示' }}）</span
             >

@@ -1,6 +1,6 @@
 <template>
   <div class="time-search-wrapper">
-    <BasicTitle title="筛选条件设置"></BasicTitle>
+    <LazyTitle title="筛选条件设置"></LazyTitle>
     <div class="search-content">
       <!-- 固定筛选 -->
       <div class="fixed-list-box">

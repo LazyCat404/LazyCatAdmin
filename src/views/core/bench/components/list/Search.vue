@@ -1,6 +1,6 @@
 <template>
   <div class="bench-search-wrapper">
-    <BasicTitle title="筛选条件设置"></BasicTitle>
+    <LazyTitle title="筛选条件设置"></LazyTitle>
     <el-form :model="state.formData">
       <el-form-item v-for="item in state.searchList" :key="item.label">
         <el-select v-if="item.type == 'select'" v-model="state.formData[item.prop]" :placeholder="item.label" clearable>

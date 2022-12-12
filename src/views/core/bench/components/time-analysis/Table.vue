@@ -1,7 +1,7 @@
 <template>
   <div class="analysis-table-wrapper">
     <div class="time-census-btn">
-      <BasicTitle title="数据列表"></BasicTitle>
+      <LazyTitle title="数据列表"></LazyTitle>
       <div class="top-btn">
         <i class="iconfont icon-xiazai"></i>
         <div>
@@ -12,12 +12,12 @@
       </div>
     </div>
     <div class="time-census-table">
-      <BasicTable
+      <LazyTable
         :tableData="state.tableData"
         :tableOptions="state.tableOptions"
         :tableConfig="state.tableConfig"
         :page="state.page"
-      ></BasicTable>
+      ></LazyTable>
     </div>
   </div>
 </template>

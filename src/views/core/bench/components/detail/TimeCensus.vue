@@ -2,7 +2,7 @@
   <div class="time-census-wrapper">
     <!-- 上方按钮 -->
     <div>
-      <BasicTitle title="运行时间占比"></BasicTitle>
+      <LazyTitle title="运行时间占比"></LazyTitle>
       <div class="top-btn">
         <span>
           <i class="iconfont icon-xiazai"></i>

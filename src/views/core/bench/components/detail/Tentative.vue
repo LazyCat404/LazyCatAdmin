@@ -1,6 +1,6 @@
 <template>
   <div class="tentative-wrapper">
-    <BasicTitle title="进行中的试验"></BasicTitle>
+    <LazyTitle title="进行中的试验"></LazyTitle>
     <div class="tentative-one">
       <div class="tentative-infor">
         <div>YCK11460-60_QN11452_20220922-05</div>

@@ -1,7 +1,7 @@
 <template>
   <div class="bench-table-wrapper">
-    <BasicTitle title="台架列表"></BasicTitle>
-    <BasicTable :tableData="state.tableData" :tableOptions="state.tableOptions" :page="state.page"></BasicTable>
+    <LazyTitle title="台架列表"></LazyTitle>
+    <LazyTable :tableData="state.tableData" :tableOptions="state.tableOptions" :page="state.page"></LazyTable>
   </div>
 </template>
 

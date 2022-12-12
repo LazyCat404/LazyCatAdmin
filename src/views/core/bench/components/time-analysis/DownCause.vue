@@ -2,7 +2,7 @@
   <div class="down-cause-wrapper">
     <!-- 标题、按钮 -->
     <div class="down-run-btn">
-      <BasicTitle title="停机原因时长及占比"></BasicTitle>
+      <LazyTitle title="停机原因时长及占比"></LazyTitle>
       <div class="top-btn">
         <i class="iconfont icon-xiazai"></i>
         <span>导出图表</span>

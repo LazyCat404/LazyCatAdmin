@@ -1,7 +1,7 @@
 <template>
   <div class="work-log-wrapper">
     <div>
-      <BasicTitle title="台架工作日志"></BasicTitle>
+      <LazyTitle title="台架工作日志"></LazyTitle>
       <div class="log-btn">
         <span class="export-log">
           <i class="iconfont icon-xiazai"></i>
@@ -15,11 +15,11 @@
       </div>
     </div>
     <div>
-      <BasicTable
+      <LazyTable
         :tableData="state.tableData"
         :tableOptions="state.tableOptions"
         :tableConfig="state.tableConfig"
-      ></BasicTable>
+      ></LazyTable>
     </div>
   </div>
 </template>
