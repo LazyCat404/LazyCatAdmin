@@ -1,20 +1,12 @@
 <template>
-  <Header></Header>
-  <Menu></Menu>
-  <div id="route-wrapper">
-    <Navigation v-if="state.navShow"></Navigation>
-    <div
-      id="route-body"
-      :style="[
-        { height: state.navShow ? 'calc(100% - 62px)' : 'calc(100% - 30px)' },
-        { margin: state.navShow ? '0 15px 15px' : '15px' }
-      ]"
-    >
-      <el-scrollbar v-if="state.scrollbarView">
-        <div id="scrollbar-layout-wrapper">
-          <router-view></router-view>
-        </div>
-      </el-scrollbar>
+  <div id="app-wrapper">
+    <Menu></Menu>
+    <div id="check-menu-item">
+      <div id="layout-top">
+        <Navigation></Navigation>
+        <Header></Header>
+      </div>
+      <router-view></router-view>
     </div>
   </div>
 </template>
@@ -23,53 +15,31 @@
 import Menu from './Menu.vue';
 import Header from './Header.vue';
 import Navigation from './Navigation.vue';
-import { reactive, watch } from 'vue';
-import { onBeforeRouteUpdate } from 'vue-router';
-// 全局属性
-const route = useRoute();
-const state = reactive({
-  navShow: route.meta.breadcrumb && $stores.systemSet.getters.nav(),
-  scrollbarView: true // 控制滚动条视图刷新
-});
-onBeforeRouteUpdate(to => {
-  state.scrollbarView = false;
-  state.navShow = to.meta.breadcrumb && $stores.systemSet.getters.nav();
-});
-watch(
-  () => route.path,
-  () => {
-    state.scrollbarView = true;
-  }
-);
 </script>
 
 <style lang="scss" scoped>
-#route-wrapper {
-  width: calc(100% - 230px);
-  height: calc(100% - 70px);
-  float: right;
-  background-color: #f1f8f9;
-}
-#route-body {
-  background: #fff;
-}
-::v-deep .el-scrollbar .el-scrollbar__view,
-::v-deep .el-scrollbar .el-scrollbar__view > div#scrollbar-layout-wrapper {
+#app-wrapper {
+  display: flex;
+  width: 100%;
   height: 100%;
-  z-index: 999;
-}
-
-@media screen and (max-width: 1200px) {
-  #route-wrapper {
-    width: 970px;
-  }
-}
-@media screen and (max-width: 1125px) {
-  #route-wrapper {
-    width: calc(100% - 64px);
-  }
-  ::v-deep .el-scrollbar .el-scrollbar__view > div#scrollbar-layout-wrapper {
-    min-width: 700px;
+  overflow: hidden;
+  #check-menu-item {
+    flex: 1;
+    background: #f1f5fb;
+    position: relative;
+    #layout-top {
+      position: absolute;
+      display: flex;
+      top: 0;
+      width: 100%;
+      justify-content: space-between;
+    }
+    > div:last-child {
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+    }
   }
 }
 </style>

@@ -1,11 +1,16 @@
 <template>
-  <div id="header-wrapper">
-    <div id="header-logo">LOGO</div>
-    <div id="header-main">
+  <div class="header-wrapper" :dark="state.excludeRoute.includes(route.path)">
+    <!-- 用户列表 -->
+    <ul>
+      <li v-for="item in state.systemList" :key="item.nmae">{{ item.name }}</li>
+    </ul>
+    <!-- 用户信息 -->
+    <div class="user-infor-box">
+      <div id="user-image">
+        <img :src="userImg" />
+      </div>
       <el-dropdown class="oper-box">
-        <div id="user-image">
-          <img :src="userImg" />
-        </div>
+        <div>{{ state.userInfor.name }} <i class="iconfont icon-xiala"></i></div>
         <template #dropdown>
           <el-dropdown-menu class="user-dropdown-list">
             <el-dropdown-item @click="goUserInfor">个人中心</el-dropdown-item>
@@ -19,11 +24,21 @@
 
 <script lang="ts" setup>
 import userImage from '@/assets/images/user.png';
+import { reactive } from 'vue';
 
 const router = useRouter();
+const route = useRoute();
+const state = reactive<any>({
+  userInfor: $store.state.user,
+  excludeRoute: [], // 此些路由深色背景
+  systemList: [
+    {
+      name: 'OA系统'
+    }
+  ]
+});
 // 用户头像
 const userImg = userImage;
-
 function goUserInfor() {
   console.log('跳转个人中心');
 }
@@ -39,45 +54,57 @@ function outLogin() {
 </script>
 
 <style lang="scss" scoped>
-#header-wrapper {
-  height: 70px;
-  width: 100%;
-  #header-logo {
-    width: 260px;
-    height: 100%;
-    float: left;
-    font-size: 40px;
-    font-weight: bold;
-    color: #40cdbb;
-    display: -webkit-flex;
+.header-wrapper {
+  height: 80px;
+  padding-top: 20px;
+  padding-right: 40px;
+  box-sizing: border-box;
+  display: -webkit-flex;
+  display: flex; /*定位（写在父元素中）*/
+  justify-content: center; /*水平居中*/
+  align-items: center;
+  > ul {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    li {
+      margin-right: 60px;
+    }
   }
-  #header-main {
-    background: #53d2c2;
-    float: right;
-    width: calc(100% - 260px);
-    height: 100%;
-    ::v-deep .oper-box {
-      float: right;
-      display: -webkit-flex;
-      display: flex;
-      align-items: center;
-      height: 70px;
-      margin-right: 20px;
-      #user-image {
-        width: 60px;
-        height: 60px;
-        border-radius: 50% 50%;
-        overflow: hidden;
-        cursor: pointer;
-        background: #fff;
+  .user-infor-box {
+    display: -webkit-flex;
+    display: flex; /*定位（写在父元素中）*/
+    justify-content: center; /*水平居中*/
+    align-items: center;
+    #user-image {
+      width: 40px;
+      height: 40px;
+      border-radius: 50% 50%;
+      overflow: hidden;
+      margin-right: 12px;
+      img {
+        width: 100%;
+      }
+    }
+    .oper-box {
+      height: 20px;
+      font-size: 14px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: #333333;
+      line-height: 20px;
+      cursor: pointer;
+      .iconfont {
+        font-size: 10px;
+        margin-left: 6px;
       }
     }
   }
 }
-
+.header-wrapper[dark='true'] {
+  > ul > li,
+  .oper-box {
+    color: #fff;
+  }
+}
 .user-dropdown-list {
   padding: 10px 0px;
   li {
