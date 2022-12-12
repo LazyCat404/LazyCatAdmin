@@ -12,12 +12,12 @@ export default [
   {
     path: '/',
     component: (): unknown => import('@views/layout/Index.vue'),
-    redirect: '/dashboard',
+    redirect: '/bench',
     children: [
       {
-        path: '/dashboard',
-        name: 'Dashboard',
-        component: (): unknown => import('@views/core/dashboard/Index.vue')
+        path: '/bench',
+        name: 'Bench',
+        component: (): unknown => import('@views/core/bench/Index.vue')
       },
       ...modules
     ],
