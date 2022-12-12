@@ -83,11 +83,15 @@ function init() {
       state.copyContent = props.rowData[props.bodyItem.prop];
     }
   }
-  // 如果颜色是三元表达式
-  if (props.bodyItem.color && props.bodyItem.color.includes('?')) {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    let prop = props.rowData[props.bodyItem.colorX ? props.bodyItem.colorX : props.bodyItem.prop];
-    state.color = eval(props.bodyItem.color);
+  // 如果指定颜色
+  if (props.bodyItem.color) {
+    if (typeof props.bodyItem.color === 'string') {
+      state.color = props.bodyItem.color;
+    } else if (typeof props.bodyItem.color === 'function') {
+      state.color = props.bodyItem.color({ prop: props.bodyItem.prop, rowData: props.rowData });
+    } else {
+      console.error('tableOptions -> color 仅支持 string、object 类型');
+    }
   }
 }
 init();

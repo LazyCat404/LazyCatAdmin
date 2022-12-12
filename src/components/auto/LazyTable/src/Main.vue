@@ -9,6 +9,7 @@
   ></AdditionalFunctions>
   <!-- 表格内容 -->
   <div
+    class="basic-table-wrapper"
     :style="[
       {
         maxHeight: `${tableConfig?.customColumn ? `calc(${state.config.tableH} - 46px)` : `${state.config.tableH}`}`,
@@ -20,9 +21,11 @@
   >
     <!-- 表格 -->
     <el-table
+      :class="{ 'header-border': state.config.headerBorder }"
       :key="tableKey"
       :header-row-style="{ height: state.config.headerH }"
       :row-style="{ height: state.config.lineH }"
+      :span-method="spanMethod"
       :header-row-class-name="state.config.border ? '' : 'border-hide'"
       :row-class-name="tableRowClassName"
       @select="handleSelection"
@@ -40,8 +43,21 @@
       @header-contextmenu="headerContextmenu"
       :data="tableData"
       :border="state.config.border"
-      :height="props.page === undefined ? '100%' : 'calc(100% - 60px)'"
-      :max-height="props.page === undefined ? '100%' : 'calc(100% - 60px)'"
+      :style="[{ position: `${state.config.fitContent ? (tableData.length ? 'relative' : 'absolute') : 'absolute'}` }]"
+      :height="state.config.fitContent ? (tableData.length ? 'auto' : '100%') : '100%'"
+      :max-height="
+        props.page === undefined
+          ? state.config.fitContent
+            ? tableData.length
+              ? 'auto'
+              : '100%'
+            : '100%'
+          : state.config.fitContent
+          ? tableData.length
+            ? 'auto'
+            : 'calc(100% - 60px)'
+          : 'calc(100% - 60px)'
+      "
     >
       <!-- 空数据提示 -->
       <template #empty> 暂无数据 </template>
@@ -79,34 +95,38 @@
         >
           <!-- 表头 -->
           <template #header>
-            <LazyTableHeader
+            <BasicTableHeader
               :headerItem="item"
               @filter-change="filterChange"
               @sort-change="sortChange"
-            ></LazyTableHeader>
+            ></BasicTableHeader>
           </template>
           <!-- 表体 -->
           <template #default="scope">
-            <LazyTableBody
+            <BasicTableBody
               :bodyItem="item"
               :rowData="scope.row"
               @row-confirm="rowConfirm"
               @switch-change="switchChange"
-            ></LazyTableBody>
+            ></BasicTableBody>
           </template>
         </el-table-column>
       </template>
     </el-table>
     <!-- 分页 -->
-    <LazyPage v-if="page !== undefined" :page="page"></LazyPage>
+    <LazyPage
+      v-if="page !== undefined"
+      :page="page"
+      :style="[{ position: `${state.config.fitContent ? 'relative' : 'absolute'}` }]"
+    ></LazyPage>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { onMounted, reactive, ref, watch } from 'vue';
 import { config } from './config';
-import LazyTableHeader from './components/LazyTableHeader.vue';
-import LazyTableBody from './components/LazyTableBody.vue';
+import BasicTableHeader from './components/BasicTableHeader.vue';
+import BasicTableBody from './components/BasicTableBody.vue';
 import AdditionalFunctions from './components/AdditionalFunctions.vue';
 const elTableDom = ref(null);
 const $emits = defineEmits([
@@ -135,6 +155,7 @@ const props = defineProps<{
   tableOptions: Array<any>;
   tableConfig?: any;
   page?: any;
+  spanMethod?: any;
 }>();
 
 const tableKey = ref(Math.ceil(Math.random() * 10000000000));
@@ -163,6 +184,11 @@ const state = reactive<any>({
       props.tableConfig && props.tableConfig.headerH !== undefined
         ? $tool.targetCss(props.tableConfig.headerH)
         : config.headerH,
+    // 表头边框
+    headerBorder:
+      props.tableConfig && props.tableConfig.headerBorder !== undefined
+        ? props.tableConfig.headerBorder
+        : config.headerBorder,
     // 表头背景色
     headerBg:
       props.tableConfig && props.tableConfig.headerBg !== undefined ? props.tableConfig.headerBg : config.headerBg,
@@ -176,7 +202,10 @@ const state = reactive<any>({
     // 偶数行背景色
     evenBg: props.tableConfig && props.tableConfig.evenBg !== undefined ? props.tableConfig.evenBg : config.evenBg,
     // 文字对齐方式（默认左侧）
-    align: props.tableConfig && props.tableConfig.align !== undefined ? props.tableConfig.align : config.align
+    align: props.tableConfig && props.tableConfig.align !== undefined ? props.tableConfig.align : config.align,
+    // 拟合高度
+    fitContent:
+      props.tableConfig && props.tableConfig.fitContent !== undefined ? props.tableConfig.fitContent : config.fitContent
   }
 });
 // 表格自定义模板列表（避免数据处理影响模板加载）
@@ -315,10 +344,7 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .el-table {
-  margin: 0 20px;
-  max-height: 100%;
-  width: calc(100% - 40px);
-  position: absolute;
+  width: 100%;
   z-index: 1;
   ::v-deep tr {
     background: transparent;
@@ -337,6 +363,9 @@ onMounted(() => {
   ::v-deep .el-table__fixed-body-wrapper .el-table__cell {
     padding: 0;
   }
+  ::v-deep .el-table__body-wrapper tr {
+    border-radius: 4px;
+  }
 
   ::v-deep .el-table__body-wrapper .border-hide td,
   ::v-deep .el-table__fixed-body-wrapper .border-hide td,
@@ -354,6 +383,12 @@ onMounted(() => {
   // 表头内容不换行
   ::v-deep .el-table__header-wrapper thead th > div {
     white-space: nowrap;
+  }
+}
+// 表头边框
+.header-border {
+  ::v-deep .el-table__header-wrapper {
+    border-bottom: 1px solid #ececef;
   }
 }
 ::v-deep .el-table-column--selection .cell {
