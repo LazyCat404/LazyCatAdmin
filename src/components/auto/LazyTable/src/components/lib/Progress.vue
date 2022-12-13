@@ -30,7 +30,7 @@
 
 <script lang="ts" setup>
 import { reactive } from 'vue';
-
+import { inspect } from '@/utils/inspect';
 const props = defineProps<{
   bodyItem: any; // 表格列设置
   rowData: any; //行数据
@@ -44,10 +44,22 @@ const state = reactive<any>({
 function init() {
   if (Object.prototype.toString.call(props.bodyItem.progress) === '[object Object]') {
     // 颜色处理
-    if (typeof props.bodyItem.progress.color == 'string') {
-      state.progressColor = props.bodyItem.progress.color;
-    } else if (typeof props.bodyItem.progress.color == 'function') {
-      state.progressColor = props.bodyItem.progress.color({ prop: props.bodyItem.prop, rowData: props.rowData });
+    if (typeof props.bodyItem.progress.color === 'string') {
+      if (inspect.isColor(props.bodyItem.progress.color)) {
+        state.progressColor = props.bodyItem.progress.color;
+      } else {
+        console.warn('请检查 tableOptions.progress -> color 格式');
+      }
+    } else if (typeof props.bodyItem.progress.color === 'function') {
+      if (typeof props.bodyItem.progress.color({ prop: props.bodyItem.prop, rowData: props.rowData }) == 'string') {
+        if (inspect.isColor(props.bodyItem.progress.color({ prop: props.bodyItem.prop, rowData: props.rowData }))) {
+          state.progressColor = props.bodyItem.progress.color({ prop: props.bodyItem.prop, rowData: props.rowData });
+        } else {
+          console.warn('请检查 tableOptions.progress -> color 格式');
+        }
+      }
+    } else {
+      console.error('tableOptions.progress -> color 仅支持 string、function 类型');
     }
     // 空文字处理
     if (typeof props.bodyItem.progress.emptyText == 'function') {

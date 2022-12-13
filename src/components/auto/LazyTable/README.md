@@ -169,6 +169,9 @@ switch: {
 ```
 PS：当`switch.tip`、`switch.tipActive`、`switch.tipInactive`    均未定义时，则不会显示提示框
 
+### 进度条（progress ）行
+
+
 ### 可编辑（edit）行 
 
 > 通过设置 `edit` **为真**，开启可编辑行，建议类型`Object` 和 `Boolean`，开启该功能后，对应列的表头会多出一个编辑ico，具体有以下设置
