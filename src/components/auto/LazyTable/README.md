@@ -18,6 +18,8 @@
 
 - `headerBg`：表头背景色
 
+- `headerBorder`:表头（下）边框，`true/false`
+
 - `oddBg`：表体奇数行背景色
 
 - `evenBg`：表体偶数行背景色
@@ -62,11 +64,13 @@
 
 PS：`ico`/`state`设置顺序决定显示顺序
 
-- `color`:列字体颜色，也可以是三元表达式，以`prop`为变量，例：`'prop === "已登录" ? "red":"yellow"'`
+- `style`:列字样式，支持`string`或`function({prop,rowData})`返回值即为渲染值
 
-    > `colorX`：指定在 `color`三元表达式中`prop`的变量
+- `color`:列字体颜色，支持`string`或`function({prop,rowData})`返回值即为渲染值
 
-- `fontWeight`:列字体加粗，值为css `font-weight`支持的值
+- `fontWeight`:列字体加粗，支持`string`、`number`或`function({prop,rowData})`返回值即为渲染值
+
+PS：定义了`style`后，`color`、`fontWeight`等样式相关属性，不在起作用
 
 - `click`：可点击，`function` 类型，返回当前行数据`rowData`和`prop`对应的字段名
 
@@ -100,15 +104,16 @@ PS：`ico`/`state`设置顺序决定显示顺序
             type: 'select' // select单选，check复选（默认）
         },
         ```
+
 ### 渲染（render）行
 
 > 表格配置项（`tableOptions`）存在 `render`则认定为是渲染行
 
 - `string`：将字符串以`v-html`方式直接渲染到表格中
 
-- `function`：接收一个参数，并将返回结果以`v-html`方式直接渲染到表格中
+- `function`：接收一个参数`{prop,rowData}`，并将返回结果以`v-html`方式直接渲染到表格中
 
-PS：可以理解为简易方式的自定义行，与下边*自定义行*不同，渲染行可接受一个`string`或`function`，并且`click`、`color`不会失效
+PS：可以理解为简易方式的自定义行，与下边*自定义行*不同，渲染行可接受一个`string`或`function`，且`click`、`color`、`fontWeight`、`style`不会失效
 
 ### 自定义（custom）行
 
