@@ -48,8 +48,7 @@ function rowClick() {
     state.timer = setTimeout(() => {
       if (typeof props.bodyItem.click === 'function') {
         props.bodyItem.click({
-          value: props.rowData[props.bodyItem.prop],
-          prop: props.bodyItem.prop,
+          bodyItem: props.bodyItem,
           rowData: props.rowData
         });
       } else {
@@ -61,7 +60,7 @@ function rowClick() {
   } else {
     if (typeof props.bodyItem.click === 'function') {
       props.bodyItem.click({
-        prop: props.bodyItem.prop,
+        bodyItem: props.bodyItem,
         rowData: props.rowData
       });
     } else {
@@ -96,7 +95,7 @@ function init() {
     if (typeof props.bodyItem.style === 'string') {
       state.style = props.bodyItem.style;
     } else if (typeof props.bodyItem.style === 'function') {
-      state.style = props.bodyItem.style({ prop: props.bodyItem.prop, rowData: props.rowData });
+      state.style = props.bodyItem.style({ bodyItem: props.bodyItem, rowData: props.rowData });
     } else {
       console.error('tableOptions -> style 仅支持 string、function 类型');
     }
@@ -106,7 +105,7 @@ function init() {
     if (typeof props.bodyItem.fontWeight === 'string' || typeof props.bodyItem.fontWeight === 'number') {
       state.fontWeight = props.bodyItem.fontWeight;
     } else if (typeof props.bodyItem.fontWeight === 'function') {
-      state.fontWeight = props.bodyItem.fontWeight({ prop: props.bodyItem.prop, rowData: props.rowData });
+      state.fontWeight = props.bodyItem.fontWeight({ bodyItem: props.bodyItem, rowData: props.rowData });
     } else {
       console.error('tableOptions -> fontWeight 仅支持 string、number 和 function 类型');
     }
@@ -120,9 +119,10 @@ function init() {
         console.warn('请检查 tableOptions -> color 格式');
       }
     } else if (typeof props.bodyItem.color === 'function') {
-      if (typeof props.bodyItem.color({ prop: props.bodyItem.prop, rowData: props.rowData }) == 'string') {
-        if (inspect.isColor(props.bodyItem.color({ prop: props.bodyItem.prop, rowData: props.rowData }))) {
-          state.color = props.bodyItem.color({ prop: props.bodyItem.prop, rowData: props.rowData });
+      let returnColor = props.bodyItem.color({ bodyItem: props.bodyItem, rowData: props.rowData });
+      if (typeof returnColor == 'string') {
+        if (inspect.isColor(returnColor)) {
+          state.color = returnColor;
         } else {
           console.warn('请检查 tableOptions -> color 格式');
         }

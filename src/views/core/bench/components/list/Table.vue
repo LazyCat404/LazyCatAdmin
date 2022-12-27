@@ -83,8 +83,7 @@ function init() {
           if (par.rowData.run == '停机') {
             return '--';
           }
-        },
-        textColor: 'follow'
+        }
       }
     },
     {

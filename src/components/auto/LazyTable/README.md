@@ -64,15 +64,15 @@
 
 PS：`ico`/`state`设置顺序决定显示顺序
 
-- `style`:列字样式，支持`string`或`function({prop,rowData})`返回值即为渲染值
+- `style`:列字样式，支持`string`或`function({bodyItem,rowData})`返回值即为渲染值
 
-- `color`:列字体颜色，支持`string`或`function({prop,rowData})`返回值即为渲染值
+- `color`:列字体颜色，支持`string`或`function({bodyItem,rowData})`返回值即为渲染值
 
-- `fontWeight`:列字体加粗，支持`string`、`number`或`function({prop,rowData})`返回值即为渲染值
+- `fontWeight`:列字体加粗，支持`string`、`number`或`function({bodyItem,rowData})`返回值即为渲染值
 
 PS：定义了`style`后，`color`、`fontWeight`等样式相关属性，不在起作用
 
-- `click`：可点击，`function` 类型，返回当前行数据`rowData`和`prop`对应的字段名
+- `click`：可点击，`function({bodyItem,rowData})` 类型
 
 - `mark`：如果`prop`对应内容为数组时，该属性可设置间隔符，建议`string`类型
 
@@ -111,7 +111,7 @@ PS：定义了`style`后，`color`、`fontWeight`等样式相关属性，不在�
 
 - `string`：将字符串以`v-html`方式直接渲染到表格中
 
-- `function`：接收一个参数`{prop,rowData}`，并将返回结果以`v-html`方式直接渲染到表格中
+- `function`：接收一个参数`{bodyItem,rowData}`，并将返回结果以`v-html`方式直接渲染到表格中
 
 PS：可以理解为简易方式的自定义行，与下边*自定义行*不同，渲染行可接受一个`string`或`function`，且`click`、`color`、`fontWeight`、`style`不会失效
 
@@ -171,6 +171,23 @@ PS：当`switch.tip`、`switch.tipActive`、`switch.tipInactive`    均未定义
 
 ### 进度条（progress ）行
 
+> 通过设置 `progress` **为真**，可开启开关行，仅支持`Object`、`Function`、`Boolean`，当类型为`String`、`Number`及其它类型时，同 `Boolean` 处理
+
+- 当 `progress`类型为 `Function` 时，接收一个参数`{ bodyItem, rowData }`，返回值将被自动转为`number`类型，没有返回值时当`0`处理
+
+- 当 `progress`类型为 `Object` 时，具有以下属性，且所有属性**均非必须**：
+
+```json
+progress: {
+    value:87,   // 进度值，任意可转为Number值的类型，若为function时则取返回值，未定义时，自动取rowData[prop]
+    color:'#409eff', // 进度条已走过进度颜色：同tableOptions->color
+    showText:true,   // 是否显示进度值百分比：默认显示
+    textColor:'#409eff'// 进度值百分比文字颜色，同tableOptions->color
+    emptyText:({ bodyItem, rowData })=>{},  // 进度条为空时，进度文字显示内容：仅支持function 类型，返回值以v-html渲染到原文字处
+}
+```
+
+- 当 `progress`为其它类型时取`prop`对应值
 
 ### 可编辑（edit）行 
 
