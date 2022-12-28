@@ -39,7 +39,6 @@ function init() {
       label: '台架',
       color: '#01BC8F',
       fontWeight: 'bold',
-      ico: 'iconfont icon-dibutubiao_shouye',
       click: lookDetail
     },
     {

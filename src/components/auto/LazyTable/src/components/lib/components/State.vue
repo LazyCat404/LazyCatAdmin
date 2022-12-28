@@ -10,7 +10,7 @@
   </span>
   <!-- 状态 -->
   <span v-if="props.bodyItem.state === undefined ? false : true" class="state-sign-box">
-    <span class="iconfont icon-dian" :style="[{ color: state.setColor[props.rowData[props.bodyItem.state]] }]"> </span>
+    <span class="iconfont icon-dian" :style="[{ color: state.stateColor }]"> </span>
   </span>
   <!-- ico -->
   <span
@@ -24,19 +24,85 @@
 </template>
 <script lang="ts" setup>
 import { defineProps, reactive } from 'vue';
+import { inspect } from '@/utils/inspect';
 import { stateColor } from '../../../config';
 const props = defineProps<{
   bodyItem: any; // 表格列设置
   rowData: any;
 }>();
 const state = reactive<any>({
-  setColor: stateColor,
   first: 'ico', // 显示顺序
-  ico: props.bodyItem.ico,
-  icoColor: props.bodyItem.icoColor
+  ico: '',
+  icoColor: '',
+  stateColor: ''
 });
 function init() {
-  // ico 和状态都显示的时候，判断显示顺序
+  // 处理状态
+  if (props.bodyItem.state !== undefined) {
+    if (typeof props.bodyItem.state == 'string' || typeof props.bodyItem.state == 'number') {
+      state.stateColor = (stateColor as any)[props.rowData[props.bodyItem.state]];
+    } else if (typeof props.bodyItem.state == 'function') {
+      let returnState = props.bodyItem.state({ bodyItem: props.bodyItem, rowData: props.rowData });
+      if (typeof returnState == 'string') {
+        if (inspect.isColor(returnState)) {
+          state.icoColor = returnState;
+        } else {
+          state.stateColor = (stateColor as any)[returnState];
+        }
+      } else if (typeof returnState == 'number') {
+        state.stateColor = (stateColor as any)[returnState];
+      } else if (returnState === undefined) {
+        state.stateColor = '';
+      } else {
+        console.warn('tableOptions -> ico 仅支持 string、number、function 类型');
+      }
+    } else {
+      console.warn('tableOptions -> ico 仅支持 string、number、function 类型');
+    }
+  }
+  // 处理ico
+  if (props.bodyItem.ico) {
+    if (typeof props.bodyItem.ico == 'string') {
+      state.ico = props.bodyItem.ico;
+    } else if (typeof props.bodyItem.ico == 'function') {
+      let returnIco = props.bodyItem.ico({ bodyItem: props.bodyItem, rowData: props.rowData });
+      if (typeof returnIco == 'string') {
+        state.ico = returnIco;
+      } else if (returnIco == undefined) {
+        state.ico = '';
+      } else {
+        console.warn('tableOptions -> ico 仅支持 string、function 类型');
+      }
+    } else {
+      console.warn('tableOptions -> ico 仅支持 string、function 类型');
+    }
+  }
+  // 处理ico颜色
+  if (props.bodyItem.icoColor) {
+    if (typeof props.bodyItem.icoColor == 'string') {
+      if (inspect.isColor(props.bodyItem.icoColor)) {
+        state.icoColor = props.bodyItem.icoColor;
+      } else {
+        console.warn('请检查 tableOptions -> icoColor 颜色格式');
+      }
+    } else if (typeof props.bodyItem.icoColor == 'function') {
+      let returnColor = props.bodyItem.icoColor({ bodyItem: props.bodyItem, rowData: props.rowData });
+      if (typeof returnColor == 'string') {
+        if (inspect.isColor(returnColor)) {
+          state.icoColor = returnColor;
+        } else {
+          console.warn('请检查 tableOptions -> icoColor 颜色格式');
+        }
+      } else if (returnColor == undefined) {
+        state.icoColor = '';
+      } else {
+        console.warn('请检查 tableOptions -> icoColor 颜色格式');
+      }
+    } else {
+      console.warn('tableOptions -> icoColor 仅支持 string、function 类型');
+    }
+  }
+  // ico 和 状态都显示的时候，判断显示顺序
   if (props.bodyItem.state !== undefined && props.bodyItem.ico !== undefined) {
     for (let item in props.bodyItem) {
       if (item === 'ico' || item === 'state') {
@@ -44,18 +110,6 @@ function init() {
         return;
       }
     }
-  }
-  // 如果ico是三元表达式
-  if (props.bodyItem.ico && props.bodyItem.ico.includes('?')) {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    let prop = props.rowData[props.bodyItem.icoX ? props.bodyItem.icoX : props.bodyItem.prop];
-    state.ico = eval(props.bodyItem.ico);
-  }
-  // 如果icoColor是三元表达式
-  if (props.bodyItem.icoColor && props.bodyItem.icoColor.includes('?')) {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    let prop = props.rowData[props.bodyItem.icoColorX ? props.bodyItem.icoX : props.bodyItem.prop];
-    state.icoColor = eval(props.bodyItem.icoColor);
   }
 }
 init();
