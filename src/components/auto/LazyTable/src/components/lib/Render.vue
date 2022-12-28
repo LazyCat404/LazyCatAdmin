@@ -77,7 +77,7 @@ function init() {
         if (inspect.isColor(props.bodyItem.color)) {
           state.color = props.bodyItem.color;
         } else {
-          console.warn('请检查 tableOptions -> color 格式');
+          console.warn('请检查 tableOptions -> color 颜色格式');
         }
       } else if (typeof props.bodyItem.color === 'function') {
         let returnColor = props.bodyItem.color({ bodyItem: props.bodyItem, rowData: props.rowData });
@@ -85,8 +85,12 @@ function init() {
           if (inspect.isColor(returnColor)) {
             state.color = returnColor;
           } else {
-            console.warn('请检查 tableOptions -> color 格式');
+            console.warn('请检查 tableOptions -> color 颜色格式');
           }
+        } else if (returnColor == undefined) {
+          state.color = '';
+        } else {
+          console.warn('请检查 tableOptions -> color 颜色格式');
         }
       } else {
         console.warn('tableOptions -> color 仅支持 string、function 类型');

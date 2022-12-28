@@ -57,14 +57,15 @@ function init() {
       if (inspect.isColor(props.bodyItem.progress.color)) {
         state.progressColor = props.bodyItem.progress.color;
       } else {
-        console.warn('请检查 tableOptions.progress -> color 格式');
+        console.warn('请检查 tableOptions.progress -> color 颜色格式');
       }
     } else if (typeof props.bodyItem.progress.color === 'function') {
-      if (typeof props.bodyItem.progress.color({ bodyItem: props.bodyItem, rowData: props.rowData }) == 'string') {
-        if (inspect.isColor(props.bodyItem.progress.color({ bodyItem: props.bodyItem, rowData: props.rowData }))) {
-          state.progressColor = props.bodyItem.progress.color({ bodyItem: props.bodyItem, rowData: props.rowData });
+      let returnColor = props.bodyItem.progress.color({ bodyItem: props.bodyItem, rowData: props.rowData });
+      if (typeof returnColor == 'string') {
+        if (inspect.isColor(returnColor)) {
+          state.progressColor = returnColor;
         } else {
-          console.warn('请检查 tableOptions.progress -> color 格式');
+          console.warn('请检查 tableOptions.progress -> color 颜色格式');
         }
       }
     } else {
@@ -84,12 +85,17 @@ function init() {
         console.warn('请检查 tableOptions.progress -> textColor 格式');
       }
     } else if (typeof props.bodyItem.progress.textColor === 'function') {
-      if (typeof props.bodyItem.progress.textColor({ bodyItem: props.bodyItem, rowData: props.rowData }) == 'string') {
-        if (inspect.isColor(props.bodyItem.progress.textColor({ bodyItem: props.bodyItem, rowData: props.rowData }))) {
-          state.textColor = props.bodyItem.progress.textColor({ bodyItem: props.bodyItem, rowData: props.rowData });
+      let returnColor = props.bodyItem.progress.textColor({ bodyItem: props.bodyItem, rowData: props.rowData });
+      if (typeof returnColor === 'string') {
+        if (inspect.isColor(returnColor)) {
+          state.textColor = returnColor;
         } else {
-          console.warn('请检查 tableOptions.progress -> textColor 格式');
+          console.warn('请检查 tableOptions.progress -> textColor 颜色格式');
         }
+      } else if (returnColor === undefined) {
+        state.textColor = 'follow';
+      } else {
+        console.warn('请检查 tableOptions.progress -> textColor 颜色格式');
       }
     } else if (props.bodyItem.progress.textColor != undefined) {
       console.warn('tableOptions.progress -> textColor 仅支持 string、function 类型');
