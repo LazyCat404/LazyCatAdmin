@@ -4,12 +4,7 @@
   <!-- 自定义行 -->
   <Custom v-else-if="!props.bodyItem.prop" :bodyItem="props.bodyItem" :rowData="rowData"></Custom>
   <!-- 开关行 -->
-  <Switch
-    v-else-if="props.bodyItem.switch !== undefined && props.bodyItem.switch"
-    :bodyItem="props.bodyItem"
-    :rowData="rowData"
-    @switch-change="switchChange"
-  >
+  <Switch v-else-if="props.bodyItem.switch" :bodyItem="props.bodyItem" :rowData="rowData" @switch-change="switchChange">
   </Switch>
   <!-- 可编辑行 -->
   <Edit v-else-if="props.bodyItem.edit" :bodyItem="props.bodyItem" :rowData="rowData" @row-confirm="rowConfirm"></Edit>

@@ -97,7 +97,7 @@ function init() {
     } else if (typeof props.bodyItem.style === 'function') {
       state.style = props.bodyItem.style({ bodyItem: props.bodyItem, rowData: props.rowData });
     } else {
-      console.error('tableOptions -> style 仅支持 string、function 类型');
+      console.warn('tableOptions -> style 仅支持 string、function 类型');
     }
   }
   // 如果定义了加粗
@@ -107,7 +107,7 @@ function init() {
     } else if (typeof props.bodyItem.fontWeight === 'function') {
       state.fontWeight = props.bodyItem.fontWeight({ bodyItem: props.bodyItem, rowData: props.rowData });
     } else {
-      console.error('tableOptions -> fontWeight 仅支持 string、number 和 function 类型');
+      console.warn('tableOptions -> fontWeight 仅支持 string、number 和 function 类型');
     }
   }
   // 如果指定颜色
@@ -128,7 +128,7 @@ function init() {
         }
       }
     } else {
-      console.error('tableOptions -> color 仅支持 string、function 类型');
+      console.warn('tableOptions -> color 仅支持 string、function 类型');
     }
   }
 }

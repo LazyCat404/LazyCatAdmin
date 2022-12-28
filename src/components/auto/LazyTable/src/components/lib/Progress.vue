@@ -68,13 +68,13 @@ function init() {
         }
       }
     } else {
-      console.error('tableOptions.progress -> color 仅支持 string、function 类型');
+      console.warn('tableOptions.progress -> color 仅支持 string、function 类型');
     }
     // 空文字处理
     if (typeof props.bodyItem.progress.emptyText == 'function') {
       state.emptyText = props.bodyItem.progress.emptyText({ prop: props.bodyItem.prop, rowData: props.rowData });
     } else if (props.bodyItem.progress.emptyText != undefined) {
-      console.error('tableOptions -> progress.emptyText 仅支持 function 类型');
+      console.warn('tableOptions -> progress.emptyText 仅支持 function 类型');
     }
     // 文字颜色处理
     if (typeof props.bodyItem.progress.textColor === 'string') {
@@ -92,7 +92,7 @@ function init() {
         }
       }
     } else if (props.bodyItem.progress.textColor != undefined) {
-      console.error('tableOptions.progress -> textColor 仅支持 string、function 类型');
+      console.warn('tableOptions.progress -> textColor 仅支持 string、function 类型');
     }
     // 进度值处理
     if (props.bodyItem.progress.value) {
