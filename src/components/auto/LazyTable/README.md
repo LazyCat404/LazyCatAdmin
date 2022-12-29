@@ -52,15 +52,11 @@
 
 ### 常用功能
 
-- `state`：状态，可设置颜色的一个小点，值可依据config 文件中自定义的`Key`值
+- `state`：状态，可设置颜色的一个小点，值可依据config 文件中自定义的`Key`值，支持`string`、`number`、`function({bodyItem,rowData})`返回值若为颜色即渲染值，其他则转为字符串作为`key`值
 
-- `ico`：图标，值为 ico 类名，当与`state`同时存在时，属性顺序决定洗显示顺序，
+- `ico`：图标，值为 ico 类名，支持`string`或`function({bodyItem,rowData})`返回值即为渲染值
 
-    > `icoX`：指定在 `ico`三元表达式中`prop`的变量
-
-- `icoColor`：列图标颜色（仅有图标时起作用）
-
-    > `icoColorX`：指定在 `icoColor`三元表达式中`prop`的变量 
+- `icoColor`：列图标颜色（仅有图标时起作用），支持`string`或`function({bodyItem,rowData})`返回值即为颜色值
 
 PS：`ico`/`state`设置顺序决定显示顺序
 
@@ -104,7 +100,7 @@ PS：定义了`style`后，`color`、`fontWeight`等样式相关属性，不在�
             type: 'select' // select单选，check复选（默认）
         },
         ```
-
+        
 ### 渲染（render）行
 
 > 表格配置项（`tableOptions`）存在 `render`则认定为是渲染行
