@@ -1,6 +1,6 @@
 <template>
   <!-- 标题（编辑） -->
-  <span :style="[{ color: `${state.selected || state.checked.length || state.sort ? '#409eff' : '#909399'}` }]">
+  <span :style="[{ color: `${state.selected || state.checked.length || state.sort ? '#409eff' : '#333333'}` }]">
     {{ props.headerItem.label }}
     <i
       class="iconfont icon-bianji_o"

@@ -4,8 +4,15 @@
   <!-- 自定义行 -->
   <Custom v-else-if="!props.bodyItem.prop" :bodyItem="props.bodyItem" :rowData="rowData"></Custom>
   <!-- 开关行 -->
-  <Switch v-else-if="props.bodyItem.switch" :bodyItem="props.bodyItem" :rowData="rowData" @switch-change="switchChange">
+  <Switch
+    v-else-if="props.bodyItem.switch !== undefined && props.bodyItem.switch"
+    :bodyItem="props.bodyItem"
+    :rowData="rowData"
+    @switch-change="switchChange"
+  >
   </Switch>
+  <!-- 进度条行 -->
+  <Progress v-else-if="props.bodyItem.progress" :bodyItem="props.bodyItem" :rowData="rowData"></Progress>
   <!-- 可编辑行 -->
   <Edit v-else-if="props.bodyItem.edit" :bodyItem="props.bodyItem" :rowData="rowData" @row-confirm="rowConfirm"></Edit>
   <!-- 普通行 -->
@@ -18,6 +25,7 @@ import Edit from './lib/Edit.vue';
 import Ordinary from './lib/Ordinary.vue';
 import Custom from './lib/Custom.vue';
 import Render from './lib/Render.vue';
+import Progress from './lib/Progress.vue';
 const props = defineProps<{
   bodyItem: any; // 表格列设置
   rowData: any; //行数据

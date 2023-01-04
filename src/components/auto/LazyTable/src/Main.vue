@@ -95,20 +95,20 @@
         >
           <!-- 表头 -->
           <template #header>
-            <BasicTableHeader
+            <LazyTableHeader
               :headerItem="item"
               @filter-change="filterChange"
               @sort-change="sortChange"
-            ></BasicTableHeader>
+            ></LazyTableHeader>
           </template>
           <!-- 表体 -->
           <template #default="scope">
-            <BasicTableBody
+            <LazyTableBody
               :bodyItem="item"
               :rowData="scope.row"
               @row-confirm="rowConfirm"
               @switch-change="switchChange"
-            ></BasicTableBody>
+            ></LazyTableBody>
           </template>
         </el-table-column>
       </template>
@@ -125,8 +125,8 @@
 <script lang="ts" setup>
 import { onMounted, reactive, ref, watch } from 'vue';
 import { config } from './config';
-import BasicTableHeader from './components/BasicTableHeader.vue';
-import BasicTableBody from './components/BasicTableBody.vue';
+import LazyTableHeader from './components/LazyTableHeader.vue';
+import LazyTableBody from './components/LazyTableBody.vue';
 import AdditionalFunctions from './components/AdditionalFunctions.vue';
 const elTableDom = ref(null);
 const $emits = defineEmits([
