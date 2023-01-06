@@ -10,5 +10,4 @@ module.exports = {
   jsxSingleQuote: true,     // 在 JSX 中使用单引号代替双引号
   arrowParens: 'avoid',     // 箭头函数，尽可能省略括号
   endOfLine: 'auto',
-  trailingComma: 'none'
 };
