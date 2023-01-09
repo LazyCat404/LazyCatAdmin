@@ -5,7 +5,7 @@
         :show-text="false"
         :text-inside="bodyItem.progress.textInside ? bodyItem.progress.textInside : false"
         :stroke-width="bodyItem.progress.strokeWidth ? bodyItem.progress.strokeWidth : 8"
-        :percentage="state.value"
+        :percentage="state.value > 100 ? 100 : state.value < 0 ? 0 : state.value"
         :color="state.progressColor"
       />
       <template v-if="(bodyItem.progress.showText || bodyItem.progress.showText == undefined) && state.emptyText">
@@ -21,13 +21,13 @@
   <el-progress
     :text-inside="false"
     :stroke-width="8"
-    :percentage="state.value"
+    :percentage="state.value > 100 ? 100 : state.value < 0 ? 0 : state.value"
     v-else-if="typeof props.bodyItem.progress === 'function' && !Number.isNaN(state.value)"
   />
   <el-progress
     :text-inside="false"
     :stroke-width="8"
-    :percentage="rowData[bodyItem.prop]"
+    :percentage="rowData[bodyItem.prop] > 100 ? 100 : rowData[bodyItem.prop] < 0 ? 0 : rowData[bodyItem.prop]"
     v-else-if="
       typeof props.bodyItem.progress !== 'function' && !Number.isNaN(Number(props.rowData[props.bodyItem.prop]))
     "
