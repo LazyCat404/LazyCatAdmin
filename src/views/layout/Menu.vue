@@ -1,6 +1,12 @@
 <template>
   <div id="menu-wrapper">
-    <div id="logo-box"></div>
+    <div class="logo-box">
+      <span @click="state.isCollapse = !state.isCollapse"></span>
+      <div class="logo-text" v-if="!state.isCollapse">
+        <p>智慧实验室</p>
+        <div>Wisdom Labs</div>
+      </div>
+    </div>
     <el-menu
       id="menu-list-box"
       :default-active="state.activeIndex"
@@ -59,96 +65,134 @@ const menu = reactive<any>({
 
 <style lang="scss" scoped>
 #menu-wrapper {
-  width: 80px;
   height: calc(100% - 70px);
   float: left;
-  #logo-box {
-    width: 48px;
-    height: 48px;
-    background: #01bc8f;
-    border-radius: 8px;
+  .logo-box {
     margin: 0 auto;
     margin-top: 36px;
     margin-bottom: 96px;
-  }
-  ::v-deep .el-menu {
-    width: 100%;
-    .el-menu-item,
-    .el-sub-menu {
-      height: 42px;
-      margin-bottom: 48px;
-      i.iconfont {
-        font-size: 25px;
+    display: flex;
+    > span {
+      width: 48px;
+      height: 48px;
+      background: #01bc8f;
+      border-radius: 8px;
+      display: inline-block;
+      cursor: pointer;
+      margin-left: 16px;
+    }
+    .logo-text {
+      margin-left: 20px;
+      p {
+        height: 28px;
+        font-size: 20px;
+        font-family: PingFangSC-Semibold, PingFang SC;
+        font-weight: 600;
+        color: #1c2d42;
+        line-height: 28px;
+      }
+      > div {
+        height: 20px;
+        font-size: 14px;
+        font-family: PingFangSC-Regular, PingFang SC;
+        font-weight: 400;
+        color: #1c2d42;
+        line-height: 20px;
+        margin-top: 4px;
       }
     }
   }
-  #menu-list-box {
+  .el-menu {
+    width: 100%;
     border: 0;
-    height: 100%;
-    width: 80px;
+    > .el-menu-item,
+    > .el-sub-menu {
+      width: 300px;
+      margin-bottom: 48px;
+      font-size: 16px;
+      font-weight: 500;
+    }
+    > .el-menu-item:hover {
+      background-color: #fff;
+      color: #01bc8f !important;
+    }
     // 无子菜单
     .el-menu-item[sign='route-menu'] {
-      display: flex;
-      display: -webkit-flex;
-      font-size: 16px;
+      height: 42px;
       i.iconfont {
-        margin-right: 15px;
+        padding-left: 7.5px;
+        padding-right: 27.5px;
+        font-size: 25px;
       }
     }
-    .el-menu-item[sign='route-menu'] > ::v-deep div {
-      display: -webkit-flex !important;
-      display: flex !important;
-      justify-content: center;
-      align-items: center;
+    .el-menu-item.is-active[sign='route-menu'] {
+      color: #01bc8f;
+    }
+    // 有二级菜单
+    .el-sub-menu {
+      ::v-deep .el-sub-menu__title {
+        font-size: 16px;
+        height: 42px;
+        margin-bottom: 18px;
+      }
+      ::v-deep .el-sub-menu__title:hover {
+        background-color: #fff;
+        color: #01bc8f !important;
+      }
       i.iconfont {
-        margin-right: 0px !important;
+        padding-left: 7.5px;
+        padding-right: 27.5px;
         font-size: 25px;
-        color: #5d677d;
+      }
+      .el-menu-item {
+        margin-bottom: 0;
+        margin-left: 80px;
+        padding-left: 20px;
+        width: 200px;
+        height: 44px;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+      .el-menu-item:hover,
+      .el-menu-item.is-active {
+        color: #01bc8f;
+        background-color: rgba(1, 188, 143, 0.1);
+      }
+    }
+    .el-sub-menu.is-active {
+      ::v-deep .el-sub-menu__title {
+        color: #01bc8f !important;
+      }
+    }
+    .el-sub-menu[aria-expanded='true'] {
+      margin-bottom: 18px;
+    }
+  }
+  // 收缩菜单
+  .el-menu--collapse {
+    .el-menu-item,
+    .el-sub-menu {
+      width: 80px !important;
+      height: 42px;
+      i.iconfont {
+        font-size: 25px;
       }
     }
     // 有二级菜单
     .el-sub-menu {
-      overflow: hidden;
       ::v-deep .el-sub-menu__title {
         height: 42px;
-        span {
-          font-size: 16px;
-        }
-      }
-      .el-menu-item:hover {
-        color: #40cdbb !important;
       }
     }
-    .is-active {
-      color: #40cdbb !important;
-      ::v-deep .el-sub-menu__title {
-        color: #40cdbb !important;
-      }
-      i.iconfont {
-        color: #40cdbb !important;
-      }
+    .el-sub-menu[aria-expanded='true'] {
+      margin-bottom: 48px;
     }
-    .el-sub-menu[sing='close'] {
-      ::v-deep .el-sub-menu__title {
-        display: -webkit-flex !important;
-        display: flex !important;
-        justify-content: center;
-        align-items: center;
-      }
-    }
-    .el-sub-menu[sing='open'] {
-      i.iconfont {
-        margin-right: 15px;
-      }
-    }
-    .el-sub-menu {
-      ::v-deep .el-sub-menu__title:hover {
-        color: #40cdbb !important;
-        .iconfont {
-          color: #40cdbb !important;
-        }
-      }
-    }
+  }
+}
+// 收缩悬浮菜单
+::v-deep .el-menu--popup-container {
+  .el-menu-item {
+    height: 42px;
   }
 }
 </style>
