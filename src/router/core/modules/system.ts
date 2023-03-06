@@ -1,4 +1,4 @@
-// 教师模块列表
+// 系统设置模块
 export default [
   {
     path: '/system',

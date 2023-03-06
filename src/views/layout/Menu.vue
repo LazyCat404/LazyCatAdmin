@@ -1,7 +1,7 @@
 <template>
   <div id="menu-wrapper">
     <div class="logo-box">
-      <span @click="state.isCollapse = !state.isCollapse"></span>
+      <span></span>
       <div class="logo-text" v-if="!state.isCollapse">
         <p>智慧实验室</p>
         <div>Wisdom Labs</div>
@@ -40,32 +40,51 @@
         </el-menu-item>
       </template>
     </el-menu>
+    <div class="menu-set-btn">
+      <i
+        :class="state.isCollapse ? 'iconfont icon-zhankaicaidan' : 'iconfont icon-shouqicaidan'"
+        @click="menuTypeChange"
+      ></i>
+      <span>{{ state.isCollapse ? '' : '收起菜单' }} </span>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import api from '@api';
-import { reactive } from 'vue';
+// import api from '@api';
+import { computed, reactive } from 'vue';
+import menuJson from './js/menu.js';
 
 const route = useRoute();
-const state = reactive({
+const state = reactive<any>({
   isCollapse: true,
-  activeIndex: route.path
+  activeIndex: ''
 });
 const menu = reactive<any>({
-  list: []
+  list: menuJson //菜单数据
 });
+// 当前活跃菜单
+state.activeIndex = computed(() => {
+  return route.path;
+});
+const $emit = defineEmits(['menuTypeChange']);
+// 菜单展开收起
+function menuTypeChange() {
+  state.isCollapse = !state.isCollapse;
+  $emit('menuTypeChange', state.isCollapse);
+}
+
 // 获取菜单
-(function getMenu() {
-  api.user.getMenu().then((res: res) => {
-    menu.list = res.data;
-  });
-})();
+// (function getMenu() {
+//   // api.user.getMenu().then((res: res) => {
+//   //   menu.list = res.data;
+//   // });
+// })();
 </script>
 
 <style lang="scss" scoped>
 #menu-wrapper {
-  height: calc(100% - 70px);
+  height: 100%;
   float: left;
   .logo-box {
     margin: 0 auto;
@@ -105,6 +124,8 @@ const menu = reactive<any>({
   .el-menu {
     width: 100%;
     border: 0;
+    height: calc(100% - 246px);
+    overflow: auto;
     > .el-menu-item,
     > .el-sub-menu {
       width: 300px;
@@ -193,6 +214,28 @@ const menu = reactive<any>({
 ::v-deep .el-menu--popup-container {
   .el-menu-item {
     height: 42px;
+  }
+}
+// 菜单控制按钮
+.menu-set-btn {
+  height: 65px;
+  margin: 0 20px;
+  border-top: 1px solid rgba(229, 229, 229, 1);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color: #5d677d;
+  > span {
+    flex: 1;
+  }
+  i.iconfont {
+    cursor: pointer;
+    font-size: 25px;
+    margin-left: 7.5px;
+  }
+  i.icon-shouqicaidan {
+    margin-left: 7.5px;
+    margin-right: 27.5px;
   }
 }
 </style>

@@ -12,15 +12,8 @@ export default [
   {
     path: '/',
     component: (): unknown => import('@views/layout/Index.vue'),
-    redirect: '/bench',
-    children: [
-      {
-        path: '/bench',
-        name: 'Bench',
-        component: (): unknown => import('@views/core/bench/Index.vue')
-      },
-      ...modules
-    ],
+    redirect: '/desktop',
+    children: [...modules],
     meta: {
       requireAuth: true
     }

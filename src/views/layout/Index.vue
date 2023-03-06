@@ -1,7 +1,7 @@
 <template>
   <div id="app-wrapper">
-    <Menu></Menu>
-    <div id="check-menu-item">
+    <Menu @menuTypeChange="menuTypeChange"></Menu>
+    <div id="check-menu-item" :isCollapse="menuType ? '' : null">
       <div id="layout-top">
         <Navigation></Navigation>
         <Header></Header>
@@ -15,6 +15,11 @@
 import Menu from './Menu.vue';
 import Header from './Header.vue';
 import Navigation from './Navigation.vue';
+import { ref } from 'vue';
+const menuType = ref(true);
+function menuTypeChange(type: boolean) {
+  menuType.value = type;
+}
 </script>
 
 <style lang="scss" scoped>
@@ -24,9 +29,10 @@ import Navigation from './Navigation.vue';
   height: 100%;
   overflow: hidden;
   #check-menu-item {
-    flex: 1;
+    width: calc(100% - 300px);
     background: #f1f5fb;
     position: relative;
+    transition: all 0.5s;
     #layout-top {
       position: absolute;
       display: flex;
@@ -37,9 +43,10 @@ import Navigation from './Navigation.vue';
     > div:last-child {
       width: 100%;
       height: 100%;
-      top: 0;
-      left: 0;
     }
+  }
+  #check-menu-item[iscollapse] {
+    width: calc(100% - 80px);
   }
 }
 </style>
