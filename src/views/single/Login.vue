@@ -1,32 +1,38 @@
 <template>
-  <div id="login-wrapper">
+  <div class="login-wrapper">
     <el-scrollbar>
-      <div class="flex-content">
-        <div id="login-top">
-          <span />
-          <div>管理系统</div>
-          <span />
-        </div>
-        <div id="login-main">
-          <div id="login-box">
-            <div id="login-title">
-              <div id="zh-title">后台登录</div>
-              <div id="vice-title">Backstage Login</div>
-            </div>
-            <div id="login-body">
-              <el-form ref="userFormRef" :rules="rules" :model="state.userForm">
-                <el-form-item prop="name">
-                  <i class="iconfont icon-yonghu" />
-                  <el-input v-model="state.userForm.name" placeholder="请输入用户名" />
-                </el-form-item>
-                <el-form-item prop="password">
-                  <i class="iconfont icon-mima1" />
-                  <el-input v-model="state.userForm.password" placeholder="请输入密码" show-password />
-                </el-form-item>
-              </el-form>
-              <el-checkbox v-model="state.remember" class="remember-password" label="记住密码" />
-              <el-button type="primary" round @click="submitForm"> 登 &nbsp; 录 </el-button>
-            </div>
+      <div class="login-box">
+        <div class="login-main">
+          <div class="login-illustration">
+            <img src="@/assets/images/login/login-illustratio.png" class="illustration" />
+          </div>
+          <div class="login-form-box">
+            <el-form ref="userFormRef" :rules="rules" :model="state.userForm">
+              <el-form-item class="login-form-title">
+                <span class="mian-title"><i>用户</i>登录</span>
+                <span class="sub-title">USER LOGIN</span>
+              </el-form-item>
+              <!-- 用户名 -->
+              <el-form-item prop="name">
+                <el-input v-model="state.userForm.name" placeholder="请输入用户名">
+                  <template #prefix>
+                    <i class="iconfont icon-yonghu"></i>
+                  </template>
+                </el-input>
+              </el-form-item>
+              <!-- 密码 -->
+              <el-form-item prop="password">
+                <el-input v-model="state.userForm.password" placeholder="请输入密码" show-password>
+                  <template #prefix>
+                    <i class="iconfont icon-mima1"></i>
+                  </template>
+                </el-input>
+              </el-form-item>
+              <!-- 提交按钮 -->
+              <el-form-item class="submit-form">
+                <el-button @click="submitForm">立即登录</el-button>
+              </el-form-item>
+            </el-form>
           </div>
         </div>
       </div>
@@ -35,7 +41,7 @@
 </template>
 
 <script lang="ts" setup>
-import api from '@api';
+// import api from '@api';
 import { reactive, ref, unref } from 'vue';
 
 const state = reactive({
@@ -60,135 +66,126 @@ function submitForm() {
   const form = unref(userFormRef);
   form?.validate((valid: boolean) => {
     if (valid) {
-      api.user.login(state.userForm).then((res: res) => {
-        let commit = $store.commit as any;
-        // 缓存token
-        commit('setToken', res.data.token);
-        // 缓存用户信息
-        commit('setUser', res.data.userInfor);
-        router.push({ path: '/' });
-      });
+      // 不请求接口
+      let commit = $store.commit as any;
+      // 缓存token
+      commit('setToken', {});
+      // 缓存用户信息
+      commit('setUser', {});
+      router.push({ path: '/' });
+      // 请求接口
+      // api.user.login(state.userForm).then((res: res) => {
+      //   let commit = $store.commit as any;
+      //   // 缓存token
+      //   commit('setToken', res.data.token);
+      //   // 缓存用户信息
+      //   commit('setUser', res.data.userInfor);
+      //   router.push({ path: '/' });
+      // });
     }
   });
 }
 </script>
 
 <style lang="scss" scoped>
-#login-wrapper {
+.login-wrapper {
   width: 100%;
   height: 100%;
-  background-image: linear-gradient(#06e5b7, #45b5d1);
+  background-image: url(@/assets/images/login/login_bg.png);
   position: relative;
   ::v-deep .el-scrollbar__wrap {
     .el-scrollbar__view {
       height: 100%;
-      .flex-content {
-        height: 100%;
-      }
-    }
-  }
-  #login-top {
-    display: -webkit-flex;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-top: 30px;
-    min-width: 600px;
-    span {
-      width: 227px;
-      height: 2px;
-      background: #ffffff;
-      opacity: 0.6;
-    }
-    div {
-      display: inline-block;
-      padding: 0 20px;
-      font-size: 26px;
-      font-weight: 400;
-      color: #ffffff;
-      opacity: 0.6;
-    }
-  }
-  #login-main {
-    height: calc(100% - 65px);
-    min-width: 600px;
-    min-height: 600px;
-    display: -webkit-flex;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    #login-box {
-      width: 570px;
-      height: 575px;
-      background: #ffffff;
-      border-radius: 20px;
-      overflow: hidden;
-      margin: 0 auto;
-      #login-title {
-        text-align: center;
-        background-image: linear-gradient(#2fc6e8, #2ee5d9);
-        font-weight: 400;
-        color: #ffffff;
-        padding: 52px 0;
-        #zh-title {
-          font-size: 55px;
-          height: 55px;
-          line-height: 49px;
-          text-shadow: 0px 2px 2px rgba(13, 4, 9, 0.75);
+      .login-box {
+        min-height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .login-main {
+          display: flex;
+          width: 1149px;
+          height: 650px;
+          background: #edf5ff;
+          box-shadow: 0 22px 31px 0 #b9b9b933;
+          border-radius: 31px;
+          .login-illustration {
+            flex: 1;
+            position: relative;
+            // 插画
+            img.illustration {
+              width: 472px;
+              height: 314px;
+              position: absolute;
+              bottom: 115px;
+              left: 46px;
+            }
+          }
+          // 表单
+          .login-form-box {
+            width: 575px;
+            height: 100%;
+            background: #ffffff;
+            padding: 0 97.5px;
+            box-sizing: border-box;
+            display: flex;
+            align-items: center;
+            .el-form {
+              width: 100%;
+              .el-form-item {
+                margin-bottom: 24px;
+                .el-form-item__content {
+                  .el-input {
+                    line-height: 52px;
+                  }
+                }
+              }
+              .login-form-title {
+                margin-bottom: 50px;
+                .mian-title {
+                  height: 42px;
+                  font-family: PingFangSC-Medium;
+                  font-weight: 500;
+                  font-size: 30px;
+                  color: #1c244d;
+                  letter-spacing: 0;
+                  margin-right: 10px;
+                  i {
+                    font-style: normal;
+                    padding-bottom: 8px;
+                    border-bottom: 2px solid #3e7bfa;
+                  }
+                }
+                .sub-title {
+                  height: 33px;
+                  opacity: 0.29;
+                  font-family: PingFangSC-Medium;
+                  font-weight: 500;
+                  font-size: 24px;
+                  color: #1c244d;
+                  letter-spacing: 0;
+                }
+              }
+              // 提交按钮
+              .submit-form {
+                margin-top: 50px;
+                .el-button {
+                  width: 100%;
+                  height: 54px;
+                  line-height: 54px;
+                  background: #206bfa;
+                  border-radius: 4px;
+                  font-family: PingFangSC-Regular;
+                  font-weight: 400;
+                  font-size: 18px;
+                  color: #ffffff;
+                  letter-spacing: 0;
+                }
+              }
+            }
+          }
         }
-        #vice-title {
-          font-size: 28px;
-          line-height: 25px;
-          height: 26px;
-          margin-top: 15px;
-        }
       }
     }
-  }
-}
-#login-body {
-  padding: 10px 109px 0 118px;
-  .el-form-item {
-    margin-top: 20px;
-    .el-input {
-      width: calc(100% - 34px);
-      margin-left: 12px;
-      ::v-deep .el-input__inner {
-        border: 0;
-        border-bottom: 1px solid #666666;
-        border-radius: 0;
-      }
-    }
-    .iconfont {
-      font-size: 22px;
-      color: #079df5;
-      position: relative;
-      top: 10px;
-    }
-    ::v-deep .el-form-item__error {
-      left: 35px;
-    }
-  }
-  .remember-password {
-    height: 16px;
-    display: -webkit-flex;
-    display: flex;
-    align-items: center;
-    margin: 38px 0 54px;
-  }
-  .el-button {
-    display: block;
-    width: 197px;
-    height: 45px;
-    background-image: linear-gradient(#2face8, #2ee5d9);
-    box-shadow: 0px 3px 8px 0px #2face8;
-    border-radius: 20px 20px 20px 20px;
-    margin: 0 auto;
-    display: block;
-    font-size: 24px;
-    font-weight: 400;
-    color: #ffffff;
-    line-height: 0;
   }
 }
 </style>
