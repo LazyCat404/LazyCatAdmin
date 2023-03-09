@@ -17,6 +17,68 @@ export const $tool = {
     } else {
       return resValue;
     }
+  },
+  /**
+   * 返回指定日期、时间
+   * @param { Boolean } type 是否返回时间，默认不返回
+   * @param { Date } date 指定日期，默认当前日期
+   * @param { String } mark  连接符
+   * @returns 日期时间
+   */
+  initDate: (type?: boolean, date?: Date, mark?: string) => {
+    const useDate = date ? date : new Date();
+    const year = useDate.getFullYear();
+    const month = `${useDate.getMonth() + 1 > 9 ? useDate.getMonth() + 1 : '0' + (useDate.getMonth() + 1)}`;
+    const day = `${useDate.getDate() > 9 ? useDate.getDate() : '0' + useDate.getDate()}`;
+    if (type) {
+      const time = useDate.toLocaleTimeString();
+      return `${year}${mark ? mark : '-'}${month}${mark ? mark : '-'}${day} ${time}`;
+    } else {
+      return `${year}${mark ? mark : '-'}${month}${mark ? mark : '-'}${day}`;
+    }
+  },
+  /**
+   * 获取指定日期前/后 n 天的日期
+   * @param { Number } n  多少天
+   * @param { Boolean } type  真：前；假：后(默认)
+   * @param { String | Date } day  指定的日，默认为当前日期，非必须
+   * @param { String } mark  连接符
+   * @return 结果日期
+   */
+  getDate(n: number, type?: boolean, day?: string | Date, mark?: string) {
+    // 指定的某个日期
+    let markDate = null;
+    if (typeof day === 'string') {
+      markDate = new Date(day);
+    } else if (day instanceof Date) {
+      markDate = day;
+    } else {
+      markDate = new Date();
+    }
+    // 计算前后 n 天的日期
+    let resdate = new Date(markDate.getTime() + n * 24 * 60 * 60 * 1000);
+    if (type) {
+      resdate = new Date(markDate.getTime() - n * 24 * 60 * 60 * 1000);
+    }
+    return this.initDate(false, resdate, mark);
+  },
+  /**
+   * 下载 blob
+   * @param res blob 字符流
+   * @param {string} name 下载文件名
+   */
+  dowmLoadBlob(res: any, name: string) {
+    if (res instanceof Blob) {
+      const blobRes = res;
+      const aLink = document.createElement('a');
+      document.body.appendChild(aLink);
+      aLink.style.display = 'none';
+      const blobUrl = window.URL.createObjectURL(blobRes);
+      aLink.download = name;
+      aLink.href = blobUrl;
+      aLink.click();
+      document.body.removeChild(aLink);
+    }
   }
 };
 
