@@ -3,7 +3,7 @@
   <AdditionalFunctions
     v-if="tableConfig?.customColumn"
     :tableOptions="state.customTableOptions"
-    :templateList="customTemplateList"
+    :templateList="state.customTemplateList"
     :page="page"
     @additionalConfirm="additionalConfirm"
   ></AdditionalFunctions>
@@ -150,68 +150,107 @@ const $emits = defineEmits([
   'expot'
 ]);
 
-const props = defineProps<{
+interface Props {
   tableData: Array<any>;
   tableOptions: Array<any>;
   tableConfig?: any;
   page?: any;
   spanMethod?: any;
-}>();
+}
+const props = withDefaults(defineProps<Props>(), {
+  tableData: () => [],
+  tableOptions: () => []
+});
 
 const tableKey = ref(Math.ceil(Math.random() * 10000000000));
 
 const state = reactive<any>({
   customTableOptions: props.tableOptions, // 自定义列数据
-  customTemplateList: [],
+  customTemplateList: [], // 表格自定义模板列表
   // 表格默认配置
   config: {
     // 复选框（默认开启）
-    select: props.tableConfig && props.tableConfig.select !== undefined ? props.tableConfig.select : config.select,
+    select: false,
     //复选框左侧固定
-    selectFixed:
-      props.tableConfig && props.tableConfig.selectFixed !== undefined
-        ? props.tableConfig.selectFixed
-        : config.selectFixed,
+    selectFixed: null,
     // 框线（默认关闭）
-    border: props.tableConfig && props.tableConfig.border !== undefined ? props.tableConfig.border : config.border,
+    border: false,
     // table 高度（默认100%）
-    tableH:
-      props.tableConfig && props.tableConfig.tableH !== undefined
-        ? $tool.targetCss(props.tableConfig.tableH)
-        : config.tableH,
+    tableH: '100%',
     // 表头高度（默认50px）
-    headerH:
-      props.tableConfig && props.tableConfig.headerH !== undefined
-        ? $tool.targetCss(props.tableConfig.headerH)
-        : config.headerH,
+    headerH: '50px',
     // 表头边框
-    headerBorder:
-      props.tableConfig && props.tableConfig.headerBorder !== undefined
-        ? props.tableConfig.headerBorder
-        : config.headerBorder,
+    headerBorder: true,
     // 表头背景色
-    headerBg:
-      props.tableConfig && props.tableConfig.headerBg !== undefined ? props.tableConfig.headerBg : config.headerBg,
+    headerBg: '#fff',
     // 行高（默认40px）
-    lineH:
-      props.tableConfig && props.tableConfig.lineH !== undefined
-        ? $tool.targetCss(props.tableConfig.lineH)
-        : config.lineH,
+    lineH: '40px',
     // 奇数行背景色
-    oddBg: props.tableConfig && props.tableConfig.oddBg !== undefined ? props.tableConfig.oddBg : config.oddBg,
+    oddBg: '#fff',
     // 偶数行背景色
-    evenBg: props.tableConfig && props.tableConfig.evenBg !== undefined ? props.tableConfig.evenBg : config.evenBg,
+    evenBg: '#fff',
     // 文字对齐方式（默认左侧）
-    align: props.tableConfig && props.tableConfig.align !== undefined ? props.tableConfig.align : config.align,
+    align: 'left',
     // 拟合高度
-    fitContent:
-      props.tableConfig && props.tableConfig.fitContent !== undefined ? props.tableConfig.fitContent : config.fitContent
+    fitContent: false
   }
 });
-// 表格自定义模板列表（避免数据处理影响模板加载）
-const customTemplateList = props.tableOptions.filter(
-  (item: any) => Object.prototype.toString.call(item.template) === '[object Object]'
-);
+
+(function init() {
+  // 表格自定义模板列表
+  state.customTemplateList = props.tableOptions.filter(
+    (item: any) => Object.prototype.toString.call(item.template) === '[object Object]'
+  );
+  // 通用配置
+  if (props.tableConfig) {
+    state.config = {
+      // 复选框（默认开启）
+      select: props.tableConfig && props.tableConfig.select !== undefined ? props.tableConfig.select : config.select,
+      //复选框左侧固定
+      selectFixed:
+        props.tableConfig && props.tableConfig.selectFixed !== undefined
+          ? props.tableConfig.selectFixed
+          : config.selectFixed,
+      // 框线（默认关闭）
+      border: props.tableConfig && props.tableConfig.border !== undefined ? props.tableConfig.border : config.border,
+      // table 高度（默认100%）
+      tableH:
+        props.tableConfig && props.tableConfig.tableH !== undefined
+          ? $tool.targetCss(props.tableConfig.tableH)
+          : config.tableH,
+      // 表头高度（默认50px）
+      headerH:
+        props.tableConfig && props.tableConfig.headerH !== undefined
+          ? $tool.targetCss(props.tableConfig.headerH)
+          : config.headerH,
+      // 表头边框
+      headerBorder:
+        props.tableConfig && props.tableConfig.headerBorder !== undefined
+          ? props.tableConfig.headerBorder
+          : config.headerBorder,
+      // 表头背景色
+      headerBg:
+        props.tableConfig && props.tableConfig.headerBg !== undefined ? props.tableConfig.headerBg : config.headerBg,
+      // 行高（默认40px）
+      lineH:
+        props.tableConfig && props.tableConfig.lineH !== undefined
+          ? $tool.targetCss(props.tableConfig.lineH)
+          : config.lineH,
+      // 奇数行背景色
+      oddBg: props.tableConfig && props.tableConfig.oddBg !== undefined ? props.tableConfig.oddBg : config.oddBg,
+      // 偶数行背景色
+      evenBg: props.tableConfig && props.tableConfig.evenBg !== undefined ? props.tableConfig.evenBg : config.evenBg,
+      // 文字对齐方式（默认左侧）
+      align: props.tableConfig && props.tableConfig.align !== undefined ? props.tableConfig.align : config.align,
+      // 拟合高度
+      fitContent:
+        props.tableConfig && props.tableConfig.fitContent !== undefined
+          ? props.tableConfig.fitContent
+          : config.fitContent
+    };
+  }
+})();
+
 watch(
   () => props.tableData,
   () => {
