@@ -3,7 +3,7 @@
     <div class="logo-box">
       <span></span>
       <div class="logo-text" v-if="!state.isCollapse">
-        <p>智慧实验室</p>
+        <p>卓朗昆仑云</p>
         <div>Wisdom Labs</div>
       </div>
     </div>

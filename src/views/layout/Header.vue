@@ -51,7 +51,7 @@ function outLogin() {
 
 <style lang="scss" scoped>
 .header-wrapper {
-  height: 82px;
+  height: 80px;
   padding-top: 22px;
   padding-right: 40px;
   box-sizing: border-box;
