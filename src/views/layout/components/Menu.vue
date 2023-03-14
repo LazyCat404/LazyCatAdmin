@@ -53,7 +53,7 @@
 <script lang="ts" setup>
 // import api from '@api';
 import { computed, reactive } from 'vue';
-import menuData from './json/menuData.json';
+import menuData from '@/assets/json/menu.json';
 
 const route = useRoute();
 const state = reactive<any>({

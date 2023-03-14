@@ -12,9 +12,9 @@
 </template>
 
 <script lang="ts" setup>
-import Menu from './Menu.vue';
-import Header from './Header.vue';
-import Navigation from './Navigation.vue';
+import Menu from './components/Menu.vue';
+import Header from './components/Header.vue';
+import Navigation from './components/Navigation.vue';
 import { ref } from 'vue';
 const menuType = ref(true);
 function menuTypeChange(type: boolean) {

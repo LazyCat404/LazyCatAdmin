@@ -5,7 +5,7 @@
 </template>
 <script lang="ts" setup>
 import { computed, reactive } from 'vue';
-import testData from './json/testData.json';
+import testData from '@/assets/json/test.json';
 const obj = reactive<any>({
   tableOptions: [],
   tableData: []
