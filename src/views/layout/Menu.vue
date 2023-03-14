@@ -53,7 +53,7 @@
 <script lang="ts" setup>
 // import api from '@api';
 import { computed, reactive } from 'vue';
-import menuJson from './js/menu.js';
+import menuData from './json/menuData.json';
 
 const route = useRoute();
 const state = reactive<any>({
@@ -61,7 +61,7 @@ const state = reactive<any>({
   activeIndex: ''
 });
 const menu = reactive<any>({
-  list: menuJson //菜单数据
+  list: menuData //菜单数据
 });
 // 当前活跃菜单
 state.activeIndex = computed(() => {
