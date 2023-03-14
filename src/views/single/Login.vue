@@ -16,7 +16,7 @@
               <el-form-item prop="name">
                 <el-input v-model="state.userForm.name" placeholder="请输入用户名">
                   <template #prefix>
-                    <i class="iconfont icon-yonghu"></i>
+                    <i class="iconfont icon-zhanghao"></i>
                   </template>
                 </el-input>
               </el-form-item>
@@ -24,7 +24,7 @@
               <el-form-item prop="password">
                 <el-input v-model="state.userForm.password" placeholder="请输入密码" show-password>
                   <template #prefix>
-                    <i class="iconfont icon-mima1"></i>
+                    <i class="iconfont icon-xiugaimima"></i>
                   </template>
                 </el-input>
               </el-form-item>
@@ -136,6 +136,7 @@ function submitForm() {
                 .el-form-item__content {
                   .el-input {
                     line-height: 52px;
+                    height: 52px;
                   }
                 }
               }
