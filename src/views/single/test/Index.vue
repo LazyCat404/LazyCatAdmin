@@ -28,7 +28,13 @@ obj.tableOptions = computed(() => {
     {
       prop: 'statusI18N',
       label: '状态',
-      status: 3
+      // status: () => {
+      //   return '#f0f';
+      // },
+      // ico: () => {
+      //   return { name: 'iconfont icon-gongzuotai1', color: 'red' };
+      // }
+      copy: true
     },
     {
       prop: 'torrent',
@@ -36,8 +42,7 @@ obj.tableOptions = computed(() => {
     },
     {
       prop: 'userName',
-      label: '关联用户',
-      status: 3
+      label: '关联用户'
     },
     {
       prop: 'mode',
