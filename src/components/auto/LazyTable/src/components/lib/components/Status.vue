@@ -5,7 +5,7 @@
     class="state-sign-box"
     style="margin-right: 5px"
   >
-    <span :class="obj.ico" style="position: absolute; left: 0px; top: -0.5px" :style="[{ color: obj.icoColor }]">
+    <span :class="obj.ico.name" style="position: absolute; left: 0px; top: -0.5px" :style="[{ color: obj.ico.color }]">
     </span>
   </span>
   <!-- 状态 -->
@@ -18,12 +18,12 @@
     class="state-sign-box"
     style="margin-right: 5px"
   >
-    <span :class="obj.ico" style="position: absolute; left: 0px; top: -0.5px" :style="[{ color: obj.icoColor }]">
+    <span :class="obj.ico.name" style="position: absolute; left: 0px; top: -0.5px" :style="[{ color: obj.ico.color }]">
     </span>
   </span>
 </template>
 <script lang="ts" setup>
-import { defineProps, reactive } from 'vue';
+import { computed, defineProps, reactive } from 'vue';
 import { inspect } from '@/utils/inspect';
 import { statusColor } from '../../../config';
 const props = defineProps<{
@@ -32,30 +32,27 @@ const props = defineProps<{
 }>();
 const obj = reactive<any>({
   first: 'ico', // 显示顺序
-  ico: '',
-  icoColor: '',
+  ico: { name: '', color: '' },
   statusColor: ''
 });
-// obj.statusColor = computed(() => {
-//   return undefined;
-// });
-function init() {
-  // 处理状态
+// 状态
+obj.statusColor = computed(() => {
+  let color = '';
   if (props.bodyItem.status !== undefined) {
     if (typeof props.bodyItem.status == 'string' || typeof props.bodyItem.status == 'number') {
-      obj.statusColor = (statusColor as any)[props.rowData[props.bodyItem.status]];
+      color = (statusColor as any)[props.bodyItem.status];
     } else if (typeof props.bodyItem.status == 'function') {
-      let returnState = props.bodyItem.status({ bodyItem: props.bodyItem, rowData: props.rowData });
-      if (typeof returnState == 'string') {
-        if (inspect.isColor(returnState)) {
-          obj.icoColor = returnState;
+      let returnStatus = props.bodyItem.status({ bodyItem: props.bodyItem, rowData: props.rowData });
+      if (typeof returnStatus == 'string') {
+        if (inspect.isColor(returnStatus)) {
+          color = returnStatus;
         } else {
-          obj.statusColor = (statusColor as any)[returnState];
+          color = (statusColor as any)[returnStatus];
         }
-      } else if (typeof returnState == 'number') {
-        obj.statusColor = (statusColor as any)[returnState];
-      } else if (returnState === undefined) {
-        obj.statusColor = '';
+      } else if (typeof returnStatus == 'number') {
+        color = (statusColor as any)[returnStatus];
+      } else if (returnStatus === undefined) {
+        color = '';
       } else {
         console.warn('tableOptions -> ico 仅支持 string、number、function 类型');
       }
@@ -63,59 +60,88 @@ function init() {
       console.warn('tableOptions -> ico 仅支持 string、number、function 类型');
     }
   }
-  // 处理ico
+  return color;
+});
+// ico
+obj.ico = computed(() => {
+  let ico = {
+    name: '',
+    color: ''
+  };
   if (props.bodyItem.ico) {
     if (typeof props.bodyItem.ico == 'string') {
-      obj.ico = props.bodyItem.ico;
+      ico.name = props.bodyItem.ico;
     } else if (typeof props.bodyItem.ico == 'function') {
       let returnIco = props.bodyItem.ico({ bodyItem: props.bodyItem, rowData: props.rowData });
       if (typeof returnIco == 'string') {
-        obj.ico = returnIco;
+        ico.name = returnIco;
+      } else if (Object.prototype.toString.call(returnIco) === '[object Object]') {
+        ico = returnIco;
       } else if (returnIco == undefined) {
-        obj.ico = '';
+        ico.name = '';
       } else {
-        console.warn('tableOptions -> ico 仅支持 string、function 类型');
+        console.warn('tableOptions -> ico 返回值仅支持 string、object 类型');
       }
-    } else {
-      console.warn('tableOptions -> ico 仅支持 string、function 类型');
-    }
-  }
-  // 处理ico颜色
-  if (props.bodyItem.icoColor) {
-    if (typeof props.bodyItem.icoColor == 'string') {
-      if (inspect.isColor(props.bodyItem.icoColor)) {
-        obj.icoColor = props.bodyItem.icoColor;
-      } else {
-        console.warn('请检查 tableOptions -> icoColor 颜色格式');
-      }
-    } else if (typeof props.bodyItem.icoColor == 'function') {
-      let returnColor = props.bodyItem.icoColor({ bodyItem: props.bodyItem, rowData: props.rowData });
-      if (typeof returnColor == 'string') {
-        if (inspect.isColor(returnColor)) {
-          obj.icoColor = returnColor;
+    } else if (Object.prototype.toString.call(props.bodyItem.ico) === '[object Object]') {
+      // ico 名称
+      if (props.bodyItem.ico.name) {
+        if (typeof props.bodyItem.ico.name == 'string') {
+          ico.name = props.bodyItem.ico.name;
+        } else if (typeof props.bodyItem.ico.name == 'function') {
+          let returnIco = props.bodyItem.ico.name({ bodyItem: props.bodyItem, rowData: props.rowData });
+          if (typeof returnIco == 'string') {
+            ico.name = returnIco;
+          } else if (returnIco == undefined) {
+            ico.name = '';
+          } else {
+            console.warn('tableOptions -> ico.name 返回值仅支持 string 类型');
+          }
         } else {
-          console.warn('请检查 tableOptions -> icoColor 颜色格式');
+          console.warn('tableOptions -> ico.name 仅支持 string、function 类型');
         }
-      } else if (returnColor == undefined) {
-        obj.icoColor = '';
-      } else {
-        console.warn('请检查 tableOptions -> icoColor 颜色格式');
+      }
+      // 颜色
+      if (props.bodyItem.ico.color) {
+        if (typeof props.bodyItem.ico.color == 'string') {
+          if (inspect.isColor(props.bodyItem.ico.color)) {
+            ico.color = props.bodyItem.ico.color;
+          } else {
+            console.warn('请检查 tableOptions -> ico.color 颜色格式');
+          }
+        } else if (typeof props.bodyItem.ico.color == 'function') {
+          let returnColor = props.bodyItem.ico.color({ bodyItem: props.bodyItem, rowData: props.rowData });
+          if (typeof returnColor == 'string') {
+            if (inspect.isColor(returnColor)) {
+              ico.color = returnColor;
+            } else {
+              console.warn('请检查 tableOptions -> ico.color 返回的颜色格式');
+            }
+          } else if (returnColor == undefined) {
+            ico.color = '';
+          } else {
+            console.warn('请检查 tableOptions -> ico.color 返回值仅支持 string 类型');
+          }
+        } else {
+          console.warn('tableOptions -> ico.color 仅支持 string、function 类型');
+        }
       }
     } else {
-      console.warn('tableOptions -> icoColor 仅支持 string、function 类型');
+      console.warn('tableOptions -> ico 仅支持 string、object、function 类型');
     }
   }
+  return ico;
+});
+(function init() {
   // ico 和 状态都显示的时候，判断显示顺序
   if (props.bodyItem.status !== undefined && props.bodyItem.ico !== undefined) {
     for (let item in props.bodyItem) {
-      if (item === 'ico' || item === 'state') {
+      if (item === 'ico' || item === 'status') {
         obj.first = item;
         return;
       }
     }
   }
-}
-init();
+})();
 </script>
 <style lang="scss" scoped>
 .state-sign-box {
