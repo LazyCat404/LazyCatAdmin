@@ -52,13 +52,13 @@
 
 ### 常用功能
 
-- `state`：状态，可设置颜色的一个小点，值可依据config 文件中自定义的`Key`值，支持`string`、`number`、`function({bodyItem,rowData})`返回值若为颜色即渲染值，其他则转为字符串作为`key`值
+- `status`：状态，可设置颜色的一个小点，值可依据config 文件中自定义的`Key`值，支持`string`、`number`、`function({bodyItem,rowData})`返回值若为颜色即渲染值，其他则转为字符串作为`key`值
 
 - `ico`：图标，值为 ico 类名，支持`string`或`function({bodyItem,rowData})`返回值即为渲染值
 
 - `icoColor`：列图标颜色（仅有图标时起作用），支持`string`或`function({bodyItem,rowData})`返回值即为颜色值
 
-PS：`ico`/`state`设置顺序决定显示顺序
+PS：`ico`/`status`设置顺序决定显示顺序
 
 - `style`:列字样式，支持`string`或`function({bodyItem,rowData})`返回值即为渲染值
 

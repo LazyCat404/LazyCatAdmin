@@ -29,7 +29,7 @@
     </el-collapse-transition>
     <el-collapse-transition>
       <el-form-item label="页码选择" v-if="careful && page">
-        <el-select v-model="state.pageType">
+        <el-select v-model="obj.pageType">
           <el-option label="全部" :value="1" />
           <el-option label="当前页" :value="2" />
           <el-option label="第一页" :value="3" />
@@ -40,10 +40,10 @@
       </el-form-item>
     </el-collapse-transition>
     <el-collapse-transition>
-      <el-form-item v-if="careful && state.pageType > 4" class="export-page-box">
+      <el-form-item v-if="careful && obj.pageType > 4" class="export-page-box">
         <div>
           第<el-input-number
-            v-model="state.page"
+            v-model="obj.page"
             :min="1"
             :max="Math.ceil(page?.total / (page?.pageSize ? page?.pageSize : 20))"
             controls-position="right"
@@ -51,11 +51,11 @@
           />页
         </div>
         <el-collapse-transition>
-          <div v-if="careful && state.pageType > 5" class="export-page-box">
+          <div v-if="careful && obj.pageType > 5" class="export-page-box">
             <div style="text-align: center; width: 215px">到</div>
             <div>
               第<el-input-number
-                v-model="state.endPage"
+                v-model="obj.endPage"
                 :min="1"
                 :max="Math.ceil(page?.total / (page?.pageSize ? page?.pageSize : 20))"
                 controls-position="right"
@@ -89,7 +89,7 @@ const form = reactive({
   type: '.xlsx',
   column: [] // 已选中
 });
-const state = reactive({
+const obj = reactive({
   pageType: 1,
   page: 1,
   endPage: Math.ceil(props.page?.total / (props.page?.pageSize ? props.page?.pageSize : 20)) //结束页
@@ -153,7 +153,7 @@ function confirmBtn() {
   };
   // 展开详细设置
   if (careful.value) {
-    switch (state.pageType) {
+    switch (obj.pageType) {
       case 2:
         par = {
           ...form,
@@ -175,14 +175,14 @@ function confirmBtn() {
       case 5:
         par = {
           ...form,
-          page: state.page
+          page: obj.page
         };
         break;
       case 6:
         par = {
           ...form,
-          startPage: state.page,
-          endPage: state.endPage
+          startPage: obj.page,
+          endPage: obj.endPage
         };
         break;
       default:

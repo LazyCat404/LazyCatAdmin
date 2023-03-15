@@ -4,7 +4,7 @@
     <Transition name="fade">
       <span
         class="iconfont icon-fuzhi1 copy-box"
-        v-if="!state.isSucceed && !state.isError"
+        v-if="!obj.isSucceed && !obj.isError"
         :data-clipboard-text="props.content"
         @click="clickCopy"
       >
@@ -12,11 +12,11 @@
     </Transition>
     <!-- 成功 -->
     <Transition name="fade">
-      <span class="iconfont icon-chenggong1" v-if="state.isSucceed && !state.isError"> </span>
+      <span class="iconfont icon-chenggong1" v-if="obj.isSucceed && !obj.isError"> </span>
     </Transition>
     <!-- 失败 -->
     <Transition name="fade">
-      <span class="iconfont icon-shibai1" v-if="!state.isSucceed && state.isError"> </span>
+      <span class="iconfont icon-shibai1" v-if="!obj.isSucceed && obj.isError"> </span>
     </Transition>
   </span>
 </template>
@@ -29,35 +29,35 @@ const props = defineProps({
     type: [String, Number, Object, Function, Boolean]
   }
 });
-const state = reactive<any>({
+const obj = reactive<any>({
   isSucceed: false,
   isError: false,
   timer: null
 });
 function clickCopy() {
-  if (state.timer) {
-    clearTimeout(state.timer);
+  if (obj.timer) {
+    clearTimeout(obj.timer);
   }
   if (props.content !== undefined && props.content !== null && props.content !== '') {
     let clipboard = new Clipboard('.copy-box');
     clipboard.on('success', () => {
-      state.isSucceed = true;
-      state.isError = false;
-      state.timer = setTimeout(() => {
-        state.isSucceed = false;
-        state.isError = false;
+      obj.isSucceed = true;
+      obj.isError = false;
+      obj.timer = setTimeout(() => {
+        obj.isSucceed = false;
+        obj.isError = false;
       }, 2000);
       // 释放内存
       clipboard.destroy();
     });
     clipboard.on('error', () => {
       // 不支持复制
-      state.isSucceed = false;
-      state.isError = true;
+      obj.isSucceed = false;
+      obj.isError = true;
       console.warn('复制失败，浏览器不支持复制');
-      state.timer = setTimeout(() => {
-        state.isSucceed = false;
-        state.isError = false;
+      obj.timer = setTimeout(() => {
+        obj.isSucceed = false;
+        obj.isError = false;
       }, 2000);
       // 释放内存
       clipboard.destroy();
@@ -67,8 +67,8 @@ function clickCopy() {
   }
 }
 onBeforeUnmount(() => {
-  if (state.timer) {
-    clearTimeout(state.timer);
+  if (obj.timer) {
+    clearTimeout(obj.timer);
   }
 });
 </script>

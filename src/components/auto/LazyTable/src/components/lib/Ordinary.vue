@@ -5,12 +5,12 @@
     :tip="props.bodyItem.tip === undefined ? (config.tip ? 'show' : 'hide') : props.bodyItem.tip ? 'show' : 'hide'"
   >
     <!-- 状态 -->
-    <State
-      v-if="props.bodyItem.state !== undefined || props.bodyItem.ico !== undefined ? true : false"
+    <Status
+      v-if="props.bodyItem.status !== undefined || props.bodyItem.ico !== undefined ? true : false"
       :bodyItem="props.bodyItem"
       :rowData="rowData"
     >
-    </State>
+    </Status>
     <!-- 行显示 -->
     <Row :bodyItem="props.bodyItem" :rowData="props.rowData"></Row>
   </div>
@@ -18,7 +18,7 @@
 <script lang="ts" setup>
 import { defineProps } from 'vue';
 import { config } from '../../config';
-import State from './components/State.vue';
+import Status from './components/Status.vue';
 import Row from './components/Row.vue';
 const props = defineProps<{
   bodyItem: any; // 表格列设置

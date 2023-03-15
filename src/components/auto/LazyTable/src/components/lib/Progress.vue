@@ -5,15 +5,15 @@
         :show-text="false"
         :text-inside="bodyItem.progress.textInside ? bodyItem.progress.textInside : false"
         :stroke-width="bodyItem.progress.strokeWidth ? bodyItem.progress.strokeWidth : 8"
-        :percentage="state.value > 100 ? 100 : state.value < 0 ? 0 : state.value"
-        :color="state.progressColor"
+        :percentage="obj.value > 100 ? 100 : obj.value < 0 ? 0 : obj.value"
+        :color="obj.progressColor"
       />
-      <template v-if="(bodyItem.progress.showText || bodyItem.progress.showText == undefined) && state.emptyText">
-        <span v-html="state.emptyText"></span>
+      <template v-if="(bodyItem.progress.showText || bodyItem.progress.showText == undefined) && obj.emptyText">
+        <span v-html="obj.emptyText"></span>
       </template>
       <template v-else-if="bodyItem.progress.showText || bodyItem.progress.showText == undefined">
-        <span :style="[{ color: state.textColor == 'follow' ? state.progressColor : state.textColor }]">
-          {{ state.value }}%
+        <span :style="[{ color: obj.textColor == 'follow' ? obj.progressColor : obj.textColor }]">
+          {{ obj.value }}%
         </span>
       </template>
     </div>
@@ -21,8 +21,8 @@
   <el-progress
     :text-inside="false"
     :stroke-width="8"
-    :percentage="state.value > 100 ? 100 : state.value < 0 ? 0 : state.value"
-    v-else-if="typeof props.bodyItem.progress === 'function' && !Number.isNaN(state.value)"
+    :percentage="obj.value > 100 ? 100 : obj.value < 0 ? 0 : obj.value"
+    v-else-if="typeof props.bodyItem.progress === 'function' && !Number.isNaN(obj.value)"
   />
   <el-progress
     :text-inside="false"
@@ -43,7 +43,7 @@ const props = defineProps<{
   rowData: any; //行数据
 }>();
 
-const state = reactive<any>({
+const obj = reactive<any>({
   progressColor: '#409eff',
   emptyText: '',
   textColor: 'follow',
@@ -55,7 +55,7 @@ function init() {
     // 颜色处理
     if (typeof props.bodyItem.progress.color === 'string') {
       if (inspect.isColor(props.bodyItem.progress.color)) {
-        state.progressColor = props.bodyItem.progress.color;
+        obj.progressColor = props.bodyItem.progress.color;
       } else {
         console.warn('请检查 tableOptions.progress -> color 颜色格式');
       }
@@ -63,7 +63,7 @@ function init() {
       let returnColor = props.bodyItem.progress.color({ bodyItem: props.bodyItem, rowData: props.rowData });
       if (typeof returnColor == 'string') {
         if (inspect.isColor(returnColor)) {
-          state.progressColor = returnColor;
+          obj.progressColor = returnColor;
         } else {
           console.warn('请检查 tableOptions.progress -> color 颜色格式');
         }
@@ -73,14 +73,14 @@ function init() {
     }
     // 空文字处理
     if (typeof props.bodyItem.progress.emptyText == 'function') {
-      state.emptyText = props.bodyItem.progress.emptyText({ prop: props.bodyItem.prop, rowData: props.rowData });
+      obj.emptyText = props.bodyItem.progress.emptyText({ prop: props.bodyItem.prop, rowData: props.rowData });
     } else if (props.bodyItem.progress.emptyText != undefined) {
       console.warn('tableOptions -> progress.emptyText 仅支持 function 类型');
     }
     // 文字颜色处理
     if (typeof props.bodyItem.progress.textColor === 'string') {
       if (inspect.isColor(props.bodyItem.progress.textColor)) {
-        state.textColor = props.bodyItem.progress.textColor;
+        obj.textColor = props.bodyItem.progress.textColor;
       } else {
         console.warn('请检查 tableOptions.progress -> textColor 格式');
       }
@@ -88,12 +88,12 @@ function init() {
       let returnColor = props.bodyItem.progress.textColor({ bodyItem: props.bodyItem, rowData: props.rowData });
       if (typeof returnColor === 'string') {
         if (inspect.isColor(returnColor)) {
-          state.textColor = returnColor;
+          obj.textColor = returnColor;
         } else {
           console.warn('请检查 tableOptions.progress -> textColor 颜色格式');
         }
       } else if (returnColor === undefined) {
-        state.textColor = 'follow';
+        obj.textColor = 'follow';
       } else {
         console.warn('请检查 tableOptions.progress -> textColor 颜色格式');
       }
@@ -105,20 +105,20 @@ function init() {
       if (typeof props.bodyItem.progress.value == 'function') {
         let progValue = props.bodyItem.progress.value({ bodyItem: props.bodyItem, rowData: props.rowData });
         if (progValue == undefined) {
-          state.value = 0;
+          obj.value = 0;
         } else if (Number.isNaN(Number(progValue))) {
           console.warn('进度条 percentage 的值无法转为数字');
         } else {
-          state.value = +progValue;
+          obj.value = +progValue;
         }
       } else if (!Number.isNaN(Number(props.bodyItem.progress.value))) {
-        state.value = +props.bodyItem.progress.value;
+        obj.value = +props.bodyItem.progress.value;
       } else {
         console.warn('进度条 percentage 的值无法转为数字');
       }
     } else {
       if (!Number.isNaN(Number(props.rowData[props.bodyItem.prop]))) {
-        state.value = +props.rowData[props.bodyItem.prop];
+        obj.value = +props.rowData[props.bodyItem.prop];
       } else {
         console.warn('进度条 percentage 的值无法转为数字');
       }
@@ -127,9 +127,9 @@ function init() {
     let progValue = props.bodyItem.progress({ bodyItem: props.bodyItem, rowData: props.rowData }) || 0;
     if (Number.isNaN(Number(progValue))) {
       console.warn('进度条 percentage 的值无法转为数字');
-      state.value = NaN;
+      obj.value = NaN;
     } else {
-      state.value = +progValue;
+      obj.value = +progValue;
     }
   } else if (Number.isNaN(Number(props.rowData[props.bodyItem.prop]))) {
     console.warn('进度条 percentage 的值无法转为数字');

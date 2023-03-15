@@ -11,13 +11,13 @@
           })
     "
     :style="
-      state.style
-        ? state.style
+      obj.style
+        ? obj.style
         : [
             {
-              color: state.color,
+              color: obj.color,
               cursor: props.bodyItem.edit || props.bodyItem.click ? 'pointer' : '',
-              fontWeight: state.fontWeight
+              fontWeight: obj.fontWeight
             }
           ]
     "
@@ -32,7 +32,7 @@ const props = defineProps<{
   bodyItem: any; // 表格列设置
   rowData: any; //行数据
 }>();
-const state = reactive<any>({
+const obj = reactive<any>({
   color: '',
   fontWeight: '',
   style: ''
@@ -54,9 +54,9 @@ function init() {
     // 如果定义了style
     if (props.bodyItem.style) {
       if (typeof props.bodyItem.style === 'string') {
-        state.style = props.bodyItem.style;
+        obj.style = props.bodyItem.style;
       } else if (typeof props.bodyItem.style === 'function') {
-        state.style = props.bodyItem.style({ bodyItem: props.bodyItem, rowData: props.rowData });
+        obj.style = props.bodyItem.style({ bodyItem: props.bodyItem, rowData: props.rowData });
       } else {
         console.warn('tableOptions -> style 仅支持 string、function 类型');
       }
@@ -64,9 +64,9 @@ function init() {
     // 如果定义了加粗
     if (props.bodyItem.fontWeight) {
       if (typeof props.bodyItem.fontWeight === 'string' || typeof props.bodyItem.fontWeight === 'number') {
-        state.fontWeight = props.bodyItem.fontWeight;
+        obj.fontWeight = props.bodyItem.fontWeight;
       } else if (typeof props.bodyItem.fontWeight === 'function') {
-        state.fontWeight = props.bodyItem.fontWeight({ bodyItem: props.bodyItem, rowData: props.rowData });
+        obj.fontWeight = props.bodyItem.fontWeight({ bodyItem: props.bodyItem, rowData: props.rowData });
       } else {
         console.warn('tableOptions -> fontWeight 仅支持 string、number 和 function 类型');
       }
@@ -75,7 +75,7 @@ function init() {
     if (props.bodyItem.color) {
       if (typeof props.bodyItem.color === 'string') {
         if (inspect.isColor(props.bodyItem.color)) {
-          state.color = props.bodyItem.color;
+          obj.color = props.bodyItem.color;
         } else {
           console.warn('请检查 tableOptions -> color 颜色格式');
         }
@@ -83,12 +83,12 @@ function init() {
         let returnColor = props.bodyItem.color({ bodyItem: props.bodyItem, rowData: props.rowData });
         if (typeof returnColor == 'string') {
           if (inspect.isColor(returnColor)) {
-            state.color = returnColor;
+            obj.color = returnColor;
           } else {
             console.warn('请检查 tableOptions -> color 颜色格式');
           }
         } else if (returnColor == undefined) {
-          state.color = '';
+          obj.color = '';
         } else {
           console.warn('请检查 tableOptions -> color 颜色格式');
         }

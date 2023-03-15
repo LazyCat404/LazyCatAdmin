@@ -1,6 +1,6 @@
 <template>
   <!-- 标题（编辑） -->
-  <span :style="[{ color: `${state.selected || state.checked.length || state.sort ? '#409eff' : '#333333'}` }]">
+  <span :style="[{ color: `${obj.selected || obj.checked.length || obj.sort ? '#409eff' : '#333333'}` }]">
     {{ props.headerItem.label }}
     <i
       class="iconfont icon-bianji_o"
@@ -14,13 +14,13 @@
     <i
       class="sort-caret ascending"
       sign="asc"
-      :style="[{ borderBottomColor: `${state.sort == 'ASC' ? '#409eff !important' : ''}` }]"
+      :style="[{ borderBottomColor: `${obj.sort == 'ASC' ? '#409eff !important' : ''}` }]"
       @click="handleSort('ASC')"
     />
     <i
       class="sort-caret descending"
       sign="des"
-      :style="[{ borderTopColor: `${state.sort == 'DES' ? '#409eff !important' : ''}` }]"
+      :style="[{ borderTopColor: `${obj.sort == 'DES' ? '#409eff !important' : ''}` }]"
       @click="handleSort('DES')"
     />
   </span>
@@ -35,13 +35,13 @@
     <!-- 筛选列表（弹出层） -->
     <template #default>
       <!-- 单选 -->
-      <template v-if="state.filterType == 'select'">
+      <template v-if="obj.filterType == 'select'">
         <ul class="table-header-filter-select">
           <li
-            v-for="(item, i) in state.filterList"
+            v-for="(item, i) in obj.filterList"
             :key="i"
             @click="handleRadioChange(item)"
-            :class="state.selected == item ? 'table-header-filter-select-active' : ''"
+            :class="obj.selected == item ? 'table-header-filter-select-active' : ''"
           >
             {{ item.label }}
           </li>
@@ -49,15 +49,15 @@
       </template>
       <!-- 复选（默认） -->
       <template v-else>
-        <el-checkbox-group v-model="state.checkItem" @change="handleCheckedChange">
-          <el-checkbox v-for="(item, i) in state.filterList" :key="i" :label="item">{{ item.label }}</el-checkbox>
+        <el-checkbox-group v-model="obj.checkItem" @change="handleCheckedChange">
+          <el-checkbox v-for="(item, i) in obj.filterList" :key="i" :label="item">{{ item.label }}</el-checkbox>
         </el-checkbox-group>
         <!-- 全选、确认、取消 -->
         <div class="table-filter-btn">
-          <el-checkbox v-model="state.checkAll" :indeterminate="state.isIndeterminate" @change="handleCheckAllChange">
+          <el-checkbox v-model="obj.checkAll" :indeterminate="obj.isIndeterminate" @change="handleCheckAllChange">
           </el-checkbox>
-          <el-button link :disabled="state.disabledBtn" @click="confirmFilter(1)">确认</el-button>
-          <el-button link :disabled="state.disabledBtn" @click="confirmFilter(0)">取消</el-button>
+          <el-button link :disabled="obj.disabledBtn" @click="confirmFilter(1)">确认</el-button>
+          <el-button link :disabled="obj.disabledBtn" @click="confirmFilter(0)">取消</el-button>
         </div>
       </template>
     </template>
@@ -67,7 +67,7 @@
         class="table-header-filter el-icon"
         :style="[
           {
-            color: `${state.selected || state.checked.length ? '#409eff' : '#909399'}`,
+            color: `${obj.selected || obj.checked.length ? '#409eff' : '#909399'}`,
             marginLeft: `${props.headerItem.sort === undefined ? '5px' : '0px'}`
           }
         ]"
@@ -86,7 +86,7 @@
 import { defineProps, defineEmits, reactive } from 'vue';
 const props = defineProps<{ headerItem: any }>();
 const $emits = defineEmits(['filterChange', 'sortChange']);
-const state = reactive<any>({
+const obj = reactive<any>({
   isIndeterminate: false, // 半选状态
   filterList: [], // 筛选列表
   filterType: '', // 筛选类型 select:单选，check:复选
@@ -99,58 +99,58 @@ const state = reactive<any>({
 });
 // 全选
 function handleCheckAllChange(val: boolean) {
-  state.checkItem = val ? state.filterList : [];
-  state.isIndeterminate = false;
-  if (!val && !state.checked.length) {
-    state.disabledBtn = true;
+  obj.checkItem = val ? obj.filterList : [];
+  obj.isIndeterminate = false;
+  if (!val && !obj.checked.length) {
+    obj.disabledBtn = true;
   } else {
-    state.disabledBtn = false;
+    obj.disabledBtn = false;
   }
 }
 // 复选
 function handleCheckedChange(value: Array<any>) {
   const checkedCount = value.length;
-  state.checkAll = checkedCount === state.filterList.length;
-  state.isIndeterminate = checkedCount > 0 && checkedCount < state.filterList.length;
-  state.disabledBtn = false;
+  obj.checkAll = checkedCount === obj.filterList.length;
+  obj.isIndeterminate = checkedCount > 0 && checkedCount < obj.filterList.length;
+  obj.disabledBtn = false;
 }
 // 单选
 function handleRadioChange(value: any) {
-  if (state.selected != value) {
-    state.selected = value;
+  if (obj.selected != value) {
+    obj.selected = value;
   } else {
-    state.selected = null;
+    obj.selected = null;
   }
   $emits('filterChange', {
     type: '单选',
     prop: props.headerItem.prop,
-    item: state.selected
+    item: obj.selected
   });
 }
 // 确认/取消
 function confirmFilter(type: number) {
   if (!type) {
-    state.checkItem = state.checked;
-    handleCheckedChange(state.checkItem);
+    obj.checkItem = obj.checked;
+    handleCheckedChange(obj.checkItem);
   } else {
-    state.checked = state.checkItem;
+    obj.checked = obj.checkItem;
     $emits('filterChange', {
       type: '多选',
       prop: props.headerItem.prop,
-      item: state.checked
+      item: obj.checked
     });
   }
-  state.disabledBtn = true;
+  obj.disabledBtn = true;
 }
 // 排序
 function handleSort(type: string) {
-  if (state.sort === type) {
-    state.sort = null;
+  if (obj.sort === type) {
+    obj.sort = null;
   } else {
-    state.sort = type;
+    obj.sort = type;
   }
   $emits('sortChange', {
-    type: state.sort,
+    type: obj.sort,
     prop: props.headerItem.prop
   });
 }
@@ -159,19 +159,19 @@ function init() {
   // 默认排序
   if (props.headerItem.sort !== undefined) {
     if (props.headerItem.sort) {
-      state.sort = props.headerItem.sort.toLocaleUpperCase();
+      obj.sort = props.headerItem.sort.toLocaleUpperCase();
     } else {
-      state.sort = null;
+      obj.sort = null;
     }
   }
   // 过滤列表
-  state.filterList = props.headerItem.filter
+  obj.filterList = props.headerItem.filter
     ? props.headerItem.filter.list
       ? props.headerItem.filter.list
       : props.headerItem.filter
     : [];
   if (props.headerItem.filter) {
-    state.filterType = props.headerItem.filter.type ? props.headerItem.filter.type : 'check';
+    obj.filterType = props.headerItem.filter.type ? props.headerItem.filter.type : 'check';
   }
 }
 init();

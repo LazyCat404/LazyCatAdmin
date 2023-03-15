@@ -6,24 +6,24 @@
     @dblclick="dobleClick"
   >
     <!-- 状态 -->
-    <State
-      v-if="props.bodyItem.state !== undefined || props.bodyItem.ico !== undefined ? true : false"
+    <Status
+      v-if="props.bodyItem.status !== undefined || props.bodyItem.ico !== undefined ? true : false"
       :bodyItem="props.bodyItem"
       :rowData="rowData"
     >
-    </State>
+    </Status>
     <!-- 编辑时显示 -->
     <div
       class="table-edit-box"
-      v-show="state.isEdit"
-      @mouseenter="state.isConfirm = true"
-      @mouseleave="state.isConfirm = false"
+      v-show="obj.isEdit"
+      @mouseenter="obj.isConfirm = true"
+      @mouseleave="obj.isConfirm = false"
       :style="[
         {
           width: `${
-            props.bodyItem.state === undefined && props.bodyItem.ico === undefined
+            props.bodyItem.status === undefined && props.bodyItem.ico === undefined
               ? '100%'
-              : props.bodyItem.ico !== undefined && props.bodyItem.state !== undefined
+              : props.bodyItem.ico !== undefined && props.bodyItem.status !== undefined
               ? 'calc(100% - 37px)'
               : props.bodyItem.ico !== undefined
               ? 'calc(100% - 21px)'
@@ -48,17 +48,17 @@
           autosize
           suffix-icon="iconfont"
           @blur="blurInput"
-          v-model="state.editData"
+          v-model="obj.editData"
           :type="props.bodyItem.edit.type"
         />
       </template>
       <!-- select 下拉选框 -->
       <div ref="tableSelectInput" v-else-if="props.bodyItem.edit.type === 'select'">
         <el-select
-          :class="$tool.isArray(state.editData) ? 'custom-el-multiple' : ''"
-          v-model="state.editData"
-          :filterable="!$tool.isArray(state.editData)"
-          :multiple="$tool.isArray(state.editData)"
+          :class="$tool.isArray(obj.editData) ? 'custom-el-multiple' : ''"
+          v-model="obj.editData"
+          :filterable="!$tool.isArray(obj.editData)"
+          :multiple="$tool.isArray(obj.editData)"
           collapse-tags
           ref="tableRowInput"
           @visible-change="visibleChange"
@@ -66,7 +66,7 @@
           <el-option v-for="(item, i) in props.bodyItem.edit.list" :key="i" :label="item.label" :value="item.value">
           </el-option>
         </el-select>
-        <span class="iconfont icon-queren" v-if="state.showConfirmBtn" @click="rowConfirm"></span>
+        <span class="iconfont icon-queren" v-if="obj.showConfirmBtn" @click="rowConfirm"></span>
       </div>
       <!-- 时间 -->
       <template v-else>
@@ -79,7 +79,7 @@
           @change="dateChange"
           @panelc-hange="dateChange"
           @blur="dateBlur"
-          v-model="state.editData"
+          v-model="obj.editData"
           :type="props.bodyItem.edit.type"
           style="width: 100%"
         >
@@ -88,7 +88,7 @@
       <!-- 确认按钮 -->
       <span
         class="iconfont icon-queren"
-        v-if="state.isEdit && props.bodyItem.edit.type != 'select'"
+        v-if="obj.isEdit && props.bodyItem.edit.type != 'select'"
         @click="rowConfirm"
       ></span>
     </div>
@@ -100,14 +100,14 @@
 import { config } from '../../config';
 import { defineEmits, defineProps, reactive, ref } from 'vue';
 import { inspect } from '@/utils/inspect';
-import State from './components/State.vue';
+import Status from './components/Status.vue';
 import Row from './components/Row.vue';
 const props = defineProps<{
   bodyItem: any; // 表格列设置
   rowData: any; //行数据
 }>();
 const $emits = defineEmits(['row-confirm']);
-const state = reactive<any>({
+const obj = reactive<any>({
   editData: props.rowData[props.bodyItem.prop],
   isEdit: false,
   isConfirm: true, // 鼠标是否在输入框内
@@ -127,17 +127,17 @@ function dobleClick(event: any) {
     }
     // 编辑绑定数据赋值
     if (props.bodyItem.edit.type === 'select') {
-      state.editData = props.rowData[props.bodyItem.edit.selectProp];
+      obj.editData = props.rowData[props.bodyItem.edit.selectProp];
       window.addEventListener('click', clickSelDom);
     } else {
-      state.editData = props.rowData[props.bodyItem.prop];
+      obj.editData = props.rowData[props.bodyItem.prop];
     }
-    state.isEdit = true;
+    obj.isEdit = true;
 
     // 获取当前序号
     for (let i = 0; i < event.path.length; i++) {
       if (event.path[i].nodeName === 'TR') {
-        state.nowRowIndex = event.path[i].rowIndex;
+        obj.nowRowIndex = event.path[i].rowIndex;
         break;
       }
     }
@@ -151,15 +151,15 @@ function dobleClick(event: any) {
 // 行编辑确认
 function rowConfirm() {
   if (
-    state.editData !== props.rowData[props.bodyItem.prop] &&
-    state.editData !== props.rowData[props.bodyItem.edit.selectProp]
+    obj.editData !== props.rowData[props.bodyItem.prop] &&
+    obj.editData !== props.rowData[props.bodyItem.edit.selectProp]
   ) {
     // 有验证规则，且不能为下拉选框
     if (props.bodyItem.edit.inspect && props.bodyItem.edit.type !== 'select') {
       if (typeof props.bodyItem.edit.inspect === 'string') {
         let ins = inspect as any;
         if (typeof ins[props.bodyItem.edit.inspect] === 'function') {
-          let insRes = ins[props.bodyItem.edit.inspect](state.editData);
+          let insRes = ins[props.bodyItem.edit.inspect](obj.editData);
           if (!insRes) {
             ElMessage.error(props.bodyItem.edit.err || '验证失败！');
             let tRI = tableRowInput.value as any;
@@ -192,8 +192,8 @@ function rowConfirm() {
           : props.bodyItem.edit.type,
       prop: props.bodyItem.prop,
       label: props.bodyItem.label,
-      rowIndex: state.nowRowIndex, // 行数 从0 开始，仅用于前端修改数
-      res: state.editData, // 编辑结果
+      rowIndex: obj.nowRowIndex, // 行数 从0 开始，仅用于前端修改数
+      res: obj.editData, // 编辑结果
       original: props.rowData[props.bodyItem.prop] // 未编辑前结果
     };
     if (props.bodyItem.edit.type === 'select') {
@@ -202,7 +202,7 @@ function rowConfirm() {
       if ($tool.isArray(props.rowData[props.bodyItem.edit.selectProp])) {
         //多选
         let resLable = '';
-        state.editData.forEach((item: any) => {
+        obj.editData.forEach((item: any) => {
           for (let i = 0; i < props.bodyItem.edit.list.length; i++) {
             if (item == props.bodyItem.edit.list[i].value) {
               resLable = `${resLable + props.bodyItem.edit.list[i].label};`;
@@ -222,28 +222,28 @@ function rowConfirm() {
     }
     $emits('row-confirm', parame);
   }
-  state.isEdit = false;
+  obj.isEdit = false;
 }
 // input失去焦点触发
 function blurInput() {
-  if (!state.isConfirm) {
-    state.isEdit = false;
+  if (!obj.isConfirm) {
+    obj.isEdit = false;
   }
 }
 // select 空白点击失去编辑状态
 function clickSelDom(event: any) {
   if (props.bodyItem.edit.type === 'select') {
-    state.isEdit = false;
+    obj.isEdit = false;
   } else {
     if (event.target.localName !== 'input' && event.target.localName !== 'svg') {
-      state.isEdit = false;
+      obj.isEdit = false;
     }
   }
   window.removeEventListener('click', clickSelDom);
 }
 // 下拉选弹框显隐
 function visibleChange(type: boolean) {
-  state.showConfirmBtn = !type;
+  obj.showConfirmBtn = !type;
 }
 // 日期框面板改变（持续获得焦点）
 function dateChange() {
@@ -253,7 +253,7 @@ function dateChange() {
 // 日期失去焦点
 function dateBlur() {
   setTimeout(() => {
-    state.isEdit = false;
+    obj.isEdit = false;
   }, 300);
 }
 </script>

@@ -1,11 +1,6 @@
 <template>
   <div class="test-wrapper">
-    <LazyTable
-      :tableData="obj.tableData"
-      :tableOptions="obj.tableOptions"
-      :page="obj.page"
-      @pageOper="pageOper"
-    ></LazyTable>
+    <LazyTable :tableData="obj.tableData" :tableOptions="obj.tableOptions"></LazyTable>
   </div>
 </template>
 <script lang="ts" setup>
@@ -32,7 +27,8 @@ obj.tableOptions = computed(() => {
     },
     {
       prop: 'statusI18N',
-      label: '状态'
+      label: '状态',
+      status: 3
     },
     {
       prop: 'torrent',
@@ -40,7 +36,8 @@ obj.tableOptions = computed(() => {
     },
     {
       prop: 'userName',
-      label: '关联用户'
+      label: '关联用户',
+      status: 3
     },
     {
       prop: 'mode',
@@ -65,10 +62,6 @@ obj.tableOptions = computed(() => {
   ];
   return tableOptions;
 });
-// 分页操作
-function pageOper(pageData: pageData) {
-  console.log(pageData);
-}
 </script>
 <style lang="scss" scoped>
 .test-wrapper {

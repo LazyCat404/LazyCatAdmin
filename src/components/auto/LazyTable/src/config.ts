@@ -16,7 +16,7 @@ export const config = {
 };
 
 // 列状态颜色定义
-export const stateColor = {
+export const statusColor = {
   1: '#409eff',
   2: '#67c23a',
   3: '#909399',

@@ -2,8 +2,8 @@
   <!-- 附加功能 -->
   <AdditionalFunctions
     v-if="tableConfig?.customColumn"
-    :tableOptions="state.customTableOptions"
-    :templateList="state.customTemplateList"
+    :tableOptions="obj.customTableOptions"
+    :templateList="obj.customTemplateList"
     :page="page"
     @additionalConfirm="additionalConfirm"
   ></AdditionalFunctions>
@@ -12,8 +12,8 @@
     class="basic-table-wrapper"
     :style="[
       {
-        maxHeight: `${tableConfig?.customColumn ? `calc(${state.config.tableH} - 46px)` : `${state.config.tableH}`}`,
-        height: `${tableConfig?.customColumn ? `calc(${state.config.tableH} - 46px)` : `${state.config.tableH}`}`,
+        maxHeight: `${tableConfig?.customColumn ? `calc(${obj.config.tableH} - 46px)` : `${obj.config.tableH}`}`,
+        height: `${tableConfig?.customColumn ? `calc(${obj.config.tableH} - 46px)` : `${obj.config.tableH}`}`,
         position: 'relative'
       }
     ]"
@@ -21,12 +21,12 @@
   >
     <!-- 表格 -->
     <el-table
-      :class="{ 'header-border': state.config.headerBorder }"
+      :class="{ 'header-border': obj.config.headerBorder }"
       :key="tableKey"
-      :header-row-style="{ height: state.config.headerH }"
-      :row-style="{ height: state.config.lineH }"
+      :header-row-style="{ height: obj.config.headerH }"
+      :row-style="{ height: obj.config.lineH }"
       :span-method="spanMethod"
-      :header-row-class-name="state.config.border ? '' : 'border-hide'"
+      :header-row-class-name="obj.config.border ? '' : 'border-hide'"
       :row-class-name="tableRowClassName"
       @select="handleSelection"
       @select-all="handleSelectionAll"
@@ -42,17 +42,17 @@
       @header-click="headerClick"
       @header-contextmenu="headerContextmenu"
       :data="tableData"
-      :border="state.config.border"
-      :style="[{ position: `${state.config.fitContent ? (tableData.length ? 'relative' : 'absolute') : 'absolute'}` }]"
-      :height="state.config.fitContent ? (tableData.length ? 'auto' : '100%') : '100%'"
+      :border="obj.config.border"
+      :style="[{ position: `${obj.config.fitContent ? (tableData.length ? 'relative' : 'absolute') : 'absolute'}` }]"
+      :height="obj.config.fitContent ? (tableData.length ? 'auto' : '100%') : '100%'"
       :max-height="
         props.page === undefined
-          ? state.config.fitContent
+          ? obj.config.fitContent
             ? tableData.length
               ? 'auto'
               : '100%'
             : '100%'
-          : state.config.fitContent
+          : obj.config.fitContent
           ? tableData.length
             ? 'auto'
             : 'calc(100% - 60px)'
@@ -66,11 +66,11 @@
         type="selection"
         width="40px"
         :selectable="selectable"
-        v-if="state.config.select"
-        :fixed="state.config.selectFixed"
+        v-if="obj.config.select"
+        :fixed="obj.config.selectFixed"
       ></el-table-column>
       <!-- 表格列表（自定义单文件行自动关闭tip） -->
-      <template v-for="(item, i) in state.customTableOptions" :key="i">
+      <template v-for="(item, i) in obj.customTableOptions" :key="i">
         <el-table-column
           v-if="
             item.show == undefined
@@ -84,7 +84,7 @@
           :width="item.width"
           :minWidth="item.minWidth || item.minwidth"
           :fixed="item.fixed"
-          :align="item.align ? item.align : state.config.align"
+          :align="item.align ? item.align : obj.config.align"
           :show-overflow-tooltip="
             !item.prop && Object.prototype.toString.call(item.template) === '[object Object]'
               ? false
@@ -118,7 +118,7 @@
       @pageOper="pageOper"
       v-if="page !== undefined"
       :page="page"
-      :style="[{ position: `${state.config.fitContent ? 'relative' : 'absolute'}` }]"
+      :style="[{ position: `${obj.config.fitContent ? 'relative' : 'absolute'}` }]"
     ></LazyPage>
   </div>
 </template>
@@ -166,7 +166,7 @@ const props = withDefaults(defineProps<Props>(), {
 
 const tableKey = ref(Math.ceil(Math.random() * 10000000000));
 
-const state = reactive<any>({
+const obj = reactive<any>({
   customTableOptions: props.tableOptions, // 自定义列数据
   customTemplateList: [], // 表格自定义模板列表
   // 表格默认配置
@@ -200,12 +200,12 @@ const state = reactive<any>({
 
 (function init() {
   // 表格自定义模板列表
-  state.customTemplateList = props.tableOptions.filter(
+  obj.customTemplateList = props.tableOptions.filter(
     (item: any) => Object.prototype.toString.call(item.template) === '[object Object]'
   );
   // 通用配置
   if (props.tableConfig) {
-    state.config = {
+    obj.config = {
       // 复选框（默认开启）
       select: props.tableConfig && props.tableConfig.select !== undefined ? props.tableConfig.select : config.select,
       //复选框左侧固定
@@ -268,11 +268,11 @@ function additionalConfirm(par: unknown, type: string) {
   switch (type) {
     case '自定义列':
       // 调用父组件方法 传递参数
-      state.customTableOptions = par;
+      obj.customTableOptions = par;
       tableKey.value = Math.ceil(Math.random() * 10000000000); // 修改key值，使表格重新渲染
       break;
     case '重置':
-      state.customTableOptions = props.tableOptions;
+      obj.customTableOptions = props.tableOptions;
       tableKey.value = Math.ceil(Math.random() * 10000000000); // 修改key值，使表格重新渲染
     case '导出':
       $emits('expot', par);
@@ -281,9 +281,9 @@ function additionalConfirm(par: unknown, type: string) {
 // 表格奇偶行添加类名
 function tableRowClassName(value: { row: any; rowIndex: number }) {
   if (value.rowIndex % 2) {
-    return `${state.config.border ? 'odd-row' : 'odd-row border-hide'}`;
+    return `${obj.config.border ? 'odd-row' : 'odd-row border-hide'}`;
   } else {
-    return `${state.config.border ? 'even-row' : 'even-row border-hide'}`;
+    return `${obj.config.border ? 'even-row' : 'even-row border-hide'}`;
   }
 }
 // 控制表格
@@ -296,13 +296,13 @@ function controlTable() {
     let fixedEvenNodeList = eTD.querySelectorAll('.even-row > td');
     let theadNodeList = eTD.querySelectorAll('.el-table__header > thead > tr > th');
     theadNodeList.forEach((element: any) => {
-      element.style.background = state.config.headerBg;
+      element.style.background = obj.config.headerBg;
     });
     fixedOddNodeList.forEach((element: any) => {
-      element.style.background = state.config.oddBg;
+      element.style.background = obj.config.oddBg;
     });
     fixedEvenNodeList.forEach((element: any) => {
-      element.style.background = state.config.evenBg;
+      element.style.background = obj.config.evenBg;
     });
   });
 }

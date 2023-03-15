@@ -7,18 +7,18 @@
     </li>
   </ul>
   <!-- 功能弹框 -->
-  <el-dialog :title="state.dialogTitle" v-model="state.dialogVisible" width="490px" draggable destroy-on-close>
+  <el-dialog :title="obj.dialogTitle" v-model="obj.dialogVisible" width="490px" draggable destroy-on-close>
     <CustomColumn
       :tableOptions="tableOptions"
       :templateList="templateList"
       @confirmBtn="confirmBtn"
-      v-if="state.dialogTitle == '自定义列'"
+      v-if="obj.dialogTitle == '自定义列'"
     ></CustomColumn>
     <Export
       :tableOptions="tableOptions"
       :page="page"
       @confirmBtn="confirmBtn"
-      v-else-if="state.dialogTitle == '导出'"
+      v-else-if="obj.dialogTitle == '导出'"
     ></Export>
   </el-dialog>
 </template>
@@ -33,7 +33,7 @@ defineProps<{
 }>();
 
 const $emits = defineEmits(['additionalConfirm']);
-const state = reactive<any>({
+const obj = reactive<any>({
   dialogVisible: false, // 弹框显示
   dialogTitle: null
 });
@@ -42,18 +42,18 @@ const state = reactive<any>({
 function operSelect(type: string) {
   switch (type) {
     case '自定义列':
-      state.dialogTitle = type;
-      state.dialogVisible = true;
+      obj.dialogTitle = type;
+      obj.dialogVisible = true;
       break;
     case '导出':
-      state.dialogTitle = type;
-      state.dialogVisible = true;
+      obj.dialogTitle = type;
+      obj.dialogVisible = true;
       break;
   }
 }
 // 确认按钮
 function confirmBtn(par: any, type: string) {
-  state.dialogVisible = false;
+  obj.dialogVisible = false;
   $emits('additionalConfirm', par, type);
 }
 </script>

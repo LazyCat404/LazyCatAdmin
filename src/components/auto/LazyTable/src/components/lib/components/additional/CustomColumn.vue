@@ -1,11 +1,11 @@
 <template>
   <Draggable
-    v-model="state.tableOptions"
+    v-model="obj.tableOptions"
     item-key="slot-props"
     draggable=".disabled"
     class="table-list-setup-wrapper"
-    @end="state.isDragging = false"
-    @start="state.isDragging = true"
+    @end="obj.isDragging = false"
+    @start="obj.isDragging = true"
   >
     <template #item="{ element }">
       <template v-if="element.show || element.show == undefined">
@@ -48,38 +48,38 @@ const props = defineProps<{
 }>();
 
 const $emits = defineEmits(['confirmBtn']);
-const state = reactive<any>({
+const obj = reactive<any>({
   tableOptions: [],
   isDragging: false
 });
 // 确认按钮
 function confirmBtn() {
-  state.dialogVisible = false;
+  obj.dialogVisible = false;
   // 自定义组件模板处理
   if (props.templateList.length) {
-    state.tableOptions.forEach((item: any, i: number): void => {
+    obj.tableOptions.forEach((item: any, i: number): void => {
       if (Object.prototype.toString.call(item.template) === '[object Object]') {
-        state.tableOptions[i].template = props.templateList.filter(
+        obj.tableOptions[i].template = props.templateList.filter(
           (ite: any) => item.template.__scopeId == ite.template.__scopeId
         )[0].template; // 可能存
       }
     });
   }
-  $emits('confirmBtn', state.tableOptions, '自定义列');
+  $emits('confirmBtn', obj.tableOptions, '自定义列');
 }
 
 // 初始化/重置按钮
 function init() {
   // 可自定义列项
-  state.tableOptions = [];
+  obj.tableOptions = [];
   JSON.parse(JSON.stringify(props.tableOptions)).forEach((item: any, i: number) => {
     if (item.customColumn && Object.prototype.toString.call(item.customColumn) === '[object Object]') {
-      state.tableOptions.push({
+      obj.tableOptions.push({
         ...item,
         click: props.tableOptions[i].click
       });
     } else {
-      state.tableOptions.push({
+      obj.tableOptions.push({
         ...item,
         customColumn: {
           show: true,

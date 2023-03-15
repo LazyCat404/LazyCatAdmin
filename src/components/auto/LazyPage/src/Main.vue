@@ -3,28 +3,28 @@
     :class="{
       'basic-page-wapper': true,
       'float-left': page.float == 'left',
-      small: state.simple.small
+      small: obj.simple.small
     }"
   >
-    <template v-if="state.simple.hideSingle ? props.page.total > 0 : true">
-      <span v-if="state.simple.total">共 {{ props.page.total === undefined ? '-' : props.page.total }} 条</span>
-      <el-select v-if="state.simple.pageSize" v-model="state.pageSize" @change="pageOper('pageSize')">
-        <el-option v-for="item in state.pageSizes" :key="item" :label="`${item}条/页`" :value="item">
+    <template v-if="obj.simple.hideSingle ? props.page.total > 0 : true">
+      <span v-if="obj.simple.total">共 {{ props.page.total === undefined ? '-' : props.page.total }} 条</span>
+      <el-select v-if="obj.simple.pageSize" v-model="obj.pageSize" @change="pageOper('pageSize')">
+        <el-option v-for="item in obj.pageSizes" :key="item" :label="`${item}条/页`" :value="item">
           <div>{{ item }}条/页</div>
         </el-option>
       </el-select>
       <el-pagination
-        v-model:currentPage="state.pageNum"
-        :page-size="state.pageSize"
-        :small="state.simple.small"
+        v-model:currentPage="obj.pageNum"
+        :page-size="obj.pageSize"
+        :small="obj.simple.small"
         @current-change="pageOper('pageNum')"
         :total="props.page.total === undefined ? 1 : props.page.total"
         layout=" prev, pager, next"
       >
       </el-pagination>
-      <span class="page-go-to-box" v-if="state.simple.goPage">
+      <span class="page-go-to-box" v-if="obj.simple.goPage">
         <span>前往</span>
-        <el-input ref="goPageInput" v-model="state.goPage" style="width: 46px" @change="pageOper('goPage')" />
+        <el-input ref="goPageInput" v-model="obj.goPage" style="width: 46px" @change="pageOper('goPage')" />
         <span>页</span>
       </span>
     </template>
@@ -37,7 +37,7 @@ import { defineProps, reactive, ref } from 'vue';
 const props = defineProps<{
   page?: any;
 }>();
-const state = reactive<any>({
+const obj = reactive<any>({
   pageNum: props.page.pageNum === undefined ? 1 : +props.page.pageNum, // 当前页
   goPage: props.page.pageNum === undefined ? 1 : +props.page.pageNum, // 前往页
   pageSize: props.page.pageSize === undefined ? 20 : +props.page.pageSize, // 每页条数
@@ -49,28 +49,28 @@ const goPageInput = ref();
 
 function pageOper(type: string) {
   if (type == 'goPage') {
-    let totalPage = Math.ceil(props.page.total / state.pageSize); // 总页数
-    if (state.goPage > totalPage) {
-      state.goPage = totalPage;
-      state.pageNum = +state.goPage;
-    } else if (state.goPage < 1 || !state.goPage) {
-      state.goPage = 1;
-      state.pageNum = 1;
+    let totalPage = Math.ceil(props.page.total / obj.pageSize); // 总页数
+    if (obj.goPage > totalPage) {
+      obj.goPage = totalPage;
+      obj.pageNum = +obj.goPage;
+    } else if (obj.goPage < 1 || !obj.goPage) {
+      obj.goPage = 1;
+      obj.pageNum = 1;
     } else {
-      state.pageNum = +state.goPage;
+      obj.pageNum = +obj.goPage;
     }
     // 输入框失去焦点
     goPageInput.value.blur();
   }
   $emit('pageOper', {
-    pageNum: state.pageNum, // 当前数
-    pageSize: state.pageSize, // 每页显示数
+    pageNum: obj.pageNum, // 当前数
+    pageSize: obj.pageSize, // 每页显示数
     operType: type // 操作类型
   });
 }
 (function init() {
   if (props.page.simple === undefined || typeof props.page.simple == 'boolean') {
-    state.simple = {
+    obj.simple = {
       total: props.page.simple === undefined ? true : props.page.simple,
       goPage: props.page.simple === undefined ? true : props.page.simple,
       pageSize: props.page.simple === undefined ? true : props.page.simple,
@@ -78,7 +78,7 @@ function pageOper(type: string) {
       small: false
     };
   } else if (Object.prototype.toString.call(props.page.simple) === '[object Object]') {
-    state.simple = {
+    obj.simple = {
       total: props.page.simple.total === undefined ? true : props.page.simple.total,
       goPage: props.page.simple.goPage === undefined ? true : props.page.simple.goPage,
       pageSize: props.page.simple.pageSize === undefined ? true : props.page.simple.pageSize,
@@ -86,7 +86,7 @@ function pageOper(type: string) {
       small: props.page.simple.small === undefined ? false : props.page.simple.small
     };
   } else if (Object.prototype.toString.call(props.page.simple) === '[object Array]') {
-    state.simple = {
+    obj.simple = {
       total: props.page.simple.includes('total'),
       goPage: props.page.simple.includes('goPage'),
       pageSize: props.page.simple.includes('pageSize'),
