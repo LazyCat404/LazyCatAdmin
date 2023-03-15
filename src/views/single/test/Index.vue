@@ -1,6 +1,11 @@
 <template>
   <div class="test-wrapper">
-    <LazyTable :tableData="obj.tableData" :tableOptions="obj.tableOptions"></LazyTable>
+    <LazyTable
+      :tableData="obj.tableData"
+      :tableOptions="obj.tableOptions"
+      :page="obj.page"
+      @pageOper="pageOper"
+    ></LazyTable>
   </div>
 </template>
 <script lang="ts" setup>
@@ -8,7 +13,12 @@ import { computed, reactive } from 'vue';
 import testData from '@/assets/json/test.json';
 const obj = reactive<any>({
   tableOptions: [],
-  tableData: []
+  tableData: [],
+  page: {
+    pageNum: 1,
+    total: 1,
+    pageSize: 20
+  }
 });
 obj.tableData = computed(() => {
   let tableData = testData.data;
@@ -55,6 +65,10 @@ obj.tableOptions = computed(() => {
   ];
   return tableOptions;
 });
+// 分页操作
+function pageOper(pageData: pageData) {
+  console.log(pageData);
+}
 </script>
 <style lang="scss" scoped>
 .test-wrapper {
