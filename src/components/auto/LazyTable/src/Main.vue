@@ -115,6 +115,7 @@
     </el-table>
     <!-- 分页 -->
     <LazyPage
+      @pageOper="pageOper"
       v-if="page !== undefined"
       :page="page"
       :style="[{ position: `${state.config.fitContent ? 'relative' : 'absolute'}` }]"
@@ -147,7 +148,8 @@ const $emits = defineEmits([
   'filter-change',
   'row-confirm',
   'change',
-  'expot'
+  'expot',
+  'pageOper'
 ]);
 
 interface Props {
@@ -257,6 +259,10 @@ watch(
     controlTable();
   }
 );
+// 分页回调
+function pageOper(pageData: unknown) {
+  $emits('pageOper', pageData);
+}
 // 附加功能确认
 function additionalConfirm(par: unknown, type: string) {
   switch (type) {

@@ -280,4 +280,6 @@ function expotBtn(par: unknown) {
 </script>
 ```
 
+## 分页
 
+请查看 [分页组件](../LazyPage/README.md)
