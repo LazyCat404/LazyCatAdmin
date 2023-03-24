@@ -1,77 +1,12 @@
 <template>
-  <div class="test-wrapper">
-    <LazyTable :tableData="obj.tableData" :tableOptions="obj.tableOptions"></LazyTable>
-  </div>
+  <div class="test-wrapper"></div>
 </template>
 <script lang="ts" setup>
-import { computed, reactive } from 'vue';
-import testData from '@/assets/json/test.json';
-const obj = reactive<any>({
-  tableOptions: [],
-  tableData: [],
-  page: {
-    pageNum: 1,
-    total: 1,
-    pageSize: 20
-  }
-});
-obj.tableData = computed(() => {
-  let tableData = testData.data;
-  return tableData;
-});
-obj.tableOptions = computed(() => {
-  let tableOptions = [
-    {
-      prop: 'name',
-      label: '云桌面名称'
-    },
-    {
-      prop: 'statusI18N',
-      label: '状态',
-      // status: () => {
-      //   return '#f0f';
-      // },
-      // ico: () => {
-      //   return { name: 'iconfont icon-gongzuotai1', color: 'red' };
-      // }
-      copy: true
-    },
-    {
-      prop: 'torrent',
-      label: 'BT种子状态'
-    },
-    {
-      prop: 'userName',
-      label: '关联用户'
-    },
-    {
-      prop: 'mode',
-      label: '还原模式'
-    },
-    {
-      prop: 'ip',
-      label: 'IP地址'
-    },
-    {
-      prop: 'os',
-      label: '模板机'
-    },
-    {
-      prop: 'client',
-      label: '绑定客户机'
-    },
-    {
-      prop: 'issueStatus',
-      label: '下发状态'
-    }
-  ];
-  return tableOptions;
-});
+import { reactive } from 'vue';
+const obj = reactive<any>({});
+console.log(obj);
 </script>
 <style lang="scss" scoped>
 .test-wrapper {
-  width: 500px;
-  height: 300px;
-  padding: 50px;
 }
 </style>
