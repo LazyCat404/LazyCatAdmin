@@ -6,7 +6,7 @@
         <Navigation></Navigation>
         <Header></Header>
       </div>
-      <router-view></router-view>
+      <RouterView></RouterView>
     </div>
   </div>
 </template>

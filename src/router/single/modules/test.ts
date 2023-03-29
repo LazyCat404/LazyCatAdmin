@@ -3,10 +3,14 @@ export default [
   {
     path: '/test',
     name: 'Test',
+    redirect: '/test/table',
     component: (): unknown => import('@views/single/test/Index.vue'),
-    meta: {
-      title: '测试',
-      authority: []
-    }
+    children: [
+      {
+        path: 'table',
+        name: 'TestTable',
+        component: (): unknown => import('@views/single/test/views/Table.vue')
+      }
+    ]
   }
 ];

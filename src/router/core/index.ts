@@ -1,4 +1,10 @@
-// 分隔视图页面路由
+/*
+ * @Author: LazyCat404
+ * @Date: 2023-01-13 16:19:37
+ * @LastEditTime: 2023-03-29 17:48:35
+ * @LastEditors: LzayCat404
+ * @Description：以views/layout为基础的分隔页路由，核心业务路由
+ */
 
 const modules = [];
 
