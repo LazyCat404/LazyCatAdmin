@@ -4,7 +4,7 @@
       <div class="login-box">
         <div class="login-main">
           <div class="login-illustration">
-            <img src="@/assets/images/login/login-illustratio.png" class="illustration" />
+            <div id="illustration" class="illustration"></div>
           </div>
           <div class="login-form-box">
             <el-form ref="userFormRef" :rules="rules" :model="state.userForm">
@@ -42,7 +42,8 @@
 
 <script lang="ts" setup>
 // import api from '@api';
-import { reactive, ref, unref } from 'vue';
+import lottie from 'lottie-web';
+import { onMounted, reactive, ref, unref } from 'vue';
 
 const state = reactive({
   userForm: {
@@ -85,6 +86,18 @@ function submitForm() {
     }
   });
 }
+function init() {
+  // 插画动画
+  lottie.loadAnimation({
+    container: document.getElementById('illustration') as Element,
+    renderer: 'svg',
+    loop: true,
+    path: '/lottie/login/data.json'
+  });
+}
+onMounted(() => {
+  init();
+});
 </script>
 
 <style lang="scss" scoped>
@@ -110,15 +123,8 @@ function submitForm() {
           border-radius: 31px;
           .login-illustration {
             flex: 1;
-            position: relative;
-            // 插画
-            img.illustration {
-              width: 472px;
-              height: 314px;
-              position: absolute;
-              bottom: 115px;
-              left: 46px;
-            }
+            display: flex;
+            align-items: center;
           }
           // 表单
           .login-form-box {
