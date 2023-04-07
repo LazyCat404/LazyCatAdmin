@@ -14,12 +14,24 @@ export default [
     path: '/client',
     name: 'Client',
     component: (): unknown => import('@views/core/client/Index.vue'),
-    redirect: '/client/list',
+    redirect: '/client/vdi',
     children: [
       {
-        path: 'list',
-        name: 'ClientList',
-        component: (): unknown => import('@views/core/client/views/List.vue'),
+        path: 'vdi',
+        name: 'ClientVdi',
+        component: (): unknown => import('@views/core/client/views/VDI.vue'),
+        meta: {
+          requireAuth: true,
+          breadcrumb: [
+            { title: '客户机', path: '', ico: 'icon-kehuji-guanji' },
+            { title: '客户机', path: '' }
+          ]
+        }
+      },
+      {
+        path: 'voi',
+        name: 'ClientVoi',
+        component: (): unknown => import('@views/core/client/views/VOI.vue'),
         meta: {
           requireAuth: true,
           breadcrumb: [

@@ -1,25 +1,28 @@
 <template>
-  <el-breadcrumb class="navigation-wrapper">
+  <el-breadcrumb class="navigation-wrapper" :dark="excludeRoute.includes(route.path)">
     <el-breadcrumb-item v-for="(item, i) in route.meta.breadcrumb" :to="{ path: item.path }" :key="i">
-      <div
-        :style="{
-          color: item.textColor
-        }"
-      >
-        <i v-if="i == 0" :class="`iconfont ${item.ico}`"></i>{{ item.title }}
-      </div>
+      <i v-if="i == 0" :class="`iconfont ${item.ico}`"></i>{{ item.title }}
     </el-breadcrumb-item>
   </el-breadcrumb>
 </template>
 
 <script lang="ts" setup>
+defineProps({
+  excludeRoute: {
+    type: Array, // 排除路由
+    required: false,
+    default: () => {
+      return [];
+    }
+  }
+});
 const route = useRoute() as any;
 </script>
 
 <style lang="scss" scoped>
 .navigation-wrapper {
-  margin-top: 35px;
   padding-left: 40px;
+  display: flex;
   ::v-deep .el-breadcrumb__inner {
     height: 17px;
     font-size: 12px;
@@ -32,5 +35,13 @@ const route = useRoute() as any;
       margin-right: 10px;
     }
   }
+}
+.navigation-wrapper[dark='true'] {
+  ::v-deep .el-breadcrumb__inner {
+    color: #fff;
+  }
+  // ::v-deep .el-breadcrumb__separator {
+  //   color: #fff;
+  // }
 }
 </style>

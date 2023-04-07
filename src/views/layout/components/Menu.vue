@@ -69,7 +69,7 @@ state.activeIndex = computed(() => {
   // 路由包含
   let desktopList = ['/desktop/desktop/list'];
   let templateList = ['/desktop/template/list'];
-  let clientList = ['/client/list'];
+  let clientList = ['/client/vdi', '/client/voi'];
   // 活跃菜单
   if (desktopList.includes(route.path)) {
     return '/desktop/desktop/list';

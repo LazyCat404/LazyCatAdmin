@@ -1,0 +1,5 @@
+<template>
+  <div class="vdi-wrapper"></div>
+</template>
+<script setup lang="ts"></script>
+<style scoped lang="scss"></style>

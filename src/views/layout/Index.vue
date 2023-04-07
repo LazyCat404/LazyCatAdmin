@@ -3,8 +3,8 @@
     <Menu @menuTypeChange="menuTypeChange"></Menu>
     <div class="check-menu-item" :isCollapse="menuType ? '' : null">
       <div class="layout-top">
-        <Navigation></Navigation>
-        <Header></Header>
+        <Navigation :excludeRoute="obj.excludeRoute"></Navigation>
+        <Header :excludeRoute="obj.excludeRoute"></Header>
       </div>
       <RouterView></RouterView>
     </div>
@@ -15,7 +15,10 @@
 import Menu from './components/Menu.vue';
 import Header from './components/Header.vue';
 import Navigation from './components/Navigation.vue';
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
+const obj = reactive({
+  excludeRoute: ['/client/vdi', '/client/voi']
+});
 const menuType = ref(true);
 function menuTypeChange(type: boolean) {
   menuType.value = type;

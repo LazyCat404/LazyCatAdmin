@@ -1,8 +1,8 @@
 <template>
-  <div class="header-wrapper" :dark="state.excludeRoute.includes(route.path)">
+  <div class="header-wrapper" :dark="excludeRoute.includes(route.path)">
     <!-- 用户列表 -->
     <ul>
-      <li v-for="item in state.systemList" :key="item.nmae">{{ item.name }}</li>
+      <li v-for="item in obj.systemList" :key="item.nmae">{{ item.name }}</li>
     </ul>
     <!-- 用户信息 -->
     <div class="user-infor-box">
@@ -10,7 +10,7 @@
         <img :src="userImg" />
       </div>
       <el-dropdown class="oper-box">
-        <div>{{ state.userInfor.name }} <i class="iconfont icon-xiala"></i></div>
+        <div>{{ obj.userInfor.name }} <i class="iconfont icon-xiala"></i></div>
         <template #dropdown>
           <el-dropdown-menu class="user-dropdown-list">
             <el-dropdown-item @click="goUserInfor">个人中心</el-dropdown-item>
@@ -25,12 +25,20 @@
 <script lang="ts" setup>
 import userImage from '@/assets/images/user.png';
 import { reactive } from 'vue';
+defineProps({
+  excludeRoute: {
+    type: Array, // 排除路由
+    required: false,
+    default: () => {
+      return [];
+    }
+  }
+});
 
 const router = useRouter();
 const route = useRoute();
-const state = reactive<any>({
+const obj = reactive<any>({
   userInfor: $store.state.user,
-  excludeRoute: [], // 此处路由为深色背景
   systemList: [] // 系统列表
 });
 // 用户头像
