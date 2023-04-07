@@ -47,6 +47,7 @@ function menuTypeChange(type: boolean) {
   }
   .check-menu-item[iscollapse] {
     width: calc(100% - 80px);
+    transition: all 0s;
   }
 }
 </style>
