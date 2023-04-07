@@ -11,17 +11,18 @@
     "children": [
       {
         "name": "云桌面",
-        "path": "/desktop/list"
+        "path": "/desktop/desktop/list"
       },
       {
         "name": "模板机",
-        "path": "/desktop/template"
+        "path": "/desktop/template/list"
       }
     ]
   },
   {
     "name": "客户机",
-    "icon": "icon-kehuji-guanji"
+    "icon": "icon-kehuji-guanji",
+    "path":"/client"
   },
   {
     "name": "系统配置",

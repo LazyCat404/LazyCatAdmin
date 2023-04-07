@@ -1,8 +1,8 @@
 <template>
-  <div id="app-wrapper">
+  <div class="app-wrapper">
     <Menu @menuTypeChange="menuTypeChange"></Menu>
-    <div id="check-menu-item" :isCollapse="menuType ? '' : null">
-      <div id="layout-top">
+    <div class="check-menu-item" :isCollapse="menuType ? '' : null">
+      <div class="layout-top">
         <Navigation></Navigation>
         <Header></Header>
       </div>
@@ -23,17 +23,17 @@ function menuTypeChange(type: boolean) {
 </script>
 
 <style lang="scss" scoped>
-#app-wrapper {
+.app-wrapper {
   display: flex;
   width: 100%;
   height: 100%;
   overflow: hidden;
-  #check-menu-item {
+  .check-menu-item {
     width: calc(100% - 300px);
     background: #f1f5fb;
     position: relative;
     transition: all 0.5s;
-    #layout-top {
+    .layout-top {
       position: absolute;
       display: flex;
       top: 0;
@@ -45,7 +45,7 @@ function menuTypeChange(type: boolean) {
       height: 100%;
     }
   }
-  #check-menu-item[iscollapse] {
+  .check-menu-item[iscollapse] {
     width: calc(100% - 80px);
   }
 }

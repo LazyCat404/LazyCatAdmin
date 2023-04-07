@@ -1,4 +1,10 @@
-// 系统设置模块
+/*
+ * @Author: LazyCat404
+ * @Date: 2023-04-07 10:38:55
+ * @LastEditTime: 2023-04-07 10:58:12
+ * @LastEditors: LzayCat404
+ * @Description: 系统设置
+ */
 export default [
   {
     path: '/system',

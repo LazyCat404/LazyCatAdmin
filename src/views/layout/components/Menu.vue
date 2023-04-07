@@ -1,14 +1,15 @@
 <template>
-  <div id="menu-wrapper">
+  <div class="menu-wrapper">
     <div class="logo-box">
       <span></span>
-      <div class="logo-text" v-if="!state.isCollapse">
-        <p>卓朗昆仑云</p>
-        <div>Wisdom Labs</div>
-      </div>
+      <Transition name="el-fade-in-linear">
+        <div class="logo-text" v-if="!state.isCollapse">
+          <p>卓朗昆仑云</p>
+          <div>Wisdom Labs</div>
+        </div>
+      </Transition>
     </div>
     <el-menu
-      id="menu-list-box"
       :default-active="state.activeIndex"
       router
       text-color="#5D677D"
@@ -65,7 +66,20 @@ const menu = reactive<any>({
 });
 // 当前活跃菜单
 state.activeIndex = computed(() => {
-  return route.path;
+  // 路由包含
+  let desktopList = ['/desktop/desktop/list'];
+  let templateList = ['/desktop/template/list'];
+  let clientList = ['/client/list'];
+  // 活跃菜单
+  if (desktopList.includes(route.path)) {
+    return '/desktop/desktop/list';
+  } else if (templateList.includes(route.path)) {
+    return '/desktop/template/list';
+  } else if (clientList.includes(route.path)) {
+    return '/client';
+  } else {
+    return route.path;
+  }
 });
 const $emit = defineEmits(['menuTypeChange']);
 // 菜单展开收起
@@ -83,7 +97,7 @@ function menuTypeChange() {
 </script>
 
 <style lang="scss" scoped>
-#menu-wrapper {
+.menu-wrapper {
   height: 100%;
   float: left;
   .logo-box {
@@ -102,6 +116,7 @@ function menuTypeChange() {
     }
     .logo-text {
       margin-left: 20px;
+      white-space: nowrap;
       p {
         height: 28px;
         font-size: 20px;

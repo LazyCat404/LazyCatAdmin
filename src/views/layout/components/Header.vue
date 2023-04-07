@@ -6,7 +6,7 @@
     </ul>
     <!-- 用户信息 -->
     <div class="user-infor-box">
-      <div id="user-image">
+      <div class="user-image">
         <img :src="userImg" />
       </div>
       <el-dropdown class="oper-box">
@@ -52,7 +52,6 @@ function outLogin() {
 <style lang="scss" scoped>
 .header-wrapper {
   height: 80px;
-  padding-top: 22px;
   padding-right: 40px;
   box-sizing: border-box;
   display: -webkit-flex;
@@ -70,7 +69,7 @@ function outLogin() {
     display: flex; /*定位（写在父元素中）*/
     justify-content: center; /*水平居中*/
     align-items: center;
-    #user-image {
+    .user-image {
       width: 40px;
       height: 40px;
       border-radius: 50% 50%;

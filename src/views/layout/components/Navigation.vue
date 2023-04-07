@@ -1,5 +1,5 @@
 <template>
-  <el-breadcrumb id="navigation-wrapper">
+  <el-breadcrumb class="navigation-wrapper">
     <el-breadcrumb-item v-for="(item, i) in route.meta.breadcrumb" :to="{ path: item.path }" :key="i">
       <div
         :style="{
@@ -17,7 +17,7 @@ const route = useRoute() as any;
 </script>
 
 <style lang="scss" scoped>
-#navigation-wrapper {
+.navigation-wrapper {
   margin-top: 35px;
   padding-left: 40px;
   ::v-deep .el-breadcrumb__inner {
