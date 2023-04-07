@@ -1,7 +1,7 @@
 <template>
   <!-- 复制按钮 -->
   <span class="copy-wrapper">
-    <Transition name="fade">
+    <Transition name="el-fade-in-linear">
       <span
         class="iconfont icon-fuzhi1 copy-box"
         v-if="!obj.isSucceed && !obj.isError"
@@ -11,11 +11,11 @@
       </span>
     </Transition>
     <!-- 成功 -->
-    <Transition name="fade">
+    <Transition name="el-fade-in-linear">
       <span class="iconfont icon-chenggong1" v-if="obj.isSucceed && !obj.isError"> </span>
     </Transition>
     <!-- 失败 -->
-    <Transition name="fade">
+    <Transition name="el-fade-in-linear">
       <span class="iconfont icon-shibai1" v-if="!obj.isSucceed && obj.isError"> </span>
     </Transition>
   </span>
