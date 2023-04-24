@@ -1,7 +1,7 @@
 export const $tool = {
   /**
    * 判断指定值是否为数组
-   * @param { Any }value 待判断值
+   * @param { Any } value 待判断值
    * @returns 真假
    */
   isArray: (value: any): boolean => {
