@@ -68,7 +68,8 @@
         :selectable="selectable"
         v-if="obj.config.select"
         :fixed="obj.config.selectFixed"
-      ></el-table-column>
+      >
+      </el-table-column>
       <!-- 表格列表（自定义单文件行自动关闭tip） -->
       <template v-for="(item, i) in obj.customTableOptions" :key="i">
         <el-table-column
@@ -95,11 +96,8 @@
         >
           <!-- 表头 -->
           <template #header>
-            <LazyTableHeader
-              :headerItem="item"
-              @filter-change="filterChange"
-              @sort-change="sortChange"
-            ></LazyTableHeader>
+            <LazyTableHeader :headerItem="item" @filter-change="filterChange" @sort-change="sortChange">
+            </LazyTableHeader>
           </template>
           <!-- 表体 -->
           <template #default="scope">
@@ -108,7 +106,8 @@
               :rowData="scope.row"
               @row-confirm="rowConfirm"
               @switch-change="switchChange"
-            ></LazyTableBody>
+            >
+            </LazyTableBody>
           </template>
         </el-table-column>
       </template>
@@ -119,7 +118,8 @@
       v-if="page !== undefined"
       :page="page"
       :style="[{ position: `${obj.config.fitContent ? 'relative' : 'absolute'}` }]"
-    ></LazyPage>
+    >
+    </LazyPage>
   </div>
 </template>
 
