@@ -79,6 +79,25 @@ export const $tool = {
       aLink.click();
       document.body.removeChild(aLink);
     }
+  },
+  /**
+   * 获取指定数组的一个随机子数组
+   * @param { Array} arr 数组
+   * @param { Number } size 子集长度
+   * @returns 随机子数组
+   */
+  getRandomSubarray(arr: Array<any>, size: number) {
+    const copyArr = arr.slice(0); // 深度复制数组，避免影响原数组
+    let i: number = arr.length;
+    let temp: Array<any>;
+    let index = 0;
+    while (i--) {
+      index = Math.floor((i + 1) * Math.random());
+      temp = copyArr[index];
+      copyArr[index] = copyArr[i];
+      copyArr[i] = temp;
+    }
+    return copyArr.slice(0, size);
   }
 };
 
