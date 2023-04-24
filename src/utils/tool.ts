@@ -1,9 +1,17 @@
 export const $tool = {
-  // 判断：是否为数组
+  /**
+   * 判断指定值是否为数组
+   * @param { Any }value 待判断值
+   * @returns 真假
+   */
   isArray: (value: any): boolean => {
     return Object.prototype.toString.call(value) === '[object Array]';
   },
-  // 转换：将输入的值转换成 css 可用值
+  /**
+   * 将指定值转换成 css 可用值
+   * @param { Number | String } value 任意指定数值
+   * @returns css 可用值
+   */
   targetCss: (value: number | string): string => {
     const resValue = value.toString();
     const isCalc = resValue.search('calc');
@@ -64,10 +72,10 @@ export const $tool = {
   },
   /**
    * 下载 blob
-   * @param res blob 字符流
-   * @param {string} name 下载文件名
+   * @param { Blob } res blob 字符流
+   * @param { String } name 下载文件名
    */
-  dowmLoadBlob(res: any, name: string) {
+  dowmLoadBlob(res: Blob, name: string) {
     if (res instanceof Blob) {
       const blobRes = res;
       const aLink = document.createElement('a');
@@ -78,6 +86,8 @@ export const $tool = {
       aLink.href = blobUrl;
       aLink.click();
       document.body.removeChild(aLink);
+    } else {
+      console.error('请确认下载类型');
     }
   },
   /**
