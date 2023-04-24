@@ -111,6 +111,7 @@ onMounted(() => {
       height: 100%;
       .login-box {
         min-height: 100%;
+        min-width: 500px;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -120,7 +121,8 @@ onMounted(() => {
           height: 650px;
           background: #edf5ff;
           box-shadow: 0 22px 31px 0 #b9b9b933;
-          border-radius: 31px;
+          border-radius: 30px;
+          overflow: hidden;
           .login-illustration {
             flex: 1;
             display: flex;
@@ -156,10 +158,12 @@ onMounted(() => {
                   color: #1c244d;
                   letter-spacing: 0;
                   margin-right: 10px;
+                  white-space: nowrap; /*设置内容不换行*/
+                  text-overflow: ellipsis;
                   i {
                     font-style: normal;
                     padding-bottom: 8px;
-                    border-bottom: 2px solid #3e7bfa;
+                    border-bottom: 4px solid #3e7bfa;
                   }
                 }
                 .sub-title {
@@ -170,6 +174,8 @@ onMounted(() => {
                   font-size: 24px;
                   color: #1c244d;
                   letter-spacing: 0;
+                  white-space: nowrap; /*设置内容不换行*/
+                  text-overflow: ellipsis;
                 }
               }
               // 提交按钮
