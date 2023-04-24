@@ -98,6 +98,24 @@ export const $tool = {
       copyArr[i] = temp;
     }
     return copyArr.slice(0, size);
+  },
+  /**
+   * 获取指定范围的随机数
+   * @param { Number } min 最小值
+   * @param { Number } max 最大值
+   * @returns 包含指定范围的随机数
+   */
+  getRandom(min: number, max: number) {
+    let num: number;
+    if (max < min) {
+      console.warn('根据获得的参数，最大值 < 最小值，已为您自动翻转');
+      num = Math.floor(Math.random() * (min - max + 1) + max);
+    } else if (min == max) {
+      num = min;
+    } else {
+      num = Math.floor(Math.random() * (max - min + 1) + min);
+    }
+    return num;
   }
 };
 
