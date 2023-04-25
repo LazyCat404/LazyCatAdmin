@@ -77,11 +77,14 @@ onBeforeUnmount(() => {
   display: inline-block;
   width: 16px;
   height: 16px;
+  line-height: 16px;
   position: relative;
-  margin-left: 5px;
   .iconfont {
     cursor: default;
     position: absolute;
+    height: 16px;
+    width: 16px;
+    display: inline-block;
     left: 0;
   }
   .icon-fuzhi1 {
