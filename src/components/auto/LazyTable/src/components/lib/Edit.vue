@@ -6,12 +6,12 @@
     @dblclick="dobleClick"
   >
     <!-- 状态 -->
-    <Status
+    <StatusIco
       v-if="props.bodyItem.status !== undefined || props.bodyItem.ico !== undefined ? true : false"
       :bodyItem="props.bodyItem"
       :rowData="rowData"
     >
-    </Status>
+    </StatusIco>
     <!-- 编辑时显示 -->
     <div
       class="table-edit-box"
@@ -100,7 +100,7 @@
 import { config } from '../../config';
 import { defineEmits, defineProps, reactive, ref } from 'vue';
 import { inspect } from '@/utils/inspect';
-import Status from './components/Status.vue';
+import StatusIco from './components/StatusIco.vue';
 import Row from './components/Row.vue';
 const props = defineProps<{
   bodyItem: any; // 表格列设置
