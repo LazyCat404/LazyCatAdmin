@@ -98,7 +98,7 @@
 </template>
 <script lang="ts" setup>
 import { config } from '../../config';
-import { defineEmits, defineProps, reactive, ref } from 'vue';
+import { reactive, ref } from 'vue';
 import { inspect } from '@/utils/inspect';
 import StatusIco from './components/StatusIco.vue';
 import Row from './components/Row.vue';

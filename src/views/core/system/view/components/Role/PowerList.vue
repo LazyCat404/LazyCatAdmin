@@ -28,7 +28,7 @@
 </template>
 <script lang="ts" setup>
 import api from '@api';
-import { defineProps, reactive, ref, watch } from 'vue';
+import {  reactive, ref, watch } from 'vue';
 import type { ElTree } from 'element-plus';
 import type Node from 'element-plus/es/components/tree/src/model/node';
 

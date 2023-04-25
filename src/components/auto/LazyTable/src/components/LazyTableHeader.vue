@@ -83,7 +83,7 @@
   </el-popover>
 </template>
 <script lang="ts" setup>
-import { defineProps, defineEmits, reactive } from 'vue';
+import {  defineEmits, reactive } from 'vue';
 const props = defineProps<{ headerItem: any }>();
 const $emits = defineEmits(['filterChange', 'sortChange']);
 const obj = reactive<any>({

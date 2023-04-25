@@ -27,7 +27,7 @@
 </template>
 <script lang="ts" setup>
 import { inspect } from '@/utils/inspect';
-import { defineProps, reactive } from 'vue';
+import {  reactive } from 'vue';
 const props = defineProps<{
   bodyItem: any; // 表格列设置
   rowData: any; //行数据

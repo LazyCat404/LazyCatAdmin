@@ -19,7 +19,6 @@
   <Ordinary v-else :bodyItem="props.bodyItem" :rowData="rowData"></Ordinary>
 </template>
 <script lang="ts" setup>
-import { defineEmits, defineProps } from 'vue';
 import Switch from './lib/Switch.vue';
 import Edit from './lib/Edit.vue';
 import Ordinary from './lib/Ordinary.vue';

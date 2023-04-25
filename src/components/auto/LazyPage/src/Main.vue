@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, reactive, ref } from 'vue';
+import {  reactive, ref } from 'vue';
 
 const props = defineProps<{
   page?: any;

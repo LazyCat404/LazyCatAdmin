@@ -23,7 +23,7 @@
 
 <script lang="ts" setup>
 import Clipboard from 'clipboard';
-import { defineProps, onBeforeUnmount, reactive } from 'vue';
+import {  onBeforeUnmount, reactive } from 'vue';
 const props = defineProps({
   content: {
     type: [String, Number, Object, Function, Boolean]

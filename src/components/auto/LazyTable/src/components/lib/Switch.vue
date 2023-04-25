@@ -28,7 +28,7 @@
   </el-tooltip>
 </template>
 <script lang="ts" setup>
-import { defineEmits, defineProps, reactive } from 'vue';
+import {  defineProps, reactive } from 'vue';
 const props = defineProps<{
   bodyItem: any; // 表格列设置
   rowData: any; //行数据
