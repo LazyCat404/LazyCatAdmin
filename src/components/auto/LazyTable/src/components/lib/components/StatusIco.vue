@@ -1,25 +1,25 @@
 <template>
   <!-- ico -->
+
   <span
     v-if="props.bodyItem.ico !== undefined && obj.first === 'ico' ? true : false"
-    class="state-sign-box"
-    style="margin-right: 5px"
+    :class="obj.ico.name"
+    :style="[{ color: obj.ico.color }]"
   >
-    <span :class="obj.ico.name" style="position: absolute; left: 0px; top: -0.5px" :style="[{ color: obj.ico.color }]">
-    </span>
   </span>
   <!-- 状态 -->
-  <span v-if="props.bodyItem.status === undefined ? false : true" class="state-sign-box">
-    <span class="iconfont icon-dian" :style="[{ color: obj.statusColor }]"> </span>
+  <span
+    class="iconfont icon-dian"
+    :style="[{ color: obj.statusColor }]"
+    v-if="props.bodyItem.status === undefined ? false : true"
+  >
   </span>
   <!-- ico -->
   <span
     v-if="props.bodyItem.ico !== undefined && obj.first !== 'ico' ? true : false"
-    class="state-sign-box"
-    style="margin-right: 5px"
+    :class="obj.ico.name"
+    :style="[{ color: obj.ico.color }]"
   >
-    <span :class="obj.ico.name" style="position: absolute; left: 0px; top: -0.5px" :style="[{ color: obj.ico.color }]">
-    </span>
   </span>
 </template>
 <script lang="ts" setup>
@@ -144,15 +144,15 @@ obj.ico = computed(() => {
 })();
 </script>
 <style lang="scss" scoped>
-.state-sign-box {
+.iconfont {
   position: relative;
   display: inline-block;
   width: 16px;
   height: 16px;
-  .icon-dian {
-    font-size: 25px;
-    position: absolute;
-    left: -7px;
-  }
+  line-height: 16px;
+}
+// 状态
+.icon-dian {
+  transform: scale(0.375);
 }
 </style>

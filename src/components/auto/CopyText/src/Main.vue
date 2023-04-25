@@ -74,17 +74,14 @@ onBeforeUnmount(() => {
 </script>
 <style scoped lang="scss">
 .copy-wrapper {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  line-height: 16px;
   position: relative;
+  display: inline-block;
+  height: 16px;
+  width: 16px;
+  line-height: 16px;
   .iconfont {
     cursor: default;
     position: absolute;
-    height: 16px;
-    width: 16px;
-    display: inline-block;
     left: 0;
   }
   .icon-fuzhi1 {
