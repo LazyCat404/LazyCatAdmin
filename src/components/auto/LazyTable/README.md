@@ -4,13 +4,15 @@
 
 > 可在`config.ts`中设置默认通用配置
 
+### 常规配置
+
 - `select`：是否开启复选框，`true/false`
 
 - `selectFixed`：复选框固定，仅在开启复选框时有效，`left、right、null`
 
 - `border`：是否显示表格框线，`true/false`
 
-- `tableH`：表格高度，任意 `css` 可识别值，不加单位时默认 `px`
+- `tableH`：表格高度容器，非表格实际高度，任意 `css` 可识别值，不加单位时默认 `px`
 
 - `headerH`：表头高度，任意 `css` 可识别值，不加单位时默认 `px`
 
@@ -27,6 +29,54 @@
 - `align`：表体内容对齐方式，`left、right、 center、null`；也可单列设置，详见下文
 
 - `tip`：表体内容超出是否隐藏，并显示提示框，`true/false`；也可单列设置，详见下文
+
+- `fitContent`： 限制表格高度，`true`：限制，默认100% 即为表格容器高度，`false`：不限制，表格高度等于内容高度
+
+### 附加功能
+
+#### 自定义列
+
+> 只需设置 `tableConfig.customColumn = true`即可
+
+开启该功能后，会自动将`tableOptions`识别为可变列，因此可以通过对`tableOptions` 进行简单设置，以控制某列是否可控
+
+```js
+let tableOptions = [{
+    label: '操作',
+    customColumn: {
+        disabled: false,
+    }
+}]
+// 等价于
+let tableOptions = [{
+    label: '操作',
+    disabled: false,
+}]
+
+// 以上设置可解释为：操作列不可设置为不显示（隐藏）
+
+```
+>`customColumn.show` 是指可操控列（默认）是否显示,可通过交互操作控制显隐；通用配置中的`show`则指该列是否显示，级别要高，隐藏后的列不出现在**自定义列**操作中
+
+#### 导出
+
+> 只需设置 `tableConfig.export = true`即可
+
+该功能并不会真的导出文件，只是将导出条件进行可视化选择，将结果通过`expot`方法传递给父组件
+
+```vue
+<template>
+    <LazyTable 
+    @expot="expotBtn"
+    ></LazyTable>
+</template>
+<script lang="ts" setup>
+
+function expotBtn(par: unknown) {
+  console.log('导出：', par);
+}
+</script>
+```
 
 ## 表格配置 - tableOptions
 
@@ -116,7 +166,7 @@ PS：定义了`style`后，`color`、`fontWeight`等样式相关属性，不在�
 
 - `function`：接收一个参数`{bodyItem,rowData}`，并将返回结果以`v-html`方式直接渲染到表格中
 
-PS：可以理解为简易方式的自定义行，与下边*自定义行*不同，渲染行可接受一个`string`或`function`，且`click`、`color`、`fontWeight`、`style`不会失效
+PS：可以理解为简易方式的自定义行，与下边*自定义行*不同，渲染行可接受一个`string`或`function`，且`click`、`color`、`fontWeight`、`style`等不会失效
 
 ### 自定义（custom）行
 
@@ -239,52 +289,6 @@ edit:{
     inspect: 'isTel',       //inspect.ts 内 导出的inspect属性key
     err: '手机号验证失败'   // 验证失败后提示文字
 }
-```
-
-## 附加功能
-
-### 自定义列
-
-> 只需设置 `tableConfig.customColumn = true`即可
-
-开启该功能后，会自动将`tableOptions`识别为可变列，因此可以通过对`tableOptions` 进行简单设置，以控制某列是否可控
-
-```js
-let tableOptions = [{
-    label: '操作',
-    customColumn: {
-        disabled: false,
-    }
-}]
-// 等价于
-let tableOptions = [{
-    label: '操作',
-    disabled: false,
-}]
-
-// 以上设置可解释为：操作列不可设置为不显示（隐藏）
-
-```
->`customColumn.show` 是指可操控列（默认）是否显示,可通过交互操作控制显隐；通用配置中的`show`则指该列是否显示，级别要高，隐藏后的列不出现在**自定义列**操作中
-
-### 导出
-
-> 只需设置 `tableConfig.export = true`即可
-
-该功能并不会真的导出文件，只是将导出条件进行可视化选择，将结果通过`expot`方法传递给父组件
-
-```vue
-<template>
-    <LazyTable 
-    @expot="expotBtn"
-    ></LazyTable>
-</template>
-<script lang="ts" setup>
-
-function expotBtn(par: unknown) {
-  console.log('导出：', par);
-}
-</script>
 ```
 
 ## 分页

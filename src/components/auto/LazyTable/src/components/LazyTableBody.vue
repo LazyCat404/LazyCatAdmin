@@ -1,8 +1,6 @@
 <template>
-  <!-- 渲染行 -->
-  <Render v-if="props.bodyItem.render" :bodyItem="props.bodyItem" :rowData="rowData"></Render>
   <!-- 自定义行 -->
-  <Custom v-else-if="!props.bodyItem.prop" :bodyItem="props.bodyItem" :rowData="rowData"></Custom>
+  <Custom v-if="!props.bodyItem.prop && !props.bodyItem.render" :bodyItem="props.bodyItem" :rowData="rowData"></Custom>
   <!-- 开关行 -->
   <Switch
     v-else-if="props.bodyItem.switch !== undefined && props.bodyItem.switch"
@@ -15,7 +13,7 @@
   <Progress v-else-if="props.bodyItem.progress" :bodyItem="props.bodyItem" :rowData="rowData"></Progress>
   <!-- 可编辑行 -->
   <Edit v-else-if="props.bodyItem.edit" :bodyItem="props.bodyItem" :rowData="rowData" @row-confirm="rowConfirm"></Edit>
-  <!-- 普通行 -->
+  <!-- 普通行/渲染行 -->
   <Ordinary v-else :bodyItem="props.bodyItem" :rowData="rowData"></Ordinary>
 </template>
 <script lang="ts" setup>
@@ -23,7 +21,6 @@ import Switch from './lib/Switch.vue';
 import Edit from './lib/Edit.vue';
 import Ordinary from './lib/Ordinary.vue';
 import Custom from './lib/Custom.vue';
-import Render from './lib/Render.vue';
 import Progress from './lib/Progress.vue';
 const props = defineProps<{
   bodyItem: any; // 表格列设置

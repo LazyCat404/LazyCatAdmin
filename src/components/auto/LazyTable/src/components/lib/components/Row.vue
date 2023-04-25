@@ -1,7 +1,33 @@
 <template>
   <!-- 超出隐藏，不换行 -->
   <div v-if="bodyItem.tip === undefined ? config.tip : bodyItem.tip" v-hide @click="rowClick">
+    <!-- render 行 -->
     <span
+      v-if="typeof bodyItem.render == 'string' || typeof bodyItem.render == 'function'"
+      v-html="
+        typeof bodyItem.render == 'string'
+          ? bodyItem.render
+          : bodyItem.render({
+              bodyItem,
+              rowData
+            })
+      "
+      :style="
+        obj.style
+          ? obj.style
+          : [
+              {
+                color: obj.color,
+                cursor: props.bodyItem.edit || props.bodyItem.click ? 'pointer' : '',
+                fontWeight: obj.fontWeight
+              }
+            ]
+      "
+    >
+    </span>
+    <!-- 普通行 -->
+    <span
+      v-else
       :style="
         obj.style
           ? obj.style
@@ -19,7 +45,6 @@
           props.rowData[props.bodyItem.prop].join(`${props.bodyItem.mark === undefined ? ',' : props.bodyItem.mark}`)
         }}
       </template>
-
       <template v-else>
         {{
           props.rowData[props.bodyItem.prop] === undefined ||
@@ -33,7 +58,33 @@
   </div>
   <!-- 超出自动换行 -->
   <div v-else @click="rowClick">
+    <!-- render 行 -->
     <span
+      v-if="typeof bodyItem.render == 'string' || typeof bodyItem.render == 'function'"
+      v-html="
+        typeof bodyItem.render == 'string'
+          ? bodyItem.render
+          : bodyItem.render({
+              bodyItem,
+              rowData
+            })
+      "
+      :style="
+        obj.style
+          ? obj.style
+          : [
+              {
+                color: obj.color,
+                cursor: props.bodyItem.edit || props.bodyItem.click ? 'pointer' : '',
+                fontWeight: obj.fontWeight
+              }
+            ]
+      "
+    >
+    </span>
+    <!-- 普通行 -->
+    <span
+      v-else
       :style="
         obj.style
           ? obj.style
@@ -51,7 +102,6 @@
           props.rowData[props.bodyItem.prop].join(`${props.bodyItem.mark === undefined ? ',' : props.bodyItem.mark}`)
         }}
       </template>
-
       <template v-else>
         {{
           props.rowData[props.bodyItem.prop] === undefined ||

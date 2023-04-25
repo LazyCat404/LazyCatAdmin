@@ -9,7 +9,7 @@
   ></AdditionalFunctions>
   <!-- 表格内容 -->
   <div
-    class="basic-table-wrapper"
+    class="lazy-table-wrapper"
     :style="[
       {
         maxHeight: `${tableConfig?.customColumn ? `calc(${obj.config.tableH} - 46px)` : `${obj.config.tableH}`}`,
