@@ -1,35 +1,72 @@
 <template>
-  <span
-    :style="
-      obj.style
-        ? obj.style
-        : [
-            {
-              color: obj.color,
-              cursor: props.bodyItem.edit || props.bodyItem.click ? 'pointer' : '',
-              fontWeight: obj.fontWeight
-            }
-          ]
-    "
-    @click="rowClick"
-  >
-    <template v-if="Object.prototype.toString.call(props.rowData[props.bodyItem.prop]) === '[object Array]'">
-      {{ props.rowData[props.bodyItem.prop].join(`${props.bodyItem.mark === undefined ? ',' : props.bodyItem.mark}`) }}
-    </template>
-    <template v-else>
-      {{
-        props.rowData[props.bodyItem.prop] === undefined ||
-        props.rowData[props.bodyItem.prop] === '' ||
-        props.rowData[props.bodyItem.prop] === null
-          ? '-'
-          : props.rowData[props.bodyItem.prop]
-      }}
-    </template>
-  </span>
-  <CopyText :content="obj.copyContent" class="lazy-table-copy-position" v-if="props.bodyItem.copy"></CopyText>
+  <!-- 超出隐藏，不换行 -->
+  <div v-if="bodyItem.tip === undefined ? config.tip : bodyItem.tip" v-hide @click="rowClick">
+    <span
+      :style="
+        obj.style
+          ? obj.style
+          : [
+              {
+                color: obj.color,
+                cursor: props.bodyItem.edit || props.bodyItem.click ? 'pointer' : '',
+                fontWeight: obj.fontWeight
+              }
+            ]
+      "
+    >
+      <template v-if="Object.prototype.toString.call(props.rowData[props.bodyItem.prop]) === '[object Array]'">
+        {{
+          props.rowData[props.bodyItem.prop].join(`${props.bodyItem.mark === undefined ? ',' : props.bodyItem.mark}`)
+        }}
+      </template>
+
+      <template v-else>
+        {{
+          props.rowData[props.bodyItem.prop] === undefined ||
+          props.rowData[props.bodyItem.prop] === '' ||
+          props.rowData[props.bodyItem.prop] === null
+            ? '-'
+            : props.rowData[props.bodyItem.prop]
+        }}
+      </template>
+    </span>
+  </div>
+  <!-- 超出自动换行 -->
+  <div v-else @click="rowClick">
+    <span
+      :style="
+        obj.style
+          ? obj.style
+          : [
+              {
+                color: obj.color,
+                cursor: props.bodyItem.edit || props.bodyItem.click ? 'pointer' : '',
+                fontWeight: obj.fontWeight
+              }
+            ]
+      "
+    >
+      <template v-if="Object.prototype.toString.call(props.rowData[props.bodyItem.prop]) === '[object Array]'">
+        {{
+          props.rowData[props.bodyItem.prop].join(`${props.bodyItem.mark === undefined ? ',' : props.bodyItem.mark}`)
+        }}
+      </template>
+
+      <template v-else>
+        {{
+          props.rowData[props.bodyItem.prop] === undefined ||
+          props.rowData[props.bodyItem.prop] === '' ||
+          props.rowData[props.bodyItem.prop] === null
+            ? '-'
+            : props.rowData[props.bodyItem.prop]
+        }}
+      </template>
+    </span>
+  </div>
 </template>
-<script lang="ts" setup>
+<script setup lang="ts">
 import { inspect } from '@/utils/inspect';
+import { config } from '../../../config';
 import { computed, defineExpose, defineProps, onBeforeUnmount, reactive } from 'vue';
 const props = defineProps<{
   bodyItem: any; // 表格列设置
@@ -37,29 +74,9 @@ const props = defineProps<{
 }>();
 const obj = reactive<any>({
   timer: null,
-  copyContent: null, // 复制内容
   color: '',
   fontWeight: '',
   style: ''
-});
-
-// 复制内容
-obj.copyContent = computed(() => {
-  let copyContent = null;
-  // 可复制
-  if (props.bodyItem.copy) {
-    if (Object.prototype.toString.call(props.rowData[props.bodyItem.prop]) === '[object Array]') {
-      copyContent = props.rowData[props.bodyItem.prop];
-      copyContent = props.rowData[props.bodyItem.prop].join(
-        `${props.bodyItem.mark === undefined ? ',' : props.bodyItem.mark}`
-      );
-    } else if (Object.prototype.toString.call(props.rowData[props.bodyItem.prop]) === '[object Object]') {
-      copyContent = JSON.stringify(props.rowData[props.bodyItem.prop]);
-    } else {
-      copyContent = props.rowData[props.bodyItem.prop];
-    }
-  }
-  return copyContent;
 });
 // style
 obj.style = computed(() => {
@@ -117,7 +134,7 @@ obj.color = computed(() => {
   }
   return color;
 });
-
+// 行点击事件
 function rowClick() {
   if (props.bodyItem.edit) {
     clearTimer();
@@ -161,11 +178,4 @@ onBeforeUnmount(() => {
   clearTimer();
 });
 </script>
-<style lang="scss" scoped>
-.lazy-table-copy-position {
-  position: absolute;
-  right: 5px;
-  top: calc(50% - 10px);
-  z-index: 999;
-}
-</style>
+<style scoped lang="scss"></style>

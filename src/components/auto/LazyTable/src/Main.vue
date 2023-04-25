@@ -83,11 +83,14 @@
               : item.show
           "
           :width="item.width"
-          :minWidth="item.minWidth || item.minwidth"
+          :minWidth="minWidth(item)"
           :fixed="item.fixed"
           :align="item.align ? item.align : obj.config.align"
           :show-overflow-tooltip="
-            !item.prop && Object.prototype.toString.call(item.template) === '[object Object]'
+            (!item.prop && Object.prototype.toString.call(item.template) === '[object Object]') ||
+            item.ico ||
+            item.copy ||
+            item.status
               ? false
               : item.tip === undefined
               ? config.tip
@@ -231,6 +234,21 @@ watch(
     controlTable();
   }
 );
+// 表格最小宽度计算
+function minWidth(par: any) {
+  let dMin = par.minWidth || par.minwidth;
+  let minWidth: undefined | number = 0;
+  // 最小宽计算
+  if (par.status) minWidth = minWidth + 16;
+  if (par.ico) minWidth = minWidth + 16;
+  if (par.copy) minWidth = minWidth + 16;
+  if (minWidth) {
+    minWidth = minWidth + 33 + 24;
+  } else {
+    minWidth = undefined;
+  }
+  return dMin || minWidth;
+}
 // 分页回调
 function pageOper(pageData: unknown) {
   $emits('pageOper', pageData);

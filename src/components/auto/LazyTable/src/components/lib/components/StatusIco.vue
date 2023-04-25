@@ -1,12 +1,10 @@
 <template>
   <!-- ico -->
-
-  <span
-    v-if="props.bodyItem.ico !== undefined && obj.first === 'ico' ? true : false"
-    :class="obj.ico.name"
-    :style="[{ color: obj.ico.color }]"
-  >
-  </span>
+  <template v-if="obj.first === 'ico' ? true : false">
+    <el-tooltip :content="obj.ico.tip" :disabled="!obj.ico.tip" placement="top">
+      <span :class="obj.ico.name" :style="[{ color: obj.ico.color }]"> </span>
+    </el-tooltip>
+  </template>
   <!-- 状态 -->
   <span
     class="iconfont icon-dian"
@@ -15,12 +13,11 @@
   >
   </span>
   <!-- ico -->
-  <span
-    v-if="props.bodyItem.ico !== undefined && obj.first !== 'ico' ? true : false"
-    :class="obj.ico.name"
-    :style="[{ color: obj.ico.color }]"
-  >
-  </span>
+  <template v-if="props.bodyItem.ico !== undefined && obj.first !== 'ico' ? true : false">
+    <el-tooltip :content="obj.ico.tip" :disabled="!obj.ico.tip" placement="top">
+      <span :class="obj.ico.name" :style="[{ color: obj.ico.color, marginRight: '3px' }]"> </span>
+    </el-tooltip>
+  </template>
 </template>
 <script lang="ts" setup>
 import { computed, defineProps, reactive } from 'vue';
@@ -31,7 +28,7 @@ const props = defineProps<{
   rowData: any;
 }>();
 const obj = reactive<any>({
-  first: 'ico', // 显示顺序
+  first: '', // 显示顺序（不要给默认值）
   ico: { name: '', color: '' },
   statusColor: ''
 });
@@ -66,7 +63,8 @@ obj.statusColor = computed(() => {
 obj.ico = computed(() => {
   let ico = {
     name: '',
-    color: ''
+    color: '',
+    tip: ''
   };
   if (props.bodyItem.ico) {
     if (typeof props.bodyItem.ico == 'string') {
@@ -125,6 +123,23 @@ obj.ico = computed(() => {
           console.warn('tableOptions -> ico.color 仅支持 string、function 类型');
         }
       }
+      // 提示
+      if (props.bodyItem.ico.tip) {
+        if (typeof props.bodyItem.ico.tip == 'string') {
+          ico.tip = props.bodyItem.ico.tip;
+        } else if (typeof props.bodyItem.ico.name == 'function') {
+          let returnIco = props.bodyItem.ico.name({ bodyItem: props.bodyItem, rowData: props.rowData });
+          if (typeof returnIco == 'string') {
+            ico.tip = returnIco;
+          } else if (returnIco == undefined) {
+            ico.tip = '';
+          } else {
+            console.warn('tableOptions -> ico.tip 返回值仅支持 string 类型');
+          }
+        } else {
+          console.warn('tableOptions -> ico.tip 仅支持 string、function 类型');
+        }
+      }
     } else {
       console.warn('tableOptions -> ico 仅支持 string、object、function 类型');
     }
@@ -144,7 +159,7 @@ obj.ico = computed(() => {
 })();
 </script>
 <style lang="scss" scoped>
-.iconfont {
+span {
   position: relative;
   display: inline-block;
   width: 16px;

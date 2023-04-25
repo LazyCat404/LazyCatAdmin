@@ -57,9 +57,11 @@
 - `ico`：图标，值为 ico 类名，支持`string`、`object`、`function({bodyItem,rowData})`返回值即为渲染值
 
     ```js
+    // ico 为 对象时，每个属性也可支持`string`、`function({bodyItem,rowData})`
     ico:{
         name:'',    
-        color:''
+        color:'',
+        tip:''
     }
     ```
 
@@ -77,7 +79,7 @@ PS：定义了`style`后，`color`、`fontWeight`等样式相关属性，不在�
 
 - `mark`：如果`prop`对应内容为数组时，该属性可设置间隔符，建议`string`类型
 
-- `copy`：可复制，自动复制表格内显示内容
+- `copy`：可复制，支持`boolean`、`string`或`function({bodyItem,rowData})`返回值即为复制内容值
 
 ### 表头功能
 
