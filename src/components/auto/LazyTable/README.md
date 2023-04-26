@@ -231,7 +231,10 @@ switch: {
     inactiveColor:false,   // 非活跃值
     tip: '提示文字',       
     tipActive: '为真时提示替换文字'
-    tipInactive: '为假时提示替换文字'
+    tipInactive: '为假时提示替换文字',
+    beforeChange: (bodyItem, rowData) => {  // switch 状态改变前的钩子
+        return false;
+    }
 }
 ```
 PS：当`switch.tip`、`switch.tipActive`、`switch.tipInactive`    均未定义时，则不会显示提示框

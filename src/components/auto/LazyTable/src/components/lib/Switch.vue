@@ -23,27 +23,43 @@
       :inactive-color="props.bodyItem.switch.inactiveColor ? props.bodyItem.switch.inactiveColor : ''"
       :active-value="obj.activeValue"
       :inactive-value="obj.inactiveValue"
-      @click="switchClick"
+      :before-change="beforeChange"
     />
   </el-tooltip>
 </template>
 <script lang="ts" setup>
-import {  defineProps, reactive } from 'vue';
+import { reactive, watch } from 'vue';
 const props = defineProps<{
   bodyItem: any; // 表格列设置
   rowData: any; //行数据
 }>();
 const $emits = defineEmits(['switch-change']);
 const obj = reactive<any>({
-  switchValue: props.rowData[props.bodyItem.prop],
+  switchValue: '绝对不可能的值',
   activeValue: props.bodyItem.switch.activeValue,
-  inactiveValue: props.bodyItem.switch.inactiveValue
+  inactiveValue: props.bodyItem.switch.inactiveValue,
+  value2: false
 });
-// 用click 代替change 避免初始化就调用
-function switchClick() {
-  $emits('switch-change', obj.switchValue);
+watch(
+  () => obj.switchValue,
+  (newVal, oldVal) => {
+    if (oldVal !== '绝对不可能的值') switchChange();
+  }
+);
+// change写在监听里，避免初始化就调用
+function switchChange() {
+  $emits('switch-change', { key: props.bodyItem.prop, value: obj.switchValue });
 }
-function init() {
+// switch 状态改变前的钩子
+function beforeChange() {
+  if (props.bodyItem.switch.beforeChange && typeof props.bodyItem.switch.beforeChange == 'function') {
+    return props.bodyItem.switch.beforeChange({ bodyItem: props.bodyItem, rowData: props.rowData });
+  } else {
+    return true;
+  }
+}
+(function init() {
+  obj.switchValue = JSON.parse(JSON.stringify(props.rowData[props.bodyItem.prop]));
   if (typeof props.bodyItem.switch !== 'object') {
     obj.activeValue = typeof props.bodyItem.switch === 'boolean' ? true : props.bodyItem.switch;
     obj.inactiveValue =
@@ -53,9 +69,6 @@ function init() {
       if (props.bodyItem.switch.activeValue === undefined) {
         obj.activeValue = true;
         obj.inactiveValue = false;
-        if (typeof props.rowData[props.bodyItem.prop] !== 'boolean') {
-          console.warn('未设置 switch 的 activeValue 属性');
-        }
       }
     } else {
       obj.activeValue = true;
@@ -63,6 +76,5 @@ function init() {
       console.warn('请检查switch类型，仅支持：Object、String、number、boolean');
     }
   }
-}
-init();
+})();
 </script>

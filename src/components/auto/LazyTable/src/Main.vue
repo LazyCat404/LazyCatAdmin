@@ -149,6 +149,7 @@ const $emits = defineEmits([
   'header-contextmenu',
   'sort-change',
   'filter-change',
+  'switch-change',
   'row-confirm',
   'change',
   'expot',
@@ -391,7 +392,7 @@ function rowConfirm(par: unknown) {
 }
 // switch 值改变
 function switchChange(parame: unknown) {
-  $emits('change', parame);
+  $emits('switch-change', parame);
 }
 onMounted(() => {
   controlTable();
