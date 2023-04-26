@@ -291,6 +291,10 @@ edit:{
 }
 ```
 
-## 分页
+## 分页 - page
 
 请查看 [分页组件](../LazyPage/README.md)
+
+## 合并单元格 - span-method
+
+同 [element-plus](https://element-plus.gitee.io/zh-CN/component/table.html#table-属性)
