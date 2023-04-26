@@ -238,15 +238,36 @@ watch(
 function minWidth(par: any) {
   let dMin = par.minWidth || par.minwidth;
   let minWidth: undefined | number = 0;
-  // 最小宽计算
-  if (par.status) minWidth = minWidth + 16;
-  if (par.ico) minWidth = minWidth + 16;
-  if (par.copy) minWidth = minWidth + 16;
-  if (minWidth) {
-    minWidth = minWidth + 33 + 24;
+  let minWidth1: undefined | number = 0;
+  let minWidth2: undefined | number = 0;
+  // 最小宽1计算（根据行内容计算）
+  if (par.status) minWidth1 = minWidth1 + 16;
+  if (par.ico) minWidth1 = minWidth1 + 16;
+  if (par.copy) minWidth1 = minWidth1 + 16;
+  if (minWidth1) {
+    minWidth1 = minWidth1 + 33 + 24;
   } else {
-    minWidth = undefined;
+    minWidth1 = undefined;
   }
+  // 最小宽2计算（根据表头计算）
+  if (par.edit) minWidth2 = minWidth2 + 16;
+  if (par.sort) minWidth2 = minWidth2 + 16;
+  if (par.filter) minWidth2 = minWidth2 + 16;
+  if (minWidth2) {
+    minWidth2 = minWidth2 + 33 + 24;
+  } else {
+    minWidth2 = undefined;
+  }
+  minWidth =
+    minWidth1 && minWidth2
+      ? minWidth2 > minWidth1
+        ? minWidth2
+        : minWidth1
+      : minWidth1
+      ? minWidth1
+      : minWidth2
+      ? minWidth2
+      : undefined;
   return dMin || minWidth;
 }
 // 分页回调
