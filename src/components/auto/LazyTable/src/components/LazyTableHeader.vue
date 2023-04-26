@@ -126,8 +126,13 @@ function handleRadioChange(value: any) {
   }
   $emits('filterChange', {
     type: '单选',
-    prop: props.headerItem.prop,
-    item: obj.selected
+    key:
+      typeof props.headerItem.filter == 'boolean'
+        ? props.headerItem.prop
+        : props.headerItem.filter.key
+        ? props.headerItem.filter.key
+        : props.headerItem.prop,
+    value: obj.selected
   });
 }
 // 确认/取消
@@ -139,8 +144,13 @@ function confirmFilter(type: number) {
     obj.checked = obj.checkItem;
     $emits('filterChange', {
       type: '多选',
-      prop: props.headerItem.prop,
-      item: obj.checked
+      key:
+        typeof props.headerItem.filter == 'boolean'
+          ? props.headerItem.prop
+          : props.headerItem.filter.key
+          ? props.headerItem.filter.key
+          : props.headerItem.prop,
+      value: obj.checked
     });
   }
   obj.disabledBtn = true;
@@ -154,7 +164,12 @@ function handleSort(type: string) {
   }
   $emits('sortChange', {
     type: obj.sort,
-    prop: props.headerItem.prop
+    key:
+      typeof props.headerItem.sort == 'boolean'
+        ? props.headerItem.prop
+        : props.headerItem.sort.key
+        ? props.headerItem.sort.key
+        : props.headerItem.prop
   });
 }
 // 初始化
@@ -162,7 +177,11 @@ function init() {
   // 默认排序
   if (props.headerItem.sort !== undefined) {
     if (props.headerItem.sort) {
-      obj.sort = props.headerItem.sort.toLocaleUpperCase();
+      if (Object.prototype.toString.call(props.headerItem.sort) === '[object Object]') {
+        obj.sort = props.headerItem.sort.type ? props.headerItem.sort.type.toLocaleUpperCase() : null;
+      } else {
+        obj.sort = props.headerItem.sort.toLocaleUpperCase();
+      }
     } else {
       obj.sort = null;
     }

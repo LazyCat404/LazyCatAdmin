@@ -133,11 +133,25 @@ PS：定义了`style`后，`color`、`fontWeight`等样式相关属性，不在�
 
 ### 表头功能
 
-1. `sort`：排序，`des`：降序，`ase`：升序，`null/''`：无默认排序，不区分大小写
+1. `sort`：排序
+
+> 可触发回调方法`sortChange({key,type})`
+
+    - `des`：降序，`ase`：升序，`null`（任意非`undefined的假值`）：无默认排序，不区分大小写
+
+    - 
+    ```js
+    sort: {
+        type:"des|ase|null|''",  // 非必须  
+        key:'name' // 主要用于回调，默认 tableOptions.prop
+    }
+    ```
 
 2. `filter`：筛选/过滤，`Array`或`Object`
 
-    - 数组类型：默认多选，不可修改
+> 可触发回调方法`filterChange({key,type,value})`
+
+    - 数组：默认多选，不可修改
 
         ```js
         filter: [
@@ -146,7 +160,7 @@ PS：定义了`style`后，`color`、`fontWeight`等样式相关属性，不在�
         ]
         ```
 
-    - 对象类型：默认多选，可修改
+    - 对象：默认多选，可修改
 
         ```js
         filter: {
@@ -154,10 +168,10 @@ PS：定义了`style`后，`color`、`fontWeight`等样式相关属性，不在�
                 { label: '条件1', value: 1 },
                 { label: '条件2', value: 2 }
             ],
+            key:'name',     // 主要用于回调，默认 tableOptions.prop
             type: 'select' // select单选，check复选（默认）
         },
         ```
-        
 ### 渲染（render）行
 
 > 表格配置项（`tableOptions`）存在 `render`则认定为是渲染行

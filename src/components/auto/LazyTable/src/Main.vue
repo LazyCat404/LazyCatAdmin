@@ -251,7 +251,7 @@ function minWidth(par: any) {
   }
   // 最小宽2计算（根据表头计算）
   if (par.edit) minWidth2 = minWidth2 + 16;
-  if (par.sort) minWidth2 = minWidth2 + 16;
+  if (par.sort !== undefined) minWidth2 = minWidth2 + 16;
   if (par.filter) minWidth2 = minWidth2 + 16;
   if (minWidth2) {
     minWidth2 = minWidth2 + 33 + 24;
