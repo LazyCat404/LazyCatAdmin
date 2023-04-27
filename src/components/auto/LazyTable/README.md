@@ -82,55 +82,6 @@ function expotBtn(par: unknown) {
 
 > 数组，扩展 `elm-table options`配置
 
-### 常用配置
-
-- `prop`：显示字段
-
-- `label`：对应表头显示文字
-
-- `width`：列宽
-
-- `minwidth`：最小列宽
-
-- `align`：单列对齐方式，同 `tableConfig.align`
-
-- `tip`: 单列超出是否隐藏，同 `tableConfig.tip`
-
-- `show`：单列是否显示，默认显示，假值时不显示
-
-- `fixed`：固定列，可选值`left、right`,
-
-### 常用功能
-
-- `status`：状态，可设置颜色的一个小点，值可依据 config 文件中自定义的`Key`值，支持`string`、`number`、`function({bodyItem,rowData})`返回值若为颜色即渲染值，其他则转为字符串作为`key`值
-
-- `ico`：图标，值为 ico 类名，支持`string`、`object`、`function({bodyItem,rowData})`返回值即为渲染值
-
-    ```js
-    // ico 为 对象时，每个属性也可支持`string`、`function({bodyItem,rowData})`
-    ico:{
-        name:'',    
-        color:'',
-        tip:''
-    }
-    ```
-
-PS：`ico`/`status`设置顺序决定显示顺序
-
-- `style`:列字样式，支持`string`或`function({bodyItem,rowData})`返回值即为渲染值
-
-- `color`:列字体颜色，支持`string`或`function({bodyItem,rowData})`返回值即为渲染值
-
-- `fontWeight`:列字体加粗，支持`string`、`number`或`function({bodyItem,rowData})`返回值即为渲染值
-
-PS：定义了`style`后，`color`、`fontWeight`等样式相关属性，不在起作用
-
-- `click`：可点击，`function({bodyItem,rowData})` 类型
-
-- `mark`：如果`prop`对应内容为数组时，该属性可设置间隔符，建议`string`类型
-
-- `copy`：可复制，支持`boolean`、`string`或`function({bodyItem,rowData})`返回值即为复制内容值
-
 ### 表头功能
 
 1. `sort`：排序
@@ -172,9 +123,59 @@ PS：定义了`style`后，`color`、`fontWeight`等样式相关属性，不在�
             type: 'select' // select单选，check复选（默认）
         },
         ```
-### 渲染（render）行
 
-> 表格配置项（`tableOptions`）存在 `render`则认定为是渲染行
+### 常用配置
+
+- `prop`：显示字段
+
+- `label`：对应表头显示文字
+
+- `width`：列宽
+
+- `minwidth`：最小列宽
+
+- `align`：单列对齐方式，同 `tableConfig.align`
+
+- `tip`: 单列超出是否隐藏，同 `tableConfig.tip`
+
+- `show`：单列是否显示，默认显示，假值时不显示
+
+- `fixed`：固定列，可选值`left、right`,
+
+### 普通（ordinary）列，常用功能
+
+- `status`：状态，可设置颜色的一个小点，值可依据 config 文件中自定义的`Key`值，支持`string`、`number`、`function({bodyItem,rowData})`返回值若为颜色即渲染值，其他则转为字符串作为`key`值
+
+- `ico`：图标，值为 ico 类名，支持`string`、`object`、`function({bodyItem,rowData})`返回值即为渲染值
+
+    ```js
+    // ico 为 对象时，每个属性也可支持`string`、`function({bodyItem,rowData})`
+    ico:{
+        name:'',    
+        color:'',
+        tip:''
+    }
+    ```
+
+PS：`ico`/`status`设置顺序决定显示顺序
+
+- `style`:列字样式，支持`string`或`function({bodyItem,rowData})`返回值即为渲染值
+
+- `color`:列字体颜色，支持`string`或`function({bodyItem,rowData})`返回值即为渲染值
+
+- `fontWeight`:列字体加粗，支持`string`、`number`或`function({bodyItem,rowData})`返回值即为渲染值
+
+PS：定义了`style`后，`color`、`fontWeight`等样式相关属性，不在起作用
+
+- `click`：可点击，`function({bodyItem,rowData})` 类型
+
+- `mark`：如果`prop`对应内容为数组时，该属性可设置间隔符，建议`string`类型
+
+- `copy`：可复制，支持`boolean`、`string`或`function({bodyItem,rowData})`返回值即为复制内容值
+
+### 渲染（render）列
+
+> 表格配置项（`tableOptions`）存在 `render`则认定为是渲染行，常用功能可用
 
 - `string`：将字符串以`v-html`方式直接渲染到表格中
 
@@ -182,7 +183,7 @@ PS：定义了`style`后，`color`、`fontWeight`等样式相关属性，不在�
 
 PS：可以理解为简易方式的自定义行，与下边*自定义行*不同，渲染行可接受一个`string`或`function`，且`click`、`color`、`fontWeight`、`style`等不会失效
 
-### 自定义（custom）行
+### 自定义（custom）列
 
 > 表格配置项（`tableOptions`）不存在`prop`则认定为是自定义行，同时**必须**设置渲染模板`template`，且仅支持`Object`（单文件组件）、`String`（自定义模板）两种类型。
 
@@ -213,7 +214,7 @@ PS：`tip` 配置不在起作用
   }
 ```
 
-### 开关（switch ）行
+### 开关（switch ）列
 
 > 通过设置 `switch` **为真**，可开启开关行，仅支持`Object`、`String`、`Number`、`Boolean`
 
@@ -239,7 +240,7 @@ switch: {
 ```
 PS：当`switch.tip`、`switch.tipActive`、`switch.tipInactive`    均未定义时，则不会显示提示框
 
-### 进度条（progress ）行
+### 进度条（progress ）列
 
 > 通过设置 `progress` **为真**，可开启开关行，仅支持`Object`、`Function`、`Boolean`，当类型为`String`、`Number`及其它类型时，同 `Boolean` 处理
 
@@ -259,7 +260,7 @@ progress: {
 
 - 当 `progress`为其它类型时取`prop`对应值
 
-### 可编辑（edit）行 
+### 可编辑（edit）列 
 
 > 通过设置 `edit` **为真**，开启可编辑行，建议类型`Object` 和 `Boolean`，开启该功能后，对应列的表头会多出一个编辑ico，具体有以下设置
 
