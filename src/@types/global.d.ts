@@ -1,5 +1,4 @@
 export {};
-import { $tool } from '@/utils/tool';
 declare global {
   // 接口返回
   interface res {
@@ -15,7 +14,9 @@ declare global {
   }
 }
 declare module '@vue/runtime-core' {
-  interface ComponentCustomProperties {
-    $tool: typeof $tool;
+  export interface GlobalComponents {
+    LazyTable: typeof import('@/components/auto/LazyTable')['default'];
+    LazyPage: typeof import('@/components/auto/LazyPage')['default'];
+    CopyText: typeof import('@/components/auto/CopyText')['default'];
   }
 }

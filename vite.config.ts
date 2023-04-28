@@ -22,12 +22,12 @@ export default (par: { mode: string; command: string }): unknown => {
       vue(),
       AutoImport({
         imports: globalMount,
-        dts: false, // 禁止生成全局配置文件 auto-imports.d.ts
+        dts: false, // 禁止生成（更新）全局配置文件 auto-imports.d.ts
         resolvers: [ElementPlusResolver()]
       }),
       Components({
-        dts: false, // 禁止生成全局配置文件 components.d.ts
-        dirs: [], // （设置）自动注册全局组件目录
+        dts: false, // 禁止生成（更新）全局配置文件 components.d.ts
+        dirs: [], // （设置）自动注册全局组件目录，默认值是'src/components'此处将其清空
         resolvers: [ElementPlusResolver()]
       })
     ],
