@@ -43,7 +43,7 @@
       @header-contextmenu="headerContextmenu"
       :data="tableData"
       :border="obj.config.border"
-      :style="[{ position: `${obj.config.fitContent ? (tableData.length ? 'relative' : 'absolute') : 'absolute'}` }]"
+      :style="{ position: obj.config.fitContent ? (tableData.length ? 'relative' : 'absolute') : 'absolute' }"
       :height="obj.config.fitContent ? (tableData.length ? 'auto' : '100%') : '100%'"
       :max-height="
         props.page === undefined

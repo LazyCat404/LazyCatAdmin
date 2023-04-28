@@ -86,6 +86,7 @@
   </div>
 </template>
 <script lang="ts" setup>
+import { CheckboxValueType } from 'element-plus';
 import { reactive } from 'vue';
 const props = defineProps<{ headerItem: any }>();
 const $emits = defineEmits(['filterChange', 'sortChange']);
@@ -101,7 +102,7 @@ const obj = reactive<any>({
   sort: null // 排序，ASC 升序；DES 降序
 });
 // 全选
-function handleCheckAllChange(val: boolean) {
+function handleCheckAllChange(val: CheckboxValueType) {
   obj.checkItem = val ? obj.filterList : [];
   obj.isIndeterminate = false;
   if (!val && !obj.checked.length) {
