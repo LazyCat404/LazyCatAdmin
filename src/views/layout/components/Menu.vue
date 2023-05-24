@@ -4,7 +4,7 @@
       <span></span>
       <Transition name="el-fade-in-linear">
         <div class="logo-text" v-if="!state.isCollapse">
-          <p>卓朗昆仑云</p>
+          <p>XXXX</p>
           <div>Wisdom Labs</div>
         </div>
       </Transition>
