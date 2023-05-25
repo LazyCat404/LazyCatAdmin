@@ -41,7 +41,7 @@
 </template>
 
 <script lang="ts" setup>
-// import api from '@api';
+import api from '@api';
 import lottie from 'lottie-web';
 import { onMounted, reactive, ref, unref } from 'vue';
 
@@ -61,28 +61,22 @@ const rules = {
 
 // 全局属性
 const router = useRouter();
+const useUserStore = $store.useUserStore(); // 用户信息全局状态
+
 // 登录表单
 const userFormRef = ref();
 function submitForm() {
   const form = unref(userFormRef);
   form?.validate((valid: boolean) => {
     if (valid) {
-      // 不请求接口
-      let commit = $store.commit as any;
-      // 缓存token
-      commit('setToken', {});
-      // 缓存用户信息
-      commit('setUser', {});
-      router.push({ path: '/' });
       // 请求接口
-      // api.user.login(state.userForm).then((res: res) => {
-      //   let commit = $store.commit as any;
-      //   // 缓存token
-      //   commit('setToken', res.data.token);
-      //   // 缓存用户信息
-      //   commit('setUser', res.data.userInfor);
-      //   router.push({ path: '/' });
-      // });
+      api.user.login(state.userForm).then((res: res) => {
+        // 设置登录相关
+        useUserStore.setUserInfor(res.data.userInfor);
+        useUserStore.setToken(res.data.token);
+        // 路由跳转
+        router.push({ path: '/' });
+      });
     }
   });
 }

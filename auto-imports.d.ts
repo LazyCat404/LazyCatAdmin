@@ -6,7 +6,6 @@ export {}
 declare global {
   const $axios: typeof import('axios')['default']
   const $store: typeof import('@/store')['default']
-  const $stores: typeof import('@/store')['stores']
   const $tool: typeof import('@/utils/tool')['default']
   const ElMessage: typeof import('element-plus/es')['ElMessage']
   const $message: typeof import('element-plus')['ElMessage']

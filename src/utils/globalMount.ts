@@ -5,10 +5,7 @@ export const globalMount: any = [
     axios: [
       ['default', '$axios'] // import { default as axios } from 'axios',
     ],
-    '@/store': [
-      ['default', '$store'], // 全局vuex
-      ['stores', '$stores'] // 模块vuex
-    ],
+    '@/store': [['default', '$store']], // 全局状态
     '@/utils/tool': [['default', '$tool']]
   }
 ];

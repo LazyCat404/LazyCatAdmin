@@ -38,9 +38,12 @@ defineProps({
 const router = useRouter();
 const route = useRoute();
 const obj = reactive<any>({
-  userInfor: $store.state.user,
+  userInfor: {},
   systemList: [] // 系统列表
 });
+
+const useUserStore = $store.useUserStore();
+
 // 用户头像
 const userImg = userImage;
 function goUserInfor() {
@@ -49,9 +52,8 @@ function goUserInfor() {
 // 退出登录
 function outLogin() {
   // 清除缓存
-  let commit = $store.commit as any;
-  commit('setToken', null);
-  commit('setUser', null);
+  useUserStore.clearUserInfor();
+  useUserStore.clearToken();
   // 跳转至登录页
   router.push({ path: '/login' });
 }

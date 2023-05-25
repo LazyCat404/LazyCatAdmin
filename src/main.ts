@@ -1,4 +1,6 @@
 import { createApp } from 'vue';
+import { createPinia } from 'pinia';
+import persist from 'pinia-plugin-persist'; // pinia 持久化插件
 import App from './App.vue';
 import router from './router';
 
@@ -6,8 +8,10 @@ import router from './router';
 import vueExtendDirectives from 'vue-extend-directives';
 // 全局自定义组件安装
 import customComponents from '@/components/index';
-//  字体ico
+// 字体ico
 import '@/assets/iconfont/iconfont.css';
 
 const app = createApp(App);
-app.use(router).use(vueExtendDirectives).use(customComponents).mount('#app');
+const pinia = createPinia();
+pinia.use(persist);
+app.use(router).use(pinia).use(vueExtendDirectives).use(customComponents).mount('#app');

@@ -36,8 +36,6 @@ npm run serve
 
 - clipboard：复制面板
 
-- vuex-persistedstate: vuex 持久化
-
 - vuedraggable：拖拽
 
 ### node版本
