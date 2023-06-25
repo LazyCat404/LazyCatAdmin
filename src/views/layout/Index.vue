@@ -32,7 +32,7 @@ function menuTypeChange(type: boolean) {
   height: 100%;
   overflow: hidden;
   .check-menu-item {
-    width: calc(100% - 300px);
+    flex: 1;
     background: #f1f5fb;
     position: relative;
     transition: all 0.5s;
@@ -49,7 +49,6 @@ function menuTypeChange(type: boolean) {
     }
   }
   .check-menu-item[iscollapse] {
-    width: calc(100% - 80px);
     transition: all 0s;
   }
 }

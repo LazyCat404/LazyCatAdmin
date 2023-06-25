@@ -99,7 +99,6 @@ function menuTypeChange() {
 <style lang="scss" scoped>
 .menu-wrapper {
   height: 100%;
-  float: left;
   .logo-box {
     margin: 0 auto;
     margin-top: 36px;
