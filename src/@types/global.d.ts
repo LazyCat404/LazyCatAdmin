@@ -20,8 +20,9 @@ declare module '@vue/runtime-core' {
   }
   export interface GlobalComponents {
     // 自定义全局组件
-    LazyTable: typeof import('@/components/auto/LazyTable')['default'];
     LazyPage: typeof import('@/components/auto/LazyPage')['default'];
     LazyCopy: typeof import('@/components/auto/LazyCopy')['default'];
+    LazyTable: typeof import('@/components/auto/LazyTable')['default'];
+    LazySplitSelect: typeof import('@/components/auto/LazySplitSelect')['default'];
   }
 }

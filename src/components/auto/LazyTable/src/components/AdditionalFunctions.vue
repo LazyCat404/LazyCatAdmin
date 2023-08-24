@@ -1,6 +1,6 @@
 <template>
   <!-- 功能按钮 -->
-  <ul class="table-additional-functions-wrapper">
+  <ul class="lazy-table-additional-functions-wrapper">
     <li>
       <i class="iconfont icon-daochu" @click="operSelect('导出')"></i>
       <i class="iconfont icon-shezhi1" @click="operSelect('自定义列')"></i>
@@ -58,7 +58,7 @@ function confirmBtn(par: any, type: string) {
 }
 </script>
 <style lang="scss" scoped>
-.table-additional-functions-wrapper {
+.lazy-table-additional-functions-wrapper {
   margin: 0 20px;
   margin-bottom: 16px;
   overflow: hidden;

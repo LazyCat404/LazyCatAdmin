@@ -20,7 +20,7 @@
   </template>
 </template>
 <script lang="ts" setup>
-import { computed, defineProps, reactive } from 'vue';
+import { computed, reactive } from 'vue';
 import { inspect } from '@/utils/inspect';
 import { statusColor } from '../../../config';
 const props = defineProps<{

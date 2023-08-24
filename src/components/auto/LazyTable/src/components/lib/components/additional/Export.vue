@@ -78,6 +78,7 @@
   </div>
 </template>
 <script lang="ts" setup>
+import { CheckboxValueType } from 'element-plus';
 import { reactive, ref } from 'vue';
 
 const props = defineProps<{
@@ -132,7 +133,7 @@ function init() {
   form.column = checkList.value;
 }
 // 全选框改变
-function handleCheckAllChange(val: boolean): void {
+function handleCheckAllChange(val: CheckboxValueType): any {
   if (val) {
     form.column = checkList.value;
   } else {
@@ -141,7 +142,7 @@ function handleCheckAllChange(val: boolean): void {
   isIndeterminate.value = false;
 }
 // 复选框改变
-function handleCheckedCitiesChange(value: string[]): void {
+function handleCheckedCitiesChange(value: CheckboxValueType[]): any {
   const checkedCount = value.length;
   checkAll.value = checkedCount === checkList.value.length;
   isIndeterminate.value = checkedCount > 0 && checkedCount < checkList.value.length;

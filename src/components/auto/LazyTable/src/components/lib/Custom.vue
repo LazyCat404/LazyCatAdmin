@@ -2,7 +2,7 @@
   <CustomTableComponent :scope="props.rowData"></CustomTableComponent>
 </template>
 <script lang="ts" setup>
-import { Component, ComputedOptions, createApp, defineProps, MethodOptions } from 'vue';
+import { Component, ComputedOptions, createApp, MethodOptions } from 'vue';
 
 const props = defineProps<{
   bodyItem: any; // 表格列设置

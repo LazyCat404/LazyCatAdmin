@@ -1,5 +1,5 @@
 <template>
-  <div class="table-header-wrapper">
+  <div class="lazy-table-header-wrapper">
     <!-- 标题（编辑） -->
     <span class="table-header-title" v-hide>
       <span :style="[{ color: `${obj.selected || obj.checked.length || obj.sort ? '#409eff' : '#333333'}` }]">
@@ -200,7 +200,7 @@ function init() {
 init();
 </script>
 <style lang="scss" scoped>
-.table-header-wrapper {
+.lazy-table-header-wrapper {
   display: flex;
   width: 100%;
   height: 100%;

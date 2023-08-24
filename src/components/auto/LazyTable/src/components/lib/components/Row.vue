@@ -117,7 +117,7 @@
 <script setup lang="ts">
 import { inspect } from '@/utils/inspect';
 import { config } from '../../../config';
-import { computed, defineExpose, defineProps, onBeforeUnmount, reactive } from 'vue';
+import { computed, onBeforeUnmount, reactive } from 'vue';
 const props = defineProps<{
   bodyItem: any; // 表格列设置
   rowData: any; //行数据

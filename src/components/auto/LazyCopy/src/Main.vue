@@ -1,6 +1,6 @@
 <template>
   <!-- 复制按钮 -->
-  <span class="copy-wrapper">
+  <span class="lazy-copy-wrapper">
     <Transition name="el-fade-in-linear">
       <span
         class="iconfont icon-fuzhi1 copy-box"
@@ -23,7 +23,7 @@
 
 <script lang="ts" setup>
 import Clipboard from 'clipboard';
-import {  onBeforeUnmount, reactive } from 'vue';
+import { onBeforeUnmount, reactive } from 'vue';
 const props = defineProps({
   content: {
     type: [String, Number, Object, Function, Boolean]
@@ -73,7 +73,7 @@ onBeforeUnmount(() => {
 });
 </script>
 <style scoped lang="scss">
-.copy-wrapper {
+.lazy-copy-wrapper {
   position: relative;
   display: inline-block;
   height: 16px;

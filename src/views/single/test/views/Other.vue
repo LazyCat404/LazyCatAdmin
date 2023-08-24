@@ -1,5 +1,7 @@
 <template>
-  <div class="test-other-wrapper"></div>
+  <div class="test-other-wrapper">
+    <LazySplitSelect></LazySplitSelect>
+  </div>
 </template>
 <script setup lang="ts"></script>
 <style scoped lang="scss">

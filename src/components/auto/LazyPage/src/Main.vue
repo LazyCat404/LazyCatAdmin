@@ -1,7 +1,7 @@
 <template>
   <div
     :class="{
-      'basic-page-wapper': true,
+      'lazy-page-wapper': true,
       'float-left': page.float == 'left',
       small: obj.simple.small
     }"
@@ -32,7 +32,7 @@
 </template>
 
 <script lang="ts" setup>
-import {  reactive, ref } from 'vue';
+import { reactive, ref } from 'vue';
 
 const props = defineProps<{
   page?: any;
@@ -99,7 +99,7 @@ function pageOper(type: string) {
 })();
 </script>
 <style scoped lang="scss">
-.basic-page-wapper {
+.lazy-page-wapper {
   bottom: 0;
   position: absolute;
   right: 20px;
@@ -127,7 +127,7 @@ function pageOper(type: string) {
   }
 }
 // 缩小
-.basic-page-wapper.small {
+.lazy-page-wapper.small {
   font-size: var(--el-font-size-extra-small);
   ::v-deep .el-select {
     margin-left: 5px;
@@ -159,7 +159,7 @@ function pageOper(type: string) {
   }
 }
 // 靠左
-.basic-page-wapper.float-left {
+.lazy-page-wapper.float-left {
   float: left;
   right: auto;
 }
