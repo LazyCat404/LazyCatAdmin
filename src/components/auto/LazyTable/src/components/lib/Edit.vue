@@ -1,6 +1,6 @@
 <template>
   <div
-    class="lazy-table-list-col-box"
+    class="lazy-table-edit-wrapper"
     :style="[{ width: props.bodyItem.copy ? 'calc(100% - 14px)' : '' }]"
     :tip="props.bodyItem.tip === undefined ? (config.tip ? 'show' : 'hide') : props.bodyItem.tip ? 'show' : 'hide'"
     @dblclick="dobleClick"
@@ -258,12 +258,12 @@ function dateBlur() {
 }
 </script>
 <style lang="scss" scoped>
-.lazy-table-list-col-box[tip='show'] {
+.lazy-table-edit-wrapper[tip='show'] {
   overflow: hidden;
   white-space: nowrap; /*设置内容不换行*/
   text-overflow: ellipsis;
 }
-.lazy-table-list-col-box {
+.lazy-table-edit-wrapper {
   div {
     display: inline-block;
   }

@@ -1,5 +1,5 @@
 <template>
-  <div class="ordinary-wrapper">
+  <div class="lazy-table-ordinary-wrapper">
     <!-- 状态/ico -->
     <div class="ordinary-status-ico-box">
       <StatusIco
@@ -56,7 +56,7 @@ obj.copyContent = computed(() => {
 });
 </script>
 <style lang="scss" scoped>
-.ordinary-wrapper {
+.lazy-table-ordinary-wrapper {
   width: 100%;
   height: 100%;
   display: flex;

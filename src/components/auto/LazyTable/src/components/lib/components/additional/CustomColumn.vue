@@ -3,7 +3,7 @@
     v-model="obj.tableOptions"
     item-key="slot-props"
     draggable=".disabled"
-    class="table-list-setup-wrapper"
+    class="custom-column-wrapper"
     @end="obj.isDragging = false"
     @start="obj.isDragging = true"
   >
@@ -94,7 +94,7 @@ function init() {
 init();
 </script>
 <style lang="scss" scoped>
-.table-list-setup-wrapper {
+.custom-column-wrapper {
   overflow: hidden;
   > div {
     float: left;
