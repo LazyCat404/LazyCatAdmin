@@ -13,7 +13,7 @@
     <Row :bodyItem="props.bodyItem" :rowData="props.rowData"></Row>
     <!-- 复制 -->
     <div class="ordinary-copy-box">
-      <CopyText :content="obj.copyContent" v-if="props.bodyItem.copy"></CopyText>
+      <LazyCopy :content="obj.copyContent" v-if="props.bodyItem.copy"></LazyCopy>
     </div>
   </div>
 </template>

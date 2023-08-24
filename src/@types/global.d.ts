@@ -22,6 +22,6 @@ declare module '@vue/runtime-core' {
     // 自定义全局组件
     LazyTable: typeof import('@/components/auto/LazyTable')['default'];
     LazyPage: typeof import('@/components/auto/LazyPage')['default'];
-    CopyText: typeof import('@/components/auto/CopyText')['default'];
+    LazyCopy: typeof import('@/components/auto/LazyCopy')['default'];
   }
 }
