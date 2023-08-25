@@ -13,13 +13,15 @@
       <template #reference>
         <PopoverBtn :disabled="disabled" :clearable="clearable" :isHide="obj.isHide"></PopoverBtn>
       </template>
-      <PopoverBox></PopoverBox>
+      <Select v-if="multiple" :data="data"></Select>
+      <Radio v-else :data="data"></Radio>
     </el-popover>
   </div>
 </template>
 <script setup lang="ts">
 import PopoverBtn from './components/PopoverBtn.vue';
-import PopoverBox from './components/PopoverBox.vue';
+import Select from './components/Select.vue';
+import Radio from './components/Radio.vue';
 import { onMounted, reactive, ref } from 'vue';
 
 interface Props {
@@ -27,6 +29,7 @@ interface Props {
   label?: string;
   valueKey?: string;
   disabled?: boolean;
+  multiple?: boolean;
   clearable?: boolean;
   placeholder?: string;
 }
@@ -35,6 +38,7 @@ withDefaults(defineProps<Props>(), {
   label: () => 'name',
   valueKey: () => 'id',
   disabled: () => false,
+  multiple: () => false,
   clearable: () => false,
   placeholder: () => '请选择'
 });
