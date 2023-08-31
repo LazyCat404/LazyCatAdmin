@@ -13,8 +13,11 @@
       <template #reference>
         <PopoverBtn :disabled="disabled" :clearable="clearable" :isHide="obj.isHide"></PopoverBtn>
       </template>
-      <Select v-if="multiple" :data="data"></Select>
-      <Radio v-else :data="data"></Radio>
+      <template v-if="data && data.length">
+        <Select v-if="multiple" :data="data"></Select>
+        <Radio v-else :data="data"></Radio>
+      </template>
+      <div v-else class="split-select-empty">暂无数据</div>
     </el-popover>
   </div>
 </template>
@@ -69,5 +72,9 @@ onMounted(() => {
   flex: 1;
   width: 100%;
   height: 100%;
+}
+.split-select-empty {
+  text-align: center;
+  color: #909399;
 }
 </style>
