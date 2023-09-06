@@ -1,10 +1,10 @@
 <template>
   <div class="popover-btn-wrapper">
-    <el-input :placeholder="placeholder" readonly>
+    <el-input :placeholder="placeholder" v-model="obj.inputValue" readonly>
       <template #suffix>
         <i
           :class="{
-            'el-icon el-select__caret el-select__icon': true,
+            'el-icon el-select__caret': true,
             'is-reverse': !isHide
           }"
         >
@@ -15,7 +15,7 @@
             ></path>
           </svg>
         </i>
-        <i class="el-icon el-select__caret el-select__icon" v-if="clearable">
+        <i class="el-icon el-select__caret clearable" v-if="clearable" @click.stop="clear">
           <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
             <path
               fill="currentColor"
@@ -32,17 +32,52 @@
   </div>
 </template>
 <script setup lang="ts">
+import { reactive, watch } from 'vue';
+
 interface Props {
   isHide: boolean;
-  clearable?: boolean;
-  placeholder?: string;
+  multiple: boolean;
+  clearable: boolean;
+  placeholder: string;
+  selectTarget: object | Array<any>;
+  listProps: {
+    label: string;
+    value: string;
+    disabled: string;
+  };
 }
-const props = withDefaults(defineProps<Props>(), {
-  isHide: () => true,
-  clearable: () => false,
-  placeholder: () => '请选择'
+const props = defineProps<Props>();
+const $emits = defineEmits(['clear']);
+const obj = reactive<any>({
+  inputValue: ''
 });
-console.log(props);
+// 选中渲染
+function selectTargetRender(selectTarget: object | Array<any>) {
+  if (props.multiple) {
+    //
+  } else {
+    radioCheck(selectTarget as object);
+  }
+}
+// 单选
+function radioCheck(selectTarget: any) {
+  if (JSON.stringify(selectTarget) == '{}') {
+    obj.inputValue = '';
+  } else {
+    obj.inputValue = selectTarget[props.listProps.label] || selectTarget[props.listProps.value] || '';
+  }
+}
+// 清空
+function clear() {
+  $emits('clear');
+}
+watch(
+  () => props.selectTarget,
+  (newVal: object | Array<any>) => {
+    selectTargetRender(newVal);
+  },
+  { deep: true, immediate: true }
+);
 </script>
 <style scoped lang="scss">
 .popover-btn-wrapper {
@@ -58,6 +93,17 @@ console.log(props);
     }
     .is-reverse {
       transform: rotate(-180deg);
+    }
+    .clearable {
+      display: none;
+    }
+  }
+  .el-input:hover {
+    .el-select__caret {
+      display: none;
+    }
+    .clearable {
+      display: inline-block;
     }
   }
 }
