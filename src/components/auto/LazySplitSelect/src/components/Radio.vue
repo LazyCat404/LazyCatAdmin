@@ -10,7 +10,8 @@
           v-for="(item, i) in obj.targetList"
           :key="i"
           :label="item[listProps.value]"
-          @click="radioClick($event, item[listProps.value], item)"
+          :disabled="item[listProps.disabled]"
+          @click="item[listProps.disabled] ? null : radioClick($event, item[listProps.value], item)"
         >
           <span v-hide>{{ item[listProps.label] }}</span>
         </el-radio>

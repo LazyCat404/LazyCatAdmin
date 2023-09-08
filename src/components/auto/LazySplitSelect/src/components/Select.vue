@@ -14,7 +14,8 @@
             v-for="(item, i) in obj.targetList"
             :key="i"
             :label="item[listProps.value]"
-            @click="checkClick($event, item)"
+            :disabled="item[listProps.disabled]"
+            @click="item[listProps.disabled] ? null : checkClick($event, item)"
           >
             <span v-hide>{{ item[listProps.label] }}</span>
           </el-checkbox>

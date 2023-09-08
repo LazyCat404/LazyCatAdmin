@@ -51,7 +51,8 @@ function valueChange(val: unknown, radioItem: unknown): void {
       list: [
         {
           value: 1.1,
-          label: '一年一班'
+          label: '一年一班',
+          disabled: true
         },
         {
           value: 1.2,
