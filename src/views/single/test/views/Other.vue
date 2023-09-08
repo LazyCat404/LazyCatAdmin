@@ -2,13 +2,7 @@
   <div class="test-other-wrapper">
     <el-form ref="formRef" label-width="100px">
       <el-form-item label="age">
-        <LazySplitSelect
-          v-model="obj.value"
-          :data="obj.data"
-          :clearable="true"
-          :treeProps="obj.defaultProps"
-          @change="valueChange"
-        ></LazySplitSelect>
+        <LazySplitSelect v-model="obj.value" :data="obj.data" :clearable="true" @change="valueChange"></LazySplitSelect>
       </el-form-item>
       <el-form-item label="hobby">
         <LazySplitSelect
@@ -16,7 +10,6 @@
           :data="obj.data"
           :clearable="true"
           :multiple="true"
-          :treeProps="obj.defaultProps"
           @change="valueChange"
         ></LazySplitSelect>
       </el-form-item>
