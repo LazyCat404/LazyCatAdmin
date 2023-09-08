@@ -1,5 +1,32 @@
 <template>
-  <div class="popover-btn-wrapper">
+  <div class="popover-btn-wrapper el-select">
+    <!-- 多选标签 -->
+    <div class="select-trigger el-tooltip__trigger" v-if="multiple && obj.multipleValue.length">
+      <div tabindex="-1" class="el-select__tags">
+        <span class="el-select-tags-wrapper has-prefix">
+          <span class="el-tag is-closable el-tag--info el-tag--default el-tag--light">
+            <span class="el-tag__content">
+              <span class="el-select__tags-text">{{ obj.multipleValue[0][listProps.label] }}</span>
+            </span>
+            <i class="el-icon-box">
+              <i class="el-icon el-tag__close" @click.stop="delMultipleValue">
+                <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    fill="currentColor"
+                    d="M764.288 214.592 512 466.88 259.712 214.592a31.936 31.936 0 0 0-45.12 45.12L466.752 512 214.528 764.224a31.936 31.936 0 1 0 45.12 45.184L512 557.184l252.288 252.288a31.936 31.936 0 0 0 45.12-45.12L557.12 512.064l252.288-252.352a31.936 31.936 0 1 0-45.12-45.184z"
+                  ></path>
+                </svg>
+              </i>
+            </i>
+          </span>
+          <span class="el-tag el-tag--info el-tag--default el-tag--light" v-if="obj.multipleValue.length > 1">
+            <span class="el-tag__content">
+              <span class="el-select__tags-text">+ {{ obj.multipleValue.length - 1 }}</span>
+            </span>
+          </span>
+        </span>
+      </div>
+    </div>
     <el-input :placeholder="placeholder" v-model="obj.inputValue" readonly>
       <template #suffix>
         <i
@@ -47,14 +74,15 @@ interface Props {
   };
 }
 const props = defineProps<Props>();
-const $emits = defineEmits(['clear']);
+const $emits = defineEmits(['clear', 'delMultipleValue']);
 const obj = reactive<any>({
-  inputValue: ''
+  inputValue: '',
+  multipleValue: []
 });
 // 选中渲染
 function selectTargetRender(selectTarget: object | Array<any>) {
   if (props.multiple) {
-    //
+    multipleCheck(selectTarget as Array<any>);
   } else {
     radioCheck(selectTarget as object);
   }
@@ -66,6 +94,20 @@ function radioCheck(selectTarget: any) {
   } else {
     obj.inputValue = selectTarget[props.listProps.label] || selectTarget[props.listProps.value] || '';
   }
+}
+// 多选
+function multipleCheck(selectTarget: Array<any>) {
+  if (selectTarget.length) {
+    obj.inputValue = ' ';
+    obj.multipleValue = selectTarget;
+  } else {
+    obj.inputValue = '';
+    obj.multipleValue = [];
+  }
+}
+// 删除多选值
+function delMultipleValue() {
+  $emits('delMultipleValue');
 }
 // 清空
 function clear() {
@@ -83,6 +125,7 @@ watch(
 .popover-btn-wrapper {
   width: 100%;
   height: 100%;
+  position: relative;
   .el-input {
     .el-select__caret {
       color: #a8abb2;
@@ -104,6 +147,32 @@ watch(
     }
     .clearable {
       display: inline-block;
+    }
+  }
+  .select-trigger {
+    .el-select__tags {
+      max-width: calc(100% - 35px);
+      .el-select-tags-wrapper {
+        width: calc(100% - 6px);
+        display: flex;
+        .is-closable {
+          flex: 1;
+          display: block;
+          overflow: hidden;
+          .el-tag__content {
+            display: flex;
+            align-items: center;
+            width: calc(100% - 20px);
+            float: left;
+            height: 100%;
+          }
+          .el-icon-box {
+            height: 100%;
+            display: flex;
+            align-items: center;
+          }
+        }
+      }
     }
   }
 }

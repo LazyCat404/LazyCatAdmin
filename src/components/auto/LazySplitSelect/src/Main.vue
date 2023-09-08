@@ -21,14 +21,22 @@
           :selectTarget="obj.selectTarget"
           :listProps="defaultListProps"
           @clear="clear"
+          @delMultipleValue="delMultipleValue"
         ></PopoverBtn>
       </template>
       <template v-if="data && data.length">
-        <Select v-if="multiple" :data="data"></Select>
+        <Select
+          v-if="multiple"
+          :data="data"
+          :modelValue="(modelValue as Array<any>)"
+          :treeProps="defaultTreeProps"
+          :listProps="defaultListProps"
+          @change="checkChange"
+        ></Select>
         <Radio
           v-else
           :data="data"
-          :modelValue="modelValue"
+          :modelValue="(modelValue as string|number)"
           :treeProps="defaultTreeProps"
           :listProps="defaultListProps"
           @change="radioChange"
@@ -90,7 +98,7 @@ const obj = reactive<any>({
   isHide: true,
   width: 150,
   visible: false,
-  selectTarget: {} //选中的值
+  selectTarget: props.multiple ? [] : {} //选中的值
 });
 
 // 选项树配置选项
@@ -143,7 +151,14 @@ function clear() {
     $emits('update:modelValue', '');
   }
 }
-
+// 单个删除删除多选值
+function delMultipleValue() {
+  let modelValue = JSON.parse(JSON.stringify(props.modelValue));
+  let selectTarget = JSON.parse(JSON.stringify(obj.selectTarget));
+  modelValue.shift();
+  selectTarget.shift();
+  checkChange(modelValue, selectTarget);
+}
 function popoverShow(par: PointerEvent) {
   $emits('show', par);
 }
@@ -153,11 +168,19 @@ function popoverHide(par: PointerEvent) {
 // 单选数据改变
 function radioChange(val: string | number | boolean, radioItem: any) {
   if (val !== props.modelValue) {
-    $emits('change', val, radioItem);
     $emits('update:modelValue', val);
+    $emits('change', val, JSON.parse(JSON.stringify(radioItem)));
   }
   obj.selectTarget = radioItem;
   obj.visible = false; // 关闭弹出框
+}
+// 多选数据改变
+function checkChange(val: string | number | boolean, checkItem: any, isUpdata?: boolean) {
+  if (!isUpdata) {
+    $emits('update:modelValue', val);
+    $emits('change', JSON.parse(JSON.stringify(val)), JSON.parse(JSON.stringify(checkItem)));
+  }
+  obj.selectTarget = checkItem;
 }
 onMounted(() => {
   computeWidth();

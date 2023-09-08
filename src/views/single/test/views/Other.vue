@@ -10,8 +10,19 @@
           @change="valueChange"
         ></LazySplitSelect>
       </el-form-item>
+      <el-form-item label="hobby">
+        <LazySplitSelect
+          v-model="obj.value1"
+          :data="obj.data"
+          :clearable="true"
+          :multiple="true"
+          :treeProps="obj.defaultProps"
+          @change="valueChange"
+        ></LazySplitSelect>
+      </el-form-item>
     </el-form>
-    <span>当前选中：{{ obj.value }}</span>
+    <div>当前单选中：{{ obj.value }}</div>
+    <div>当前多选中：{{ obj.value1 }}</div>
   </div>
 </template>
 <script setup lang="ts">
@@ -20,14 +31,19 @@ import { reactive } from 'vue';
 const obj = reactive<any>({
   data: [],
   // value: 3.111
-  value: 1.1
+  value: 1.1,
+  value1: [3.111, 1.1]
+  // value1: [3.111]
 });
 
 function valueChange(val: unknown, radioItem: unknown): void {
-  console.log('值发生改变', val, radioItem);
+  console.log('值发生改变', val, radioItem, obj.value1);
 }
 // 初始化
 (function init() {
+  // setTimeout(() => {
+  //   obj.value1 = [1.1];
+  // }, 2000);
   obj.data = [
     {
       label: '一年级',
