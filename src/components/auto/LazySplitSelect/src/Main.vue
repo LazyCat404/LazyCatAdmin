@@ -166,8 +166,8 @@ function popoverHide(par: PointerEvent) {
   $emits('hide', par);
 }
 // 单选数据改变
-function radioChange(val: string | number | boolean, radioItem: any) {
-  if (val !== props.modelValue) {
+function radioChange(val: string | number | boolean, radioItem: any, isUpdata?: boolean) {
+  if (!isUpdata) {
     $emits('update:modelValue', val);
     $emits('change', val, JSON.parse(JSON.stringify(radioItem)));
   }

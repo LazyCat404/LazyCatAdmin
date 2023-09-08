@@ -37,7 +37,7 @@ const obj = reactive<any>({
 });
 
 function valueChange(val: unknown, radioItem: unknown): void {
-  console.log('值发生改变', val, radioItem, obj.value1);
+  console.log('值发生改变', val, radioItem);
 }
 // 初始化
 (function init() {

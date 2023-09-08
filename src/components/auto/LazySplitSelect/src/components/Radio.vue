@@ -34,7 +34,7 @@ interface Props {
     value: string;
     disabled: string;
   };
-  modelValue: Array<string | number> | string | number;
+  modelValue: string | number;
 }
 const props = defineProps<Props>();
 const $emits = defineEmits(['change']);
@@ -58,7 +58,7 @@ function nodeClick(data: any) {
     obj.targetList = [];
   }
 }
-// 单选改变
+// 单选点击
 function radioClick($event: PointerEvent, val: string | number | boolean, radioItem: any) {
   if ($event.target && ($event.target as HTMLElement).tagName === 'INPUT') return; // 只调用一次
   if (val !== obj.selectTarget) {
@@ -73,41 +73,50 @@ function customNodeClass(data: any) {
   }
   return '';
 }
-// 默认选中(可优化调用)
-function defaultSelected(oprList?: Array<any>) {
+// 默认选中
+function defaultSelected() {
+  obj.targetList = [];
+  obj.selectTarget = '';
+  obj.selectTargetItem = {};
+  obj.currentTreeNode = ''; // 当前点击的tree 节点
   obj.selectTarget = props.modelValue;
   if (props.modelValue) {
-    let filterList = oprList ? oprList : props.data;
-    for (let i = 0; i < filterList.length; i++) {
-      if (filterList[i][props.treeProps.list]) {
-        let list = filterList[i][props.treeProps.list].filter(
-          (item: any) => item[props.listProps.value] == props.modelValue
-        );
-        if (list.length) {
-          obj.currentTreeNode = JSON.stringify(filterList[i]);
-          obj.targetList = filterList[i][props.treeProps.list];
-
-          $emits('change', props.modelValue, list[0]);
-          return;
-        }
-      }
-      if (filterList[i][props.treeProps.children]) {
-        defaultSelected(filterList[i][props.treeProps.children]);
+    autoCheck(props.data, props.modelValue);
+    $emits('change', obj.selectTarget, obj.selectTargetItem, true);
+  }
+}
+// 自动勾选
+function autoCheck(oprList: Array<any>, item: string | number) {
+  for (let i = 0; i < oprList.length; i++) {
+    if (oprList[i][props.treeProps.list]) {
+      let list = oprList[i][props.treeProps.list].filter((ite: any) => ite[props.listProps.value] == item);
+      if (list.length) {
+        obj.currentTreeNode = JSON.stringify(oprList[i]);
+        obj.targetList = oprList[i][props.treeProps.list];
+        obj.selectTargetItem = list[0];
+        return;
       }
     }
-  } else {
-    // 清空
-    obj.targetList = [];
-    obj.selectTarget = '';
-    obj.currentTreeNode = ''; // 当前点击的tree 节点
+    if (oprList[i][props.treeProps.children]) {
+      autoCheck(oprList[i][props.treeProps.children], item);
+    }
   }
 }
 watch(
-  [() => props.modelValue, () => props.data],
+  () => props.modelValue,
+  () => {
+    if (JSON.stringify(props.modelValue) !== JSON.stringify(obj.selectTarget)) {
+      defaultSelected();
+    }
+  },
+  { deep: true, immediate: true }
+);
+watch(
+  () => props.data,
   () => {
     defaultSelected();
   },
-  { deep: true, immediate: true }
+  { deep: true }
 );
 </script>
 <style scoped lang="scss">
@@ -150,6 +159,7 @@ watch(
       width: 100%;
       .el-radio {
         width: 100%;
+        margin-right: 0;
         ::v-deep .el-radio__label {
           display: flex;
           align-items: center;
