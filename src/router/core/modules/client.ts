@@ -13,13 +13,13 @@ export default [
   {
     path: '/client',
     name: 'Client',
-    component: (): unknown => import('@views/core/client/Index.vue'),
+    component: (): unknown => import('@page/core/client/Index.vue'),
     redirect: '/client/vdi',
     children: [
       {
         path: 'vdi',
         name: 'ClientVdi',
-        component: (): unknown => import('@views/core/client/views/VDI.vue'),
+        component: (): unknown => import('@page/core/client/views/VDI.vue'),
         meta: {
           requireAuth: true,
           breadcrumb: [
@@ -31,7 +31,7 @@ export default [
       {
         path: 'voi',
         name: 'ClientVoi',
-        component: (): unknown => import('@views/core/client/views/VOI.vue'),
+        component: (): unknown => import('@page/core/client/views/VOI.vue'),
         meta: {
           requireAuth: true,
           breadcrumb: [

@@ -17,7 +17,7 @@ for (const path in modulesFiles) {
 export default [
   {
     path: '/',
-    component: (): unknown => import('@views/layout/Index.vue'),
+    component: (): unknown => import('@page/layout/Index.vue'),
     redirect: '/desktop',
     children: [...modules],
     meta: {

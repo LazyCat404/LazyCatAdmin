@@ -14,7 +14,7 @@ export default (par: { mode: string; command: string }): unknown => {
         vue: 'vue/dist/vue.esm-bundler.js', // 定义vue的别名，如果使用其他的插件，可能会用到别名
         '@': path.resolve(__dirname, 'src'),
         '@api': path.resolve(__dirname, 'src/api'),
-        '@views': path.resolve(__dirname, 'src/views'),
+        '@page': path.resolve(__dirname, 'src/page'),
         '@types': path.resolve(__dirname, 'src/@types')
       }
     },

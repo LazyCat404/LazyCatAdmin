@@ -4,17 +4,17 @@ export default [
     path: '/test',
     name: 'Test',
     redirect: '/test/other',
-    component: (): unknown => import('@views/single/test/Index.vue'),
+    component: (): unknown => import('@page/single/test/Index.vue'),
     children: [
       {
         path: 'other',
         name: 'TestOther',
-        component: (): unknown => import('@views/single/test/views/Other.vue')
+        component: (): unknown => import('@page/single/test/views/Other.vue')
       },
       {
         path: 'table',
         name: 'TestTable',
-        component: (): unknown => import('@views/single/test/views/Table.vue')
+        component: (): unknown => import('@page/single/test/views/Table.vue')
       }
     ]
   }

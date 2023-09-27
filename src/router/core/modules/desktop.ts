@@ -11,18 +11,18 @@ export default [
     path: '/desktop',
     name: 'Desktop',
     redirect: '/desktop/desktop',
-    component: (): unknown => import('@views/core/desktop/Index.vue'),
+    component: (): unknown => import('@page/core/desktop/Index.vue'),
     children: [
       {
         path: 'desktop',
         name: 'DesktopDesktop',
         redirect: '/desktop/desktop/list',
-        component: (): unknown => import('@views/core/desktop/views/desktop/Index.vue'),
+        component: (): unknown => import('@page/core/desktop/views/desktop/Index.vue'),
         children: [
           {
             path: 'list',
             name: 'DesktopDesktopList',
-            component: (): unknown => import('@views/core/desktop/views/desktop/views/List.vue'),
+            component: (): unknown => import('@page/core/desktop/views/desktop/views/List.vue'),
             meta: {
               requireAuth: true,
               breadcrumb: [
@@ -37,12 +37,12 @@ export default [
         path: 'template',
         name: 'DesktopTemplate',
         redirect: '/desktop/template/list',
-        component: (): unknown => import('@views/core/desktop/views/template/Index.vue'),
+        component: (): unknown => import('@page/core/desktop/views/template/Index.vue'),
         children: [
           {
             path: 'list',
             name: 'DesktopTemplateList',
-            component: (): unknown => import('@views/core/desktop/views/template/views/List.vue'),
+            component: (): unknown => import('@page/core/desktop/views/template/views/List.vue'),
             meta: {
               requireAuth: true,
               breadcrumb: [
