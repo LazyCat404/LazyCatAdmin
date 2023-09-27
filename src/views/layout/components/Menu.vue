@@ -23,6 +23,7 @@
           :disabled="item.show"
           :index="item.path"
           :sing="state.isCollapse ? 'close' : 'open'"
+          :popper-class="state.isCollapse ? 'popper-el-menu' : ''"
         >
           <template #title>
             <i :class="'iconfont ' + item.icon" />
@@ -58,7 +59,7 @@ import menuData from '@/assets/json/menu.json';
 
 const route = useRoute();
 const state = reactive<any>({
-  isCollapse: true,
+  isCollapse: true, // 菜单是否展开
   activeIndex: ''
 });
 const menu = reactive<any>({
@@ -224,12 +225,6 @@ function menuTypeChange() {
     }
   }
 }
-// 收缩悬浮菜单
-::v-deep .el-menu--popup-container {
-  .el-menu-item {
-    height: 42px;
-  }
-}
 // 菜单控制按钮
 .menu-set-btn {
   height: 65px;
@@ -250,6 +245,30 @@ function menuTypeChange() {
   i.icon-shouqicaidan {
     margin-left: 7.5px;
     margin-right: 27.5px;
+  }
+}
+</style>
+<style lang="scss">
+// 收缩悬浮菜单
+.el-popper.popper-el-menu {
+  border: 0;
+  .el-menu {
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px 0 rgba(13, 34, 67, 0.1);
+    .el-menu-item {
+      color: #5d677d;
+      height: 40px;
+      border-radius: 4px;
+    }
+    .el-menu-item.is-active {
+      color: #01bc8f;
+      background-color: rgba(1, 188, 143, 0.1);
+    }
+    .el-menu-item:hover {
+      color: #01bc8f;
+      background-color: rgba(1, 188, 143, 0.1);
+    }
   }
 }
 </style>
