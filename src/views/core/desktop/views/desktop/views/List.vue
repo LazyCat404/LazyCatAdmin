@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts" setup>
-import Table from '../../../components/list/Table.vue';
+import Table from '../components/list/Table.vue';
 </script>
 
 <style lang="scss" scoped>
