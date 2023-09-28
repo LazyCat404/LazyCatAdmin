@@ -3,7 +3,7 @@
   <AdditionalFunctions
     v-if="tableConfig?.customColumn"
     :tableOptions="obj.customTableOptions"
-    :templateList="obj.customTemplateList"
+    :templateList="customTemplateList"
     :page="page"
     @additionalConfirm="additionalConfirm"
   ></AdditionalFunctions>
@@ -12,8 +12,10 @@
     class="lazy-table-wrapper"
     :style="[
       {
-        maxHeight: `${tableConfig?.customColumn ? `calc(${obj.config.tableH} - 46px)` : `${obj.config.tableH}`}`,
-        height: `${tableConfig?.customColumn ? `calc(${obj.config.tableH} - 46px)` : `${obj.config.tableH}`}`,
+        maxHeight: `${
+          tableConfig?.customColumn ? `calc(${obj.tableConfig.tableH} - 46px)` : `${obj.tableConfig.tableH}`
+        }`,
+        height: `${tableConfig?.customColumn ? `calc(${obj.tableConfig.tableH} - 46px)` : `${obj.tableConfig.tableH}`}`,
         position: 'relative'
       }
     ]"
@@ -21,12 +23,12 @@
   >
     <!-- 表格 -->
     <el-table
-      :class="{ 'header-border': obj.config.headerBorder }"
+      :class="{ 'header-border': obj.tableConfig.headerBorder }"
       :key="tableKey"
-      :header-row-style="{ height: obj.config.headerH }"
-      :row-style="{ height: obj.config.lineH }"
+      :header-row-style="{ height: obj.tableConfig.headerH }"
+      :row-style="{ height: obj.tableConfig.lineH }"
       :span-method="spanMethod"
-      :header-row-class-name="obj.config.border ? '' : 'border-hide'"
+      :header-row-class-name="obj.tableConfig.border ? '' : 'border-hide'"
       :row-class-name="tableRowClassName"
       @select="handleSelection"
       @select-all="handleSelectionAll"
@@ -42,17 +44,17 @@
       @header-click="headerClick"
       @header-contextmenu="headerContextmenu"
       :data="tableData"
-      :border="obj.config.border"
-      :style="{ position: obj.config.fitContent ? (tableData.length ? 'relative' : 'absolute') : 'absolute' }"
-      :height="obj.config.fitContent ? (tableData.length ? 'auto' : '100%') : '100%'"
+      :border="obj.tableConfig.border"
+      :style="{ position: obj.tableConfig.fitContent ? (tableData.length ? 'relative' : 'absolute') : 'absolute' }"
+      :height="obj.tableConfig.fitContent ? (tableData.length ? 'auto' : '100%') : '100%'"
       :max-height="
         props.page === undefined
-          ? obj.config.fitContent
+          ? obj.tableConfig.fitContent
             ? tableData.length
               ? 'auto'
               : '100%'
             : '100%'
-          : obj.config.fitContent
+          : obj.tableConfig.fitContent
           ? tableData.length
             ? 'auto'
             : 'calc(100% - 60px)'
@@ -66,8 +68,8 @@
         type="selection"
         width="40px"
         :selectable="selectable"
-        v-if="obj.config.select"
-        :fixed="obj.config.selectFixed"
+        v-if="obj.tableConfig.select"
+        :fixed="obj.tableConfig.selectFixed"
       >
       </el-table-column>
       <!-- 表格列表（自定义单文件行自动关闭tip） -->
@@ -85,7 +87,7 @@
           :width="item.width"
           :minWidth="minWidth(item)"
           :fixed="item.fixed"
-          :align="item.align ? item.align : obj.config.align"
+          :align="item.align ? item.align : obj.tableConfig.align"
           :show-overflow-tooltip="
             (!item.prop && Object.prototype.toString.call(item.template) === '[object Object]') ||
             item.ico ||
@@ -99,13 +101,18 @@
         >
           <!-- 表头 -->
           <template #header>
-            <LazyTableHeader :headerItem="item" @filter-change="filterChange" @sort-change="sortChange">
+            <LazyTableHeader
+              :tableConfig="obj.tableConfig"
+              :headerItem="item"
+              @filter-change="filterChange"
+              @sort-change="sortChange"
+            >
             </LazyTableHeader>
           </template>
           <!-- 表体 -->
           <template #default="scope">
             <LazyTableBody
-              :tableConfig="obj.config"
+              :tableConfig="obj.tableConfig"
               :bodyItem="item"
               :rowData="scope.row"
               @row-confirm="rowConfirm"
@@ -121,7 +128,7 @@
       @pageOper="pageOper"
       v-if="page !== undefined"
       :page="page"
-      :style="[{ position: `${obj.config.fitContent ? 'relative' : 'absolute'}` }]"
+      :style="[{ position: `${obj.tableConfig.fitContent ? 'relative' : 'absolute'}` }]"
     >
     </LazyPage>
   </div>
@@ -168,87 +175,65 @@ const props = withDefaults(defineProps<Props>(), {
   tableData: () => [],
   tableOptions: () => []
 });
-
-const tableKey = ref(Math.ceil(Math.random() * 10000000000));
-
-const obj = reactive<any>({
-  customTableOptions: props.tableOptions, // 自定义列数据
-  customTemplateList: [], // 表格自定义模板列表
-  config: {} // 表格默认配置
-});
-// 表格自定义模板列表
-obj.customTemplateList = computed(() => {
-  let customTemplateList = props.tableOptions.filter(
-    (item: any) => Object.prototype.toString.call(item.template) === '[object Object]'
-  );
-  return customTemplateList;
-});
-// 表格通用配置
-obj.config = computed(() => {
-  // 类型错误提示
-  if (Object.prototype.toString.call(props.tableConfig.statusColor) !== '[object Object]') {
-    console.warn('tableOptions -> statusColor 仅支持 Object 类型');
-  }
-  return {
-    // 复选框（默认开启）
-    select: props.tableConfig && props.tableConfig.select !== undefined ? props.tableConfig.select : config.select,
-    //复选框左侧固定
-    selectFixed:
-      props.tableConfig && props.tableConfig.selectFixed !== undefined
-        ? props.tableConfig.selectFixed
-        : config.selectFixed,
-    // 框线（默认关闭）
-    border: props.tableConfig && props.tableConfig.border !== undefined ? props.tableConfig.border : config.border,
-    // table 高度（默认100%）
-    tableH:
-      props.tableConfig && props.tableConfig.tableH !== undefined
-        ? $tool.targetCss(props.tableConfig.tableH)
-        : config.tableH,
-    // 表头高度（默认50px）
-    headerH:
-      props.tableConfig && props.tableConfig.headerH !== undefined
-        ? $tool.targetCss(props.tableConfig.headerH)
-        : config.headerH,
-    // 表头边框
-    headerBorder:
-      props.tableConfig && props.tableConfig.headerBorder !== undefined
-        ? props.tableConfig.headerBorder
-        : config.headerBorder,
-    // 表头背景色
-    headerBg:
-      props.tableConfig && props.tableConfig.headerBg !== undefined ? props.tableConfig.headerBg : config.headerBg,
-    // 行高（默认40px）
-    lineH:
-      props.tableConfig && props.tableConfig.lineH !== undefined
-        ? $tool.targetCss(props.tableConfig.lineH)
-        : config.lineH,
-    // 奇数行背景色
-    oddBg: props.tableConfig && props.tableConfig.oddBg !== undefined ? props.tableConfig.oddBg : config.oddBg,
-    // 偶数行背景色
-    evenBg: props.tableConfig && props.tableConfig.evenBg !== undefined ? props.tableConfig.evenBg : config.evenBg,
-    // 文字对齐方式（默认左侧）
-    align: props.tableConfig && props.tableConfig.align !== undefined ? props.tableConfig.align : config.align,
-    // 拟合高度
-    fitContent:
-      props.tableConfig && props.tableConfig.fitContent !== undefined
-        ? props.tableConfig.fitContent
-        : config.fitContent,
-    // 状态颜色
-    statusColor:
-      props.tableConfig && props.tableConfig.statusColor !== undefined
-        ? Object.prototype.toString.call(props.tableConfig.statusColor) === '[object Object]'
-          ? props.tableConfig.statusColor
-          : statusColor
-        : statusColor
-  };
-});
-
+// 监听数据变化
 watch(
   () => props.tableData,
   () => {
     controlTable();
   }
 );
+// 表格key（用于表格刷新）
+const tableKey = ref(Math.ceil(Math.random() * 10000000000));
+// 定义通用响应式数据
+const obj = reactive<any>({
+  customTableOptions: props.tableOptions, // 自定义列数据
+  tableConfig: {} // 表格默认配置
+});
+// 表格自定义模板列表（计算属性）
+const customTemplateList = computed(() => {
+  let customTemplateList = props.tableOptions.filter(
+    (item: any) => Object.prototype.toString.call(item.template) === '[object Object]'
+  );
+  return customTemplateList;
+});
+// 表格通用配置
+function makeTableConfig() {
+  // 默认赋值
+  obj.tableConfig = {
+    ...config,
+    statusColor
+  };
+  if (props.tableConfig) {
+    obj.tableConfig = {
+      ...config,
+      statusColor,
+      ...props.tableConfig
+    };
+    // 一些值的容错处理
+    obj.tableConfig.tableH = $tool.targetCss(obj.tableConfig.tableH);
+    obj.tableConfig.headerH = $tool.targetCss(obj.tableConfig.headerH);
+    obj.tableConfig.lineH = $tool.targetCss(obj.tableConfig.lineH);
+    /**
+     * 类型错误提示
+     */
+    // 状态颜色
+    if (
+      props.tableConfig.statusColor !== undefined &&
+      Object.prototype.toString.call(props.tableConfig.statusColor) !== '[object Object]'
+    ) {
+      obj.tableConfig.statusColor = statusColor;
+      console.warn('tableOptions -> statusColor 仅支持 Object 类型');
+    }
+    // 自定义表头字体样式
+    if (
+      props.tableConfig.headerStyle !== undefined &&
+      Object.prototype.toString.call(props.tableConfig.headerStyle) !== '[object Object]'
+    ) {
+      obj.tableConfig.headerStyle = config.headerStyle;
+      console.warn('tableOptions -> headerStyle 仅支持 Object 类型');
+    }
+  }
+}
 // 表格最小宽度计算
 function minWidth(par: any) {
   let dMin = par.minWidth || par.minwidth;
@@ -307,9 +292,9 @@ function additionalConfirm(par: unknown, type: string) {
 // 表格奇偶行添加类名
 function tableRowClassName(value: { row: any; rowIndex: number }) {
   if (value.rowIndex % 2) {
-    return `${obj.config.border ? 'odd-row' : 'odd-row border-hide'}`;
+    return `${obj.tableConfig.border ? 'odd-row' : 'odd-row border-hide'}`;
   } else {
-    return `${obj.config.border ? 'even-row' : 'even-row border-hide'}`;
+    return `${obj.tableConfig.border ? 'even-row' : 'even-row border-hide'}`;
   }
 }
 // 控制表格
@@ -322,13 +307,13 @@ function controlTable() {
     let fixedEvenNodeList = eTD.querySelectorAll('.even-row > td');
     let theadNodeList = eTD.querySelectorAll('.el-table__header > thead > tr > th');
     theadNodeList.forEach((element: any) => {
-      element.style.background = obj.config.headerBg;
+      element.style.background = obj.tableConfig.headerBg;
     });
     fixedOddNodeList.forEach((element: any) => {
-      element.style.background = obj.config.oddBg;
+      element.style.background = obj.tableConfig.oddBg;
     });
     fixedEvenNodeList.forEach((element: any) => {
-      element.style.background = obj.config.evenBg;
+      element.style.background = obj.tableConfig.evenBg;
     });
   });
 }
@@ -408,6 +393,10 @@ function rowConfirm(par: unknown) {
 function switchChange(parame: unknown) {
   $emits('switch-change', parame);
 }
+// 初始化
+(function init() {
+  makeTableConfig();
+})();
 onMounted(() => {
   controlTable();
 });

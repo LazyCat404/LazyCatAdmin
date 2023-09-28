@@ -20,7 +20,13 @@
 
 - `headerBg`：表头背景色
 
-- `headerBorder`:表头（下）边框，`true/false`
+- `headerBorder`：表头（下）边框，`true/false`
+
+- `headerStyle`：自定义表头字体样式，`Object`，`color` 会被 `headerColor/headerActiveColor` 覆盖
+
+- `headerColor`：表头字体颜色
+
+- `headerActiveColor`：表头活跃字体颜色
 
 - `oddBg`：表体奇数行背景色
 

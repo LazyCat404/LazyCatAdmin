@@ -2,14 +2,29 @@
   <div class="lazy-table-header-wrapper">
     <!-- 标题（编辑） -->
     <span class="table-header-title" v-hide>
-      <span :style="[{ color: `${obj.selected || obj.checked.length || obj.sort ? '#409eff' : '#333333'}` }]">
+      <span
+        :style="[
+          {
+            ...tableConfig.headerStyle,
+            color: `${
+              obj.selected || obj.checked.length || obj.sort ? tableConfig.headerActiveColor : tableConfig.headerColor
+            }`
+          }
+        ]"
+      >
         {{ props.headerItem.label }}
       </span>
     </span>
     <!-- 编辑 -->
     <i
       class="table-header-edit iconfont icon-bianji_o"
-      :style="[{ color: `${obj.selected || obj.checked.length || obj.sort ? '#409eff' : '#333333'}` }]"
+      :style="[
+        {
+          color: `${
+            obj.selected || obj.checked.length || obj.sort ? tableConfig.headerActiveColor : tableConfig.headerColor
+          }`
+        }
+      ]"
       v-if="
         props.headerItem.edit !== undefined && props.headerItem.edit !== false && props.headerItem.edit.show !== false
       "
@@ -20,20 +35,29 @@
       <i
         class="sort-caret ascending"
         sign="asc"
-        :style="[{ borderBottomColor: `${obj.sort == 'ASC' ? '#409eff !important' : ''}` }]"
+        :style="[{ borderBottomColor: `${obj.sort == 'ASC' ? `${tableConfig.headerActiveColor} !important` : ''}` }]"
         @click="handleSort('ASC')"
       >
       </i>
       <i
         class="sort-caret descending"
         sign="des"
-        :style="[{ borderTopColor: `${obj.sort == 'DES' ? '#409eff !important' : ''}` }]"
+        :style="[{ borderTopColor: `${obj.sort == 'DES' ? `${tableConfig.headerActiveColor} !important` : ''}` }]"
         @click="handleSort('DES')"
       >
       </i>
     </span>
     <!-- 筛选 -->
-    <el-popover v-if="props.headerItem.filter ? true : false" placement="bottom" width="auto" trigger="click">
+    <el-popover
+      v-if="props.headerItem.filter ? true : false"
+      placement="bottom"
+      width="auto"
+      :popper-style="{
+        'min-width': 'auto',
+        padding: '10px'
+      }"
+      trigger="click"
+    >
       <!-- 筛选列表（弹出层） -->
       <template #default>
         <!-- 单选 -->
@@ -42,10 +66,14 @@
             <li
               v-for="(item, i) in obj.filterList"
               :key="i"
+              :onMouseenter="selectListHover"
+              :onMouseleave="selectListHover"
               @click="handleRadioChange(item)"
               :class="obj.selected == item ? 'table-header-filter-select-active' : ''"
             >
               {{ item.label }}
+              <!-- 渲染背景色 -->
+              <span v-if="obj.selected == item" :style="{ backgroundColor: tableConfig.headerActiveColor }"></span>
             </li>
           </ul>
         </template>
@@ -69,7 +97,7 @@
           class="table-header-filter el-icon"
           :style="[
             {
-              color: `${obj.selected || obj.checked.length ? '#409eff' : '#909399'}`,
+              color: `${obj.selected || obj.checked.length ? tableConfig.headerActiveColor : tableConfig.headerColor}`,
               marginLeft: `${props.headerItem.sort === undefined ? '5px' : '0px'}`
             }
           ]"
@@ -88,7 +116,7 @@
 <script lang="ts" setup>
 import { CheckboxValueType } from 'element-plus';
 import { reactive } from 'vue';
-const props = defineProps<{ headerItem: any }>();
+const props = defineProps<{ headerItem: any; tableConfig: any }>();
 const $emits = defineEmits(['filterChange', 'sortChange']);
 const obj = reactive<any>({
   isIndeterminate: false, // 半选状态
@@ -135,6 +163,23 @@ function handleRadioChange(value: any) {
         : props.headerItem.prop,
     value: obj.selected
   });
+}
+// 单选列表hover 样式
+function selectListHover(payload: MouseEvent) {
+  if (payload.target) {
+    if ((payload.target as any).className.includes('table-header-filter-select-active')) {
+      (payload.target as any).style.color = props.tableConfig.headerActiveColor;
+    } else {
+      if (payload.type == 'mouseenter') {
+        // 悬停
+        (payload.target as any).style.color = props.tableConfig.headerActiveColor;
+      } else {
+        // 离开
+        (payload.target as any).style.color = props.tableConfig.headerColor;
+      }
+    }
+  }
+  console.log(payload, payload.target);
 }
 // 确认/取消
 function confirmFilter(type: number) {
@@ -201,6 +246,7 @@ init();
 </script>
 <style lang="scss" scoped>
 .lazy-table-header-wrapper {
+  --headerActiveColor: v-bind(tableConfig.headerActiveColor);
   display: flex;
   width: 100%;
   height: 100%;
@@ -216,21 +262,27 @@ init();
     width: 16px;
     height: 16px;
     min-width: 16px;
+    top: 2px;
     .sort-caret {
       left: 3px;
       cursor: pointer;
     }
     .ascending:hover {
-      border-bottom-color: #409eff91 !important;
+      border-bottom-color: var(--headerActiveColor) !important;
+      opacity: 0.91;
     }
     .descending:hover {
-      border-top-color: #409eff91 !important;
+      border-top-color: var(--headerActiveColor) !important;
+      opacity: 0.91;
     }
   }
   // 筛选
   .table-header-filter {
     cursor: pointer;
     position: relative;
+  }
+  .table-header-filter:hover {
+    color: var(--headerActiveColor) !important;
   }
 }
 // 复选
@@ -269,17 +321,21 @@ init();
   li {
     line-height: 30px;
     padding: 0 10px;
+    border-radius: 4px;
     cursor: pointer;
-  }
-  li:hover {
-    color: #409eff;
+    position: relative;
   }
   li.table-header-filter-select-active {
-    color: #409eff;
-    background-color: #ecf0fd;
+    > span {
+      opacity: 0.1;
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: inline-block;
+      width: 100%;
+      height: 100%;
+      border-radius: 4px;
+    }
   }
-}
-.table-header-filter:hover {
-  color: #409eff !important;
 }
 </style>

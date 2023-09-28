@@ -8,6 +8,9 @@ export const config = {
   lineH: '50px',
   headerBg: '#fff',
   headerBorder: true, // 表头边框
+  headerStyle: {}, // 自定义表头字体样式
+  headerColor: '#333', // 表头字体颜色
+  headerActiveColor: '#409eff', // 表头活跃字体颜色
   oddBg: '#F1F5FB',
   evenBg: '#fff',
   align: 'left', // left、right、 center、null ,可以设置表格整体对齐方式，也可以设置单列对齐方式
