@@ -6,6 +6,48 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "13085730",
+      "name": "麒麟",
+      "font_class": "qilin",
+      "unicode": "e62b",
+      "unicode_decimal": 58923
+    },
+    {
+      "icon_id": "14453078",
+      "name": "win10",
+      "font_class": "win10",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "15185516",
+      "name": "linux",
+      "font_class": "linux",
+      "unicode": "e859",
+      "unicode_decimal": 59481
+    },
+    {
+      "icon_id": "28772564",
+      "name": "windows_win7",
+      "font_class": "win7",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "28950521",
+      "name": "统信",
+      "font_class": "uos",
+      "unicode": "e856",
+      "unicode_decimal": 59478
+    },
+    {
+      "icon_id": "36297509",
+      "name": "统信UOS",
+      "font_class": "tongxin",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
       "icon_id": "32934034",
       "name": "下拉",
       "font_class": "xiala",

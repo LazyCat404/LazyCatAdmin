@@ -10,6 +10,7 @@ import vueExtendDirectives from 'vue-extend-directives';
 import customComponents from '@/components/index';
 // 字体ico
 import '@/assets/iconfont/iconfont.css';
+import '@/assets/iconfont/iconfont.js';
 
 const app = createApp(App);
 const pinia = createPinia();
