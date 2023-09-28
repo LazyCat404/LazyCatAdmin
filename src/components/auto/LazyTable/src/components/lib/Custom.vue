@@ -1,5 +1,5 @@
 <template>
-  <CustomTableComponent :scope="props.rowData"></CustomTableComponent>
+  <CustomTableComponent :rowData="props.rowData"></CustomTableComponent>
 </template>
 <script lang="ts" setup>
 import { Component, ComputedOptions, createApp, MethodOptions } from 'vue';
@@ -10,11 +10,11 @@ const props = defineProps<{
 }>();
 
 let CustomTableComponent: Component<any, any, any, ComputedOptions, MethodOptions> = {
-  props: ['scope'],
+  props: ['rowData'],
   template: props.bodyItem.template,
   methods: props.bodyItem.methods
 };
-function init() {
+(function init() {
   // 单文件组件（回调、自定义参数）
   if (Object.prototype.toString.call(props.bodyItem.template) === '[object Object]') {
     CustomTableComponent = props.bodyItem.template;
@@ -24,7 +24,6 @@ function init() {
       CustomTableComponent
     }
   });
-}
-init();
+})();
 </script>
 <style lang="scss" scoped></style>
