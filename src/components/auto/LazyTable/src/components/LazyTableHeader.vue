@@ -31,18 +31,20 @@
     >
     </i>
     <!-- 排序 -->
-    <span class="table-header-sort" v-if="props.headerItem.sort === undefined ? false : true">
+    <span class="table-header-sort" v-if="props.headerItem.sort ? true : false">
       <i
         class="sort-caret ascending"
         sign="asc"
-        :style="[{ borderBottomColor: `${obj.sort == 'ASC' ? `${tableConfig.headerActiveColor} !important` : ''}` }]"
+        :style="[
+          { borderBottomColor: `${obj.sort.type == 'ASC' ? `${tableConfig.headerActiveColor} !important` : ''}` }
+        ]"
         @click="handleSort('ASC')"
       >
       </i>
       <i
         class="sort-caret descending"
         sign="des"
-        :style="[{ borderTopColor: `${obj.sort == 'DES' ? `${tableConfig.headerActiveColor} !important` : ''}` }]"
+        :style="[{ borderTopColor: `${obj.sort.type == 'DES' ? `${tableConfig.headerActiveColor} !important` : ''}` }]"
         @click="handleSort('DES')"
       >
       </i>
@@ -202,33 +204,32 @@ function confirmFilter(type: number) {
 }
 // 排序
 function handleSort(type: string) {
-  if (obj.sort === type) {
-    obj.sort = null;
-  } else {
-    obj.sort = type;
-  }
-  $emits('sortChange', {
-    type: obj.sort,
-    key:
-      typeof props.headerItem.sort == 'boolean'
-        ? props.headerItem.prop
-        : props.headerItem.sort.key
-        ? props.headerItem.sort.key
-        : props.headerItem.prop
-  });
+  obj.sort.type = obj.sort.type === type ? null : type;
+  $emits('sortChange', obj.sort);
 }
 // 初始化
-function init() {
+(function init() {
   // 默认排序
-  if (props.headerItem.sort !== undefined) {
-    if (props.headerItem.sort) {
-      if (Object.prototype.toString.call(props.headerItem.sort) === '[object Object]') {
-        obj.sort = props.headerItem.sort.type ? props.headerItem.sort.type.toLocaleUpperCase() : null;
-      } else {
-        obj.sort = props.headerItem.sort.toLocaleUpperCase();
-      }
+  if (props.headerItem.sort) {
+    if (Object.prototype.toString.call(props.headerItem.sort) === '[object Object]') {
+      obj.sort = {
+        type: props.headerItem.sort.type.toLocaleUpperCase(),
+        key: props.headerItem.sort.key || props.headerItem.prop
+      };
+    } else if (typeof props.headerItem.sort === 'string') {
+      obj.sort = {
+        type: props.headerItem.sort.toLocaleUpperCase(),
+        key: props.headerItem.prop
+      };
     } else {
-      obj.sort = null;
+      obj.sort = {
+        type: null,
+        key: props.headerItem.prop
+      };
+    }
+    // 错误提示
+    if (!obj.sort.key) {
+      console.warn('请确保表头排序拥有正确的 key 值');
     }
   }
   // 过滤列表
@@ -240,8 +241,7 @@ function init() {
   if (props.headerItem.filter) {
     obj.filterType = props.headerItem.filter.type ? props.headerItem.filter.type : 'check';
   }
-}
-init();
+})();
 </script>
 <style lang="scss" scoped>
 .lazy-table-header-wrapper {

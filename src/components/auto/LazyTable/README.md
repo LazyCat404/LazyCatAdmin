@@ -94,21 +94,28 @@ function expotBtn(par: unknown) {
 
 1. `sort`：排序
 
-> 可触发回调方法`sortChange({key,type})`
+    > 可触发回调方法`sortChange({key,type})`
 
-    - `des`：降序，`ase`：升序，`null`（任意非`undefined的假值`）：无默认排序，不区分大小写
+    - 字符串：直接设置默认排序 -> `des`：降序，`ase`：升序，不区分大小写
 
-    - 
-    ```js
-    sort: {
-        type:"des|ase|null|''",  // 非必须  
-        key:'name' // 主要用于回调，默认 tableOptions.prop
-    }
-    ```
+    - 对象
 
+        ```js
+        sort: {
+            type:'des'|'ase'|null,  // 非必须，为 null 时，表示无默认排序 
+            key:'name' // 非必须，默认 tableOptions.prop
+        }
+        ```
+    - 其他真值：sort 判断为真时，则该列表头启用排序，并分配如下默认值：
+        ```js
+        sort: {
+            type:null,  // 非必须  
+            key:'name' // 非必须，默认 tableOptions.prop
+        }
+        ```
 2. `filter`：筛选/过滤，`Array`或`Object`
 
-> 可触发回调方法`filterChange({key,type,value})`
+    > 可触发回调方法`filterChange({key,type,value})`
 
     - 数组：默认多选，不可修改
 
