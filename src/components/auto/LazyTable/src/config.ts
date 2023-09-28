@@ -5,7 +5,7 @@ export const config = {
   border: false,
   tableH: '100%',
   headerH: '56px',
-  lineH: '56px',
+  lineH: '50px',
   headerBg: '#fff',
   headerBorder: true, // 表头边框
   oddBg: '#F1F5FB',
@@ -17,9 +17,9 @@ export const config = {
 
 // 列状态颜色定义
 export const statusColor = {
-  1: '#409eff',
-  2: '#67c23a',
-  3: '#909399',
-  4: '#e6a23c',
-  5: '#f56c6c'
+  primary: '#409eff', // 蓝色
+  success: '#67c23a', // 绿色
+  info: '#909399', // 灰色
+  warning: '#e6a23c', // 橙色
+  danger: '#f56c6c' // 红色
 };

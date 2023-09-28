@@ -30,7 +30,9 @@
 
 - `tip`：表体内容超出是否隐藏，并显示提示框，`true/false`；也可单列设置，详见下文
 
-- `fitContent`： 限制表格高度，`true`：限制，默认100% 即为表格容器高度，`false`：不限制，表格高度等于内容高度
+- `fitContent`：限制表格高度，`true`：限制，默认100% 即为表格容器高度，`false`：不限制，表格高度等于内容高度
+
+- `statusColor`：状态颜色，`Object`（`statusColor:{ 状态:颜色 }`）
 
 ### 附加功能
 
@@ -146,7 +148,7 @@ function expotBtn(par: unknown) {
 
 - `status`：状态，可设置颜色的一个小点，值可依据 config 文件中自定义的`Key`值，支持`string`、`number`、`function({bodyItem,rowData})`返回值若为颜色即渲染值，其他则转为字符串作为`key`值
 
-- `ico`：图标，值为 ico 类名，支持`string`、`object`、`function({bodyItem,rowData})`返回值即为渲染值
+- `ico`：图标，值为 ico 类名，支持`string`、`Object`、`function({bodyItem,rowData})`返回值即为渲染值
 
     ```js
     // ico 为 对象时，每个属性也可支持`string`、`function({bodyItem,rowData})`
@@ -193,23 +195,23 @@ PS：使用该行时，`click`、`color`等配置会失效，所有渲染由模�
 
 #### 单文件组件
 
-在父组件内正常引入单文件组件`xx.vue` 将其赋值给`template`即可；可接收参数：`scope`（对应行数据）
+在父组件内正常引入单文件组件`xx.vue` 将其赋值给`template`即可；可接收参数：`rowData`（对应行数据）
 
 PS：`tip` 配置不在起作用
 
 #### 自定义模板
 
-`template` 也可以设置成**htlm字符串**，可直接使用`scope`调取对应行数据，如果有调用自定义方法，需要额外注册`methods`属性，使用方法同Vue2
+`template` 也可以设置成**htlm字符串**，可直接使用`rowData`调取对应行数据，如果有调用自定义方法，需要额外注册`methods`属性，使用方法同Vue2
 
 ```json
   {
     label: '操作',
     methods: {
-        myClick(scope) {
-            console.log('单击事件', scope);
+        myClick(rowData) {
+            console.log('单击事件', rowData);
         }
     },
-    template: `<span @click="myClick(scope)">按钮</span>`  // 正常加载
+    template: `<span @click="myClick(rowData)">按钮</span>`  // 正常加载
     // template: `<el-button>按钮click</el-button>` // （UI库按需加载导致）无法正常加载
   }
 ```

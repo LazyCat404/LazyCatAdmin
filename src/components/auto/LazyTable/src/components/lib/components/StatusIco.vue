@@ -22,10 +22,10 @@
 <script lang="ts" setup>
 import { computed, reactive } from 'vue';
 import { inspect } from '@/utils/inspect';
-import { statusColor } from '../../../config';
 const props = defineProps<{
   bodyItem: any; // 表格列设置
   rowData: any;
+  tableConfig: any;
 }>();
 const obj = reactive<any>({
   first: '', // 显示顺序（不要给默认值）
@@ -37,17 +37,17 @@ obj.statusColor = computed(() => {
   let color = '';
   if (props.bodyItem.status !== undefined) {
     if (typeof props.bodyItem.status == 'string' || typeof props.bodyItem.status == 'number') {
-      color = (statusColor as any)[props.bodyItem.status];
+      color = (props.tableConfig.statusColor as any)[props.bodyItem.status];
     } else if (typeof props.bodyItem.status == 'function') {
       let returnStatus = props.bodyItem.status({ bodyItem: props.bodyItem, rowData: props.rowData });
       if (typeof returnStatus == 'string') {
         if (inspect.isColor(returnStatus)) {
           color = returnStatus;
         } else {
-          color = (statusColor as any)[returnStatus];
+          color = (props.tableConfig.statusColor as any)[returnStatus];
         }
       } else if (typeof returnStatus == 'number') {
-        color = (statusColor as any)[returnStatus];
+        color = (props.tableConfig.statusColor as any)[returnStatus];
       } else if (returnStatus === undefined) {
         color = '';
       } else {

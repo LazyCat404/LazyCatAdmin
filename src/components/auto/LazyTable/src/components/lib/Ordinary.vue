@@ -6,6 +6,7 @@
         v-if="props.bodyItem.status !== undefined || props.bodyItem.ico !== undefined ? true : false"
         :bodyItem="props.bodyItem"
         :rowData="rowData"
+        :tableConfig="props.tableConfig"
       >
       </StatusIco>
     </div>
@@ -24,6 +25,7 @@ import { reactive, computed } from 'vue';
 const props = defineProps<{
   bodyItem: any; // 表格列设置
   rowData: any; //行数据
+  tableConfig: any;
 }>();
 const obj = reactive<any>({
   copyContent: ''

@@ -14,7 +14,7 @@
   <!-- 可编辑行 -->
   <Edit v-else-if="props.bodyItem.edit" :bodyItem="props.bodyItem" :rowData="rowData" @row-confirm="rowConfirm"></Edit>
   <!-- 普通行/渲染行 -->
-  <Ordinary v-else :bodyItem="props.bodyItem" :rowData="rowData"></Ordinary>
+  <Ordinary v-else :bodyItem="props.bodyItem" :rowData="rowData" :tableConfig="props.tableConfig"></Ordinary>
 </template>
 <script lang="ts" setup>
 import Switch from './lib/Switch.vue';
@@ -25,6 +25,7 @@ import Progress from './lib/Progress.vue';
 const props = defineProps<{
   bodyItem: any; // 表格列设置
   rowData: any; //行数据
+  tableConfig: any;
 }>();
 const $emits = defineEmits(['row-confirm', 'switch-change']);
 // switch 值改变

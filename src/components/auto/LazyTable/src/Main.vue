@@ -105,6 +105,7 @@
           <!-- 表体 -->
           <template #default="scope">
             <LazyTableBody
+              :tableConfig="obj.config"
               :bodyItem="item"
               :rowData="scope.row"
               @row-confirm="rowConfirm"
@@ -128,7 +129,7 @@
 
 <script lang="ts" setup>
 import { computed, onMounted, reactive, ref, watch } from 'vue';
-import { config } from './config';
+import { config, statusColor } from './config';
 import LazyTableHeader from './components/LazyTableHeader.vue';
 import LazyTableBody from './components/LazyTableBody.vue';
 import AdditionalFunctions from './components/AdditionalFunctions.vue';
@@ -184,6 +185,10 @@ obj.customTemplateList = computed(() => {
 });
 // 表格通用配置
 obj.config = computed(() => {
+  // 类型错误提示
+  if (Object.prototype.toString.call(props.tableConfig.statusColor) !== '[object Object]') {
+    console.warn('tableOptions -> statusColor 仅支持 Object 类型');
+  }
   return {
     // 复选框（默认开启）
     select: props.tableConfig && props.tableConfig.select !== undefined ? props.tableConfig.select : config.select,
@@ -225,7 +230,16 @@ obj.config = computed(() => {
     align: props.tableConfig && props.tableConfig.align !== undefined ? props.tableConfig.align : config.align,
     // 拟合高度
     fitContent:
-      props.tableConfig && props.tableConfig.fitContent !== undefined ? props.tableConfig.fitContent : config.fitContent
+      props.tableConfig && props.tableConfig.fitContent !== undefined
+        ? props.tableConfig.fitContent
+        : config.fitContent,
+    // 状态颜色
+    statusColor:
+      props.tableConfig && props.tableConfig.statusColor !== undefined
+        ? Object.prototype.toString.call(props.tableConfig.statusColor) === '[object Object]'
+          ? props.tableConfig.statusColor
+          : statusColor
+        : statusColor
   };
 });
 
