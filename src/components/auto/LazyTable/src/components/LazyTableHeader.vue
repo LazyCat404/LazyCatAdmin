@@ -179,7 +179,6 @@ function selectListHover(payload: MouseEvent) {
       }
     }
   }
-  console.log(payload, payload.target);
 }
 // 确认/取消
 function confirmFilter(type: number) {
@@ -280,6 +279,7 @@ init();
   .table-header-filter {
     cursor: pointer;
     position: relative;
+    top: 1px;
   }
   .table-header-filter:hover {
     color: var(--headerActiveColor) !important;
