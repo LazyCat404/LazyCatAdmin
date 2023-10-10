@@ -1,11 +1,13 @@
 <template>
   <div class="test-table-wrapper">
     <div>
-      <LazySearch></LazySearch>
+      <LazySearch :list="list"></LazySearch>
     </div>
   </div>
 </template>
-<script setup lang="ts"></script>
+<script setup lang="ts">
+let list: Array<any> = [{}];
+</script>
 <style scoped lang="scss">
 .test-table-wrapper {
   width: 100%;
