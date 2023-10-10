@@ -1,8 +1,13 @@
-<template>待开发搜索组件</template>
-
-<script lang="ts">
-import { defineComponent } from 'vue';
-export default defineComponent({
-  name: 'LazySearch'
-});
-</script>
+<template>
+  <div class="lazy-search-wrapper">
+    <!-- 选项 -->
+    <!-- ico -->
+    <!-- 普通 -->
+  </div>
+</template>
+<script setup lang="ts"></script>
+<style scoped lang="scss">
+.lazy-search-wrapper {
+  width: 100%;
+}
+</style>

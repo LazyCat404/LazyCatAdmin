@@ -1,5 +1,6 @@
 <template>
-  <div class="template-list-wrapper"></div>
+  <div class="template-list-wrapper">
+  </div>
 </template>
 
 <script lang="ts" setup></script>

@@ -23,6 +23,7 @@ declare module '@vue/runtime-core' {
     LazyPage: typeof import('@/components/auto/LazyPage')['default'];
     LazyCopy: typeof import('@/components/auto/LazyCopy')['default'];
     LazyTable: typeof import('@/components/auto/LazyTable')['default'];
+    LazySearch: typeof import('@/components/auto/LazySearch')['default'];
     LazySplitSelect: typeof import('@/components/auto/LazySplitSelect')['default'];
   }
 }
