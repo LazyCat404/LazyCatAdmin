@@ -4,7 +4,7 @@
 
 | 属性名 | 说明 | 类型 | 默认值 | 必填 |
 |:--------|:---------:|:---------:|:---------:|--------:|
-| model-value | 绑定值 | `Array`/`string`/`number` | - | 是 |
+| model-value / v-model | 绑定值 | `Array`/`string`/`number` | - | 是 |
 | data | 树形结构数据 | `Array` | `[]` | 是 |
 | disabled | 禁用 | `boolean` | `false` | 否 |
 | multiple | 支持多选 | `boolean` | `false` | 否 |
