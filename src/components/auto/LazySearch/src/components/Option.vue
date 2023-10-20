@@ -54,10 +54,11 @@
   </div>
 </template>
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
+import { reactive, ref, watch } from 'vue';
 import { CircleCloseFilled, Search } from '@element-plus/icons-vue';
 const props = defineProps<{
   list: Array<any>; // 全部条件列表
+  modelValue?: object;
 }>();
 const obj = reactive<any>({
   placeholder: '请选择查询条件',
@@ -73,6 +74,14 @@ const filter = reactive<any>({
 });
 const filterValue = ref();
 const $emits = defineEmits(['change']);
+watch(
+  () => props.modelValue,
+  () => {
+    init();
+  },
+  { deep: true }
+);
+
 // 条件选中
 function conditionClick(item: { key: string; label: string }) {
   filter.key = item.key;
@@ -165,10 +174,37 @@ function inputFocus() {
   if (filter.label) return;
   filter.show = true;
 }
-
-(function init() {
-  filter.list = props.list;
-})();
+// 初始化
+function init() {
+  obj.finishSelectList = [];
+  filter.value = '';
+  filter.label = '';
+  filter.key = '';
+  filter.type = '';
+  filter.show = false;
+  filter.list = [];
+  if (props.modelValue && Object.prototype.toString.call(props.modelValue) === '[object Object]') {
+    for (let key in props.modelValue) {
+      for (let i = 0; i < props.list.length; i++) {
+        if (props.list[i].key === key) {
+          obj.finishSelectList.push({
+            ...props.list[i],
+            value: (props.modelValue as any)[key]
+          });
+          break;
+        } else {
+          // TODO 有问题
+          if (filter.list.filter((item: { key: string }) => item.key == key).length === 0)
+            filter.list.push(props.list[i]);
+        }
+      }
+    }
+  } else {
+    filter.list = props.list;
+  }
+  obj.placeholder = filter.list.length ? '请选择查询条件' : '没有更多';
+}
+init();
 </script>
 <style scoped lang="scss">
 .option-wrapper {

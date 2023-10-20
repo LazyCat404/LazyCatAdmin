@@ -3,7 +3,7 @@
     <!-- ico 展开 -->
     <Expand v-if="type.toLowerCase() == 'expand'" :list="list" @change="change"></Expand>
     <!-- 选项（默认）-->
-    <Option v-else :list="list" @change="change"></Option>
+    <Option v-else :list="list" :modelValue="modelValue" @change="change"></Option>
   </div>
 </template>
 <script setup lang="ts">
@@ -11,6 +11,7 @@ import Expand from './components/Expand.vue';
 import Option from './components/Option.vue';
 
 interface Props {
+  modelValue?: object;
   type?: string; // 筛选展示类型
   list: Array<{
     label: string;
@@ -21,7 +22,7 @@ const props = withDefaults(defineProps<Props>(), {
   type: () => 'option',
   list: () => []
 });
-const $emits = defineEmits(['change']);
+const $emits = defineEmits(['update:modelValue', 'change']);
 // 检查props
 function inspectProps() {
   props.list.forEach(item => {
@@ -36,6 +37,9 @@ function inspectProps() {
       console.error('检测到条件列表 key 值重复');
     }
   });
+  if (props.modelValue && Object.prototype.toString.call(props.modelValue) === '[object Array]') {
+    console.warn(`prop "modelValue" 不支持 Array 类型`);
+  }
 }
 // 搜索值改变回调
 function change(val: Array<{ key: string; value: string }>) {
@@ -43,6 +47,7 @@ function change(val: Array<{ key: string; value: string }>) {
   val.forEach(item => {
     par[item.key] = item.value;
   });
+  $emits('update:modelValue', par);
   $emits('change', par);
 }
 (function init() {
