@@ -188,7 +188,6 @@ function init() {
   filter.type = '';
   filter.show = false;
   filter.list = [];
-  console.log(filter);
   if (props.modelValue && Object.prototype.toString.call(props.modelValue) === '[object Object]') {
     if (JSON.stringify(props.modelValue) === '{}') {
       filter.list = props.list;
