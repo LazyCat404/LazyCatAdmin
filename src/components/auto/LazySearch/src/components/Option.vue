@@ -31,7 +31,7 @@
       >
         <template #suffix>
           <el-icon>
-            <CircleCloseFilled v-if="filter.label" @click="emptyFinish" />
+            <CircleCloseFilled v-if="filter.label || obj.finishSelectList.length" @click="emptyFinish" />
             <Search v-else />
           </el-icon>
         </template>
@@ -108,12 +108,14 @@ function conditionEnter() {
       label: filter.label,
       key: filter.key
     });
-    filter.value = '';
-    filter.label = '';
-    filter.key = '';
-    filter.list = [];
-    arrangeList();
-    obj.placeholder = filter.list.length ? '请选择查询条件' : '没有更多';
+    // 没有绑定值
+    if (!props.modelValue) {
+      filter.value = '';
+      filter.label = '';
+      filter.key = '';
+      arrangeList();
+      obj.placeholder = filter.list.length ? '请选择查询条件' : '没有更多';
+    }
     // 输入框失去焦点
     if (filterValue.value) {
       filterValue.value.blur();
@@ -127,7 +129,10 @@ function conditionEnter() {
 // 关闭单个已选
 function closeFinish(item: { key: string; label: string }) {
   obj.finishSelectList = obj.finishSelectList.filter((ite: { key: string }) => ite.key != item.key);
-  arrangeList();
+  // 没有绑定值
+  if (!props.modelValue) {
+    arrangeList();
+  }
   if (filter.value || filter.label) {
     if (filterValue.value) {
       filterValue.value.focus();
@@ -183,19 +188,24 @@ function init() {
   filter.type = '';
   filter.show = false;
   filter.list = [];
+  console.log(filter);
   if (props.modelValue && Object.prototype.toString.call(props.modelValue) === '[object Object]') {
-    for (let key in props.modelValue) {
-      for (let i = 0; i < props.list.length; i++) {
-        if (props.list[i].key === key) {
-          obj.finishSelectList.push({
-            ...props.list[i],
-            value: (props.modelValue as any)[key]
-          });
-          break;
-        } else {
-          // TODO 有问题
-          if (filter.list.filter((item: { key: string }) => item.key == key).length === 0)
-            filter.list.push(props.list[i]);
+    if (JSON.stringify(props.modelValue) === '{}') {
+      filter.list = props.list;
+    } else {
+      for (let key in props.modelValue) {
+        for (let i = 0; i < props.list.length; i++) {
+          if (props.list[i].key === key) {
+            obj.finishSelectList.push({
+              ...props.list[i],
+              value: (props.modelValue as any)[key]
+            });
+            filter.list = filter.list.filter((item: { key: string }) => item.key != key);
+          } else {
+            if (filter.list.filter((item: { key: string }) => item.key == key).length === 0) {
+              filter.list.push(props.list[i]);
+            }
+          }
         }
       }
     }

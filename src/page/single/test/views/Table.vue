@@ -1,7 +1,7 @@
 <template>
   <div class="test-table-wrapper">
     <div>
-      <LazySearch :list="list" @change="searchChange" v-model="obj.searchValue"></LazySearch>
+      <LazySearch :list="obj.list" @change="searchChange" v-model="obj.searchValue"></LazySearch>
     </div>
   </div>
 </template>
@@ -9,20 +9,19 @@
 import { reactive } from 'vue';
 
 const obj = reactive<any>({
-  searchValue: {
-    name: '服务器1'
-  }
+  searchValue: {},
+  list: [
+    {
+      label: 'IP地址',
+      key: 'ip'
+    },
+    {
+      label: '服务器名称',
+      key: 'name'
+    }
+  ]
 });
-let list = [
-  {
-    label: 'IP地址',
-    key: 'ip'
-  },
-  {
-    label: '服务器名称',
-    key: 'name'
-  }
-];
+
 function searchChange(val: unknown) {
   console.log('搜索值发生改变：', val, obj.searchValue);
 }
