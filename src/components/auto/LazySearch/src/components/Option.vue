@@ -136,7 +136,7 @@ watch(
   },
   { deep: true }
 );
-// （计算属性）
+// 计算属性
 const varyingFormat = computed(() => {
   let varyingFormat = {
     format: '',
