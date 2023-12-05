@@ -13,7 +13,8 @@ const obj = reactive<any>({
   list: [
     {
       label: 'IP地址',
-      key: 'ip'
+      key: 'ip',
+      type: 'time'
     },
     {
       label: '服务器名称',
