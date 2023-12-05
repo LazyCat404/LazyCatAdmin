@@ -38,16 +38,37 @@
         <el-time-picker
           v-if="filter.type == 'time'"
           v-model="filter.value"
-          ref="filterTime"
           :clearable="false"
           :editable="false"
           :teleported="false"
-          format="HH:mm:ss"
-          value-format="HH:mm:ss"
-          @visible-change="conditionTimeVisibleChange"
+          :format="varyingFormat.format"
+          :value-format="varyingFormat.valueFormat"
+          @visible-change="conditionVisibleChange"
           start-placeholder="开始时间"
           end-placeholder="结束时间"
           is-range
+        />
+        <!-- 日期选择 -->
+        <el-date-picker
+          v-else-if="
+            filter.type == 'daterange' ||
+            filter.type == 'date' ||
+            filter.type == 'monthrange' ||
+            filter.type == 'month' ||
+            filter.type == 'week' ||
+            filter.type == 'year'
+          "
+          v-model="filter.value"
+          :type="filter.type"
+          :clearable="false"
+          :editable="false"
+          :teleported="false"
+          :format="varyingFormat.format"
+          :value-format="varyingFormat.valueFormat"
+          @visible-change="conditionVisibleChange"
+          placeholder="请选择日期"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
         />
         <!-- 选项输入 -->
         <el-input
@@ -85,7 +106,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { reactive, ref, watch } from 'vue';
+import { computed, reactive, ref, watch } from 'vue';
 import { CircleCloseFilled, Search } from '@element-plus/icons-vue';
 const props = defineProps<{
   list: Array<any>; // 全部条件列表
@@ -93,7 +114,9 @@ const props = defineProps<{
 }>();
 const obj = reactive<any>({
   placeholder: '请选择查询条件',
-  finishSelectList: [] // 已选条件列表
+  finishSelectList: [], // 已选条件列表
+  dateTimeTypeList: ['time', 'date', 'daterange', 'month', 'monthrange', 'week', 'year'],
+  dateTimeRangeTypeList: ['time', 'daterange', 'monthrange']
 });
 const filter = reactive<any>({
   value: '',
@@ -104,7 +127,6 @@ const filter = reactive<any>({
   list: [] // 可选条件列表
 });
 const filterValue = ref();
-const filterTime = ref();
 const $emits = defineEmits(['change']);
 watch(
   () => props.modelValue,
@@ -113,13 +135,54 @@ watch(
   },
   { deep: true }
 );
-
+// （计算属性）
+const varyingFormat = computed(() => {
+  let varyingFormat = {
+    format: '',
+    valueFormat: ''
+  };
+  switch (filter.type) {
+    case 'time':
+      varyingFormat.format = 'HH:mm:ss';
+      varyingFormat.valueFormat = 'HH:mm:ss';
+      break;
+    case 'date':
+      varyingFormat.format = 'YYYY/MM/DD';
+      varyingFormat.valueFormat = 'YYYY/MM/DD';
+      break;
+    case 'daterange':
+      varyingFormat.format = 'YYYY/MM/DD';
+      varyingFormat.valueFormat = 'YYYY/MM/DD';
+      break;
+    case 'month':
+      varyingFormat.format = 'YYYY/MM';
+      varyingFormat.valueFormat = 'YYYY/MM';
+      break;
+    case 'monthrange':
+      varyingFormat.format = 'YYYY/MM';
+      varyingFormat.valueFormat = 'YYYY/MM';
+      break;
+    case 'week':
+      varyingFormat.format = 'ww';
+      varyingFormat.valueFormat = 'ww';
+      break;
+    case 'year':
+      varyingFormat.format = 'YYYY';
+      varyingFormat.valueFormat = 'YYYY';
+      break;
+    default:
+      varyingFormat.format = '';
+      varyingFormat.valueFormat = '';
+      break;
+  }
+  return varyingFormat;
+});
 // 条件选中
 function conditionClick(item: { key: string; label: string; type?: string }) {
   filter.key = item.key;
   filter.label = item.label;
   filter.type = item.type ? item.type.toLocaleLowerCase() : '';
-  if (item.type == 'time') {
+  if (obj.dateTimeTypeList.includes(item.type)) {
     filter.value = '';
   }
   obj.placeholder = `请输入查询的${item.label}﹝回车确认﹞`;
@@ -139,7 +202,7 @@ function conditionInput() {
 function conditionEnter() {
   if (filter.key && filter.label) {
     if (!filter.value) return;
-    if (filter.type == 'time') {
+    if (obj.dateTimeRangeTypeList.includes(filter.type)) {
       obj.finishSelectList.push({
         value: `${filter.value[0]}-${filter.value[1]}`,
         label: filter.label,
@@ -171,7 +234,7 @@ function conditionEnter() {
   }
 }
 // 时间选框显隐改变
-function conditionTimeVisibleChange(isVisible: boolean) {
+function conditionVisibleChange(isVisible: boolean) {
   if (isVisible) {
     return;
   } else {
@@ -321,14 +384,29 @@ init();
       display: flex;
       align-items: center;
       overflow: hidden;
-      // 时间选择
+      // 时间/日期选择
       ::v-deep .el-date-editor {
         box-shadow: none;
+        border: none;
         padding: 0;
+        flex: 1;
+        height: 30px;
+        display: flex;
+        align-items: center;
         > .el-icon {
           display: none;
         }
+        // 日期选框特有
+        .el-input__wrapper {
+          box-shadow: none;
+          padding: 0;
+          width: 100%;
+          .el-input__prefix {
+            display: none;
+          }
+        }
       }
+
       // 弹出层
       ::v-deep .el-popper {
         // 时间段

@@ -3,13 +3,16 @@
     <!-- ico 展开 -->
     <Expand v-if="type.toLowerCase() == 'expand'" :list="list" @change="change"></Expand>
     <!-- 选项（默认）-->
-    <Option v-else :list="list" :modelValue="modelValue" @change="change"></Option>
+    <ElConfigProvider v-else :locale="locale">
+      <Option :list="list" :modelValue="modelValue" @change="change"></Option>
+    </ElConfigProvider>
   </div>
 </template>
 <script setup lang="ts">
 import Expand from './components/Expand.vue';
 import Option from './components/Option.vue';
-
+import { ElConfigProvider } from 'element-plus';
+import zhCn from 'element-plus/es/locale/lang/zh-cn';
 interface Props {
   modelValue?: object;
   type?: string; // 筛选展示类型
@@ -41,6 +44,8 @@ function inspectProps() {
     console.warn(`prop "modelValue" 不支持 Array 类型`);
   }
 }
+
+const locale = zhCn;
 // 搜索值改变回调
 function change(val: Array<{ key: string; value: string }>) {
   let par: any = {};

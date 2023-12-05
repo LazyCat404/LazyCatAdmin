@@ -12,9 +12,14 @@ const obj = reactive<any>({
   searchValue: {},
   list: [
     {
-      label: 'IP地址',
-      key: 'ip',
+      label: '时间',
+      key: 'time',
       type: 'time'
+    },
+    {
+      label: '日期',
+      key: 'date',
+      type: 'year'
     },
     {
       label: '服务器名称',
