@@ -36,7 +36,7 @@
       <div class="filter-value-box">
         <!-- 时间选择 -->
         <el-time-picker
-          v-if="filter.type == 'time'"
+          v-if="filter.type == 'time' || filter.type == 'timerange'"
           v-model="filter.value"
           :clearable="false"
           :editable="false"
@@ -44,9 +44,10 @@
           :format="varyingFormat.format"
           :value-format="varyingFormat.valueFormat"
           @visible-change="conditionVisibleChange"
+          placeholder="请选择时间"
           start-placeholder="开始时间"
           end-placeholder="结束时间"
-          is-range
+          :is-range="filter.type == 'timerange'"
         />
         <!-- 日期选择 -->
         <el-date-picker
@@ -115,8 +116,8 @@ const props = defineProps<{
 const obj = reactive<any>({
   placeholder: '请选择查询条件',
   finishSelectList: [], // 已选条件列表
-  dateTimeTypeList: ['time', 'date', 'daterange', 'month', 'monthrange', 'week', 'year'],
-  dateTimeRangeTypeList: ['time', 'daterange', 'monthrange']
+  dateTimeTypeList: ['time', 'timerange', 'date', 'daterange', 'month', 'monthrange', 'week', 'year'],
+  dateTimeRangeTypeList: ['timerange', 'daterange', 'monthrange']
 });
 const filter = reactive<any>({
   value: '',
@@ -143,6 +144,10 @@ const varyingFormat = computed(() => {
   };
   switch (filter.type) {
     case 'time':
+      varyingFormat.format = 'HH:mm:ss';
+      varyingFormat.valueFormat = 'HH:mm:ss';
+      break;
+    case 'timerange':
       varyingFormat.format = 'HH:mm:ss';
       varyingFormat.valueFormat = 'HH:mm:ss';
       break;
@@ -383,13 +388,14 @@ init();
     .filter-value-box {
       display: flex;
       align-items: center;
+      justify-content: space-between;
       overflow: hidden;
       // 时间/日期选择
       ::v-deep .el-date-editor {
         box-shadow: none;
         border: none;
         padding: 0;
-        flex: 1;
+        // flex: 1;
         height: 30px;
         display: flex;
         align-items: center;
@@ -400,7 +406,7 @@ init();
         .el-input__wrapper {
           box-shadow: none;
           padding: 0;
-          width: 100%;
+          // width: 100%;
           .el-input__prefix {
             display: none;
           }
@@ -410,6 +416,7 @@ init();
       // 弹出层
       ::v-deep .el-popper {
         // 时间段
+        .el-time-panel,
         .el-time-range-picker {
           .el-time-panel__footer {
             .el-time-panel__btn.cancel {
