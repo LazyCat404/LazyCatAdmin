@@ -201,16 +201,16 @@ function rowConfirm() {
       let nowSelectDom = tSI.querySelector('.el-select .el-input__inner');
       if ($tool.isArray(props.rowData[props.bodyItem.edit.selectProp])) {
         //多选
-        let resLable = '';
+        let resLabel = '';
         obj.editData.forEach((item: any) => {
           for (let i = 0; i < props.bodyItem.edit.list.length; i++) {
             if (item == props.bodyItem.edit.list[i].value) {
-              resLable = `${resLable + props.bodyItem.edit.list[i].label};`;
+              resLabel = `${resLabel + props.bodyItem.edit.list[i].label};`;
               break;
             }
           }
         });
-        nowSelectDom.value = resLable;
+        nowSelectDom.value = resLabel;
       }
       let selPar = {
         resLabel: nowSelectDom.value,
