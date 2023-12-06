@@ -4,7 +4,7 @@
       <!-- 已选条件列表 -->
       <ul class="finish-select-list" v-if="obj.finishSelectList && obj.finishSelectList.length">
         <li v-for="(item, i) in obj.finishSelectList" :key="i">
-          {{ item.label }}：{{ item.value }}
+          {{ item.label }}：{{ item.showValue !== undefined ? item.showValue : item.value }}
           <i @click="closeFinish(item)">
             <svg t="1697076334981" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1868">
               <path
@@ -44,7 +44,7 @@
           :format="varyingFormat.format"
           :value-format="varyingFormat.valueFormat"
           @visible-change="conditionVisibleChange"
-          placeholder="请选择时间"
+          :placeholder="obj.placeholder"
           start-placeholder="开始时间"
           end-placeholder="结束时间"
           :is-range="filter.type == 'timerange'"
@@ -67,10 +67,19 @@
           :format="varyingFormat.format"
           :value-format="varyingFormat.valueFormat"
           @visible-change="conditionVisibleChange"
-          placeholder="请选择日期"
+          :placeholder="obj.placeholder"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
         />
+        <!-- 下拉选项 -->
+        <el-select
+          v-else-if="filter.type == 'select'"
+          v-model="filter.value"
+          :placeholder="obj.placeholder"
+          @visible-change="conditionVisibleChange"
+        >
+          <el-option v-for="item in filter.valueList" :key="item.value" :label="item.label" :value="item.value" />
+        </el-select>
         <!-- 选项输入 -->
         <el-input
           v-else
@@ -109,15 +118,26 @@
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from 'vue';
 import { CircleCloseFilled, Search } from '@element-plus/icons-vue';
+interface listItem {
+  key: string;
+  label: string;
+  type?: string;
+  list?: Array<any>;
+  listProps?: {
+    label?: string;
+    value?: string;
+  };
+}
 const props = defineProps<{
-  list: Array<any>; // 全部条件列表
+  list: Array<listItem>; // 全部条件列表
   modelValue?: object;
 }>();
 const obj = reactive<any>({
   placeholder: '请选择查询条件',
   finishSelectList: [], // 已选条件列表
-  dateTimeTypeList: ['time', 'timerange', 'date', 'daterange', 'month', 'monthrange', 'week', 'year'],
-  dateTimeRangeTypeList: ['timerange', 'daterange', 'monthrange']
+  popoverTypeList: ['time', 'timerange', 'date', 'daterange', 'month', 'monthrange', 'week', 'year', 'select'],
+  dateTimeRangeTypeList: ['timerange', 'daterange', 'monthrange'],
+  labelValueTypeList: ['select']
 });
 const filter = reactive<any>({
   value: '',
@@ -125,7 +145,8 @@ const filter = reactive<any>({
   key: '',
   type: '',
   show: false,
-  list: [] // 可选条件列表
+  list: [], // 可选条件列表
+  valueList: [] // 可选值列表
 });
 const filterValue = ref();
 const $emits = defineEmits(['change']);
@@ -183,14 +204,71 @@ const varyingFormat = computed(() => {
   return varyingFormat;
 });
 // 条件选中
-function conditionClick(item: { key: string; label: string; type?: string }) {
+function conditionClick(item: listItem) {
   filter.key = item.key;
   filter.label = item.label;
-  filter.type = item.type ? item.type.toLocaleLowerCase() : '';
-  if (obj.dateTimeTypeList.includes(item.type)) {
-    filter.value = '';
+  // 类型处理
+  if (item.type) {
+    filter.type = item.type.toLocaleLowerCase();
+  } else if (item.list) {
+    if (Object.prototype.toString.call(item.list) == '[object Array]') {
+      filter.type = 'select';
+      filter.valueList = [];
+      if (item.list.length) {
+        item.list.forEach(valueListItem => {
+          let trimItem: any = {};
+          // label
+          if (item.listProps && item.listProps.label) {
+            trimItem.label = valueListItem[item.listProps.label];
+          } else {
+            trimItem.label =
+              valueListItem.label !== undefined
+                ? valueListItem.label
+                : valueListItem.name !== undefined
+                ? valueListItem.name
+                : valueListItem.title !== undefined
+                ? valueListItem.title
+                : '';
+          }
+          // value
+          if (item.listProps && item.listProps.value) {
+            trimItem.value = valueListItem[item.listProps.value];
+          } else {
+            trimItem.value =
+              valueListItem.value !== undefined
+                ? valueListItem.value
+                : valueListItem.id !== undefined
+                ? valueListItem.id
+                : valueListItem.key !== undefined
+                ? valueListItem.key
+                : valueListItem.uuid !== undefined
+                ? valueListItem.uuid
+                : valueListItem.code !== undefined
+                ? valueListItem.code
+                : trimItem.label;
+          }
+          if (!trimItem.label) {
+            console.warn(`${item.label}筛选值可选列表项缺少可用label，这可能会影响您的使用`);
+          }
+          filter.valueList.push(trimItem);
+        });
+      } else {
+        console.warn(`${item.label}筛选值可选列表为空，这可能会影响您的使用`);
+      }
+    } else {
+      filter.type = '';
+      console.warn('筛选值可选列表仅支持 Array 类型');
+    }
+  } else {
+    filter.type = '';
   }
-  obj.placeholder = `请输入查询的${item.label}﹝回车确认﹞`;
+  // 值/提示 处理
+  if (obj.popoverTypeList.includes(filter.type)) {
+    filter.value = '';
+    obj.placeholder = `请选择查询的${item.label}`;
+  } else {
+    obj.placeholder = `请输入查询的${item.label}﹝回车确认﹞`;
+  }
   if (filterValue.value) {
     filterValue.value.focus();
   }
@@ -213,6 +291,13 @@ function conditionEnter() {
         label: filter.label,
         key: filter.key
       });
+    } else if (obj.labelValueTypeList.includes(filter.type)) {
+      obj.finishSelectList.push({
+        value: filter.value,
+        showValue: filter.valueList.filter((item: any) => (item.value = filter.value))[0].label,
+        label: filter.label,
+        key: filter.key
+      });
     } else {
       obj.finishSelectList.push({
         value: filter.value,
@@ -225,6 +310,7 @@ function conditionEnter() {
       filter.value = '';
       filter.label = '';
       filter.key = '';
+      filter.type = '';
       arrangeList();
       obj.placeholder = filter.list.length ? '请选择查询条件' : '';
     }
@@ -270,6 +356,7 @@ function emptyFinish() {
   filter.key = '';
   filter.type = '';
   filter.label = '';
+  filter.valueList = [];
   obj.placeholder = '请选择查询条件';
   if (filterValue.value) {
     filterValue.value.blur();
@@ -306,6 +393,7 @@ function init() {
   filter.type = '';
   filter.show = false;
   filter.list = [];
+  filter.valueList = [];
   if (props.modelValue && Object.prototype.toString.call(props.modelValue) === '[object Object]') {
     if (JSON.stringify(props.modelValue) === '{}') {
       filter.list = props.list;
@@ -314,10 +402,59 @@ function init() {
       for (let key in props.modelValue) {
         let finishSelectArr = props.list.filter((item: { key: string }) => item.key == key);
         if (finishSelectArr.length) {
-          obj.finishSelectList.push({
-            ...finishSelectArr[finishSelectArr.length - 1], // 取最后一个匹配项
-            value: (props.modelValue as any)[key]
-          });
+          let finishSelectItem = finishSelectArr[finishSelectArr.length - 1]; // 取最后一个匹配项
+          if (
+            finishSelectItem.list &&
+            Object.prototype.toString.call(finishSelectItem.list) === '[object Array]' &&
+            finishSelectItem.list.length
+          ) {
+            let mateItem: any = {};
+            let showValue = '';
+            finishSelectItem.list.forEach(item => {
+              let isMate = false;
+              if (finishSelectItem.listProps && finishSelectItem.listProps.value) {
+                isMate = item[finishSelectItem.listProps.value] == (props.modelValue as any)[key];
+              } else {
+                isMate =
+                  item.value !== undefined
+                    ? item.value == (props.modelValue as any)[key]
+                    : item.id !== undefined
+                    ? item.id == (props.modelValue as any)[key]
+                    : item.key !== undefined
+                    ? item.key == (props.modelValue as any)[key]
+                    : item.uuid !== undefined
+                    ? item.uuid == (props.modelValue as any)[key]
+                    : item.code !== undefined
+                    ? item.code == (props.modelValue as any)[key]
+                    : false;
+              }
+              if (isMate) {
+                mateItem = item;
+              }
+            });
+            if (finishSelectItem.listProps && finishSelectItem.listProps.label) {
+              showValue = mateItem[finishSelectItem.listProps.label];
+            } else {
+              showValue =
+                mateItem.label !== undefined
+                  ? mateItem.label
+                  : mateItem.name !== undefined
+                  ? mateItem.name
+                  : mateItem.title !== undefined
+                  ? mateItem.title
+                  : (props.modelValue as any)[key];
+            }
+            obj.finishSelectList.push({
+              ...finishSelectItem,
+              value: (props.modelValue as any)[key],
+              showValue
+            });
+          } else {
+            obj.finishSelectList.push({
+              ...finishSelectItem,
+              value: (props.modelValue as any)[key]
+            });
+          }
         }
       }
       // 构建可选条件（全部中过滤掉已选）
@@ -391,12 +528,14 @@ init();
       justify-content: space-between;
       overflow: hidden;
       // 时间/日期选择
-      ::v-deep .el-date-editor {
+      ::v-deep .el-date-editor,
+      ::v-deep .el-select {
         box-shadow: none;
         border: none;
         padding: 0;
         // flex: 1;
         height: 30px;
+        line-height: 30px;
         display: flex;
         align-items: center;
         > .el-icon {
@@ -404,15 +543,14 @@ init();
         }
         // 日期选框特有
         .el-input__wrapper {
-          box-shadow: none;
+          box-shadow: none !important;
           padding: 0;
-          // width: 100%;
-          .el-input__prefix {
+          .el-input__prefix,
+          .el-input__suffix {
             display: none;
           }
         }
       }
-
       // 弹出层
       ::v-deep .el-popper {
         // 时间段

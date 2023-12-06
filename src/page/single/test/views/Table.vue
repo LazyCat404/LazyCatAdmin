@@ -22,7 +22,18 @@ const obj = reactive<any>({
       type: 'year'
     },
     {
-      label: '服务器名称',
+      label: '班级',
+      key: 'class',
+      list: [
+        {
+          label: '一班',
+          value: 1
+        }
+      ]
+      // type: 'select'
+    },
+    {
+      label: '名称',
       key: 'name'
     }
   ]
