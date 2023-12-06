@@ -1,7 +1,7 @@
 <template>
   <div class="lazy-search-wrapper">
     <!-- ico 展开 -->
-    <Expand v-if="type.toLowerCase() == 'expand'" :list="list" @change="change"></Expand>
+    <Expand v-if="type.toLowerCase() == 'expand'" :modelValue="modelValue" :list="list" @change="change"></Expand>
     <!-- 选项（默认）-->
     <ElConfigProvider v-else :locale="locale">
       <Option :list="list" :modelValue="modelValue" @change="change"></Option>

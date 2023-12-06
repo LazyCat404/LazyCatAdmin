@@ -1,7 +1,7 @@
 <template>
   <div class="test-table-wrapper">
     <div>
-      <LazySearch :list="obj.list" @change="searchChange" v-model="obj.searchValue"></LazySearch>
+      <LazySearch :list="obj.list" @change="searchChange" v-model="obj.searchValue" type="Expand"></LazySearch>
     </div>
   </div>
 </template>
