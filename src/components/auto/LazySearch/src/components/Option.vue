@@ -533,7 +533,6 @@ init();
         box-shadow: none;
         border: none;
         padding: 0;
-        // flex: 1;
         height: 30px;
         line-height: 30px;
         display: flex;
@@ -561,6 +560,12 @@ init();
               display: none;
             }
           }
+        }
+      }
+      > .el-icon {
+        cursor: pointer;
+        svg {
+          color: #a8abb2;
         }
       }
     }
