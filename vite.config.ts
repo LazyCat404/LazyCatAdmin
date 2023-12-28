@@ -18,6 +18,18 @@ export default (par: { mode: string; command: string }): unknown => {
         '@types': path.resolve(__dirname, 'src/@types')
       }
     },
+    build: {
+      rollupOptions: {
+        // 手动分包
+        manualChunks(id) {
+          if (id.includes('/components/auto')) {
+            return 'lazycat';
+          } else if (id.includes('node_modules')) {
+            return 'vendor';
+          }
+        }
+      }
+    },
     plugins: [
       vue(),
       AutoImport({
