@@ -1,14 +1,14 @@
 export const $tool = {
   /**
-   * 判断指定值是否为数组
-   * @param { Any } value 待判断值
+   * @description 判断指定值是否为数组
+   * @param { * } value 待判断值
    * @returns 真假
    */
-  isArray: (value: any): boolean => {
-    return Object.prototype.toString.call(value) === '[object Array]';
+  isArray: (value: unknown): boolean => {
+    return Array.isArray(value);
   },
   /**
-   * 将指定值转换成 css 可用值
+   * @description 将指定值转换成 css 可用值
    * @param { Number | String } value 任意指定数值
    * @returns css 可用值
    */
@@ -27,7 +27,7 @@ export const $tool = {
     }
   },
   /**
-   * 返回指定日期、时间
+   * @description 返回指定日期、时间
    * @param { Boolean } type 是否返回时间，默认不返回
    * @param { Date } date 指定日期，默认当前日期
    * @param { String } mark  连接符
@@ -46,7 +46,7 @@ export const $tool = {
     }
   },
   /**
-   * 获取指定日期前/后 n 天的日期
+   * @description 获取指定日期前/后 n 天的日期
    * @param { Number } n  多少天
    * @param { Boolean } type  真：前；假：后(默认)
    * @param { String | Date } day  指定的日，默认为当前日期，非必须
@@ -71,7 +71,7 @@ export const $tool = {
     return this.initDate(false, resdate, mark);
   },
   /**
-   * 下载 blob
+   * @description 下载 blob
    * @param { Blob } res blob 字符流
    * @param { String } name 下载文件名
    */
@@ -91,7 +91,7 @@ export const $tool = {
     }
   },
   /**
-   * 获取指定数组的一个随机子数组
+   * @description 获取指定数组的一个随机子数组
    * @param { Array} arr 数组
    * @param { Number } size 子集长度
    * @returns 随机子数组
@@ -110,7 +110,7 @@ export const $tool = {
     return copyArr.slice(0, size);
   },
   /**
-   * 获取指定范围的随机数
+   * @description 获取指定范围的随机数
    * @param { Number } min 最小值
    * @param { Number } max 最大值
    * @returns 包含指定范围的随机数
@@ -135,6 +135,5 @@ export const tool = {
     app.config.globalProperties.$tool = $tool;
   }
 };
-
 // 解决ts检查
 export default $tool;
