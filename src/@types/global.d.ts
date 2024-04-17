@@ -12,6 +12,10 @@ declare global {
     pageSize: number;
     operType: string;
   }
+  // 任意对象
+  interface obj {
+    [key: string]: any;
+  }
 }
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
