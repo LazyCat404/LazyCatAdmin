@@ -30,19 +30,27 @@ export const $tool = {
    * @description 返回指定日期、时间
    * @param { Boolean } type 是否返回时间，默认不返回
    * @param { Date } date 指定日期，默认当前日期
-   * @param { String } mark  连接符
+   * @param { String | null } mark  日期连接符，默认‘-’；null：纯数字
    * @returns 日期时间
    */
-  initDate: (type?: boolean, date?: Date, mark?: string) => {
+  initDate: (type?: boolean, date?: Date, mark?: string | null) => {
     const useDate = date ? date : new Date();
     const year = useDate.getFullYear();
     const month = `${useDate.getMonth() + 1 > 9 ? useDate.getMonth() + 1 : '0' + (useDate.getMonth() + 1)}`;
     const day = `${useDate.getDate() > 9 ? useDate.getDate() : '0' + useDate.getDate()}`;
     if (type) {
       const time = useDate.toLocaleTimeString();
-      return `${year}${mark ? mark : '-'}${month}${mark ? mark : '-'}${day} ${time}`;
+      if (mark === null) {
+        return `${year}${month}${day}${time.replaceAll(':', '')}`;
+      } else {
+        return `${year}${mark ? mark : '-'}${month}${mark ? mark : '-'}${day} ${time}`;
+      }
     } else {
-      return `${year}${mark ? mark : '-'}${month}${mark ? mark : '-'}${day}`;
+      if (mark === null) {
+        return `${year}${month}${day}`;
+      } else {
+        return `${year}${mark ? mark : '-'}${month}${mark ? mark : '-'}${day}`;
+      }
     }
   },
   /**
@@ -113,19 +121,21 @@ export const $tool = {
    * @description 获取指定范围的随机数
    * @param { Number } min 最小值
    * @param { Number } max 最大值
+   * @param { Number } fixed 保留小数位，默认：0
    * @returns 包含指定范围的随机数
    */
-  getRandom(min: number, max: number) {
-    let num: number;
+  getRandom(min: number, max: number, fixed?: number) {
+    const useFixed = fixed || 0;
+    let num: string;
     if (max < min) {
       console.warn('根据获得的参数，最大值 < 最小值，已为您自动翻转');
-      num = Math.floor(Math.random() * (min - max + 1) + max);
+      num = (Math.random() * (min - max + 1) + max).toFixed(useFixed);
     } else if (min == max) {
-      num = min;
+      num = min.toFixed(useFixed);
     } else {
-      num = Math.floor(Math.random() * (max - min + 1) + min);
+      num = (Math.random() * (max - min + 1) + min).toFixed(useFixed);
     }
-    return num;
+    return +num;
   }
 };
 
