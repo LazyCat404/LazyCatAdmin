@@ -12,6 +12,7 @@ function init3D(container: HTMLElement | null) {
   if (container) {
     const width = container.clientWidth;
     const height = container.clientHeight;
+    let mixer: any;
     /**
      * 创建场景
      */
@@ -19,9 +20,9 @@ function init3D(container: HTMLElement | null) {
     /**
      * 创建摄像机
      */
-    const camera = new THREE.PerspectiveCamera(35, width / height, 0.1, 3000);
-    camera.position.set(43.6, 23.6, 38);
-    camera.lookAt(-8.5, -3.6, -7.4);
+    const camera = new THREE.PerspectiveCamera(35, width / height, 0.1, 8000);
+    camera.position.set(-31, 23, 45);
+    camera.lookAt(8.98, 3, -12.72);
     /**
      * 创建渲染器
      */
@@ -44,8 +45,22 @@ function init3D(container: HTMLElement | null) {
      * 创建加载器
      */
     const loader = new GLTFLoader();
-    loader.load('http://localhost:3000/nnnnn.gltf', (gltf: any) => {
+    loader.load('http://localhost:3000/pose.gltf', (gltf: any) => {
+      // 模型加载
       scene.add(gltf.scene);
+      // 动画加载
+      if (gltf.animations && gltf.animations.length > 0) {
+        // 获取动画mixer
+        mixer = new THREE.AnimationMixer(gltf.scene);
+        // 获取动画action
+        const action = mixer.clipAction(gltf.animations[0]);
+        // 设置动画循环模式为无限次重复
+        action.setLoop(THREE.LoopRepeat, Infinity);
+        // 设置动画循环播放
+        action.play();
+      } else {
+        console.warn('该模型不包含动画');
+      }
       // 递归查找所有网格模型
       // gltf.scene.traverse((obj: any) => {
       //   if (obj.isMesh) {
@@ -67,15 +82,23 @@ function init3D(container: HTMLElement | null) {
     controls.panSpeed = 0.3;
     controls.screenSpacePanning = false; // 设置为true将允许在屏幕空间内平移
     controls.minDistance = 10; // 设置最小距离限制
-    controls.maxDistance = 500; // 设置最大距离限制
-    controls.target.set(-8.5, -3.6, -7.4); // 与lookAt参数保持一直
+    controls.maxDistance = 5000; // 设置最大距离限制
+    controls.target.set(8.98, 3, -12.72); // 与lookAt参数保持一直
     controls.update();
     /**
      * 循环渲染
      */
     function animate() {
-      // console.log(camera.position);
-      // console.log(controls.target);
+      // console.log('position', `${camera.position.x.toFixed(2)},${camera.position.y.toFixed(2)},${camera.position.z.toFixed(2)}`);
+      // console.log('target', `${controls.target.x.toFixed(2)},${controls.target.y.toFixed(2)},${controls.target.z.toFixed(2)}`);
+
+      const clock = new THREE.Clock();
+      const delta = clock.getDelta();
+      // 更新mixer和action
+      if (mixer) {
+        mixer.update(delta);
+      }
+
       requestAnimationFrame(animate);
       renderer.render(scene, camera);
     }
