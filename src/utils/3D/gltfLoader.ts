@@ -1,4 +1,4 @@
-import { modelPositionInit, controlsInit } from '@/utils/3D/base';
+import { controlsInit, modelPositionInit } from '@/utils/3D/base';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
@@ -6,8 +6,6 @@ let width: number, height: number;
 let scene: THREE.Scene, camera: THREE.PerspectiveCamera, renderer: THREE.WebGLRenderer;
 let mixer: THREE.AnimationMixer, clock: THREE.Clock;
 let actions: { [key: string]: THREE.AnimationAction };
-
-export let activeAction: THREE.AnimationAction;
 
 export function init3D(container: HTMLElement | null, loaderUrl: string) {
   if (container) {
@@ -21,16 +19,16 @@ export function init3D(container: HTMLElement | null, loaderUrl: string) {
     /**
      * 创建摄像机
      */
-    camera = new THREE.PerspectiveCamera(35, width / height, 0.1, 8000);
-    camera.position.set(6.99, 1.89, 6.9);
+    camera = new THREE.PerspectiveCamera(35, width / height, 1, 3000);
+    camera.position.set(6, 6, 12);
     camera.lookAt(0, 0, 0);
     /**
      * 创建渲染器
      */
     renderer = new THREE.WebGLRenderer({
       antialias: true, // 抗锯齿
-      logarithmicDepthBuffer: true, // 设置深度缓冲区，优化深度冲突
-      alpha: true // 允许背景透明
+      alpha: true, // 允许背景透明
+      logarithmicDepthBuffer: true // 设置深度缓冲区，优化深度冲突
     });
     // 设置设备像素比率（这可以帮助在高分辨率屏幕上提供更好的抗锯齿效果）
     renderer.setPixelRatio(window.devicePixelRatio);
@@ -48,6 +46,21 @@ export function init3D(container: HTMLElement | null, loaderUrl: string) {
     const dirLight = new THREE.DirectionalLight(0xffffff, 3);
     dirLight.position.set(0, 20, 10);
     scene.add(dirLight);
+    /**
+     * 标注
+     */
+    const texture = new THREE.TextureLoader().load('http://localhost:3000/pic.png');
+    const spriteMaterial = new THREE.SpriteMaterial({
+      map: texture //设置精灵纹理贴图
+    });
+    const sprite = new THREE.Sprite(spriteMaterial);
+    sprite.position.set(0, 3, 0);
+    scene.add(sprite);
+    /**
+     * 创建辅助观察坐标系
+     */
+    const axesHelper = new THREE.AxesHelper(3);
+    scene.add(axesHelper);
     /**
      * 创建加载器
      */
