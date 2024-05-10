@@ -10,7 +10,7 @@
 </template>
 <script setup lang="ts">
 import { onMounted } from 'vue';
-import { init3D, animationPlay } from '../ts/gltfLoader';
+import { init3D, animationPlay } from '@/utils/3D/gltfLoader';
 
 const animationNameArr = [
   'Attack',
@@ -59,3 +59,4 @@ onMounted(() => {
   }
 }
 </style>
+../../../../utils/3D/gltfLoader
