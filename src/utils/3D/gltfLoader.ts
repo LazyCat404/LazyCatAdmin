@@ -1,11 +1,16 @@
 import { controlsInit, modelPositionInit } from '@/utils/3D/base';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+// 引入效果合成器
 import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
 // 引入渲染器通道RenderPass
 import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 // 引入OutlinePass通道
 import { OutlinePass } from 'three/addons/postprocessing/OutlinePass.js';
+// 伽马校正后处理Shader
+import { GammaCorrectionShader } from 'three/addons/shaders/GammaCorrectionShader.js';
+// ShaderPass功能：使用后处理Shader创建后处理通道
+import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 
 let width: number, height: number;
 let scene: THREE.Scene, camera: THREE.PerspectiveCamera, renderer: THREE.WebGLRenderer;
@@ -147,6 +152,9 @@ function composerInit(mesh: unknown) {
   outlinePass.selectedObjects = [mesh];
   // 设置OutlinePass通道
   composer.addPass(outlinePass);
+  // 颜色矫正：创建伽马校正通道
+  const gammaPass = new ShaderPass(GammaCorrectionShader);
+  composer.addPass(gammaPass);
 }
 
 // 动画调用
