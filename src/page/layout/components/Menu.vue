@@ -120,7 +120,9 @@ function menuTypeChange() {
       p {
         height: 28px;
         font-size: 20px;
-        font-family: PingFangSC-Semibold, PingFang SC;
+        font-family:
+          PingFangSC-Semibold,
+          PingFang SC;
         font-weight: 600;
         color: #1c2d42;
         line-height: 28px;
@@ -128,11 +130,12 @@ function menuTypeChange() {
       > div {
         height: 20px;
         font-size: 14px;
-        font-family: PingFangSC-Regular, PingFang SC;
+        font-family:
+          PingFangSC-Regular,
+          PingFang SC;
         font-weight: 400;
         color: #1c2d42;
         line-height: 20px;
-        margin-top: 4px;
       }
     }
   }
