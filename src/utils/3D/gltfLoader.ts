@@ -11,6 +11,8 @@ import { OutlinePass } from 'three/addons/postprocessing/OutlinePass.js';
 import { GammaCorrectionShader } from 'three/addons/shaders/GammaCorrectionShader.js';
 // ShaderPass功能：使用后处理Shader创建后处理通道
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
+// SMAA抗锯齿通道
+import { SMAAPass } from 'three/addons/postprocessing/SMAAPass.js';
 
 let width: number, height: number;
 let scene: THREE.Scene, camera: THREE.PerspectiveCamera, renderer: THREE.WebGLRenderer;
@@ -155,6 +157,11 @@ function composerInit(mesh: unknown) {
   // 颜色矫正：创建伽马校正通道
   const gammaPass = new ShaderPass(GammaCorrectionShader);
   composer.addPass(gammaPass);
+  //获取.setPixelRatio()设置的设备像素比
+  const pixelRatio = renderer.getPixelRatio();
+  // width、height是canva画布的宽高度
+  const smaaPass = new SMAAPass(width * pixelRatio, height * pixelRatio);
+  composer.addPass(smaaPass);
 }
 
 // 动画调用
