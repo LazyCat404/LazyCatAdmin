@@ -1,4 +1,4 @@
-import { controlsInit, modelPositionInit } from '@/utils/3D/base';
+import { controlsInit, modelPositionInit, mouseRaycaster } from '@/utils/3D/base';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 // 引入效果合成器
@@ -81,10 +81,10 @@ export function init3D(container: HTMLElement | null, loaderUrl: string) {
     loader.load(loaderUrl, (gltf: any) => {
       // 模型加载
       scene.add(gltf.scene);
-      // 后处理
-      composerInit(gltf.scene);
       // 模型位置初始化
       modelPositionInit(gltf.scene);
+      // 鼠标拾取模型
+      mouseRaycaster(container, camera, gltf.scene);
       // 动画加载
       if (gltf.animations && gltf.animations.length > 0) {
         animationInit(gltf.scene, gltf.animations);
@@ -101,7 +101,11 @@ export function init3D(container: HTMLElement | null, loaderUrl: string) {
   }
 }
 
-// 动画初始化
+/**
+ * 动画初始化
+ * @param model 模型
+ * @param animations 动画片段
+ */
 function animationInit(model: any, animations: any) {
   // 获取动画mixer
   mixer = new THREE.AnimationMixer(model);
@@ -139,9 +143,24 @@ function onWindowResize() {
 }
 
 /**
- * 后处理-合成渲染
+ * 动画调用
+ * @param name 动画名称
  */
-function composerInit(mesh: unknown) {
+export function animationPlay(name: string) {
+  if (actions) {
+    actions[name].play();
+  } else {
+    console.warn('暂无可执行动画');
+  }
+}
+
+/**
+ * 后处理-合成渲染
+ * @param composer 后处理合成器
+ * @param mesh 模型
+ */
+export function composerInit(mesh: unknown) {
+  // 后处理合成器
   composer = new EffectComposer(renderer);
   // 创建一个渲染器通道，场景和相机作为参数
   const renderPass = new RenderPass(scene, camera);
@@ -162,13 +181,4 @@ function composerInit(mesh: unknown) {
   // width、height是canva画布的宽高度
   const smaaPass = new SMAAPass(width * pixelRatio, height * pixelRatio);
   composer.addPass(smaaPass);
-}
-
-// 动画调用
-export function animationPlay(name: string) {
-  if (actions) {
-    actions[name].play();
-  } else {
-    console.warn('暂无可执行动画');
-  }
 }

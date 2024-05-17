@@ -1,7 +1,10 @@
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
-// 模型位置初始化
+/**
+ * 模型位置初始化
+ * @param model 模型
+ */
 export function modelPositionInit(model: any) {
   // 将模型位置居中到场景中心
   const box = new THREE.Box3().setFromObject(model);
@@ -12,7 +15,11 @@ export function modelPositionInit(model: any) {
   model.position.copy(center).negate();
 }
 
-// 控制器初始化
+/**
+ * 鼠标控制器初始化
+ * @param camera 相机
+ * @param renderer 渲染器
+ */
 export function controlsInit(camera: THREE.Camera, renderer: THREE.WebGLRenderer) {
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true; // 使动画更平滑
@@ -43,5 +50,34 @@ export function visualDebug(camera?: THREE.Camera, controls?: OrbitControls) {
       'target',
       `${controls.target.x.toFixed(2)},${controls.target.y.toFixed(2)},${controls.target.z.toFixed(2)}`
     );
+  }
+}
+
+/**
+ * 鼠标射线选中模型
+ * @param container canvas 容器
+ * @param camera 相机
+ * @param mesh 模型
+ */
+export function mouseRaycaster(container: HTMLElement, camera: THREE.PerspectiveCamera, mesh: any) {
+  if (container) {
+    const width = container.clientWidth;
+    const height = container.clientHeight;
+    container.addEventListener('click', function (event) {
+      //屏幕坐标转标准设备坐标(坐标原点在画布中心，范围-1~1)
+      const x = (event.offsetX / width) * 2 - 1;
+      const y = -(event.offsetY / height) * 2 + 1;
+      //创建一个射线投射器`Raycaster`
+      const raycaster = new THREE.Raycaster();
+      //.setFromCamera()计算射线投射器`Raycaster`的射线属性.ray
+      raycaster.setFromCamera(new THREE.Vector2(x, y), camera);
+      //.intersectObjects([mesh])对参数中的网格模型对象进行射线交叉计算
+      const intersects = raycaster.intersectObjects([mesh]);
+      // intersects.length大于0说明，说明选中了模型
+      if (intersects.length > 0) {
+        // 选中模型的第一个模型，设置为红色
+        (intersects[0].object as any).material.color.set(0xff0000);
+      }
+    });
   }
 }
