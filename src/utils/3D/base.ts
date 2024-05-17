@@ -59,24 +59,42 @@ export function visualDebug(camera?: THREE.Camera, controls?: OrbitControls) {
  * @param camera 相机
  * @param mesh 模型
  */
-export function mouseRaycaster(container: HTMLElement, camera: THREE.PerspectiveCamera, mesh: any) {
+export function mouseRaycaster(container: HTMLElement, camera: THREE.PerspectiveCamera, mesh: any, outlinePass?: any) {
   if (container) {
-    const width = container.clientWidth;
-    const height = container.clientHeight;
     container.addEventListener('click', function (event) {
+      const width = container.clientWidth;
+      const height = container.clientHeight;
       //屏幕坐标转标准设备坐标(坐标原点在画布中心，范围-1~1)
       const x = (event.offsetX / width) * 2 - 1;
       const y = -(event.offsetY / height) * 2 + 1;
-      //创建一个射线投射器`Raycaster`
+      //创建一个射线投射器 Raycaster
       const raycaster = new THREE.Raycaster();
-      //.setFromCamera()计算射线投射器`Raycaster`的射线属性.ray
+      //.setFromCamera()计算射线投射器 Raycaster 的射线属性 .ray
       raycaster.setFromCamera(new THREE.Vector2(x, y), camera);
+
+      // 层级模型处理(这里做的是整体合并，实际情况并非如此)
+      const rootScene = mesh.getObjectByName('Root_Scene');
+      for (let i = 0; i < rootScene.children.length; i++) {
+        const groupMesh = rootScene.children[i];
+        groupMesh.traverse(function (obj: any) {
+          if (obj.isMesh) {
+            // 递归遍历，并给的所有子对象设置一个ancestors属性指向自己
+            obj.ancestors = groupMesh;
+          }
+        });
+      }
+
       //.intersectObjects([mesh])对参数中的网格模型对象进行射线交叉计算
-      const intersects = raycaster.intersectObjects([mesh]);
+      const intersects = raycaster.intersectObjects(rootScene.children);
+      console.log('模型选中：', intersects);
       // intersects.length大于0说明，说明选中了模型
       if (intersects.length > 0) {
-        // 选中模型的第一个模型，设置为红色
-        (intersects[0].object as any).material.color.set(0xff0000);
+        if (outlinePass) {
+          outlinePass.selectedObjects = [(intersects[0].object as any).ancestors];
+        } else {
+          // 选中模型的第一个模型，设置为红色
+          (intersects[0].object as any).material.color.set(0xff0000);
+        }
       }
     });
   }

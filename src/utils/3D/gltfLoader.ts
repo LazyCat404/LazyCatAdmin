@@ -19,6 +19,7 @@ let scene: THREE.Scene, camera: THREE.PerspectiveCamera, renderer: THREE.WebGLRe
 let mixer: THREE.AnimationMixer, clock: THREE.Clock;
 let actions: { [key: string]: THREE.AnimationAction };
 let composer: any;
+let outlinePass: any;
 
 export function init3D(container: HTMLElement | null, loaderUrl: string) {
   if (container) {
@@ -69,6 +70,11 @@ export function init3D(container: HTMLElement | null, loaderUrl: string) {
     const sprite = new THREE.Sprite(spriteMaterial);
     sprite.position.set(0, 3, 0);
     scene.add(sprite);
+    /**
+     * 后处理渲染通道
+     */
+
+    outlinePass = new OutlinePass(new THREE.Vector2(width, height), scene, camera); // 描边通道：OutlinePass第一个参数v2的尺寸和canvas画布保持一致
     /**
      * 创建辅助观察坐标系
      */
@@ -155,30 +161,25 @@ export function animationPlay(name: string) {
 }
 
 /**
- * 后处理-合成渲染
- * @param composer 后处理合成器
- * @param mesh 模型
+ * 后处理矫正
  */
-export function composerInit(mesh: unknown) {
+export function composerInit() {
   // 后处理合成器
   composer = new EffectComposer(renderer);
   // 创建一个渲染器通道，场景和相机作为参数
   const renderPass = new RenderPass(scene, camera);
   // 设置renderPass通道
   composer.addPass(renderPass);
-  // OutlinePass第一个参数v2的尺寸和canvas画布保持一致
-  const v2 = new THREE.Vector2(width, height);
-  const outlinePass = new OutlinePass(v2, scene, camera);
-  // 一个模型对象
-  outlinePass.selectedObjects = [mesh];
-  // 设置OutlinePass通道
-  composer.addPass(outlinePass);
   // 颜色矫正：创建伽马校正通道
   const gammaPass = new ShaderPass(GammaCorrectionShader);
   composer.addPass(gammaPass);
-  //获取.setPixelRatio()设置的设备像素比
+  //抗锯齿处理：获取.setPixelRatio()设置的设备像素比
   const pixelRatio = renderer.getPixelRatio();
   // width、height是canva画布的宽高度
   const smaaPass = new SMAAPass(width * pixelRatio, height * pixelRatio);
   composer.addPass(smaaPass);
+  if (outlinePass) {
+    // 设置OutlinePass通道
+    composer.addPass(outlinePass);
+  }
 }
