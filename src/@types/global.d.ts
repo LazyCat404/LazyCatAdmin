@@ -20,14 +20,14 @@ declare global {
 declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
     // 与auto-imports.d不同，可以在组件上引用
-    $tool: typeof import('@/utils/tool')['default'];
+    $tool: (typeof import('@/utils/tool'))['default'];
   }
   export interface GlobalComponents {
     // 自定义全局组件
-    LazyPage: typeof import('@/components/auto/LazyPage')['default'];
-    LazyCopy: typeof import('@/components/auto/LazyCopy')['default'];
-    LazyTable: typeof import('@/components/auto/LazyTable')['default'];
-    LazySearch: typeof import('@/components/auto/LazySearch')['default'];
-    LazySplitSelect: typeof import('@/components/auto/LazySplitSelect')['default'];
+    LazyPage: (typeof import('@/components/auto/LazyPage'))['default'];
+    LazyCopy: (typeof import('@/components/auto/LazyCopy'))['default'];
+    LazyTable: (typeof import('@/components/auto/LazyTable'))['default'];
+    LazySearch: (typeof import('@/components/auto/LazySearch'))['default'];
+    LazySplitSelect: (typeof import('@/components/auto/LazySplitSelect'))['default'];
   }
 }

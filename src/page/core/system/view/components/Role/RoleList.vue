@@ -23,7 +23,7 @@
 <script lang="ts" setup>
 import api from '@api';
 import { res } from '@types';
-import {  reactive } from 'vue';
+import { reactive } from 'vue';
 const state = reactive<any>({
   roleList: [],
   activeRole: null

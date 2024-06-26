@@ -28,7 +28,7 @@
         <Select
           v-if="multiple"
           :data="data"
-          :modelValue="(modelValue as Array<any>)"
+          :modelValue="modelValue as Array<any>"
           :treeProps="defaultTreeProps"
           :listProps="defaultListProps"
           @change="checkChange"
@@ -36,7 +36,7 @@
         <Radio
           v-else
           :data="data"
-          :modelValue="(modelValue as string|number)"
+          :modelValue="modelValue as string | number"
           :treeProps="defaultTreeProps"
           :listProps="defaultListProps"
           @change="radioChange"

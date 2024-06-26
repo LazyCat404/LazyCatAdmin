@@ -58,7 +58,9 @@ function switchTab(path: string) {
       height: 28px;
       line-height: 28px;
       font-size: 20px;
-      font-family: PingFangSC-Semibold, PingFang SC;
+      font-family:
+        PingFangSC-Semibold,
+        PingFang SC;
       font-weight: 600;
       color: #ffffff;
     }
@@ -76,7 +78,9 @@ function switchTab(path: string) {
       background: #5d677d;
       border-radius: 8px 8px 0px 0px;
       font-size: 16px;
-      font-family: PingFangSC-Semibold, PingFang SC;
+      font-family:
+        PingFangSC-Semibold,
+        PingFang SC;
       font-weight: 600;
       color: #ffffff;
       margin-right: 20px;

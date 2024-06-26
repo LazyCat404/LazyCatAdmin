@@ -161,8 +161,8 @@ function handleRadioChange(value: any) {
       typeof props.headerItem.filter == 'boolean'
         ? props.headerItem.prop
         : props.headerItem.filter.key
-        ? props.headerItem.filter.key
-        : props.headerItem.prop,
+          ? props.headerItem.filter.key
+          : props.headerItem.prop,
     value: obj.selected
   });
 }
@@ -195,8 +195,8 @@ function confirmFilter(type: number) {
         typeof props.headerItem.filter == 'boolean'
           ? props.headerItem.prop
           : props.headerItem.filter.key
-          ? props.headerItem.filter.key
-          : props.headerItem.prop,
+            ? props.headerItem.filter.key
+            : props.headerItem.prop,
       value: obj.checked
     });
   }

@@ -26,7 +26,9 @@ const route = useRoute() as any;
   ::v-deep .el-breadcrumb__inner {
     height: 17px;
     font-size: 12px;
-    font-family: PingFangSC-Regular, PingFang SC;
+    font-family:
+      PingFangSC-Regular,
+      PingFang SC;
     font-weight: 400;
     color: #5d677d;
     line-height: 17px;

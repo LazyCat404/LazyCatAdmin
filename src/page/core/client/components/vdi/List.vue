@@ -125,7 +125,9 @@ function currentItemDetail(item: any, i: number) {
         padding-bottom: 18px;
         height: 22px;
         font-size: 16px;
-        font-family: PingFangSC-Semibold, PingFang SC;
+        font-family:
+          PingFangSC-Semibold,
+          PingFang SC;
         font-weight: 600;
         color: #333333;
         line-height: 22px;

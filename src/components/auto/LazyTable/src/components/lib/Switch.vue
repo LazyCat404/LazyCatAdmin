@@ -6,8 +6,8 @@
           ? obj.switchValue
           : props.bodyItem.switch.tipActive
         : props.bodyItem.switch.tipInactive === undefined
-        ? obj.switchValue
-        : props.bodyItem.switch.tipInactive
+          ? obj.switchValue
+          : props.bodyItem.switch.tipInactive
     }`"
     placement="top"
     :disabled="

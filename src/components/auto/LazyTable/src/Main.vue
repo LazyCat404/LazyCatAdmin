@@ -55,10 +55,10 @@
               : '100%'
             : '100%'
           : obj.tableConfig.fitContent
-          ? tableData.length
-            ? 'auto'
+            ? tableData.length
+              ? 'auto'
+              : 'calc(100% - 60px)'
             : 'calc(100% - 60px)'
-          : 'calc(100% - 60px)'
       "
     >
       <!-- 空数据提示 -->
@@ -80,8 +80,8 @@
               ? item.customColumn === undefined
                 ? true
                 : item.customColumn.show === undefined
-                ? true
-                : item.customColumn.show
+                  ? true
+                  : item.customColumn.show
               : item.show
           "
           :width="item.width"
@@ -95,8 +95,8 @@
             item.status
               ? false
               : item.tip === undefined
-              ? config.tip
-              : item.tip
+                ? config.tip
+                : item.tip
           "
         >
           <!-- 表头 -->
@@ -264,10 +264,10 @@ function minWidth(par: any) {
         ? minWidth2
         : minWidth1
       : minWidth1
-      ? minWidth1
-      : minWidth2
-      ? minWidth2
-      : undefined;
+        ? minWidth1
+        : minWidth2
+          ? minWidth2
+          : undefined;
   return dMin || minWidth;
 }
 // 分页回调

@@ -19,9 +19,9 @@
               ? (element.customColumn.show =
                   element.customColumn.show == undefined ? false : !element.customColumn.show)
               : element.customColumn.disabled
-              ? null
-              : (element.customColumn.show =
-                  element.customColumn.show == undefined ? false : !element.customColumn.show)
+                ? null
+                : (element.customColumn.show =
+                    element.customColumn.show == undefined ? false : !element.customColumn.show)
           "
         >
           <span>{{ element.label }}</span>

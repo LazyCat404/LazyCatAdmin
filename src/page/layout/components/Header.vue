@@ -92,7 +92,9 @@ function outLogin() {
     .oper-box {
       height: 20px;
       font-size: 14px;
-      font-family: PingFangSC-Regular, PingFang SC;
+      font-family:
+        PingFangSC-Regular,
+        PingFang SC;
       font-weight: 400;
       color: #333333;
       line-height: 20px;

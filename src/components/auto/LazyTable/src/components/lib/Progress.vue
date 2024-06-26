@@ -150,7 +150,9 @@ init();
   > span {
     margin-left: 10px;
     font-size: 14px;
-    font-family: PingFangSC-Semibold, PingFang SC;
+    font-family:
+      PingFangSC-Semibold,
+      PingFang SC;
     font-weight: 600;
     line-height: 16px;
   }

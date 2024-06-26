@@ -24,10 +24,10 @@
             props.bodyItem.status === undefined && props.bodyItem.ico === undefined
               ? '100%'
               : props.bodyItem.ico !== undefined && props.bodyItem.status !== undefined
-              ? 'calc(100% - 37px)'
-              : props.bodyItem.ico !== undefined
-              ? 'calc(100% - 21px)'
-              : 'calc(100% - 16px)'
+                ? 'calc(100% - 37px)'
+                : props.bodyItem.ico !== undefined
+                  ? 'calc(100% - 21px)'
+                  : 'calc(100% - 16px)'
           }`
         }
       ]"
@@ -188,8 +188,8 @@ function rowConfirm() {
         props.bodyItem.edit === true
           ? 'text'
           : props.bodyItem.edit.type === undefined || props.bodyItem.edit.type === ''
-          ? 'text'
-          : props.bodyItem.edit.type,
+            ? 'text'
+            : props.bodyItem.edit.type,
       prop: props.bodyItem.prop,
       label: props.bodyItem.label,
       rowIndex: obj.nowRowIndex, // 行数 从0 开始，仅用于前端修改数

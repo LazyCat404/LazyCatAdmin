@@ -8,8 +8,8 @@
             !props.detail.default && props.detail.modify
               ? '#f0cf9e'
               : props.detail.default && !props.detail.modify
-              ? '#a0a6ff'
-              : '#a1d9ce'
+                ? '#a0a6ff'
+                : '#a1d9ce'
         }
       ]"
     >
@@ -27,7 +27,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import {  } from 'vue';
+import {} from 'vue';
 
 const props = defineProps<{
   detail?: any;

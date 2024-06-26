@@ -225,10 +225,10 @@ function conditionClick(item: listItem) {
               valueListItem.label !== undefined
                 ? valueListItem.label
                 : valueListItem.name !== undefined
-                ? valueListItem.name
-                : valueListItem.title !== undefined
-                ? valueListItem.title
-                : '';
+                  ? valueListItem.name
+                  : valueListItem.title !== undefined
+                    ? valueListItem.title
+                    : '';
           }
           // value
           if (item.listProps && item.listProps.value) {
@@ -238,14 +238,14 @@ function conditionClick(item: listItem) {
               valueListItem.value !== undefined
                 ? valueListItem.value
                 : valueListItem.id !== undefined
-                ? valueListItem.id
-                : valueListItem.key !== undefined
-                ? valueListItem.key
-                : valueListItem.uuid !== undefined
-                ? valueListItem.uuid
-                : valueListItem.code !== undefined
-                ? valueListItem.code
-                : trimItem.label;
+                  ? valueListItem.id
+                  : valueListItem.key !== undefined
+                    ? valueListItem.key
+                    : valueListItem.uuid !== undefined
+                      ? valueListItem.uuid
+                      : valueListItem.code !== undefined
+                        ? valueListItem.code
+                        : trimItem.label;
           }
           if (!trimItem.label) {
             console.warn(`${item.label}筛选值可选列表项缺少可用label，这可能会影响您的使用`);
@@ -419,14 +419,14 @@ function init() {
                   item.value !== undefined
                     ? item.value == (props.modelValue as any)[key]
                     : item.id !== undefined
-                    ? item.id == (props.modelValue as any)[key]
-                    : item.key !== undefined
-                    ? item.key == (props.modelValue as any)[key]
-                    : item.uuid !== undefined
-                    ? item.uuid == (props.modelValue as any)[key]
-                    : item.code !== undefined
-                    ? item.code == (props.modelValue as any)[key]
-                    : false;
+                      ? item.id == (props.modelValue as any)[key]
+                      : item.key !== undefined
+                        ? item.key == (props.modelValue as any)[key]
+                        : item.uuid !== undefined
+                          ? item.uuid == (props.modelValue as any)[key]
+                          : item.code !== undefined
+                            ? item.code == (props.modelValue as any)[key]
+                            : false;
               }
               if (isMate) {
                 mateItem = item;
@@ -439,10 +439,10 @@ function init() {
                 mateItem.label !== undefined
                   ? mateItem.label
                   : mateItem.name !== undefined
-                  ? mateItem.name
-                  : mateItem.title !== undefined
-                  ? mateItem.title
-                  : (props.modelValue as any)[key];
+                    ? mateItem.name
+                    : mateItem.title !== undefined
+                      ? mateItem.title
+                      : (props.modelValue as any)[key];
             }
             obj.finishSelectList.push({
               ...finishSelectItem,
