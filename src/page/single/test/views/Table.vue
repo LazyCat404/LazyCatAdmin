@@ -1,7 +1,7 @@
 <template>
   <div class="test-table-wrapper">
     <div>
-      <LazySearch :list="obj.list" @change="searchChange" v-model="obj.searchValue" type="Expand"></LazySearch>
+      <LazySearch :list="obj.list" @change="searchChange" v-model="obj.searchValue"></LazySearch>
     </div>
   </div>
 </template>
@@ -9,7 +9,7 @@
 import { reactive } from 'vue';
 
 const obj = reactive<any>({
-  searchValue: {},
+  searchValue: { class: 1 },
   list: [
     {
       label: '时间',
@@ -24,10 +24,15 @@ const obj = reactive<any>({
     {
       label: '班级',
       key: 'class',
+      show: false,
       list: [
         {
           label: '一班',
           value: 1
+        },
+        {
+          label: '二班',
+          value: 2
         }
       ]
       // type: 'select'

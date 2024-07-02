@@ -14,6 +14,7 @@
 |:--------|:---------:|:---------:|:---------:|--------:|
 | label | 查询条件名 | `string` | - | 是 |
 | key | 条件对应字段，不可重复 |`string`| - | 是 |
+| show | 是否在可选条件列表内显示 |`boolean`| true | 否 |
 | type | 选项值类型 |`string`| `time`, `timerange`, `date`, `daterange`, `month`, `monthrange`, `week`, `year`, `select` | 否 |
 
 ### 关于选项值为 select 说明
@@ -32,10 +33,15 @@
 [
   {
     label:'名称',
-    key:'name'
+    key:'name',
   },{
     label:'班级',
     key:'class',
+    // listProps:{
+    //   label:'label',
+    //   value:'value'
+    // }
+    // type: 'select', // 此处type可以不写，自动识别为 select 
     list: [
       {
         label: '一班',

@@ -30,7 +30,7 @@
       class="condition-select-box"
       :style="{
         'padding-left': obj.finishSelectList && obj.finishSelectList.length ? '11px' : '',
-        'min-width': filter.list.length ? '300px' : ''
+        'min-width': isAllSelect() ? '' : '300px'
       }"
     >
       <div class="filter-value-box">
@@ -84,9 +84,10 @@
         <el-input
           v-else
           ref="filterValue"
-          :readonly="filter.type == 'time' ? true : false"
           v-model="filter.value"
-          :placeholder="obj.placeholder"
+          :readonly="filter.type == 'time' ? true : false"
+          :disabled="isAllSelect()"
+          :placeholder="isAllSelect() ? '' : obj.placeholder"
           @focus="inputFocus"
           @blur="inputBlur"
           @input="conditionInput"
@@ -106,9 +107,11 @@
             <span></span>
           </template>
           <ul>
-            <li v-for="item in filter.list" :key="item.key" @click="conditionClick(item)">
-              {{ item.label }}
-            </li>
+            <template v-for="item in filter.list" :key="item.key">
+              <li v-if="item.show == undefined || item.show" @click="conditionClick(item)">
+                {{ item.label }}
+              </li>
+            </template>
           </ul>
         </el-popover>
       </div>
@@ -377,6 +380,22 @@ function arrangeList() {
     }
   });
 }
+// 工具方法：判断显示的可选列表是否全部选中
+function isAllSelect() {
+  let isAllSelect = false;
+  if (filter.list.length) {
+    for (let i = 0; i < filter.list.length; i++) {
+      if (filter.list[i].show == undefined || filter.list[i].show) {
+        isAllSelect = false;
+        break;
+      }
+      isAllSelect = true;
+    }
+  } else {
+    isAllSelect = true;
+  }
+  return isAllSelect;
+}
 function inputBlur() {
   filter.show = false;
 }
@@ -547,6 +566,26 @@ init();
           .el-input__prefix,
           .el-input__suffix {
             display: none;
+          }
+        }
+      }
+      // select 选框
+      ::v-deep .el-select {
+        .el-select__wrapper {
+          min-width: 170px;
+          box-shadow: none;
+          padding: 0;
+          .el-select__icon {
+            display: none;
+          }
+        }
+      }
+      // 禁用的输入框
+      ::v-deep .is-disabled {
+        .el-input__wrapper {
+          background-color: transparent;
+          .el-input__inner {
+            cursor: default;
           }
         }
       }
