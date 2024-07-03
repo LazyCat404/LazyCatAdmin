@@ -586,6 +586,7 @@ init();
           background-color: transparent;
           .el-input__inner {
             cursor: default;
+            background: transparent;
           }
         }
       }
