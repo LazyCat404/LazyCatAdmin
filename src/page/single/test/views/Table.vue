@@ -19,7 +19,7 @@ const obj = reactive<any>({
     {
       label: '日期',
       key: 'date',
-      type: 'year'
+      type: 'datetimerange'
     },
     {
       label: '班级',

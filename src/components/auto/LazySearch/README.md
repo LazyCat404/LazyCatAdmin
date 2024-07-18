@@ -15,7 +15,7 @@
 | label | 查询条件名 | `string` | - | 是 |
 | key | 条件对应字段，不可重复 |`string`| - | 是 |
 | show | 是否在可选条件列表内显示 |`boolean`| true | 否 |
-| type | 选项值类型 |`string`| `time`, `timerange`, `date`, `daterange`, `month`, `monthrange`, `week`, `year`, `select` | 否 |
+| type | 选项值类型 |`string`| `time`, `timerange`, `date`, `daterange`, `datetime`,`datetimerange`,`month`, `monthrange`, `week`, `year`, `select` | 否 |
 
 ### 关于选项值为 select 说明
 
@@ -23,7 +23,7 @@
 
 2. `list.list`可通过`list.listProps`指定`list.list`的`label`和`value`，若不指定，
 
-  - `label`默认取`label > name > title`；
+  - `label`默认取`label > name > title > text`；
 
   - `value`默认取`value > id > key > uuid > code`
 

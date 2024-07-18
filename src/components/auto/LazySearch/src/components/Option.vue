@@ -52,6 +52,8 @@
         <!-- 日期选择 -->
         <el-date-picker
           v-else-if="
+            filter.type == 'datetimerange' ||
+            filter.type == 'datetime' ||
             filter.type == 'daterange' ||
             filter.type == 'date' ||
             filter.type == 'monthrange' ||
@@ -138,8 +140,20 @@ const props = defineProps<{
 const obj = reactive<any>({
   placeholder: '请选择查询条件',
   finishSelectList: [], // 已选条件列表
-  popoverTypeList: ['time', 'timerange', 'date', 'daterange', 'month', 'monthrange', 'week', 'year', 'select'],
-  dateTimeRangeTypeList: ['timerange', 'daterange', 'monthrange'],
+  popoverTypeList: [
+    'time',
+    'timerange',
+    'date',
+    'daterange',
+    'datetime',
+    'datetimerange',
+    'month',
+    'monthrange',
+    'week',
+    'year',
+    'select'
+  ],
+  dateTimeRangeTypeList: ['timerange', 'daterange', 'datetimerange', 'monthrange'],
   labelValueTypeList: ['select']
 });
 const filter = reactive<any>({
@@ -182,6 +196,14 @@ const varyingFormat = computed(() => {
     case 'daterange':
       varyingFormat.format = 'YYYY/MM/DD';
       varyingFormat.valueFormat = 'YYYY/MM/DD';
+      break;
+    case 'datetime':
+      varyingFormat.format = 'YYYY/MM/DD HH:mm:ss';
+      varyingFormat.valueFormat = 'YYYY/MM/DD HH:mm:ss';
+      break;
+    case 'datetimerange':
+      varyingFormat.format = 'YYYY/MM/DD HH:mm:ss';
+      varyingFormat.valueFormat = 'YYYY/MM/DD HH:mm:ss';
       break;
     case 'month':
       varyingFormat.format = 'YYYY/MM';
@@ -231,7 +253,9 @@ function conditionClick(item: listItem) {
                   ? valueListItem.name
                   : valueListItem.title !== undefined
                     ? valueListItem.title
-                    : '';
+                    : valueListItem.text !== undefined
+                      ? valueListItem.text
+                      : '';
           }
           // value
           if (item.listProps && item.listProps.value) {
@@ -461,7 +485,9 @@ function init() {
                     ? mateItem.name
                     : mateItem.title !== undefined
                       ? mateItem.title
-                      : (props.modelValue as any)[key];
+                      : mateItem.text !== undefined
+                        ? mateItem.text
+                        : (props.modelValue as any)[key];
             }
             obj.finishSelectList.push({
               ...finishSelectItem,
