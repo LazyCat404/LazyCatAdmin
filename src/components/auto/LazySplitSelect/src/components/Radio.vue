@@ -4,18 +4,20 @@
       <el-tree :data="data" accordion :props="{ class: customNodeClass, ...treeProps }" @node-click="nodeClick" />
     </el-scrollbar>
     <div class="node-target-box">
-      <div v-if="!obj.targetList.length" class="node-target-empty">暂无数据</div>
-      <el-radio-group v-else v-model="obj.selectTarget">
-        <el-radio
-          v-for="(item, i) in obj.targetList"
-          :key="i"
-          :label="item[listProps.value]"
-          :disabled="item[listProps.disabled]"
-          @click="item[listProps.disabled] ? null : radioClick($event, item[listProps.value], item)"
-        >
-          <span v-hide>{{ item[listProps.label] }}</span>
-        </el-radio>
-      </el-radio-group>
+      <el-scrollbar height="220px">
+        <div v-if="!obj.targetList.length" class="node-target-empty">暂无数据</div>
+        <el-radio-group v-else v-model="obj.selectTarget">
+          <el-radio
+            v-for="(item, i) in obj.targetList"
+            :key="i"
+            :label="item[listProps.value]"
+            :disabled="item[listProps.disabled]"
+            @click="item[listProps.disabled] ? null : radioClick($event, item[listProps.value], item)"
+          >
+            <span v-hide>{{ item[listProps.label] }}</span>
+          </el-radio>
+        </el-radio-group>
+      </el-scrollbar>
     </div>
   </div>
 </template>
@@ -150,25 +152,28 @@ watch(
     padding-left: 12px;
     box-sizing: border-box;
     border-left: 1px solid #c0c4cc;
-    .node-target-empty {
-      color: #909399;
-      text-align: center;
-      height: 26px;
-      line-height: 26px;
-    }
-    .el-radio-group {
+    > .el-scrollbar {
       width: 100%;
-      .el-radio {
+      .node-target-empty {
+        color: #909399;
+        text-align: center;
+        height: 26px;
+        line-height: 26px;
+      }
+      .el-radio-group {
         width: 100%;
-        margin-right: 0;
-        ::v-deep .el-radio__label {
-          display: flex;
-          align-items: center;
-          box-sizing: border-box;
-          width: calc(100% - 14px);
-          > span {
-            display: inline-block;
-            width: 100%;
+        .el-radio {
+          width: 100%;
+          margin-right: 0;
+          ::v-deep .el-radio__label {
+            display: flex;
+            align-items: center;
+            box-sizing: border-box;
+            width: calc(100% - 14px);
+            > span {
+              display: inline-block;
+              width: 100%;
+            }
           }
         }
       }

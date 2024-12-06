@@ -28,7 +28,7 @@
         <Select
           v-if="multiple"
           :data="data"
-          :modelValue="modelValue as Array<any>"
+          :modelValue="modelValue"
           :treeProps="defaultTreeProps"
           :listProps="defaultListProps"
           @change="checkChange"
@@ -36,7 +36,7 @@
         <Radio
           v-else
           :data="data"
-          :modelValue="modelValue as string | number"
+          :modelValue="modelValue"
           :treeProps="defaultTreeProps"
           :listProps="defaultListProps"
           @change="radioChange"
@@ -69,7 +69,7 @@ interface Props {
     value?: string;
     disabled?: string;
   };
-  modelValue: Array<string | number> | string | number;
+  modelValue: any;
 }
 const props = withDefaults(defineProps<Props>(), {
   data: () => [],

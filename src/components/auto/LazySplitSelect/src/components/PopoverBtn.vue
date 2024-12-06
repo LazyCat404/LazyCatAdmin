@@ -150,15 +150,23 @@ watch(
     }
   }
   .select-trigger {
+    position: absolute;
+    z-index: 999;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 4px;
+    box-sizing: border-box;
     .el-select__tags {
-      max-width: calc(100% - 35px);
+      width: calc(100% - 35px);
       .el-select-tags-wrapper {
         width: calc(100% - 6px);
         display: flex;
         .is-closable {
-          flex: 1;
           display: block;
           overflow: hidden;
+          margin-right: 6px;
           .el-tag__content {
             display: flex;
             align-items: center;
