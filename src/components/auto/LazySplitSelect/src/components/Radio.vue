@@ -10,7 +10,7 @@
           <el-radio
             v-for="(item, i) in obj.targetList"
             :key="i"
-            :label="item[listProps.value]"
+            :value="item[listProps.value]"
             :disabled="item[listProps.disabled]"
             @click="item[listProps.disabled] ? null : radioClick($event, item[listProps.value], item)"
           >
