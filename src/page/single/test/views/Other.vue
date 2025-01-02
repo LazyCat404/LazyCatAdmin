@@ -1,41 +1,52 @@
 <template>
-  <div class="other-wrapper">
-    <div id="three-box"></div>
+  <div class="error-wrapper">
+    <div>
+      <LazySplitSelect
+        v-model="form.userList"
+        :data="userList"
+        :treeProps="treeProps"
+        :listProps="listProps"
+        :filterable="true"
+        :filter-method="filterMethod"
+        :clearable="true"
+        :multiple="false"
+        @change="userChange"
+      ></LazySplitSelect>
+    </div>
   </div>
 </template>
-<script setup lang="ts">
-import { onMounted } from 'vue';
-import { init3D } from '@/utils/3D/gltfLoader';
-
-// 初始化
-function init() {
-  const container = document.getElementById('three-box');
-  let url = 'http://localhost:3000/models/gltf/RobotExpressive/RobotExpressive.glb';
-  // let url = 'http://localhost:3000/工厂.glb';
-  init3D(container, url);
-}
-
-// 页面加载结束
-onMounted(() => {
-  init();
+<script lang="ts" setup>
+import { ref } from 'vue';
+import userList from './data.json';
+const form = ref<any>({
+  // userList: ['a54d4ce8-d922-4883-afae-e2aa32ac2cb5', '3711ac1f-07b7-416b-ad7a-1723795a97d7']
+  userList: 'a54d4ce8-d922-4883-afae-e2aa32ac2cb5'
 });
+const treeProps = ref<any>({
+  label: 'name',
+  list: 'userList',
+  children: 'child',
+  value: 'uuid'
+});
+const listProps = ref<any>({
+  label: 'nameId',
+  value: 'uuid'
+});
+function userChange() {
+  // console.log('绑定值：', form.value.userList);
+}
+function filterMethod() {
+  //
+}
 </script>
-<style scoped lang="scss">
-.other-wrapper {
+<style lang="scss" scoped>
+.error-wrapper {
   width: 100%;
   height: 100%;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  #three-box {
-    width: 100%;
-    height: 100%;
-  }
-  .btn-box {
-    position: absolute;
-    bottom: 30px;
+  padding: 20px;
+  box-sizing: border-box;
+  > div {
+    width: 310px;
   }
 }
 </style>

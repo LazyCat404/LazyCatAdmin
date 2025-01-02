@@ -215,18 +215,23 @@ function allCheckBtnControl() {
   }
 }
 watch(
+  () => props.modelValue,
+  () => {
+    if (JSON.stringify(props.modelValue) !== JSON.stringify(obj.selectTarget)) {
+      // console.log('双向绑定数据改变，调用默认选中');
+      defaultSelected();
+    }
+  },
+  { deep: true, immediate: true }
+);
+watch(
   () => props.data,
   () => {
-    console.log('原始数据绑定改变，调用默认选中');
+    // console.log('原始数据绑定改变，调用默认选中');
     defaultSelected();
   },
   { deep: true }
 );
-//初始化
-function init() {
-  defaultSelected();
-}
-init();
 </script>
 <style scoped lang="scss">
 .select-wrapper {

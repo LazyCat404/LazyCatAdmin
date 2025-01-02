@@ -20,6 +20,8 @@
           :placeholder="placeholder"
           :selectTarget="obj.selectTarget"
           :listProps="defaultListProps"
+          :filterable="filterable"
+          :filterMethod="filterMethod"
           @clear="clear"
           @delMultipleValue="delMultipleValue"
         ></PopoverBtn>
@@ -57,6 +59,8 @@ interface Props {
   disabled?: boolean;
   multiple?: boolean;
   clearable?: boolean;
+  filterable?: boolean;
+  filterMethod?: () => void;
   placeholder?: string;
   treeProps?: {
     label?: string;
@@ -76,6 +80,8 @@ const props = withDefaults(defineProps<Props>(), {
   disabled: () => false,
   multiple: () => false,
   clearable: () => false,
+  filterable: () => false,
+  filterMethod: () => undefined,
   placeholder: () => '请选择',
   treeProps: () => {
     return {
@@ -188,7 +194,6 @@ onMounted(() => {
 </script>
 <style scoped lang="scss">
 .lazy-split-select-wrapper {
-  flex: 1;
   width: 100%;
   height: 100%;
 }
