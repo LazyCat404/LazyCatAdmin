@@ -15,6 +15,11 @@ export default [
         path: 'table',
         name: 'TestTable',
         component: (): unknown => import('@page/single/test/views/Table.vue')
+      },
+      {
+        path: 'general',
+        name: 'General',
+        component: (): unknown => import('@page/single/test/views/General.vue')
       }
     ]
   }
