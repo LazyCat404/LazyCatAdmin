@@ -184,6 +184,8 @@ function targetMap() {
         if (!checkMap.has(item)) {
           checkMap.set(item, true);
         }
+      } else {
+        checkMap.delete(item);
       }
     });
   } else {
