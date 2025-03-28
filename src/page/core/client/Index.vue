@@ -19,4 +19,8 @@ function switchTab(path: string) {
   }
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.client-wrapper {
+  margin-top: 0 !important;
+}
+</style>

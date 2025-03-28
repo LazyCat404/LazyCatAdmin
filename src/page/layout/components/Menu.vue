@@ -53,9 +53,8 @@
 </template>
 
 <script lang="ts" setup>
-// import api from '@api';
 import { computed, reactive } from 'vue';
-import menuData from '@/assets/json/menu.json';
+import menuData from './menu/menu.json';
 
 const route = useRoute();
 const state = reactive<any>({
@@ -88,13 +87,6 @@ function menuTypeChange() {
   state.isCollapse = !state.isCollapse;
   $emit('menuTypeChange', state.isCollapse);
 }
-
-// 获取菜单
-// (function getMenu() {
-//   // api.user.getMenu().then((res: res) => {
-//   //   menu.list = res.data;
-//   // });
-// })();
 </script>
 
 <style lang="scss" scoped>
@@ -146,7 +138,7 @@ function menuTypeChange() {
     overflow: auto;
     > .el-menu-item,
     > .el-sub-menu {
-      width: 300px;
+      width: 250px;
       margin-bottom: 48px;
       font-size: 16px;
       font-weight: 500;
@@ -187,7 +179,7 @@ function menuTypeChange() {
         margin-bottom: 0;
         margin-left: 80px;
         padding-left: 20px;
-        width: 200px;
+        width: 150px;
         height: 44px;
         border-radius: 4px;
         font-size: 14px;
@@ -259,6 +251,7 @@ function menuTypeChange() {
     padding: 10px;
     border-radius: 8px;
     box-shadow: 0 0 10px 0 rgba(13, 34, 67, 0.1);
+    min-width: 150px;
     .el-menu-item {
       color: #5d677d;
       height: 40px;

@@ -42,8 +42,5 @@ const route = useRoute() as any;
   ::v-deep .el-breadcrumb__inner {
     color: #fff;
   }
-  // ::v-deep .el-breadcrumb__separator {
-  //   color: #fff;
-  // }
 }
 </style>

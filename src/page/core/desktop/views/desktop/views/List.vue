@@ -103,7 +103,7 @@ function sortChange(par: unknown) {
     padding: 15px;
     box-sizing: border-box;
     width: calc(100% - 30px);
-    height: calc(100% - 95px);
+    height: calc(100% - 85px);
     margin: 0 15px 15px 15px;
     border-radius: 4px;
     background-color: #fff;

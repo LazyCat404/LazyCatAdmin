@@ -37,7 +37,7 @@ function switchTab(path: string) {
 </script>
 <style lang="scss" scoped>
 .switch-tab-wrapper {
-  background-image: url('@/assets/images/head-bg.png');
+  background-image: url('@/assets/images/client/head-bg.png');
   background-size: 100% 100%;
   height: 154px;
   display: flex;

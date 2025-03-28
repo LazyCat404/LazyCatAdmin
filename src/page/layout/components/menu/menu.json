@@ -1,7 +1,7 @@
 [
   {
     "name": "工作台",
-    "path": "/visualization",
+    "path": "/home",
     "icon": "icon-gongzuotai1"
   },
   {
@@ -26,7 +26,26 @@
   },
   {
     "name": "系统配置",
-    "icon": "icon-xitongshezhi"
+    "icon": "icon-xitongshezhi",
+    "path": "/system",
+    "children": [
+      {
+        "name": "全局设置",
+        "path": "/system/overall"
+      },
+      {
+        "name": "用户设置",
+        "path": "/system/user"
+      },
+      {
+        "name": "角色管理",
+        "path": "/system/role"
+      },
+      {
+        "name": "操作日志",
+        "path": "/system/log"
+      }
+    ]
   }
 ]
 

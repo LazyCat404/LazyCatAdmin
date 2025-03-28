@@ -1,7 +1,7 @@
 /*
  * @Author: LazyCat404
  * @Date: 2023-04-07 10:38:55
- * @LastEditTime: 2023-04-07 10:58:12
+ * @LastEditTime: 2025-03-28 16:04:48
  * @LastEditors: LzayCat404
  * @Description: 系统设置
  */
@@ -49,9 +49,9 @@ export default [
         }
       },
       {
-        path: 'journal',
-        name: 'SystemJournal',
-        component: (): unknown => import('@page/core/system/view/Journal.vue'),
+        path: 'log',
+        name: 'SystemLog',
+        component: (): unknown => import('@page/core/system/view/Log.vue'),
         meta: {
           requireAuth: true,
           breadcrumb: [
