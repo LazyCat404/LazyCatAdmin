@@ -90,9 +90,10 @@ function filterChange(par: unknown) {
 function sortChange(par: unknown) {
   console.log('表头排序', par);
 }
-(function init() {
+function init() {
   getTableData();
-})();
+}
+init();
 </script>
 
 <style lang="scss" scoped>
@@ -100,11 +101,11 @@ function sortChange(par: unknown) {
   margin-top: 80px;
   display: flex;
   .content-box {
-    padding: 15px;
+    padding: 20px;
     box-sizing: border-box;
-    width: calc(100% - 30px);
-    height: calc(100% - 85px);
-    margin: 0 15px 15px 15px;
+    width: calc(100% - 40px);
+    height: calc(100% - 90px);
+    margin: 0 20px 20px 20px;
     border-radius: 4px;
     background-color: #fff;
     box-shadow: 0 0 4px 0 rgba(8, 106, 205, 0.1);

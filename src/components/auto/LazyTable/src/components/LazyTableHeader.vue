@@ -7,7 +7,9 @@
           {
             ...tableConfig.headerStyle,
             color: `${
-              obj.selected || obj.checked.length || obj.sort ? tableConfig.headerActiveColor : tableConfig.headerColor
+              obj.selected || obj.checked.length || (obj.sort && obj.sort.type)
+                ? tableConfig.headerActiveColor
+                : tableConfig.headerColor
             }`
           }
         ]"
@@ -259,11 +261,10 @@ function handleSort(type: string) {
   .table-header-sort {
     position: relative;
     width: 16px;
-    height: 16px;
+    height: 14px;
     min-width: 16px;
     top: 2px;
     .sort-caret {
-      left: 3px;
       cursor: pointer;
     }
     .ascending:hover {
