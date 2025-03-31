@@ -25,7 +25,7 @@ import { inspect } from '@/utils/inspect';
 const props = defineProps<{
   bodyItem: any; // 表格列设置
   rowData: any;
-  tableConfig: any;
+  tableConfig?: any;
 }>();
 const obj = reactive<any>({
   first: '', // 显示顺序（不要给默认值）
