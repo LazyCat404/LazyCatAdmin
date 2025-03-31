@@ -9,17 +9,30 @@ const router = createRouter({
 
 // 路由守卫
 router.beforeEach((to, from, next) => {
-  if (to.meta.requireAuth) {
-    if ($store.useUserStore().token) {
-      next(); // 已登录
+  if (router.getRoutes().some(route => route.path === to.path)) {
+    // 路由已配置
+    if (to.meta.requireAuth) {
+      // 需要登录
+      if ($store.useUserStore().token) {
+        // 已登录
+        next();
+      } else {
+        // 未登录（前往登录页）
+        next({
+          path: '/login',
+          query: { redirect: to.fullPath }
+        });
+      }
     } else {
-      next({
-        path: '/login',
-        query: { redirect: to.fullPath }
-      });
+      // 不需要登录（直接进入页面）
+      next();
     }
   } else {
-    next();
+    // 未配置路由（跳转error页）
+    next({
+      path: '/error'
+    });
   }
 });
+
 export default router;
