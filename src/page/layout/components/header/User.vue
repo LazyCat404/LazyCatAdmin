@@ -92,4 +92,13 @@ function outLogin() {
     }
   }
 }
+.user-wrapper[dark='true'] {
+  .oper-box {
+    .el-tooltip__trigger {
+      .user-name {
+        color: #fff;
+      }
+    }
+  }
+}
 </style>

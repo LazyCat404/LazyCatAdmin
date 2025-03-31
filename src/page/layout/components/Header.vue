@@ -1,16 +1,20 @@
 <template>
   <div class="header-wrapper">
     <Navigation :excludeRoute="obj.excludeRoute"></Navigation>
-    <User :excludeRoute="obj.excludeRoute"></User>
+    <div class="header-right-box">
+      <Other :excludeRoute="obj.excludeRoute"></Other>
+      <User :excludeRoute="obj.excludeRoute"></User>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
 import { reactive } from 'vue';
 import Navigation from './header/Navigation.vue';
 import User from './header/User.vue';
+import Other from './header/Other.vue';
 
 const obj = reactive({
-  excludeRoute: ['/client/vdi', '/client/voi']
+  excludeRoute: ['/client/vdi', '/client/voi'] // 深色Header路由
 });
 </script>
 <style scoped lang="scss">
@@ -21,5 +25,8 @@ const obj = reactive({
   top: 0;
   width: 100%;
   height: 70px;
+  .header-right-box {
+    display: flex;
+  }
 }
 </style>

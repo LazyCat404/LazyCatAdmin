@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "40209344",
+      "name": "运营大屏",
+      "font_class": "yunyingdaping",
+      "unicode": "e627",
+      "unicode_decimal": 58919
+    },
+    {
+      "icon_id": "9241385",
+      "name": "关闭",
+      "font_class": "guanbi",
+      "unicode": "e6e1",
+      "unicode_decimal": 59105
+    },
+    {
       "icon_id": "13085730",
       "name": "麒麟",
       "font_class": "qilin",
