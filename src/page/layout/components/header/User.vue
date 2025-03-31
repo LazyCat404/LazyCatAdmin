@@ -1,30 +1,26 @@
 <template>
-  <div class="header-wrapper" :dark="excludeRoute.includes(route.path)">
-    <!-- 用户列表 -->
-    <ul>
-      <li v-for="item in obj.systemList" :key="item.nmae">{{ item.name }}</li>
-    </ul>
-    <!-- 用户信息 -->
-    <div class="user-infor-box">
-      <div class="user-image">
-        <img :src="userImg" />
+  <div class="user-wrapper" :dark="excludeRoute.includes(route.path)">
+    <!-- 下拉菜单 -->
+    <el-dropdown class="oper-box" :teleported="false">
+      <div>
+        <!-- 用户头像 -->
+        <img class="user-image" :src="userImage" />
+        <!-- 用户名 -->
+        <span class="user-name">{{ useUserStore.userInfor && useUserStore.userInfor.name }}</span>
       </div>
-      <el-dropdown class="oper-box">
-        <div>{{ obj.userInfor.name }} <i class="iconfont icon-xiala"></i></div>
-        <template #dropdown>
-          <el-dropdown-menu class="user-dropdown-list">
-            <el-dropdown-item @click="goUserInfor">个人中心</el-dropdown-item>
-            <el-dropdown-item @click="outLogin" divided> 退出登录 </el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
-    </div>
+      <template #dropdown>
+        <el-dropdown-menu class="user-dropdown-list">
+          <el-dropdown-item @click="goUserInfor">个人中心</el-dropdown-item>
+          <el-dropdown-item @click="outLogin" divided> 退出登录 </el-dropdown-item>
+        </el-dropdown-menu>
+      </template>
+    </el-dropdown>
   </div>
 </template>
 
 <script lang="ts" setup>
 import userImage from '@/assets/images/layout/user.png';
-import { reactive } from 'vue';
+
 defineProps({
   excludeRoute: {
     type: Array, // 排除路由
@@ -37,15 +33,9 @@ defineProps({
 
 const router = useRouter();
 const route = useRoute();
-const obj = reactive<any>({
-  userInfor: {},
-  systemList: [] // 系统列表
-});
 
 const useUserStore = $store.useUserStore();
 
-// 用户头像
-const userImg = userImage;
 function goUserInfor() {
   console.log('跳转个人中心');
 }
@@ -60,7 +50,7 @@ function outLogin() {
 </script>
 
 <style lang="scss" scoped>
-.header-wrapper {
+.user-wrapper {
   height: 100%;
   padding-right: 40px;
   box-sizing: border-box;
@@ -68,54 +58,38 @@ function outLogin() {
   display: flex; /*定位（写在父元素中）*/
   justify-content: center; /*水平居中*/
   align-items: center;
-  > ul {
-    display: flex;
-    li {
-      margin-right: 60px;
-    }
-  }
-  .user-infor-box {
-    display: -webkit-flex;
-    display: flex; /*定位（写在父元素中）*/
-    justify-content: center; /*水平居中*/
-    align-items: center;
-    .user-image {
-      width: 40px;
-      height: 40px;
-      border-radius: 50% 50%;
-      overflow: hidden;
-      margin-right: 12px;
-      img {
-        width: 100%;
-      }
-    }
-    .oper-box {
-      height: 20px;
-      font-size: 14px;
-      font-family:
-        PingFangSC-Regular,
-        PingFang SC;
-      font-weight: 400;
-      color: #333333;
-      line-height: 20px;
-      cursor: pointer;
-      .iconfont {
-        font-size: 10px;
-        margin-left: 6px;
-      }
-    }
-  }
-}
-.header-wrapper[dark='true'] {
-  > ul > li,
   .oper-box {
-    color: #fff;
-  }
-}
-.user-dropdown-list {
-  padding: 10px 0px;
-  li {
-    padding: 0 20px;
+    .el-tooltip__trigger {
+      display: flex; /*定位（写在父元素中）*/
+      align-items: center;
+      cursor: pointer;
+      .user-image {
+        width: 40px;
+        height: 40px;
+        border-radius: 50% 50%;
+        overflow: hidden;
+        margin-right: 5px;
+      }
+      .user-name {
+        font-size: 14px;
+        font-weight: 400;
+        color: #333333;
+      }
+    }
+    // 下拉菜单
+    ::v-deep .user-dropdown-list {
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px 0 rgba(13, 34, 67, 0.1);
+      .el-dropdown-menu__item {
+        &:focus,
+        &:hover {
+          border-radius: 4px;
+          color: #01bc8f;
+          background-color: rgba(1, 188, 143, 0.1);
+        }
+      }
+    }
   }
 }
 </style>

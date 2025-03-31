@@ -20,6 +20,10 @@ li {
   height: 16px;
 }
 
+:focus-visible{
+  outline: none;
+}
+
 // 隐藏滚动条
 ::-webkit-scrollbar {
   display: none;

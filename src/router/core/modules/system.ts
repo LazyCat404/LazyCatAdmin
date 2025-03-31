@@ -1,7 +1,7 @@
 /*
  * @Author: LazyCat404
  * @Date: 2023-04-07 10:38:55
- * @LastEditTime: 2025-03-28 16:04:48
+ * @LastEditTime: 2025-03-31 13:51:14
  * @LastEditors: LzayCat404
  * @Description: 系统设置
  */
@@ -19,7 +19,7 @@ export default [
         meta: {
           requireAuth: true,
           breadcrumb: [
-            { title: '系统设置', path: '' },
+            { title: '系统设置', path: '', ico: 'icon-xitongshezhi' },
             { title: '全局设置', path: '' }
           ]
         }
@@ -31,7 +31,7 @@ export default [
         meta: {
           requireAuth: true,
           breadcrumb: [
-            { title: '系统设置', path: '' },
+            { title: '系统设置', path: '', ico: 'icon-xitongshezhi' },
             { title: '用户管理', path: '' }
           ]
         }
@@ -43,7 +43,7 @@ export default [
         meta: {
           requireAuth: true,
           breadcrumb: [
-            { title: '系统设置', path: '' },
+            { title: '系统设置', path: '', ico: 'icon-xitongshezhi' },
             { title: '角色管理', path: '' }
           ]
         }
@@ -55,7 +55,7 @@ export default [
         meta: {
           requireAuth: true,
           breadcrumb: [
-            { title: '系统设置', path: '' },
+            { title: '系统设置', path: '', ico: 'icon-xitongshezhi' },
             { title: '操作日志', path: '' }
           ]
         }

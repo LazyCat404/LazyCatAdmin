@@ -71,13 +71,13 @@ function submitForm() {
   width: 575px;
   height: 100%;
   background: #ffffff;
-  padding: 0 97.5px;
   box-sizing: border-box;
   display: flex;
   align-items: center;
+  justify-content: center;
   flex: 0 0 auto;
   .el-form {
-    width: 100%;
+    width: 380px;
     .el-form-item {
       margin-bottom: 24px;
       .el-form-item__content {
@@ -133,6 +133,11 @@ function submitForm() {
         letter-spacing: 0;
       }
     }
+  }
+}
+@media screen and (max-width: 575px) {
+  .login-form-wrapper {
+    width: 100%;
   }
 }
 </style>
