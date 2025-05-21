@@ -1,5 +1,9 @@
 <template>
-  <CustomTableComponent :rowData="props.rowData"></CustomTableComponent>
+  <CustomTableComponent
+    :rowData="props.rowData"
+    :freeData="props.bodyItem.freeData"
+    @temCallBack="props.bodyItem.temCallBack"
+  ></CustomTableComponent>
 </template>
 <script lang="ts" setup>
 import { Component, ComputedOptions, createApp, MethodOptions } from 'vue';
@@ -14,6 +18,7 @@ let CustomTableComponent: Component<any, any, any, ComputedOptions, MethodOption
   template: props.bodyItem.template,
   methods: props.bodyItem.methods
 };
+
 (function init() {
   // 单文件组件（回调、自定义参数）
   if (Object.prototype.toString.call(props.bodyItem.template) === '[object Object]') {

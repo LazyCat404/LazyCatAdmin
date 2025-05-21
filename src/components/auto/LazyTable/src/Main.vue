@@ -10,6 +10,7 @@
   <!-- 表格内容 -->
   <div
     class="lazy-table-wrapper"
+    :empty="tableData && tableData.length ? null : ''"
     :style="[
       {
         maxHeight: `${
@@ -23,6 +24,7 @@
   >
     <!-- 表格 -->
     <el-table
+      ref="lazyTableRef"
       :class="{ 'header-border': obj.tableConfig.headerBorder }"
       :key="tableKey"
       :header-row-style="{ height: obj.tableConfig.headerH }"
@@ -102,6 +104,7 @@
           <!-- 表头 -->
           <template #header>
             <LazyTableHeader
+              ref="lazyTableHeaderRef"
               :tableConfig="obj.tableConfig"
               :headerItem="item"
               @filter-change="filterChange"
@@ -141,6 +144,8 @@ import LazyTableHeader from './components/LazyTableHeader.vue';
 import LazyTableBody from './components/LazyTableBody.vue';
 import AdditionalFunctions from './components/AdditionalFunctions.vue';
 const elTableDom = ref(null);
+const lazyTableRef = ref();
+const lazyTableHeaderRef = ref();
 const $emits = defineEmits([
   'select',
   'select-all',
@@ -181,6 +186,15 @@ watch(
   () => {
     controlTable();
   }
+);
+watch(
+  () => props.tableOptions,
+  (newVal: unknown) => {
+    if (Array.isArray(newVal)) {
+      obj.customTableOptions = newVal;
+    }
+  },
+  { deep: true }
 );
 // 表格key（用于表格刷新）
 const tableKey = ref(Math.ceil(Math.random() * 10000000000));
@@ -393,12 +407,35 @@ function rowConfirm(par: unknown) {
 function switchChange(parame: unknown) {
   $emits('switch-change', parame);
 }
+// 表头筛选(手动)置空
+function clearFilter(value: unknown) {
+  if (lazyTableHeaderRef.value) {
+    if (!value || JSON.stringify(value) == '{}') {
+      // 所有表头筛选都置空
+      lazyTableHeaderRef.value.forEach((item: any) => {
+        item.clearFilter();
+      });
+    } else {
+      for (let key in value) {
+        lazyTableHeaderRef.value.forEach((item: any) => {
+          if (item.filterKey != key) {
+            item.clearFilter();
+          }
+        });
+      }
+    }
+  }
+}
 // 初始化
 (function init() {
   makeTableConfig();
 })();
 onMounted(() => {
   controlTable();
+});
+// 供父组件调用
+defineExpose({
+  clearFilter
 });
 </script>
 
@@ -455,5 +492,15 @@ onMounted(() => {
   text-overflow: unset;
   padding: 0 !important;
   text-align: center;
+}
+// 空数据表格
+.lazy-table-wrapper[empty] {
+  // 表头边框
+  .header-border {
+    ::v-deep .el-table__header-wrapper {
+      border-bottom: 0;
+      box-shadow: 0 0 0 1px #ececef;
+    }
+  }
 }
 </style>

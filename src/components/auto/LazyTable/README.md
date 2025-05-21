@@ -139,6 +139,10 @@ function expotBtn(par: unknown) {
         },
         ```
 
+3. `headTip`：表头提示
+
+ - 字符串：提示文字
+
 ### 常用配置
 
 - `prop`：显示字段
@@ -209,6 +213,18 @@ PS：使用该行时，`click`、`color`等配置会失效，所有渲染由模�
 #### 单文件组件
 
 在父组件内正常引入单文件组件`xx.vue` 将其赋值给`template`即可；可接收参数：`rowData`（对应行数据）
+
+单文件组件可通过 `temCallBack`，实现与父组件交互
+
+可以通过`freeData`实现任意数据传递
+
+```json
+{
+    template: markRaw(xx),  // xx 组件可通过defineEmits(['temCallBack']) 实现与父组件交互
+    temCallBack: () => {},
+    freeData:'这是一个向子组件传的任意一个数据' 
+}
+```
 
 PS：`tip` 配置不在起作用
 
