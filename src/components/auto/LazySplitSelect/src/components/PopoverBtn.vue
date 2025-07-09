@@ -3,7 +3,7 @@
     <div class="lazy-popover-btn-box">
       <template v-if="obj.radioValue || obj.multipleValue.length">
         <!-- 多选标签 -->
-        <div class="select-trigger el-tooltip__trigger" v-if="multiple && obj.multipleValue.length">
+        <div v-if="multiple && obj.multipleValue.length" class="select-trigger el-tooltip__trigger">
           <div tabindex="-1" class="el-select__tags">
             <span class="el-select-tags-wrapper has-prefix">
               <span class="el-tag is-closable el-tag--info el-tag--default el-tag--light">
@@ -21,7 +21,7 @@
                   </i>
                 </i>
               </span>
-              <span class="el-tag el-tag--info el-tag--default el-tag--light" v-if="obj.multipleValue.length > 1">
+              <span v-if="obj.multipleValue.length > 1" class="el-tag el-tag--info el-tag--default el-tag--light">
                 <span class="el-tag__content">
                   <span class="el-select__tags-text">+ {{ obj.multipleValue.length - 1 }}</span>
                 </span>
@@ -30,14 +30,14 @@
           </div>
         </div>
         <!-- 单选标签 -->
-        <div class="lazy-radio-trigger" v-else>
+        <div v-else class="lazy-radio-trigger">
           <span v-hide>
             {{ obj.radioValue }}
           </span>
         </div>
       </template>
       <!-- 筛选输入框 -->
-      <el-input v-else :placeholder="placeholder" v-model="obj.inputValue" :readonly="!filterable" />
+      <el-input v-else v-model="obj.inputValue" :placeholder="placeholder" :readonly="!filterable" />
     </div>
     <!-- ico -->
     <div
@@ -59,7 +59,7 @@
           ></path>
         </svg>
       </i>
-      <i class="el-icon el-select__caret clearable" v-if="clearable" @click.stop="clear">
+      <i v-if="clearable" class="el-icon el-select__caret clearable" @click.stop="clear">
         <svg viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
           <path
             fill="currentColor"
@@ -160,7 +160,7 @@ watch(
       top: 1px;
       height: calc(100% - 2px);
       margin-left: 1px;
-      ::v-deep .el-input__wrapper {
+      :deep(.el-input__wrapper) {
         box-shadow: none;
         padding-right: 0;
         .el-input__inner {

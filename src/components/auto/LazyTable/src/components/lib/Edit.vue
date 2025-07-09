@@ -61,7 +61,7 @@
           :multiple="$tool.isArray(obj.editData)"
           collapse-tags
           ref="tableRowInput"
-          @visible-change="visibleChange"
+          @visibleChange="visibleChange"
         >
           <el-option v-for="(item, i) in props.bodyItem.edit.list" :key="i" :label="item.label" :value="item.value">
           </el-option>
@@ -77,7 +77,7 @@
           :value-format="props.bodyItem.edit.valueFormat || 'YYYY-MM-DD'"
           :format="props.bodyItem.edit.format || 'YYYY-MM-DD'"
           @change="dateChange"
-          @panelc-hange="dateChange"
+          @panelChange="dateChange"
           @blur="dateBlur"
           v-model="obj.editData"
           :type="props.bodyItem.edit.type"
@@ -278,19 +278,19 @@ function dateBlur() {
       background: #fff;
       z-index: 99;
     }
-    ::v-deep .el-input__wrapper {
+    :deep(.el-input__wrapper) {
       width: 100%;
       box-shadow: 0 0 0 1px var(--el-color-primary) inset !important;
     }
-    ::v-deep .el-input input::-webkit-outer-spin-button,
-    ::v-deep .el-input input::-webkit-inner-spin-button {
+    :deep(.el-input input::-webkit-outer-spin-button),
+    :deep(.el-input input::-webkit-inner-spin-button) {
       -webkit-appearance: none;
     }
     // 下拉选框
-    ::v-deep .custom-el-multiple .el-input__inner {
+    :deep(.custom-el-multiple .el-input__inner) {
       color: #fff;
     }
-    ::v-deep .custom-el-multiple .el-select__tags-text {
+    :deep(.custom-el-multiple .el-select__tags-text) {
       text-overflow: ellipsis;
       display: inline-block;
       overflow-x: hidden;
@@ -299,7 +299,7 @@ function dateBlur() {
       line-height: 22px;
       font-size: 12px;
     }
-    ::v-deep .custom-el-multiple .el-select__tags .el-tag .el-icon-close {
+    :deep(.custom-el-multiple .el-select__tags .el-tag .el-icon-close) {
       background-color: transparent;
       border-radius: 50%;
       text-align: center;
@@ -314,14 +314,14 @@ function dateBlur() {
       color: #909399;
       right: -5px;
     }
-    ::v-deep .custom-el-multiple .el-select__tags .el-tag .el-icon-close:hover {
+    :deep(.custom-el-multiple .el-select__tags .el-tag .el-icon-close:hover) {
       background-color: #909399;
       color: #fff;
       right: -5px;
     }
-    ::v-deep .el-select .el-input__inner,
-    ::v-deep .el-date-editor .el-input__inner,
-    ::v-deep .custom-el-multiple .el-input__inner {
+    :deep(.el-select .el-input__inner),
+    :deep(.el-date-editor .el-input__inner),
+    :deep(.custom-el-multiple .el-input__inner) {
       border-color: #409eff;
     }
   }

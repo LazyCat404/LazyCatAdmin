@@ -23,7 +23,7 @@ const route = useRoute() as any;
 .navigation-wrapper {
   padding-left: 40px;
   display: flex;
-  ::v-deep .el-breadcrumb__inner {
+  :deep(.el-breadcrumb__inner) {
     height: 17px;
     font-size: 12px;
     font-family:
@@ -39,7 +39,7 @@ const route = useRoute() as any;
   }
 }
 .navigation-wrapper[dark='true'] {
-  ::v-deep .el-breadcrumb__inner {
+  :deep(.el-breadcrumb__inner) {
     color: #fff;
   }
 }

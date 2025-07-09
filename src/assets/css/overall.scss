@@ -1,14 +1,40 @@
 /**
  * 全局 css 样式
- * 深度选择 ::v-deep
- */ 
-body, dl, dd, ul, ol, h1, h2, h3, h4, h5, h6, pre, form, fieldset, 
-legend, input, textarea, p, blockquote, figure, hr, menu, dir, thead, 
-tbody, tfoot, th, td {
+ * 深度选择 :deep(<inner-selector>)
+ */
+body,
+dl,
+dd,
+ul,
+ol,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+form,
+fieldset,
+legend,
+input,
+textarea,
+p,
+blockquote,
+figure,
+hr,
+menu,
+dir,
+thead,
+tbody,
+tfoot,
+th,
+td {
   padding: 0;
   margin: 0;
 }
-html,body {
+html,
+body {
   height: 100%;
   width: 100%;
 }
@@ -20,7 +46,7 @@ li {
   height: 16px;
 }
 
-:focus-visible{
+:focus-visible {
   outline: none;
 }
 

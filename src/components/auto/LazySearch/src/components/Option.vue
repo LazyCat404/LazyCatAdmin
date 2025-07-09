@@ -2,7 +2,7 @@
   <div class="option-wrapper">
     <el-scrollbar>
       <!-- 已选条件列表 -->
-      <ul class="finish-select-list" v-if="obj.finishSelectList && obj.finishSelectList.length">
+      <ul v-if="obj.finishSelectList && obj.finishSelectList.length" class="finish-select-list">
         <li v-for="(item, i) in obj.finishSelectList" :key="i">
           {{ item.label }}：{{ item.showValue !== undefined ? item.showValue : item.value }}
           <i @click="closeFinish(item)">
@@ -42,12 +42,12 @@
           :editable="false"
           :teleported="false"
           :format="varyingFormat.format"
-          :value-format="varyingFormat.valueFormat"
-          @visible-change="conditionVisibleChange"
+          :valueFormat="varyingFormat.valueFormat"
           :placeholder="obj.placeholder"
-          start-placeholder="开始时间"
-          end-placeholder="结束时间"
-          :is-range="filter.type == 'timerange'"
+          startPlaceholder="开始时间"
+          endPlaceholder="结束时间"
+          :isRange="filter.type == 'timerange'"
+          @visibleChange="conditionVisibleChange"
         />
         <!-- 日期选择 -->
         <el-date-picker
@@ -67,18 +67,18 @@
           :editable="false"
           :teleported="false"
           :format="varyingFormat.format"
-          :value-format="varyingFormat.valueFormat"
-          @visible-change="conditionVisibleChange"
+          :valueFormat="varyingFormat.valueFormat"
           :placeholder="obj.placeholder"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
+          startPlaceholder="开始日期"
+          endPlaceholder="结束日期"
+          @visibleChange="conditionVisibleChange"
         />
         <!-- 下拉选项 -->
         <el-select
           v-else-if="filter.type == 'select'"
           v-model="filter.value"
           :placeholder="obj.placeholder"
-          @visible-change="conditionVisibleChange"
+          @visibleChange="conditionVisibleChange"
         >
           <el-option v-for="item in filter.valueList" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
@@ -558,7 +558,7 @@ init();
     flex: 1;
     position: relative;
     .el-input {
-      ::v-deep .el-input__wrapper {
+      :deep(.el-input__wrapper) {
         box-shadow: none;
         padding: 0;
         .el-input__inner {
@@ -573,8 +573,8 @@ init();
       justify-content: space-between;
       overflow: hidden;
       // 时间/日期选择
-      ::v-deep .el-date-editor,
-      ::v-deep .el-select {
+      :deep(.el-date-editor),
+      :deep(.el-select) {
         box-shadow: none;
         border: none;
         padding: 0;
@@ -596,7 +596,7 @@ init();
         }
       }
       // select 选框
-      ::v-deep .el-select {
+      :deep(.el-select) {
         .el-select__wrapper {
           min-width: 170px;
           box-shadow: none;
@@ -607,7 +607,7 @@ init();
         }
       }
       // 禁用的输入框
-      ::v-deep .is-disabled {
+      :deep(.is-disabled) {
         .el-input__wrapper {
           background-color: transparent;
           .el-input__inner {
@@ -617,7 +617,7 @@ init();
         }
       }
       // 弹出层
-      ::v-deep .el-popper {
+      :deep(.el-popper) {
         // 时间段
         .el-time-panel,
         .el-time-range-picker {
@@ -641,7 +641,7 @@ init();
       position: relative;
       left: 28px;
       top: -5px;
-      ::v-deep .el-popper {
+      :deep(.el-popper) {
         min-width: fit-content;
         width: fit-content !important;
         padding: 6px 0;

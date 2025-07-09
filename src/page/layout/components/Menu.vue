@@ -161,12 +161,12 @@ function menuTypeChange() {
     }
     // 有二级菜单
     .el-sub-menu {
-      ::v-deep .el-sub-menu__title {
+      :deep(.el-sub-menu__title) {
         font-size: 16px;
         height: 42px;
         margin-bottom: 18px;
       }
-      ::v-deep .el-sub-menu__title:hover {
+      :deep(.el-sub-menu__title:hover) {
         background-color: #fff;
         color: #01bc8f !important;
       }
@@ -191,7 +191,7 @@ function menuTypeChange() {
       }
     }
     .el-sub-menu.is-active {
-      ::v-deep .el-sub-menu__title {
+      :deep(.el-sub-menu__title) {
         color: #01bc8f !important;
       }
     }
@@ -211,7 +211,7 @@ function menuTypeChange() {
     }
     // 有二级菜单
     .el-sub-menu {
-      ::v-deep .el-sub-menu__title {
+      :deep(.el-sub-menu__title) {
         height: 42px;
       }
     }

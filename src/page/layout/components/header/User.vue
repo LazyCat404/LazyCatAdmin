@@ -77,7 +77,7 @@ function outLogin() {
       }
     }
     // 下拉菜单
-    ::v-deep .user-dropdown-list {
+    :deep(.user-dropdown-list) {
       padding: 10px;
       border-radius: 8px;
       box-shadow: 0 0 10px 0 rgba(13, 34, 67, 0.1);

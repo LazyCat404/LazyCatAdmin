@@ -215,14 +215,14 @@ function currentItemDetail(item: any, i: number) {
     }
   }
   .el-scrollbar[empty] {
-    ::v-deep .el-scrollbar__wrap {
+    :deep(.el-scrollbar__wrap) {
       .el-scrollbar__view {
         display: flex;
         align-items: center;
       }
     }
   }
-  ::v-deep .el-scrollbar__wrap {
+  :deep(.el-scrollbar__wrap) {
     .el-scrollbar__view {
       min-height: 100%;
     }

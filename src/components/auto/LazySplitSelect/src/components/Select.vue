@@ -1,7 +1,7 @@
 <template>
   <div class="select-wrapper">
     <el-scrollbar height="220px">
-      <el-tree :data="data" accordion :props="{ class: customNodeClass, ...treeProps }" @node-click="nodeClick" />
+      <el-tree :data="data" accordion :props="{ class: customNodeClass, ...treeProps }" @nodeClick="nodeClick" />
     </el-scrollbar>
     <div class="node-target-box">
       <el-scrollbar height="220px">
@@ -60,7 +60,7 @@ let checkMap = new WeakMap(); // 全局选中映射
 function nodeClick(data: any) {
   obj.targetList = [];
   obj.currentTreeNode = JSON.stringify(data);
-  let nodeTargetList = data[props.treeProps.list];
+  const nodeTargetList = data[props.treeProps.list];
   if (nodeTargetList) {
     if (Object.prototype.toString.call(nodeTargetList) === '[object Array]') {
       obj.targetList = nodeTargetList;
@@ -99,7 +99,7 @@ function handleCheckAllChange(val: CheckboxValueType) {
   if (val) {
     obj.targetList.forEach((item: any) => {
       checkMap.set(item, true);
-      let isExist = obj.selectTargetItem.filter((ite: unknown) => JSON.stringify(ite) === JSON.stringify(item));
+      const isExist = obj.selectTargetItem.filter((ite: unknown) => JSON.stringify(ite) === JSON.stringify(item));
       if (!isExist.length) {
         obj.selectTargetItem.push(item);
         obj.selectTarget.push(item[props.listProps.value]);
@@ -147,14 +147,14 @@ function autoCheck() {
 }
 // 递归查找默认选中项
 function recursionTree(treeData: Array<any>) {
-  let lastSelectItem = obj.selectTarget[0];
+  const lastSelectItem = obj.selectTarget[0];
   for (let i = 0; i < treeData.length; i++) {
     // 本身
     if (Array.isArray(treeData[i][props.treeProps.list])) {
       treeData[i][props.treeProps.list].forEach((item: any) => {
         // 找到选中项
         if (obj.selectTarget.includes(item[props.listProps.value])) {
-          let sameData = obj.selectTargetItem.filter(
+          const sameData = obj.selectTargetItem.filter(
             (ite: any) => ite[props.listProps.value] == item[props.listProps.value]
           );
           if (!sameData.length) {
@@ -244,7 +244,7 @@ watch(
     .el-tree {
       padding-right: 12px;
       box-sizing: border-box;
-      > ::v-deep .el-tree-node {
+      > :deep(.el-tree-node) {
         width: fit-content;
         min-width: 100%;
         .el-tree-node__content {
@@ -253,7 +253,7 @@ watch(
           box-sizing: border-box;
         }
       }
-      ::v-deep .current-node {
+      :deep(.current-node) {
         > .el-tree-node__content {
           background-color: #f5f7fa;
         }
@@ -278,7 +278,7 @@ watch(
         .el-checkbox {
           width: 100%;
           margin-right: 0;
-          ::v-deep .el-checkbox__label {
+          :deep(.el-checkbox__label) {
             display: flex;
             align-items: center;
             box-sizing: border-box;

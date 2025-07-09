@@ -2,14 +2,14 @@
   <div class="switch-tab-wrapper">
     <p>
       <i class="iconfont icon-taijiaxinxi"></i>
-      <span>客户机</span>
+      <span> </span>
     </p>
     <ul>
       <li
         v-for="item in state.tabList"
         :key="item.label"
-        @click="switchTab(item.path)"
         :active="activeTab == item.path ? '' : null"
+        @click="switchTab(item.path)"
       >
         {{ item.label }}
       </li>
@@ -23,12 +23,14 @@ import { reactive } from 'vue';
 defineProps({
   activeTab: String
 });
+
 const state = reactive({
   tabList: [
     { label: 'VDI', path: '/client/vdi' },
     { label: 'VOI', path: '/client/voi' }
   ]
 });
+
 const $emits = defineEmits(['switchTab']);
 
 function switchTab(path: string) {

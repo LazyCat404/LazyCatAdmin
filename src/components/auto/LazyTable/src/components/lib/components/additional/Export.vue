@@ -204,7 +204,7 @@ init();
   width: 215px;
 }
 .open-careful {
-  ::v-deep .el-form-item__content {
+  :deep(.el-form-item__content) {
     justify-content: space-around;
     overflow: hidden;
     i {
@@ -219,7 +219,7 @@ init();
   }
 }
 .close-careful {
-  ::v-deep .el-form-item__content {
+  :deep(.el-form-item__content) {
     justify-content: space-around;
     overflow: hidden;
     i {
@@ -259,10 +259,10 @@ init();
   }
 }
 .export-page-box {
-  ::v-deep .el-form-item__content {
+  :deep(.el-form-item__content) {
     display: block;
   }
-  ::v-deep .el-input-number {
+  :deep(.el-input-number) {
     margin: 0 10px;
     width: 165px;
   }

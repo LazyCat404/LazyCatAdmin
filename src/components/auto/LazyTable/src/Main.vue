@@ -9,6 +9,7 @@
   ></AdditionalFunctions>
   <!-- 表格内容 -->
   <div
+    ref="elTableDom"
     class="lazy-table-wrapper"
     :empty="tableData && tableData.length ? null : ''"
     :style="[
@@ -20,31 +21,17 @@
         position: 'relative'
       }
     ]"
-    ref="elTableDom"
   >
     <!-- 表格 -->
     <el-table
       ref="lazyTableRef"
-      :class="{ 'header-border': obj.tableConfig.headerBorder }"
       :key="tableKey"
+      :class="{ 'header-border': obj.tableConfig.headerBorder }"
       :header-row-style="{ height: obj.tableConfig.headerH }"
       :row-style="{ height: obj.tableConfig.lineH }"
       :span-method="spanMethod"
       :header-row-class-name="obj.tableConfig.border ? '' : 'border-hide'"
       :row-class-name="tableRowClassName"
-      @select="handleSelection"
-      @select-all="handleSelectionAll"
-      @selection-change="handleSelectionChange"
-      @cell-mouse-enter="cellMouseEnter"
-      @cell-mouse-leave="cellMouseLeave"
-      @cell-click="cellClick"
-      @cell-dblclick="cellDblclick"
-      @cell-contextmenu="cellContextmenu"
-      @row-click="rowClick"
-      @row-contextmenu="rowContextmenu"
-      @row-dblclick="rowDblclick"
-      @header-click="headerClick"
-      @header-contextmenu="headerContextmenu"
       :data="tableData"
       :border="obj.tableConfig.border"
       :style="{ position: obj.tableConfig.fitContent ? (tableData.length ? 'relative' : 'absolute') : 'absolute' }"
@@ -62,15 +49,28 @@
               : 'calc(100% - 60px)'
             : 'calc(100% - 60px)'
       "
+      @select="handleSelection"
+      @selectAll="handleSelectionAll"
+      @selectionChange="handleSelectionChange"
+      @cellMouseEnter="cellMouseEnter"
+      @cellMouseLeave="cellMouseLeave"
+      @cellClick="cellClick"
+      @cellDblclick="cellDblclick"
+      @cellContextmenu="cellContextmenu"
+      @rowClick="rowClick"
+      @rowContextmenu="rowContextmenu"
+      @rowDblclick="rowDblclick"
+      @headerClick="headerClick"
+      @headerContextmenu="headerContextmenu"
     >
       <!-- 空数据提示 -->
       <template #empty> 暂无数据 </template>
       <!-- 复选列表 -->
       <el-table-column
+        v-if="obj.tableConfig.select"
         type="selection"
         width="40px"
         :selectable="selectable"
-        v-if="obj.tableConfig.select"
         :fixed="obj.tableConfig.selectFixed"
       >
       </el-table-column>
@@ -107,8 +107,8 @@
               ref="lazyTableHeaderRef"
               :tableConfig="obj.tableConfig"
               :headerItem="item"
-              @filter-change="filterChange"
-              @sort-change="sortChange"
+              @filterChange="filterChange"
+              @sortChange="sortChange"
             >
             </LazyTableHeader>
           </template>
@@ -118,8 +118,8 @@
               :tableConfig="obj.tableConfig"
               :bodyItem="item"
               :rowData="scope.row"
-              @row-confirm="rowConfirm"
-              @switch-change="switchChange"
+              @rowConfirm="rowConfirm"
+              @switchChange="switchChange"
             >
             </LazyTableBody>
           </template>
@@ -128,10 +128,10 @@
     </el-table>
     <!-- 分页 -->
     <LazyPage
-      @pageOper="pageOper"
       v-if="page !== undefined"
       :page="page"
       :style="[{ position: `${obj.tableConfig.fitContent ? 'relative' : 'absolute'}` }]"
+      @pageOper="pageOper"
     >
     </LazyPage>
   </div>
@@ -205,7 +205,7 @@ const obj = reactive<any>({
 });
 // 表格自定义模板列表（计算属性）
 const customTemplateList = computed(() => {
-  let customTemplateList = props.tableOptions.filter(
+  const customTemplateList = props.tableOptions.filter(
     (item: any) => Object.prototype.toString.call(item.template) === '[object Object]'
   );
   return customTemplateList;
@@ -250,7 +250,7 @@ function makeTableConfig() {
 }
 // 表格最小宽度计算
 function minWidth(par: any) {
-  let dMin = par.minWidth || par.minwidth;
+  const dMin = par.minWidth || par.minwidth;
   let minWidth: undefined | number = 0;
   let minWidth1: undefined | number = 0;
   let minWidth2: undefined | number = 0;
@@ -313,13 +313,13 @@ function tableRowClassName(value: { row: any; rowIndex: number }) {
 }
 // 控制表格
 function controlTable() {
-  let eTD = elTableDom.value as any;
+  const eTD = elTableDom.value as any;
   // 异步设置
   setTimeout(() => {
     // 固定列奇偶行颜色及表头颜色
-    let fixedOddNodeList = eTD.querySelectorAll('.odd-row > td');
-    let fixedEvenNodeList = eTD.querySelectorAll('.even-row > td');
-    let theadNodeList = eTD.querySelectorAll('.el-table__header > thead > tr > th');
+    const fixedOddNodeList = eTD.querySelectorAll('.odd-row > td');
+    const fixedEvenNodeList = eTD.querySelectorAll('.even-row > td');
+    const theadNodeList = eTD.querySelectorAll('.el-table__header > thead > tr > th');
     theadNodeList.forEach((element: any) => {
       element.style.background = obj.tableConfig.headerBg;
     });
@@ -416,7 +416,7 @@ function clearFilter(value: unknown) {
         item.clearFilter();
       });
     } else {
-      for (let key in value) {
+      for (const key in value) {
         lazyTableHeaderRef.value.forEach((item: any) => {
           if (item.filterKey != key) {
             item.clearFilter();
@@ -443,52 +443,52 @@ defineExpose({
 .el-table {
   width: 100%;
   z-index: 1;
-  ::v-deep tr {
+  :deep(tr) {
     background: transparent;
   }
-  ::v-deep tbody tr:hover {
+  :deep(tbody tr:hover) {
     background: #edf1f4 !important;
   }
-  ::v-deep.el-table::before,
-  ::v-deep.el-table .el-table__fixed::before,
-  ::v-deep.el-table .el-table__fixed-right::before {
+  :deep(.el-table::before),
+  :deep(.el-table .el-table__fixed::before),
+  :deep(.el-table .el-table__fixed-right::before) {
     height: 0;
   }
-  ::v-deep .el-table__fixed-header-wrapper th.el-table__cell,
-  ::v-deep .el-table__header-wrapper th.el-table__cell,
-  ::v-deep .el-table__body-wrapper .el-table__cell,
-  ::v-deep .el-table__fixed-body-wrapper .el-table__cell {
+  :deep(.el-table__fixed-header-wrapper th.el-table__cell),
+  :deep(.el-table__header-wrapper th.el-table__cell),
+  :deep(.el-table__body-wrapper .el-table__cell),
+  :deep(.el-table__fixed-body-wrapper .el-table__cell) {
     padding: 0;
   }
-  ::v-deep .el-table__body-wrapper tr {
+  :deep(.el-table__body-wrapper tr) {
     border-radius: 4px;
   }
 
-  ::v-deep .el-table__body-wrapper .border-hide td,
-  ::v-deep .el-table__fixed-body-wrapper .border-hide td,
-  ::v-deep .el-table__header-wrapper .border-hide th,
-  ::v-deep .el-table__fixed-header-wrapper .border-hide th {
+  :deep(.el-table__body-wrapper .border-hide td),
+  :deep(.el-table__fixed-body-wrapper .border-hide td),
+  :deep(.el-table__header-wrapper .border-hide th),
+  :deep(.el-table__fixed-header-wrapper .border-hide th) {
     border: 0;
   }
-  ::v-deep .el-checkbox {
+  :deep(.el-checkbox) {
     height: auto;
   }
   // 复选框
-  ::v-deep .el-table-column--selection {
+  :deep(.el-table-column--selection) {
     text-align: center;
   }
   // 表头内容不换行
-  ::v-deep .el-table__header-wrapper thead th > div {
+  :deep(.el-table__header-wrapper thead th > div) {
     white-space: nowrap;
   }
 }
 // 表头边框
 .header-border {
-  ::v-deep .el-table__header-wrapper {
+  :deep(.el-table__header-wrapper) {
     border-bottom: 1px solid #ececef;
   }
 }
-::v-deep .el-table-column--selection .cell {
+:deep(.el-table-column--selection .cell) {
   text-overflow: unset;
   padding: 0 !important;
   text-align: center;
@@ -497,7 +497,7 @@ defineExpose({
 .lazy-table-wrapper[empty] {
   // 表头边框
   .header-border {
-    ::v-deep .el-table__header-wrapper {
+    :deep(.el-table__header-wrapper) {
       border-bottom: 0;
       box-shadow: 0 0 0 1px #ececef;
     }

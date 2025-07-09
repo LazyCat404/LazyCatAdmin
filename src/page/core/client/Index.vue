@@ -9,7 +9,7 @@
 import { ref } from 'vue';
 import SwitchTab from './components/SwitchTab.vue';
 
-let activeTab = ref('/client/vdi');
+const activeTab = ref('/client/vdi');
 const route = useRoute();
 const router = useRouter();
 function switchTab(path: string) {

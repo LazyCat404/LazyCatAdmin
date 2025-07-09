@@ -15,14 +15,14 @@
       </el-select>
       <el-pagination
         v-model:currentPage="obj.pageNum"
-        :page-size="obj.pageSize"
+        :pageSize="obj.pageSize"
         :small="obj.simple.small"
-        @current-change="pageOper('pageNum')"
         :total="props.page.total === undefined ? 1 : props.page.total"
         layout=" prev, pager, next"
+        @currentChange="pageOper('pageNum')"
       >
       </el-pagination>
-      <span class="page-go-to-box" v-if="obj.simple.goPage">
+      <span v-if="obj.simple.goPage" class="page-go-to-box">
         <span>前往</span>
         <el-input ref="goPageInput" v-model="obj.goPage" style="width: 46px" @change="pageOper('goPage')" />
         <span>页</span>
@@ -49,7 +49,7 @@ const goPageInput = ref();
 
 function pageOper(type: string) {
   if (type == 'goPage') {
-    let totalPage = Math.ceil(props.page.total / obj.pageSize); // 总页数
+    const totalPage = Math.ceil(props.page.total / obj.pageSize); // 总页数
     if (obj.goPage > totalPage) {
       obj.goPage = totalPage;
       obj.pageNum = +obj.goPage;
@@ -108,7 +108,7 @@ function pageOper(type: string) {
   display: flex; /*定位（写在父元素中）*/
   align-items: center;
   justify-content: flex-end;
-  ::v-deep .el-select {
+  :deep(.el-select) {
     margin-left: 15px;
     width: 100px;
     .el-input__inner {
@@ -118,7 +118,7 @@ function pageOper(type: string) {
   .page-go-to-box {
     .el-input {
       margin: 0 5px;
-      ::v-deep .el-input__inner {
+      :deep(.el-input__inner) {
         padding: 0 3px;
         height: 28px;
         text-align: center;
@@ -129,7 +129,7 @@ function pageOper(type: string) {
 // 缩小
 .lazy-page-wapper.small {
   font-size: var(--el-font-size-extra-small);
-  ::v-deep .el-select {
+  :deep(.el-select) {
     margin-left: 5px;
     width: 85px;
     .el-input__wrapper {
@@ -151,7 +151,7 @@ function pageOper(type: string) {
   .page-go-to-box {
     .el-input {
       margin: 0 4px;
-      ::v-deep .el-input__wrapper {
+      :deep(.el-input__wrapper) {
         padding: 0 4px;
         height: 24px;
       }

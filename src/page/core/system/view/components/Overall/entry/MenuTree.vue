@@ -67,7 +67,7 @@ init();
   }
   .el-sub-menu {
     width: 100%;
-    ::v-deep > .el-sub-menu__title {
+    :deep(> .el-sub-menu__title) {
       display: block;
       > div {
         > span {

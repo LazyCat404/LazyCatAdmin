@@ -1,7 +1,7 @@
 <template>
   <div class="radio-wrapper">
     <el-scrollbar height="220px">
-      <el-tree :data="data" accordion :props="{ class: customNodeClass, ...treeProps }" @node-click="nodeClick" />
+      <el-tree :data="data" accordion :props="{ class: customNodeClass, ...treeProps }" @nodeClick="nodeClick" />
     </el-scrollbar>
     <div class="node-target-box">
       <el-scrollbar height="220px">
@@ -131,7 +131,7 @@ watch(
     .el-tree {
       padding-right: 12px;
       box-sizing: border-box;
-      > ::v-deep .el-tree-node {
+      > :deep(.el-tree-node) {
         width: fit-content;
         min-width: 100%;
         .el-tree-node__content {
@@ -140,7 +140,7 @@ watch(
           box-sizing: border-box;
         }
       }
-      ::v-deep .current-node {
+      :deep(.current-node) {
         > .el-tree-node__content {
           background-color: #f5f7fa;
         }
@@ -165,7 +165,7 @@ watch(
         .el-radio {
           width: 100%;
           margin-right: 0;
-          ::v-deep .el-radio__label {
+          :deep(.el-radio__label) {
             display: flex;
             align-items: center;
             box-sizing: border-box;

@@ -139,11 +139,11 @@ watch(
   float: left;
   width: calc(100% - 170px);
   height: calc(100% - 90px);
-  ::v-deep .el-tree-node.is-expanded.power-list-box > .el-tree-node__children {
+  :deep(.el-tree-node.is-expanded.power-list-box > .el-tree-node__children) {
     display: flex;
     flex-direction: row;
   }
-  ::v-deep .power-list-box > .el-tree-node__children > div {
+  :deep(.power-list-box > .el-tree-node__children > div) {
     width: 25%;
   }
 }

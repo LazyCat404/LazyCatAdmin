@@ -24,9 +24,7 @@ export const useUserStore = defineStore(
     return { userInfor, token, setUserInfor, clearUserInfor, setToken, clearToken };
   },
   {
-    persist: {
-      enabled: true // 数据持久化
-    }
+    persist: true // 数据持久化
   }
 );
 if (import.meta.hot) {

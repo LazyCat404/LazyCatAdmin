@@ -1,7 +1,7 @@
 <template>
   <div class="vdi-wrapper">
     <List @currentItemDetail="currentItemDetail"></List>
-    <Detail :currentItem="obj.currentItem" v-if="obj.currentItem"></Detail>
+    <Detail v-if="obj.currentItem" :currentItem="obj.currentItem"></Detail>
   </div>
 </template>
 <script setup lang="ts">

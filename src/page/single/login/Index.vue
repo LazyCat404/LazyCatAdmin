@@ -20,7 +20,7 @@ import Banner from './components/Banner.vue';
   height: 100%;
   background-image: url(@/assets/images/login/login_bg.png);
   position: relative;
-  ::v-deep .el-scrollbar__wrap {
+  :deep(.el-scrollbar__wrap) {
     .el-scrollbar__view {
       height: 100%;
       .login-box {

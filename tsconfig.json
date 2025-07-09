@@ -9,23 +9,21 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "lib": ["esnext", "dom"],
-    "types": [
-      "vite/client"
-    ],
+    "types": ["vite/client"],
     "paths": {
-      "@":["./src"],
-      "@types":["./src/@types"],
-      "@api":["./src/api"],
-      "@/*": ["./src/*"],
+      "@": ["./src"],
+      "@types": ["./src/@types"],
+      "@api": ["./src/api"],
+      "@/*": ["./src/*"]
     }
   },
   "vueCompilerOptions": {
     // "experimentalDisableTemplateSupport": true  // 此配置临时解决volar报错(已在V0.37.3版本修复)
   },
   "include": [
-    "src/**/*.ts", 
-    "src/**/*.d.ts", 
-    "src/**/*.tsx", 
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
     "src/**/*.vue",
     "auto-imports.d.ts",
     "components.d.ts"

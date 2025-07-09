@@ -12,7 +12,7 @@
 defineProps<{
   rowData: any;
 }>();
-function icoRender(ico) {
+function icoRender(ico: any) {
   let svgIco = {
     link: '',
     title: ''
@@ -62,7 +62,7 @@ function icoRender(ico) {
 .template-wrapper {
   display: flex;
   align-items: center;
-  ::v-deep .el-only-child__content {
+  :deep(.el-only-child__content) {
     display: flex;
     align-items: center;
   }
