@@ -1,4 +1,4 @@
-import { post } from '@/plugins/axios';
+import { post } from 'ez-axios';
 
 const api = {
   // 菜单

@@ -3,6 +3,7 @@ import { createPinia } from 'pinia';
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'; // pinia 持久化插件
 import App from './App.vue';
 import router from './router';
+import '@/plugins/ez-axios';
 
 // 扩展指令
 import vueExtendDirectives from 'vue-extend-directives';

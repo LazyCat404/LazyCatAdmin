@@ -1,4 +1,4 @@
-import { get } from '@/plugins/axios';
+import { get } from 'ez-axios';
 const api = {
   // 角色列表
   getRoleList: (par?: any): Promise<res> => get('/api/system/getRoleList', par),
