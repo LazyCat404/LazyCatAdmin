@@ -15,6 +15,7 @@ import '@/assets/iconfont/iconfont.css';
 import '@/assets/iconfont/iconfont.js';
 
 // css 全局变量
+import '@/assets/css/overall.scss';
 import '@/assets/css/variable.scss';
 
 const app = createApp(App);

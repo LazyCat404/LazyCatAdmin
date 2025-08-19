@@ -37,7 +37,9 @@ export default (par: { mode: string; command: string }): unknown => {
       AutoImport({
         imports: globalMount,
         dts: false, // 禁止生成（更新）全局配置文件 auto-imports.d.ts
-        resolvers: [ElementPlusResolver()],
+        resolvers: [ElementPlusResolver({
+          importStyle: "sass",
+        })],
       }),
       Components({
         dts: false, // 禁止生成（更新）全局配置文件 components.d.ts
@@ -49,7 +51,7 @@ export default (par: { mode: string; command: string }): unknown => {
       preprocessorOptions: {
         scss: {
           additionalData: `
-            @use "@/assets/css/overall.scss";
+            @use "@/assets/css/element/index.scss" as *;
           `,
         },
       },

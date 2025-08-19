@@ -26,6 +26,7 @@ declare module '@vue/runtime-core' {
     // 自定义全局组件
     LazyPage: (typeof import('@/components/auto/LazyPage'))['default'];
     LazyCopy: (typeof import('@/components/auto/LazyCopy'))['default'];
+    LazyTheme: (typeof import('@/components/auto/LazyTheme'))['default'];
     LazyTable: (typeof import('@/components/auto/LazyTable'))['default'];
     LazySearch: (typeof import('@/components/auto/LazySearch'))['default'];
     LazySplitSelect: (typeof import('@/components/auto/LazySplitSelect'))['default'];
