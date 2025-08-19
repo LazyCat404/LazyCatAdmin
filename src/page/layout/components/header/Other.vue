@@ -28,7 +28,6 @@ function commonAct(type: string) {
 .other-wrapper {
   display: flex;
   align-items: center;
-  margin-right: 60px;
   .iconfont {
     font-size: 28px;
     cursor: pointer;

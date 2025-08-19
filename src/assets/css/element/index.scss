@@ -1,3 +1,3 @@
-@forward 'element-plus/theme-chalk/src/common/var.scss' with (
-  $colors: (),
-);
+@use 'element-plus/theme-chalk/dark/css-vars.css';
+@use './theme/ligth.scss';
+@use './theme/dark.scss';

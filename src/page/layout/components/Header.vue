@@ -3,6 +3,7 @@
     <Navigation :excludeRoute="obj.excludeRoute"></Navigation>
     <div class="header-right-box">
       <Other :excludeRoute="obj.excludeRoute"></Other>
+      <LazyTheme></LazyTheme>
       <User :excludeRoute="obj.excludeRoute"></User>
     </div>
   </div>
@@ -27,6 +28,10 @@ const obj = reactive({
   height: 70px;
   .header-right-box {
     display: flex;
+    align-items: center;
+    > div + div {
+      margin-left: 60px;
+    }
   }
 }
 </style>

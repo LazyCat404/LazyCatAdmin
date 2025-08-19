@@ -1,0 +1,5 @@
+// 覆盖 elm 暗色主题变量
+@forward 'element-plus/theme-chalk/src/dark/var.scss' with (
+  $bg-color: ()
+);
+

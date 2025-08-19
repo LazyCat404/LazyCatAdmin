@@ -1,0 +1,4 @@
+// 覆盖 elm 亮色主题变量
+@forward 'element-plus/theme-chalk/src/common/var.scss' with (
+  $colors: (),
+);
